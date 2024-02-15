@@ -19,5 +19,9 @@ namespace Player
 
         [Header("Detection")] public Vector2 groundDetectionWidthAndHeight = Vector2.one;
         public Vector2 wallDetectionWidthAndHeight = Vector2.one;
+
+        [Header("View")] 
+        public float lookSpeed = 1f;
+        public float lookLimitX = 180f;
     }
 }

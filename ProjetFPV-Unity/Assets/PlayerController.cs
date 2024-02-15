@@ -12,6 +12,8 @@ namespace Player
     {
         [SerializeField] internal PlayerScriptable playerScriptable;
 
+        [SerializeField] private Transform playerCamera;
+
         internal Vector3 direction;
         internal Vector3 directionNotReset;
 
@@ -25,12 +27,16 @@ namespace Player
         }
         internal PlayerActionStates currentActionState;
 
+        public bool canMove = true;
+
         private Rigidbody _rb;
 
         private bool isMoving;
         private bool isSliding;
         private bool isJumping;
         private bool isWallRunning;
+        
+        private float rotationX;
 
         public override void Awake()
         {
@@ -38,6 +44,8 @@ namespace Player
             
             //get the rigidbody component.
             _rb = GetComponent<Rigidbody>();
+
+            Cursor.lockState = CursorLockMode.Locked;
         }
 
         private void Update()
@@ -104,6 +112,17 @@ namespace Player
             else if (isWallRunning) currentActionState = PlayerActionStates.WallRunning;
 
             else currentActionState = PlayerActionStates.Idle;
+        }
+        
+        public void RotateCameraFromInput(InputAction.CallbackContext ctx)
+        {
+            if (canMove)
+            {
+                rotationX += -ctx.ReadValue<Vector2>().y * playerScriptable.lookSpeed;
+                rotationX = Mathf.Clamp(rotationX, -playerScriptable.lookLimitX, playerScriptable.lookLimitX);
+                playerCamera.transform.localRotation = Quaternion.Euler(rotationX, 0, 0);
+                transform.rotation *= Quaternion.Euler(0, ctx.ReadValue<Vector2>().x * playerScriptable.lookSpeed, 0);
+            }
         }
     }
 }
