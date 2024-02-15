@@ -19,7 +19,7 @@ namespace Player
         public float linearDragMultiplier = 7;
         public float linearDragDeceleration = 3;
         public float gravityMultiplier = 3;
-        [FormerlySerializedAs("airMomentum")] public float airRemoval = 3;
+        [FormerlySerializedAs("airRemoval")] [FormerlySerializedAs("airMomentum")] public float jumpCurveSpeed = 3;
         public AnimationCurve gravityJumpModify;
 
         [Header("Detection")] public Vector3 groundDetectionWidthHeightDepth = Vector3.one;
