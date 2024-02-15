@@ -11,13 +11,32 @@ namespace Player
     [RequireComponent(typeof(Rigidbody))]
     public class PlayerController : GenericSingletonClass<PlayerController>
     {
+        [Header("Management")]
+        public bool canMove = true;
+        
+        [Header("Components")]
         [SerializeField] internal PlayerScriptable playerScriptable;
-
         [SerializeField] private Transform cameraAttachPosition;
+        
+        private Rigidbody _rb;
 
-        internal Vector3 direction;
-        internal Vector3 directionNotReset;
+        [Header("Values")] 
+        [ShowNonSerializedField] internal Vector3 direction;
+        [ShowNonSerializedField] internal Vector3 directionNotReset;
+        private float rotationX;
+        
+        [Header("States")]
+        [ShowNonSerializedField] internal PlayerActionStates currentActionState;
+        
+        [ShowNonSerializedField] private bool isOnGround;
+        [ShowNonSerializedField] private bool isMoving;
+        [ShowNonSerializedField] private bool isSliding;
+        [ShowNonSerializedField] private bool isJumping;
+        [ShowNonSerializedField] private bool isWallRunning;
 
+        [Header("Detection")] 
+        [SerializeField] private LayerMask groundLayer;
+        
         internal enum PlayerActionStates
         {
             Idle,
@@ -26,18 +45,8 @@ namespace Player
             Jumping,
             WallRunning
         }
-        internal PlayerActionStates currentActionState;
 
-        public bool canMove = true;
-
-        private Rigidbody _rb;
-
-        private bool isMoving;
-        private bool isSliding;
-        private bool isJumping;
-        private bool isWallRunning;
-        
-        private float rotationX;
+        private float timerJump;
 
         public override void Awake()
         {
@@ -52,12 +61,22 @@ namespace Player
         private void Update()
         {
             PlayerInputStateMachine();
+            DetectGround();
         }
 
         private void FixedUpdate()
         {
             Move();
             SetRigidbodyDrag();
+
+            if (!isOnGround)
+            {
+                var velocity = _rb.velocity;
+                velocity = new Vector3(velocity.x, (velocity.y - timerJump), velocity.z);
+                _rb.velocity = velocity;
+
+                timerJump += (Time.deltaTime * 10f);
+            }
         }
 
         #region Movements
@@ -69,11 +88,11 @@ namespace Player
         public void GetMoveInputs(InputAction.CallbackContext ctx)
         {
             //Set the current input values to the direction.
-            var dir = ctx.ReadValue<Vector2>().normalized;
-            direction = new Vector3(dir.x, 0, dir.y);
+            var dir = ctx.ReadValue<Vector2>();
+            direction = new Vector3(dir.x, 0, dir.y).normalized;
             
             //If the direction isn't null, set the direction not reset to direction.
-            if (direction.magnitude > 0.1f) directionNotReset = direction;
+            if (direction.magnitude > playerScriptable.moveThreshold) directionNotReset = direction;
         }
 
         /// <summary>
@@ -86,34 +105,6 @@ namespace Player
         }
         
         #endregion
-        
-        #region Physics
-
-        private void SetRigidbodyDrag()
-        {
-            //Set the rigibody's drag, based on scriptable parameters.
-            _rb.drag = playerScriptable.linearDragMultiplier * playerScriptable.linearDragDeceleration;
-        }
-        
-        #endregion
-
-        void PlayerInputStateMachine()
-        {
-            isMoving = direction.magnitude > playerScriptable.moveThreshold;
-            
-            isSliding = false; //TODO
-            isJumping = false; //TODO
-            isWallRunning = false; //TODO
-
-            if (isMoving && !isSliding) currentActionState = PlayerActionStates.Moving;
-            
-            else if(isMoving && isSliding) currentActionState = PlayerActionStates.Sliding;
-            
-            else if(isJumping) currentActionState = PlayerActionStates.Jumping;
-            else if (isWallRunning) currentActionState = PlayerActionStates.WallRunning;
-
-            else currentActionState = PlayerActionStates.Idle;
-        }
         
         #region Camera
         
@@ -143,6 +134,54 @@ namespace Player
         }
         
         #endregion
+
+        void DetectGround()
+        {
+            isOnGround =
+                Physics.CheckBox(transform.position,
+                    playerScriptable.groundDetectionWidthHeightDepth,
+                    Quaternion.identity, groundLayer);
+        }
+
+        public void Jump(InputAction.CallbackContext ctx)
+        {
+            if (ctx.performed && isOnGround)
+            {
+                _rb.AddForce(Vector3.up * playerScriptable.jumpForce, playerScriptable.jumpMethod);
+                timerJump = 0f;
+            }
+        }
+        
+        private void SetRigidbodyDrag()
+        {
+            //Set the rigibody's drag, based on scriptable parameters.
+            _rb.drag = playerScriptable.linearDragMultiplier * playerScriptable.linearDragDeceleration;
+        }
+
+        
+        void PlayerInputStateMachine()
+        {
+            isMoving = direction.magnitude > playerScriptable.moveThreshold;
+            
+            isSliding = false; //TODO
+            isJumping = false; //TODO
+            isWallRunning = false; //TODO
+
+            if (isMoving && !isSliding) currentActionState = PlayerActionStates.Moving;
+            
+            else if(isMoving && isSliding) currentActionState = PlayerActionStates.Sliding;
+            
+            else if(isJumping) currentActionState = PlayerActionStates.Jumping;
+            else if (isWallRunning) currentActionState = PlayerActionStates.WallRunning;
+
+            else currentActionState = PlayerActionStates.Idle;
+        }
+
+        private void OnDrawGizmos()
+        {
+            Gizmos.color = Color.cyan;
+            Gizmos.DrawWireCube(transform.position, playerScriptable.groundDetectionWidthHeightDepth);
+        }
     }
 }
 

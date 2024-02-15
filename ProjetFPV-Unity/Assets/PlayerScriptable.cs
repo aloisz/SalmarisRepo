@@ -9,15 +9,16 @@ namespace Player
     public class PlayerScriptable : ScriptableObject
     {
         [Header("Movements")] public float moveSpeed = 1;
-        [InfoBox("If direction.magnitude > this value, then the player is considered moving")] 
         public float moveThreshold = 0.1f;
+        public float jumpForce = 20f;
         public ForceMode movingMethod = ForceMode.Force;
+        public ForceMode jumpMethod = ForceMode.Force;
 
         [Header("Physics")] public float friction = 1;
         public float linearDragMultiplier = 7;
         public float linearDragDeceleration = 3;
 
-        [Header("Detection")] public Vector2 groundDetectionWidthAndHeight = Vector2.one;
+        [Header("Detection")] public Vector3 groundDetectionWidthHeightDepth = Vector3.one;
         public Vector2 wallDetectionWidthAndHeight = Vector2.one;
 
         [Header("View")] 
