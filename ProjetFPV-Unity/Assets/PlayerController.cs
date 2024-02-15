@@ -115,6 +115,8 @@ namespace Player
             else currentActionState = PlayerActionStates.Idle;
         }
         
+        #region Camera
+        
         public void RotateCameraFromInput(InputAction.CallbackContext ctx)
         {
             if (canMove)
@@ -139,6 +141,8 @@ namespace Player
 
             return forwardRelative + rightRelative;
         }
+        
+        #endregion
     }
 }
 
