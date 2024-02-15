@@ -50,6 +50,8 @@ namespace Player
             Cursor.lockState = CursorLockMode.Locked;
         }
 
+        public float inputRotationY;
+        float inputRotationYTarget;
         private void Update()
         {
             PlayerInputStateMachine();

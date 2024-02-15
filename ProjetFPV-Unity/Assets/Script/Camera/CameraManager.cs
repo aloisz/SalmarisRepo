@@ -40,13 +40,13 @@ namespace CameraBehavior
 
         private void LateUpdate()
         {
-            defaultPos = playerTransform.position;
+            //defaultPos = playerTransform.position;
             
             transform.position = Vector3.Lerp(transform.position, playerTransform.position, 
-                PlayerController.Instance.playerScriptable.smoothCameraPos);
+                Time.deltaTime * PlayerController.Instance.playerScriptable.smoothCameraRot);
             
-            transform.rotation = Quaternion.Slerp(transform.rotation, playerTransform.rotation, 
-                PlayerController.Instance.playerScriptable.smoothCameraRot);
+            transform.rotation = Quaternion.Lerp(transform.rotation, playerTransform.rotation, 
+                Time.deltaTime *PlayerController.Instance.playerScriptable.smoothCameraRot);
             
             if(!doCameraFeel) return;
             switch (PlayerController.Instance.currentActionState)
