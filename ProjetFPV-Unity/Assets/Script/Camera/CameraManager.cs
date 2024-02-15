@@ -30,6 +30,7 @@ namespace CameraBehavior
 
         [Header("Moving")]
         [ShowIf("doCameraFeel")][SerializeField] internal Vector3 rotationOffSet;
+        [ShowIf("doCameraFeel")][SerializeField] internal float rotationOffSetSmooth;
 
         [Header("Sliding")] 
         [ShowIf("doCameraFeel")][SerializeField] internal Transform slindingPos;
@@ -85,7 +86,7 @@ namespace CameraBehavior
         private void Idle()
         {
             timer = 0;
-            transform.rotation = Quaternion.Slerp(transform.rotation, playerTransform.rotation, Time.deltaTime * PlayerController.Instance.playerScriptable.smoothCameraRot);
+            transform.rotation = Quaternion.Slerp(transform.rotation, playerTransform.rotation, Time.deltaTime * rotationOffSetSmooth);
             smoothOffset = Quaternion.identity;
             
             /*float camRotX = Mathf.Lerp(transform.rotation.eulerAngles.x, playerTransform.rotation.eulerAngles.x, Time.deltaTime * smoothRotation);
@@ -113,7 +114,7 @@ namespace CameraBehavior
                 Time.deltaTime * PlayerController.Instance.playerScriptable.smoothCameraRot);
             
             transform.rotation = Quaternion.Slerp(transform.rotation, playerTransform.rotation * smoothOffset, 
-                Time.deltaTime * PlayerController.Instance.playerScriptable.smoothCameraRot);
+                Time.deltaTime * rotationOffSetSmooth); // PlayerController.Instance.playerScriptable.smoothCameraRot
         }
     }
 }
