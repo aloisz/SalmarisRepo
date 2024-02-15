@@ -1,7 +1,6 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Numerics;
 using DG.Tweening;
 using NaughtyAttributes;
 using Player;
@@ -9,8 +8,6 @@ using UnityEngine;
 using UnityEngine.Serialization;
 using Random = UnityEngine.Random;
 using Player;
-using Quaternion = UnityEngine.Quaternion;
-using Vector3 = UnityEngine.Vector3;
 
 namespace CameraBehavior
 {
@@ -28,7 +25,10 @@ namespace CameraBehavior
         
         internal Vector3 defaultPos;
         
+        [Header("Moving")]
         float timer = 0;
+        [ShowIf("doCameraFeel")][SerializeField] internal Vector3 offSet;
+        [ShowIf("doCameraFeel")][Range(0,50)][SerializeField] private float smoothRotation;
 
         [Header("Sliding")] 
         [ShowIf("doCameraFeel")][SerializeField] internal Vector3 slindingPos;
@@ -36,23 +36,19 @@ namespace CameraBehavior
         private void Awake()
         {
             cameraSliding = GetComponent<CameraSliding>();
+            defaultPos = playerTransform.position;
         }
 
         private void LateUpdate()
         {
-            //defaultPos = playerTransform.position;
-            
             transform.position = Vector3.Lerp(transform.position, playerTransform.position, 
                 Time.deltaTime * PlayerController.Instance.playerScriptable.smoothCameraRot);
-            
-            transform.rotation = Quaternion.Lerp(transform.rotation, playerTransform.rotation, 
-                Time.deltaTime *PlayerController.Instance.playerScriptable.smoothCameraRot);
             
             if(!doCameraFeel) return;
             switch (PlayerController.Instance.currentActionState)
             {
                 case PlayerController.PlayerActionStates.Idle:
-                    //Idle();
+                    Idle();
                     break;
                 
                 case PlayerController.PlayerActionStates.Moving:
@@ -74,16 +70,30 @@ namespace CameraBehavior
         private void Idle()
         {
             timer = 0;
-            transform.localPosition = new Vector3(
-                Mathf.Lerp(transform.localPosition.x, defaultPos.x, Time.deltaTime * walkingBobbingSpeed), 
-                Mathf.Lerp(transform.localPosition.y, defaultPos.y, Time.deltaTime * walkingBobbingSpeed),
-                transform.localPosition.z);
+            
+            
+            transform.rotation = Quaternion.Slerp(transform.rotation, playerTransform.rotation, Time.deltaTime * smoothRotation);
+            /*float camRotX = Mathf.Lerp(transform.rotation.eulerAngles.x, playerTransform.rotation.eulerAngles.x, Time.deltaTime * smoothRotation);
+            float camRotY = Mathf.Lerp(transform.rotation.eulerAngles.y, playerTransform.rotation.eulerAngles.y, Time.deltaTime * PlayerController.Instance.playerScriptable.smoothCameraRot);
+            float camRotZ = Mathf.Lerp(transform.rotation.eulerAngles.z, playerTransform.rotation.eulerAngles.z, Time.deltaTime * smoothRotation);
+            
+            transform.rotation = Quaternion.Euler(camRotX, camRotY, camRotZ);*/
         }
         
         private void HeadBobing()
         {
             timer += Time.deltaTime * walkingBobbingSpeed;
-            transform.localPosition = new Vector3(transform.localPosition.x, defaultPos.y + Mathf.Sin(timer) * bobbingAmount, transform.localPosition.z);
+            Vector3 headBobbingPos = new Vector3(transform.position.x, Mathf.Sin(timer) * bobbingAmount + transform.localPosition.y,
+                transform.localPosition.z);
+            transform.position = Vector3.Lerp(transform.position, headBobbingPos, timer );
+
+            float xValue = 0;
+            if (PlayerController.Instance.direction.z <= 0) // Is player going backward
+            {
+                xValue = -PlayerController.Instance.direction.z * offSet.x;
+            }
+            transform.rotation = Quaternion.Slerp(transform.rotation, playerTransform.rotation * Quaternion.Euler(xValue, offSet.y, -PlayerController.Instance.direction.x * offSet.z), 
+                Time.deltaTime * smoothRotation);
         }
     }
 }
