@@ -1,4 +1,5 @@
 using System;
+using Player;
 using UnityEngine;
 
 namespace CameraBehavior
@@ -15,10 +16,18 @@ namespace CameraBehavior
 
         public void Sliding()
         {
-            transform.localPosition = new Vector3(
-                Mathf.Lerp(transform.localPosition.x, cameraManager.slindingPos.x, Time.deltaTime * cameraManager.walkingBobbingSpeed), 
-                Mathf.Lerp(transform.localPosition.y, cameraManager.slindingPos.y, Time.deltaTime * cameraManager.walkingBobbingSpeed),
-                Mathf.Lerp(transform.localPosition.z, cameraManager.slindingPos.z, Time.deltaTime * cameraManager.walkingBobbingSpeed));
+            // Position
+            transform.position = Vector3.Lerp(transform.position, cameraManager.slindingPos.position, 
+                Time.deltaTime * PlayerController.Instance.playerScriptable.smoothCameraPos);
+            
+            
+            //Handles rotation
+            cameraManager.smoothOffset = Quaternion.Slerp(cameraManager.smoothOffset, 
+                Quaternion.Euler(0, cameraManager.rotationOffSet.y, -PlayerController.Instance.direction.x * cameraManager.rotationOffSet.z * cameraManager.slindingRotMultiplier),
+                Time.deltaTime * PlayerController.Instance.playerScriptable.smoothCameraRot);
+            
+            transform.rotation = Quaternion.Slerp(transform.rotation, cameraManager.playerTransform.rotation * cameraManager.smoothOffset, 
+                Time.deltaTime * PlayerController.Instance.playerScriptable.smoothCameraRot);
         }
     }
 

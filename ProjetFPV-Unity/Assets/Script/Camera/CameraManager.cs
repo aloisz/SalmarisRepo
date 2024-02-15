@@ -13,30 +13,39 @@ namespace CameraBehavior
 {
     public class CameraManager : MonoBehaviour
     {
-        [SerializeField] private Transform playerTransform;
+        
+        [SerializeField] internal Transform playerTransform;
         [SerializeField] internal bool doCameraFeel;
         
         // Get All Camera Component
         private CameraSliding cameraSliding;
         
         [Header("Bobbing")]
+        internal float timer = 0;
         [ShowIf("doCameraFeel")][Range(0,20)][SerializeField] internal float walkingBobbingSpeed = 14f;
         [ShowIf("doCameraFeel")][Range(-.1f,.1f)][SerializeField] internal float bobbingAmount = 0.05f;
         
         internal Vector3 defaultPos;
-        private Quaternion smoothOffset;
-        
+        internal Quaternion smoothOffset;
+
         [Header("Moving")]
-        float timer = 0;
         [ShowIf("doCameraFeel")][SerializeField] internal Vector3 rotationOffSet;
 
         [Header("Sliding")] 
-        [ShowIf("doCameraFeel")][SerializeField] internal Vector3 slindingPos;
-
+        [ShowIf("doCameraFeel")][SerializeField] internal Transform slindingPos;
+        [ShowIf("doCameraFeel")][SerializeField] internal float slindingRotMultiplier = 3f;
         private void Awake()
         {
             cameraSliding = GetComponent<CameraSliding>();
             defaultPos = playerTransform.position;
+        }
+
+        private void ChangeState()
+        {
+            if (Input.GetKey(KeyCode.LeftShift))
+            {
+                PlayerController.Instance.currentActionState = PlayerController.PlayerActionStates.Sliding;
+            }
         }
 
         private void LateUpdate()
@@ -49,6 +58,8 @@ namespace CameraBehavior
                 Idle();
                 return;
             }
+
+            ChangeState();
             switch (PlayerController.Instance.currentActionState)
             {
                 case PlayerController.PlayerActionStates.Idle:
@@ -91,12 +102,13 @@ namespace CameraBehavior
                 transform.localPosition.z);
             transform.position = Vector3.Lerp(transform.position, headBobbingPos, timer );
 
+            
             float xValue = 0;
             if (PlayerController.Instance.direction.z <= 0) // Is player going backward
             {
                 xValue = -PlayerController.Instance.direction.z * rotationOffSet.x;
             }
-
+            
             smoothOffset = Quaternion.Slerp(smoothOffset, Quaternion.Euler(xValue, rotationOffSet.y, -PlayerController.Instance.direction.x * rotationOffSet.z),
                 Time.deltaTime * PlayerController.Instance.playerScriptable.smoothCameraRot);
             
