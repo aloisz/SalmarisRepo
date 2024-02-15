@@ -12,15 +12,11 @@ namespace Player
         [Header("Movements")] public float moveSpeed = 1;
         public float moveThreshold = 0.1f;
         public float jumpForce = 20f;
-        public ForceMode movingMethod = ForceMode.Force;
-        public ForceMode jumpMethod = ForceMode.Force;
+        public float accelerationSpeed = 20f;
+        public float moveAirMultiplier = 0.1f;
 
         [Header("Physics")] public float friction = 1;
-        public float linearDragMultiplier = 7;
-        public float linearDragDeceleration = 3;
-        public float gravityMultiplier = 3;
-        [FormerlySerializedAs("airRemoval")] [FormerlySerializedAs("airMomentum")] public float jumpCurveSpeed = 3;
-        public AnimationCurve gravityJumpModify;
+        public float gravityMultiplier = 1;
 
         [Header("Detection")] public Vector3 groundDetectionWidthHeightDepth = Vector3.one;
         public Vector2 wallDetectionWidthAndHeight = Vector2.one;

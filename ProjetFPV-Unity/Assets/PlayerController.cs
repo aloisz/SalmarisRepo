@@ -39,10 +39,12 @@ namespace Player
         [ShowNonSerializedField] internal PlayerActionStates currentActionState;
         
         [ShowNonSerializedField] private bool isOnGround;
+        [ShowNonSerializedField] private bool isOnGroundLastFrame;
         [ShowNonSerializedField] private bool isMoving;
         [ShowNonSerializedField] private bool isSliding;
         [ShowNonSerializedField] private bool isJumping;
         [ShowNonSerializedField] private bool isWallRunning;
+        [ShowNonSerializedField] private bool canJump;
         
         //---------------------------------------
 
@@ -74,13 +76,7 @@ namespace Player
         {
             PlayerInputStateMachine();
             DetectGround();
-            ApplyGravity();
-        }
-
-        private void FixedUpdate()
-        {
             Move();
-            SetRigidbodyDrag();
         }
 
         #region Movements
@@ -88,7 +84,7 @@ namespace Player
         /// <summary>
         /// get the current inputs to set the moving direction. Added in the Plyer Input Component.
         /// </summary>
-        /// <param name="ctx">Automatic parmaeter to get the current input values.</param>
+        /// <param name="ctx">Automatic parameter to get the current input values.</param>
         public void GetMoveInputs(InputAction.CallbackContext ctx)
         {
             //Set the current input values to the direction.
@@ -104,8 +100,22 @@ namespace Player
         /// </summary>
         private void Move()
         {
-            //Add force to the rigidbody.
-            _rb.AddForce(DirectionFromCamera(direction) * (playerScriptable.moveSpeed * Time.deltaTime), playerScriptable.movingMethod);
+            //_rb.velocity = Vector3.Lerp(_rb.velocity, _rb.velocity + DirectionFromCamera(direction) * playerScriptable.moveSpeed, playerScriptable.changeDirectionSpeed * Time.deltaTime);
+
+            var dir = DirectionFromCamera(direction) * playerScriptable.moveSpeed;
+            var targetVelocity = new Vector3(dir.x, _rb.velocity.y, dir.z);
+            
+            _rb.velocity = Vector3.MoveTowards(_rb.velocity, targetVelocity, Time.deltaTime * playerScriptable.accelerationSpeed);
+            if (!isOnGround)
+            {
+                var v = _rb.velocity;
+                v.y -= Time.deltaTime * playerScriptable.gravityMultiplier;
+                
+                v.x = _rb.velocity.x + (DirectionFromCamera(direction).x * playerScriptable.moveAirMultiplier);
+                v.z = _rb.velocity.z + (DirectionFromCamera(direction).z * playerScriptable.moveAirMultiplier);
+                
+                _rb.velocity = v;
+            }
         }
         
         #endregion
@@ -145,43 +155,30 @@ namespace Player
                 Physics.CheckBox(transform.position,
                     playerScriptable.groundDetectionWidthHeightDepth,
                     Quaternion.identity, groundLayer);
+
+            if (isOnGroundLastFrame == isOnGround) return;
+            if(isOnGround)
+            {
+                isOnGroundLastFrame = isOnGround;
+                Land();
+            }
         }
 
         public void Jump(InputAction.CallbackContext ctx)
         {
             if (ctx.performed && isOnGround)
             {
-                _rb.velocity = new Vector3(_rb.velocity.x, playerScriptable.jumpForce, _rb.velocity.z);
-                jumpTimer = 0f;
+                isJumping = true;
+                _rb.AddForce(playerScriptable.jumpForce * Vector3.up, ForceMode.Impulse);
             }
         }
 
-        private float jumpTimer;
-        private void ApplyGravity()
+        private void Land()
         {
-            if (isOnGround)
-            {
-                _velocity = -1f;
-            }
-            else
-            {
-                _velocity -= (_gravity * playerScriptable.gravityJumpModify.Evaluate(jumpTimer * playerScriptable.jumpCurveSpeed)) * Time.deltaTime;
-                
-                var v = _rb.velocity;
-                v.y -= _velocity;
-                _rb.velocity = v;
-
-                jumpTimer += Time.deltaTime;
-            }
-        }
-        
-        private void SetRigidbodyDrag()
-        {
-            //Set the rigibody's drag, based on scriptable parameters.
-            _rb.drag = playerScriptable.linearDragMultiplier * playerScriptable.linearDragDeceleration;
+            isJumping = false;
+            Debug.Log("Land");
         }
 
-        
         void PlayerInputStateMachine()
         {
             isMoving = direction.magnitude > playerScriptable.moveThreshold;

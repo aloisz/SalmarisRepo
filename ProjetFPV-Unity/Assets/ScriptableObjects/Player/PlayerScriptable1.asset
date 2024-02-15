@@ -12,40 +12,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0a71b2abe57b72a4da7599e067bad271, type: 3}
   m_Name: PlayerScriptable1
   m_EditorClassIdentifier: 
-  moveSpeed: 850
+  moveSpeed: 25
   moveThreshold: 0.1
-  jumpForce: 50
-  movingMethod: 1
-  jumpMethod: 1
+  jumpForce: 20
+  accelerationSpeed: 200
+  moveAirMultiplier: 0.35
   friction: 1
-  linearDragMultiplier: 7
-  linearDragDeceleration: 3
-  gravityMultiplier: 1.2
-  jumpCurveSpeed: 1.5
-  gravityJumpModify:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 0
-      inSlope: 2.9357767
-      outSlope: 2.9357767
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0.028921021
-    - serializedVersion: 3
-      time: 1
-      value: 1
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
+  gravityMultiplier: 75
   groundDetectionWidthHeightDepth: {x: 0.25, y: 0.5, z: 0.25}
   wallDetectionWidthAndHeight: {x: 1, y: 1}
   lookSpeed: 0.05
