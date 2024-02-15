@@ -11,14 +11,11 @@ using Player;
 
 namespace CameraBehavior
 {
-    
     public class CameraManager : MonoBehaviour
     {
-        [SerializeField] internal PlayerCameraState cameraState;
-        
         [SerializeField] internal bool doCameraFeel;
         
-        // Get All CameraComponent
+        // Get All Camera Component
         private CameraSliding cameraSliding;
         
         [Header("Bobbing")]
@@ -30,7 +27,7 @@ namespace CameraBehavior
         float timer = 0;
 
         [Header("Sliding")] 
-        [SerializeField] internal Vector3 slindingPos;
+        [ShowIf("doCameraFeel")][SerializeField] internal Vector3 slindingPos;
 
         private void Awake()
         {
@@ -78,13 +75,5 @@ namespace CameraBehavior
             transform.localPosition = new Vector3(transform.localPosition.x, defaultPos.y + Mathf.Sin(timer) * bobbingAmount, transform.localPosition.z);
         }
     }
-}
-
-public enum PlayerCameraState{
-    Idle,
-    Moving,
-    Sliding,
-    Jumping,
-    WallRuning
 }
 
