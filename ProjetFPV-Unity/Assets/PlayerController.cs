@@ -165,7 +165,7 @@ namespace Player
             }
             else
             {
-                _velocity -= ((_gravity * playerScriptable.gravityJumpModify.Evaluate(jumpTimer)) * Time.deltaTime) / playerScriptable.airMomentum;
+                _velocity -= ((_gravity * playerScriptable.gravityJumpModify.Evaluate(jumpTimer)) * Time.deltaTime) * playerScriptable.airRemoval;
                 
                 var v = _rb.velocity;
                 v.y -= _velocity;
