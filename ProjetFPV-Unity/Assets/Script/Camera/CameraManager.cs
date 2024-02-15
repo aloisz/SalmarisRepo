@@ -28,7 +28,7 @@ namespace CameraBehavior
         
         [Header("Moving")]
         float timer = 0;
-        [ShowIf("doCameraFeel")][SerializeField] internal Vector3 offSet;
+        [ShowIf("doCameraFeel")][SerializeField] internal Vector3 rotationOffSet;
 
         [Header("Sliding")] 
         [ShowIf("doCameraFeel")][SerializeField] internal Vector3 slindingPos;
@@ -43,8 +43,12 @@ namespace CameraBehavior
         {
             transform.position = Vector3.Lerp(transform.position, playerTransform.position, 
                 Time.deltaTime * PlayerController.Instance.playerScriptable.smoothCameraPos);
-            
-            if(!doCameraFeel) return;
+
+            if (!doCameraFeel)
+            {
+                Idle();
+                return;
+            }
             switch (PlayerController.Instance.currentActionState)
             {
                 case PlayerController.PlayerActionStates.Idle:
@@ -90,10 +94,10 @@ namespace CameraBehavior
             float xValue = 0;
             if (PlayerController.Instance.direction.z <= 0) // Is player going backward
             {
-                xValue = -PlayerController.Instance.direction.z * offSet.x;
+                xValue = -PlayerController.Instance.direction.z * rotationOffSet.x;
             }
 
-            smoothOffset = Quaternion.Slerp(smoothOffset, Quaternion.Euler(xValue, offSet.y, -PlayerController.Instance.direction.x * offSet.z),
+            smoothOffset = Quaternion.Slerp(smoothOffset, Quaternion.Euler(xValue, rotationOffSet.y, -PlayerController.Instance.direction.x * rotationOffSet.z),
                 Time.deltaTime * PlayerController.Instance.playerScriptable.smoothCameraRot);
             
             transform.rotation = Quaternion.Slerp(transform.rotation, playerTransform.rotation * smoothOffset, 
