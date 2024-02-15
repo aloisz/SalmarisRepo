@@ -14,16 +14,26 @@ namespace Player
         [Header("Management")]
         public bool canMove = true;
         
+        //---------------------------------------
+        
         [Header("Components")]
         [SerializeField] internal PlayerScriptable playerScriptable;
         [SerializeField] private Transform cameraAttachPosition;
         
         private Rigidbody _rb;
+        
+        //---------------------------------------
 
         [Header("Values")] 
         [ShowNonSerializedField] internal Vector3 direction;
         [ShowNonSerializedField] internal Vector3 directionNotReset;
-        private float rotationX;
+        
+        [ShowNonSerializedField] private float _velocity;
+        private float _rotationX;
+        
+        private const float _gravity = -9.81f;
+        
+        //---------------------------------------
         
         [Header("States")]
         [ShowNonSerializedField] internal PlayerActionStates currentActionState;
@@ -33,6 +43,8 @@ namespace Player
         [ShowNonSerializedField] private bool isSliding;
         [ShowNonSerializedField] private bool isJumping;
         [ShowNonSerializedField] private bool isWallRunning;
+        
+        //---------------------------------------
 
         [Header("Detection")] 
         [SerializeField] private LayerMask groundLayer;
@@ -45,8 +57,8 @@ namespace Player
             Jumping,
             WallRunning
         }
-
-        private float timerJump;
+        
+        //---------------------------------------
 
         public override void Awake()
         {
@@ -62,21 +74,13 @@ namespace Player
         {
             PlayerInputStateMachine();
             DetectGround();
+            ApplyGravity();
         }
 
         private void FixedUpdate()
         {
             Move();
             SetRigidbodyDrag();
-
-            if (!isOnGround)
-            {
-                var velocity = _rb.velocity;
-                velocity = new Vector3(velocity.x, (velocity.y - timerJump), velocity.z);
-                _rb.velocity = velocity;
-
-                timerJump += (Time.deltaTime * 10f);
-            }
         }
 
         #region Movements
@@ -112,9 +116,9 @@ namespace Player
         {
             if (canMove)
             {
-                rotationX += -ctx.ReadValue<Vector2>().y * playerScriptable.lookSpeed;
-                rotationX = Mathf.Clamp(rotationX, -playerScriptable.lookLimitX, playerScriptable.lookLimitX);
-                cameraAttachPosition.localRotation = Quaternion.Euler(rotationX, 0, 0);
+                _rotationX += -ctx.ReadValue<Vector2>().y * playerScriptable.lookSpeed;
+                _rotationX = Mathf.Clamp(_rotationX, -playerScriptable.lookLimitX, playerScriptable.lookLimitX);
+                cameraAttachPosition.localRotation = Quaternion.Euler(_rotationX, 0, 0);
                 transform.rotation *= Quaternion.Euler(0, ctx.ReadValue<Vector2>().x * playerScriptable.lookSpeed, 0);
             }
         }
@@ -147,8 +151,27 @@ namespace Player
         {
             if (ctx.performed && isOnGround)
             {
-                _rb.AddForce(Vector3.up * playerScriptable.jumpForce, playerScriptable.jumpMethod);
-                timerJump = 0f;
+                _rb.velocity = new Vector3(_rb.velocity.x, playerScriptable.jumpForce, _rb.velocity.z);
+                jumpTimer = 0f;
+            }
+        }
+
+        private float jumpTimer;
+        private void ApplyGravity()
+        {
+            if (isOnGround)
+            {
+                _velocity = -1f;
+            }
+            else
+            {
+                _velocity -= ((_gravity * playerScriptable.gravityJumpModify.Evaluate(jumpTimer)) * Time.deltaTime) / playerScriptable.airMomentum;
+                
+                var v = _rb.velocity;
+                v.y -= _velocity;
+                _rb.velocity = v;
+
+                jumpTimer += Time.deltaTime;
             }
         }
         
