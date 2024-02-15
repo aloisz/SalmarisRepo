@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Numerics;
 using DG.Tweening;
 using NaughtyAttributes;
 using Player;
@@ -8,6 +9,8 @@ using UnityEngine;
 using UnityEngine.Serialization;
 using Random = UnityEngine.Random;
 using Player;
+using Quaternion = UnityEngine.Quaternion;
+using Vector3 = UnityEngine.Vector3;
 
 namespace CameraBehavior
 {
@@ -38,15 +41,19 @@ namespace CameraBehavior
 
         private void LateUpdate()
         {
-            defaultPos = playerTransform.transform.position;
-            transform.position = playerTransform.transform.position;
-            transform.rotation = playerTransform.transform.rotation;
+            defaultPos = playerTransform.position;
+            
+            transform.position = Vector3.Lerp(transform.position, playerTransform.position, 
+                PlayerController.Instance.playerScriptable.smoothCameraPos);
+            
+            transform.rotation = Quaternion.Slerp(transform.rotation, playerTransform.rotation, 
+                PlayerController.Instance.playerScriptable.smoothCameraRot);
             
             if(!doCameraFeel) return;
             switch (PlayerController.Instance.currentActionState)
             {
                 case PlayerController.PlayerActionStates.Idle:
-                    Idle();
+                    //Idle();
                     break;
                 
                 case PlayerController.PlayerActionStates.Moving:

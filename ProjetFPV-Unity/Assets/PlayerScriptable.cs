@@ -23,5 +23,7 @@ namespace Player
         [Header("View")] 
         public float lookSpeed = 1f;
         public float lookLimitX = 180f;
+        public float smoothCameraPos = 15f;
+        public float smoothCameraRot = 15f;
     }
 }

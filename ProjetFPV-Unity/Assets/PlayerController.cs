@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using NaughtyAttributes;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.Serialization;
 
 namespace Player
 {
@@ -12,7 +13,7 @@ namespace Player
     {
         [SerializeField] internal PlayerScriptable playerScriptable;
 
-        [SerializeField] private Transform playerCamera;
+        [SerializeField] private Transform cameraAttachPosition;
 
         internal Vector3 direction;
         internal Vector3 directionNotReset;
@@ -37,6 +38,7 @@ namespace Player
         private bool isWallRunning;
         
         private float rotationX;
+        private Vector2 mouseInput;
 
         public override void Awake()
         {
@@ -50,12 +52,17 @@ namespace Player
 
         private void Update()
         {
-            Move();
             PlayerInputStateMachine();
+            
+            rotationX += -mouseInput.y * playerScriptable.lookSpeed;
+            rotationX = Mathf.Clamp(rotationX, -playerScriptable.lookLimitX, playerScriptable.lookLimitX);
+            cameraAttachPosition.localRotation = Quaternion.Euler(rotationX, 0, 0);
+            transform.rotation *= Quaternion.Euler(0, mouseInput.x * playerScriptable.lookSpeed, 0);
         }
 
         private void FixedUpdate()
         {
+            Move();
             SetRigidbodyDrag();
         }
 
@@ -118,10 +125,7 @@ namespace Player
         {
             if (canMove)
             {
-                rotationX += -ctx.ReadValue<Vector2>().y * playerScriptable.lookSpeed;
-                rotationX = Mathf.Clamp(rotationX, -playerScriptable.lookLimitX, playerScriptable.lookLimitX);
-                playerCamera.transform.localRotation = Quaternion.Euler(rotationX, 0, 0);
-                transform.rotation *= Quaternion.Euler(0, ctx.ReadValue<Vector2>().x * playerScriptable.lookSpeed, 0);
+                mouseInput = ctx.ReadValue<Vector2>();
             }
         }
     }
