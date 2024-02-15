@@ -13,6 +13,7 @@ namespace CameraBehavior
 {
     public class CameraManager : MonoBehaviour
     {
+        [SerializeField] private Transform playerTransform;
         [SerializeField] internal bool doCameraFeel;
         
         // Get All Camera Component
@@ -32,11 +33,15 @@ namespace CameraBehavior
         private void Awake()
         {
             cameraSliding = GetComponent<CameraSliding>();
-            defaultPos = transform.localPosition;
+            
         }
 
         private void LateUpdate()
         {
+            defaultPos = playerTransform.transform.position;
+            transform.position = playerTransform.transform.position;
+            transform.rotation = playerTransform.transform.rotation;
+            
             if(!doCameraFeel) return;
             switch (PlayerController.Instance.currentActionState)
             {
