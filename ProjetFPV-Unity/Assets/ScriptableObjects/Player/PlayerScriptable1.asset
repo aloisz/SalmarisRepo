@@ -21,19 +21,19 @@ MonoBehaviour:
   linearDragMultiplier: 7
   linearDragDeceleration: 3
   gravityMultiplier: 1.2
-  airMomentum: 0.25
+  airRemoval: 1
   gravityJumpModify:
     serializedVersion: 2
     m_Curve:
     - serializedVersion: 3
       time: 0
       value: 0
-      inSlope: 3.4957097
-      outSlope: 3.4957097
+      inSlope: 0.38005957
+      outSlope: 0.38005957
       tangentMode: 0
       weightedMode: 0
       inWeight: 0
-      outWeight: 0.028921021
+      outWeight: 0.12619656
     - serializedVersion: 3
       time: 1
       value: 1
@@ -46,7 +46,7 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  groundDetectionWidthHeightDepth: {x: 0.25, y: 0.2, z: 0.25}
+  groundDetectionWidthHeightDepth: {x: 0.25, y: 0.5, z: 0.25}
   wallDetectionWidthAndHeight: {x: 1, y: 1}
   lookSpeed: 0.05
   lookLimitX: 70
