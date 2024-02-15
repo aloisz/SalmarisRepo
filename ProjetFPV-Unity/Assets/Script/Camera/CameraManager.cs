@@ -22,13 +22,17 @@ namespace CameraBehavior
         [ShowIf("doCameraFeel")][Range(0,20)][SerializeField] internal float walkingBobbingSpeed = 14f;
         [ShowIf("doCameraFeel")][Range(-.1f,.1f)][SerializeField] internal float bobbingAmount = 0.05f;
         
-        internal float defaultPosY = 0;
-        internal float defaultPosX = 0;
+        internal Vector3 defaultPos;
+        
         float timer = 0;
+
+        [Header("Sliding")] 
+        [SerializeField] internal Vector3 slindingPos;
 
         private void Awake()
         {
             cameraSliding = GetComponent<CameraSliding>();
+            defaultPos = transform.position;
         }
 
         private void LateUpdate()
@@ -45,6 +49,7 @@ namespace CameraBehavior
                     break;
                 
                 case PlayerCameraState.Sliding:
+                    cameraSliding.Sliding();
                     break;
                 
                 case PlayerCameraState.Jumping:
@@ -59,15 +64,15 @@ namespace CameraBehavior
         {
             timer = 0;
             transform.localPosition = new Vector3(
-                Mathf.Lerp(transform.localPosition.x, defaultPosX, Time.deltaTime * walkingBobbingSpeed), 
-                Mathf.Lerp(transform.localPosition.y, defaultPosY, Time.deltaTime * walkingBobbingSpeed),
+                Mathf.Lerp(transform.localPosition.x, defaultPos.x, Time.deltaTime * walkingBobbingSpeed), 
+                Mathf.Lerp(transform.localPosition.y, defaultPos.y, Time.deltaTime * walkingBobbingSpeed),
                 transform.localPosition.z);
         }
         
         private void HeadBobing()
         {
             timer += Time.deltaTime * walkingBobbingSpeed;
-            transform.localPosition = new Vector3(transform.localPosition.x, defaultPosY + Mathf.Sin(timer) * bobbingAmount, transform.localPosition.z);
+            transform.localPosition = new Vector3(transform.localPosition.x, defaultPos.y + Mathf.Sin(timer) * bobbingAmount, transform.localPosition.z);
         }
     }
 }
