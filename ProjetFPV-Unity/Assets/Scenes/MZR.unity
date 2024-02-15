@@ -197,6 +197,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 10286d287ac742b43a18d354dbb29ec4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerScriptable: {fileID: 11400000, guid: b64488bd6eec9cb4cba32d12244e0f8a, type: 2}
 --- !u!114 &137111562
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -224,7 +225,19 @@ MonoBehaviour:
       m_Calls: []
   m_ActionEvents:
   - m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 137111561}
+        m_TargetAssemblyTypeName: Player.PlayerController, Assembly-CSharp
+        m_MethodName: GetMoveInputs
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_ActionId: e0ff58f5-9886-4ac6-a831-cc8526703c47
     m_ActionName: Player/Move[/Keyboard/w,/Keyboard/upArrow,/Keyboard/s,/Keyboard/downArrow,/Keyboard/a,/Keyboard/leftArrow,/Keyboard/d,/Keyboard/rightArrow]
   - m_PersistentCalls:
@@ -773,5 +786,5 @@ SceneRoots:
   m_Roots:
   - {fileID: 1285852287}
   - {fileID: 1226342883}
-  - {fileID: 137111559}
   - {fileID: 1490863954}
+  - {fileID: 137111559}

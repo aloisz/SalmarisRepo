@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using NaughtyAttributes;
 using UnityEngine;
 
 namespace Player
@@ -8,6 +9,8 @@ namespace Player
     public class PlayerScriptable : ScriptableObject
     {
         [Header("Movements")] public float moveSpeed = 1;
+        [InfoBox("If direction.magnitude > this value, then the player is considered moving")] 
+        public float moveThreshold = 0.1f;
         public ForceMode movingMethod = ForceMode.Force;
 
         [Header("Physics")] public float friction = 1;

@@ -8,19 +8,34 @@ using UnityEngine.InputSystem;
 namespace Player
 {
     [RequireComponent(typeof(Rigidbody))]
-    
     public class PlayerController : GenericSingletonClass<PlayerController>
     {
-        internal PlayerScriptable playerScriptable;
+        [SerializeField] internal PlayerScriptable playerScriptable;
 
-        internal Vector2 direction;
-        internal Vector2 directionNotReset;
+        internal Vector3 direction;
+        internal Vector3 directionNotReset;
+
+        internal enum PlayerActionStates
+        {
+            Idle,
+            Moving,
+            Sliding,
+            Jumping,
+            WallRunning
+        }
+        internal PlayerActionStates currentActionState;
 
         private Rigidbody _rb;
+
+        private bool isMoving;
+        private bool isSliding;
+        private bool isJumping;
+        private bool isWallRunning;
 
         public override void Awake()
         {
             base.Awake();
+            
             //get the rigidbody component.
             _rb = GetComponent<Rigidbody>();
         }
@@ -28,11 +43,12 @@ namespace Player
         private void Update()
         {
             Move();
+            PlayerInputStateMachine();
         }
 
         private void FixedUpdate()
         {
-            SetRigibodyDrag();
+            SetRigidbodyDrag();
         }
 
         #region Movements
@@ -44,27 +60,51 @@ namespace Player
         public void GetMoveInputs(InputAction.CallbackContext ctx)
         {
             //Set the current input values to the direction.
-            direction = ctx.ReadValue<Vector2>().normalized;
+            var dir = ctx.ReadValue<Vector2>().normalized;
+            direction = new Vector3(dir.x, 0, dir.y);
             
             //If the direction isn't null, set the direction not reset to direction.
             if (direction.magnitude > 0.1f) directionNotReset = direction;
         }
 
+        /// <summary>
+        /// Move the player in the current direction value, based on scriptable parameters.
+        /// </summary>
         private void Move()
         {
-            _rb.AddForce(playerScriptable.moveSpeed * direction);
+            //Add force to the rigidbody.
+            _rb.AddForce(playerScriptable.moveSpeed * direction, playerScriptable.movingMethod);
         }
         
         #endregion
         
         #region Physics
 
-        private void SetRigibodyDrag()
+        private void SetRigidbodyDrag()
         {
+            //Set the rigibody's drag, based on scriptable parameters.
             _rb.drag = playerScriptable.linearDragMultiplier * playerScriptable.linearDragDeceleration;
         }
         
         #endregion
+
+        void PlayerInputStateMachine()
+        {
+            isMoving = direction.magnitude > playerScriptable.moveThreshold;
+            
+            isSliding = false; //TODO
+            isJumping = false; //TODO
+            isWallRunning = false; //TODO
+
+            if (isMoving && !isSliding) currentActionState = PlayerActionStates.Moving;
+            
+            else if(isMoving && isSliding) currentActionState = PlayerActionStates.Sliding;
+            
+            else if(isJumping) currentActionState = PlayerActionStates.Jumping;
+            else if (isWallRunning) currentActionState = PlayerActionStates.WallRunning;
+
+            else currentActionState = PlayerActionStates.Idle;
+        }
     }
 }
 
