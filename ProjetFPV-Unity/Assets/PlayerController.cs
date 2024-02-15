@@ -38,7 +38,6 @@ namespace Player
         private bool isWallRunning;
         
         private float rotationX;
-        private Vector2 mouseInput;
 
         public override void Awake()
         {
@@ -49,9 +48,7 @@ namespace Player
 
             Cursor.lockState = CursorLockMode.Locked;
         }
-
-        public float inputRotationY;
-        float inputRotationYTarget;
+        
         private void Update()
         {
             PlayerInputStateMachine();
@@ -85,7 +82,7 @@ namespace Player
         private void Move()
         {
             //Add force to the rigidbody.
-            _rb.AddForce(direction * (playerScriptable.moveSpeed * Time.deltaTime), playerScriptable.movingMethod);
+            _rb.AddForce(DirectionFromCamera(direction) * (playerScriptable.moveSpeed * Time.deltaTime), playerScriptable.movingMethod);
         }
         
         #endregion
@@ -122,12 +119,25 @@ namespace Player
         {
             if (canMove)
             {
-                mouseInput = ctx.ReadValue<Vector2>();
                 rotationX += -ctx.ReadValue<Vector2>().y * playerScriptable.lookSpeed;
                 rotationX = Mathf.Clamp(rotationX, -playerScriptable.lookLimitX, playerScriptable.lookLimitX);
                 cameraAttachPosition.localRotation = Quaternion.Euler(rotationX, 0, 0);
                 transform.rotation *= Quaternion.Euler(0, ctx.ReadValue<Vector2>().x * playerScriptable.lookSpeed, 0);
             }
+        }
+
+        public Vector3 DirectionFromCamera(Vector3 dir)
+        {
+            Vector3 camForward = cameraAttachPosition.forward;
+            Vector3 camRight = cameraAttachPosition.right;
+
+            camForward.y = 0;
+            camRight.y = 0;
+
+            Vector3 forwardRelative = dir.z * camForward;
+            Vector3 rightRelative = dir.x * camRight;
+
+            return forwardRelative + rightRelative;
         }
     }
 }
