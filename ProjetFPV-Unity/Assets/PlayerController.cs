@@ -53,11 +53,6 @@ namespace Player
         private void Update()
         {
             PlayerInputStateMachine();
-            
-            rotationX += -mouseInput.y * playerScriptable.lookSpeed;
-            rotationX = Mathf.Clamp(rotationX, -playerScriptable.lookLimitX, playerScriptable.lookLimitX);
-            cameraAttachPosition.localRotation = Quaternion.Euler(rotationX, 0, 0);
-            transform.rotation *= Quaternion.Euler(0, mouseInput.x * playerScriptable.lookSpeed, 0);
         }
 
         private void FixedUpdate()
@@ -126,6 +121,10 @@ namespace Player
             if (canMove)
             {
                 mouseInput = ctx.ReadValue<Vector2>();
+                rotationX += -ctx.ReadValue<Vector2>().y * playerScriptable.lookSpeed;
+                rotationX = Mathf.Clamp(rotationX, -playerScriptable.lookLimitX, playerScriptable.lookLimitX);
+                cameraAttachPosition.localRotation = Quaternion.Euler(rotationX, 0, 0);
+                transform.rotation *= Quaternion.Euler(0, ctx.ReadValue<Vector2>().x * playerScriptable.lookSpeed, 0);
             }
         }
     }

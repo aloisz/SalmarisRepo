@@ -36,7 +36,6 @@ namespace CameraBehavior
         private void Awake()
         {
             cameraSliding = GetComponent<CameraSliding>();
-            
         }
 
         private void LateUpdate()
