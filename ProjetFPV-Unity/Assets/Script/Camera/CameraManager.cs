@@ -24,11 +24,11 @@ namespace CameraBehavior
         [ShowIf("doCameraFeel")][Range(-.1f,.1f)][SerializeField] internal float bobbingAmount = 0.05f;
         
         internal Vector3 defaultPos;
+        private Quaternion smoothOffset;
         
         [Header("Moving")]
         float timer = 0;
         [ShowIf("doCameraFeel")][SerializeField] internal Vector3 offSet;
-        [ShowIf("doCameraFeel")][Range(0,50)][SerializeField] private float smoothRotation;
 
         [Header("Sliding")] 
         [ShowIf("doCameraFeel")][SerializeField] internal Vector3 slindingPos;
@@ -42,7 +42,7 @@ namespace CameraBehavior
         private void LateUpdate()
         {
             transform.position = Vector3.Lerp(transform.position, playerTransform.position, 
-                Time.deltaTime * PlayerController.Instance.playerScriptable.smoothCameraRot);
+                Time.deltaTime * PlayerController.Instance.playerScriptable.smoothCameraPos);
             
             if(!doCameraFeel) return;
             switch (PlayerController.Instance.currentActionState)
@@ -70,9 +70,9 @@ namespace CameraBehavior
         private void Idle()
         {
             timer = 0;
+            transform.rotation = Quaternion.Slerp(transform.rotation, playerTransform.rotation, Time.deltaTime * PlayerController.Instance.playerScriptable.smoothCameraRot);
+            smoothOffset = Quaternion.identity;
             
-            
-            transform.rotation = Quaternion.Slerp(transform.rotation, playerTransform.rotation, Time.deltaTime * smoothRotation);
             /*float camRotX = Mathf.Lerp(transform.rotation.eulerAngles.x, playerTransform.rotation.eulerAngles.x, Time.deltaTime * smoothRotation);
             float camRotY = Mathf.Lerp(transform.rotation.eulerAngles.y, playerTransform.rotation.eulerAngles.y, Time.deltaTime * PlayerController.Instance.playerScriptable.smoothCameraRot);
             float camRotZ = Mathf.Lerp(transform.rotation.eulerAngles.z, playerTransform.rotation.eulerAngles.z, Time.deltaTime * smoothRotation);
@@ -92,8 +92,12 @@ namespace CameraBehavior
             {
                 xValue = -PlayerController.Instance.direction.z * offSet.x;
             }
-            transform.rotation = Quaternion.Slerp(transform.rotation, playerTransform.rotation * Quaternion.Euler(xValue, offSet.y, -PlayerController.Instance.direction.x * offSet.z), 
-                Time.deltaTime * smoothRotation);
+
+            smoothOffset = Quaternion.Slerp(smoothOffset, Quaternion.Euler(xValue, offSet.y, -PlayerController.Instance.direction.x * offSet.z),
+                Time.deltaTime * PlayerController.Instance.playerScriptable.smoothCameraRot);
+            
+            transform.rotation = Quaternion.Slerp(transform.rotation, playerTransform.rotation * smoothOffset, 
+                Time.deltaTime * PlayerController.Instance.playerScriptable.smoothCameraRot);
         }
     }
 }
