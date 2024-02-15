@@ -35,7 +35,7 @@ namespace CameraBehavior
         private void Awake()
         {
             cameraSliding = GetComponent<CameraSliding>();
-            defaultPos = transform.position;
+            defaultPos = transform.localPosition;
         }
 
         private void LateUpdate()
