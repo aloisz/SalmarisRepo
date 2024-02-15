@@ -31,7 +31,7 @@ namespace Player
         [ShowNonSerializedField] private float _velocity;
         private float _rotationX;
         
-        private const float _gravity = 9.81f;
+        private const float _gravity = -9.81f;
         
         //---------------------------------------
         
@@ -165,10 +165,10 @@ namespace Player
             }
             else
             {
-                //_velocity -= (_gravity * playerScriptable.gravityJumpModify.Evaluate(jumpTimer * playerScriptable.jumpCurveSpeed)) * Time.deltaTime;
+                _velocity -= (_gravity * playerScriptable.gravityJumpModify.Evaluate(jumpTimer * playerScriptable.jumpCurveSpeed)) * Time.deltaTime;
                 
                 var v = _rb.velocity;
-                v.y += _velocity;
+                v.y -= _velocity;
                 _rb.velocity = v;
 
                 jumpTimer += Time.deltaTime;
