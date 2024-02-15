@@ -3,12 +3,15 @@ using System.Collections;
 using System.Collections.Generic;
 using DG.Tweening;
 using NaughtyAttributes;
+using Player;
 using UnityEngine;
 using UnityEngine.Serialization;
 using Random = UnityEngine.Random;
+using Player;
 
 namespace CameraBehavior
 {
+    
     public class CameraManager : MonoBehaviour
     {
         [SerializeField] internal PlayerCameraState cameraState;
@@ -38,24 +41,24 @@ namespace CameraBehavior
         private void LateUpdate()
         {
             if(!doCameraFeel) return;
-            switch (cameraState)
+            switch (PlayerController.Instance.currentActionState)
             {
-                case PlayerCameraState.Idle:
+                case PlayerController.PlayerActionStates.Idle:
                     Idle();
                     break;
                 
-                case PlayerCameraState.Moving:
+                case PlayerController.PlayerActionStates.Moving:
                     HeadBobing();
                     break;
                 
-                case PlayerCameraState.Sliding:
+                case PlayerController.PlayerActionStates.Sliding:
                     cameraSliding.Sliding();
                     break;
                 
-                case PlayerCameraState.Jumping:
+                case PlayerController.PlayerActionStates.Jumping:
                     break;
                 
-                case PlayerCameraState.WallRuning:
+                case PlayerController.PlayerActionStates.WallRunning:
                     break;
             }
         }
