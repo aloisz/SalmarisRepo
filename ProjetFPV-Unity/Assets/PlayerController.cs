@@ -81,7 +81,7 @@ namespace Player
         private void Move()
         {
             //Add force to the rigidbody.
-            _rb.AddForce(playerScriptable.moveSpeed * direction, playerScriptable.movingMethod);
+            _rb.AddForce(direction * (playerScriptable.moveSpeed * Time.deltaTime), playerScriptable.movingMethod);
         }
         
         #endregion
