@@ -15,15 +15,21 @@ namespace CameraBehavior
     {
         
         [SerializeField] internal Transform playerTransform;
+        internal Camera camera;
+        internal Transform cameraTransform;
+        [SerializeField] internal Transform weaponTransform;
+        
         [SerializeField] internal bool doCameraFeel;
         
         // Get All Camera Component
         private CameraSliding cameraSliding;
+        private HandSwing handSwing;
         
-        [Header("Bobbing")]
         internal float timer = 0;
-        [ShowIf("doCameraFeel")][Range(0,20)][SerializeField] internal float walkingBobbingSpeed = 14f;
-        [ShowIf("doCameraFeel")][Range(-.1f,.1f)][SerializeField] internal float bobbingAmount = 0.05f;
+        [Header("Bobbing")]
+        [ShowIf("doCameraFeel")] [Range(0, 20)] [SerializeField] internal float walkingBobbingSpeed;
+        [ShowIf("doCameraFeel")] [Range(-.01f, .01f)] [SerializeField] internal float cameraBobbingAmount;
+        [ShowIf("doCameraFeel")] [Range(-.03f, .03f)] [SerializeField] internal float weaponBobbingAmount;
         
         internal Vector3 defaultPos;
         internal Quaternion smoothOffset;
@@ -35,9 +41,16 @@ namespace CameraBehavior
         [Header("Sliding")] 
         [ShowIf("doCameraFeel")][SerializeField] internal Transform slindingPos;
         [ShowIf("doCameraFeel")][SerializeField] internal float slindingRotMultiplier = 3f;
+        
+        [Header("Weapon Sway Settings")]
+        [ShowIf("doCameraFeel")][SerializeField] internal float weaponSwaySmooth;
+        [ShowIf("doCameraFeel")][SerializeField] internal float weaponSwaymultiplier;
+        
         private void Awake()
         {
             cameraSliding = GetComponent<CameraSliding>();
+            camera = GetComponentInChildren<Camera>();
+            cameraTransform = camera.GetComponent<Transform>();
             defaultPos = playerTransform.position;
         }
 
@@ -59,7 +72,7 @@ namespace CameraBehavior
                 Idle();
                 return;
             }
-
+            
             ChangeState();
             switch (PlayerController.Instance.currentActionState)
             {
@@ -88,22 +101,24 @@ namespace CameraBehavior
             timer = 0;
             transform.rotation = Quaternion.Slerp(transform.rotation, playerTransform.rotation, Time.deltaTime * rotationOffSetSmooth);
             smoothOffset = Quaternion.identity;
-            
-            /*float camRotX = Mathf.Lerp(transform.rotation.eulerAngles.x, playerTransform.rotation.eulerAngles.x, Time.deltaTime * smoothRotation);
-            float camRotY = Mathf.Lerp(transform.rotation.eulerAngles.y, playerTransform.rotation.eulerAngles.y, Time.deltaTime * PlayerController.Instance.playerScriptable.smoothCameraRot);
-            float camRotZ = Mathf.Lerp(transform.rotation.eulerAngles.z, playerTransform.rotation.eulerAngles.z, Time.deltaTime * smoothRotation);
-            
-            transform.rotation = Quaternion.Euler(camRotX, camRotY, camRotZ);*/
         }
         
         private void HeadBobing()
         {
             timer += Time.deltaTime * walkingBobbingSpeed;
-            Vector3 headBobbingPos = new Vector3(transform.position.x, Mathf.Sin(timer) * bobbingAmount + transform.localPosition.y,
-                transform.localPosition.z);
-            transform.position = Vector3.Lerp(transform.position, headBobbingPos, timer );
-
             
+            // Camera HeadBob
+            Vector3 cameraBobbingPos = new Vector3(cameraTransform.transform.position.x, Mathf.Sin(timer) * cameraBobbingAmount + cameraTransform.position.y,
+                cameraTransform.position.z);
+            cameraTransform.position = Vector3.Lerp(cameraTransform.position, cameraBobbingPos, timer);
+            
+            // Weapon HeadBob
+            Vector3 weaponBobbingPos = new Vector3(weaponTransform.position.x, Mathf.Sin(timer) * weaponBobbingAmount + weaponTransform.position.y,
+                weaponTransform.position.z);
+            weaponTransform.position = Vector3.Lerp(weaponTransform.transform.position, weaponBobbingPos, timer);
+            
+            
+            // Rotation added to all child
             float xValue = 0;
             if (PlayerController.Instance.direction.z <= 0) // Is player going backward
             {

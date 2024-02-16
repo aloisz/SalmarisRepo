@@ -264,7 +264,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 16.83, y: 12.89, z: 46.07}
-  m_LocalScale: {x: -1.4108845, y: 8.016514, z: 20.432728}
+  m_LocalScale: {x: 1.410884, y: 8.016514, z: 20.432728}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1354298696}
@@ -560,7 +560,7 @@ MonoBehaviour:
   targetToFollow: {fileID: 0}
   walkingSpeed: 10
   stoppingDistance: 3
-  visionDetectorRadius: 10
+  visionDetectorRadius: 20
 --- !u!1 &519806564
 GameObject:
   m_ObjectHideFlags: 0
@@ -764,7 +764,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 17.05, y: 12.89, z: 14.29}
-  m_LocalScale: {x: -1.4108845, y: 8.016514, z: 20.432728}
+  m_LocalScale: {x: 1.410884, y: 8.016514, z: 20.432728}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1354298696}
@@ -2153,7 +2153,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 26.59, y: 12.89, z: 25.55}
-  m_LocalScale: {x: -1.4108845, y: 8.016514, z: 20.432728}
+  m_LocalScale: {x: 1.410884, y: 8.016514, z: 20.432728}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1354298696}
@@ -2347,11 +2347,6 @@ PrefabInstance:
       propertyPath: playerTransform
       value: 
       objectReference: {fileID: 589238042}
-    - target: {fileID: 3698928635149738337, guid: 9294123db3fc3a54b89f62907126f122,
-        type: 3}
-      propertyPath: rotationOffSetSmooth
-      value: 25
-      objectReference: {fileID: 0}
     - target: {fileID: 8108733499738347442, guid: 9294123db3fc3a54b89f62907126f122,
         type: 3}
       propertyPath: m_Name
