@@ -2,16 +2,24 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 namespace CameraBehavior
 {
     public class HandSwing : MonoBehaviour
     {
         private CameraManager cameraManager;
+        private Vector3 basePos;
+        
+        // Gun
+        private float lastfired;
+        [SerializeField] private float FireRate = 10;
+        
 
         private void Awake()
         {
             cameraManager = GetComponentInParent<CameraManager>();
+            basePos = transform.localPosition;
         }
 
         public void LateUpdate()
@@ -26,9 +34,29 @@ namespace CameraBehavior
             Quaternion rotationY = Quaternion.AngleAxis(mouseX, Vector3.up);
 
             Quaternion targetRotation = rotationX * rotationY;
-
-           
-            transform.localRotation = Quaternion.Slerp(transform.localRotation, targetRotation, cameraManager.weaponSwaySmooth * Time.deltaTime);
+            
+            transform.localRotation = Quaternion.Slerp(transform.localRotation, targetRotation, cameraManager.weaponSwaySmooth * Time.deltaTime );
+            transform.localPosition = Vector3.Lerp(transform.localPosition, basePos, cameraManager.weaponSwaySmooth * Time.deltaTime);
+            
+            if (Input.GetKey(KeyCode.Mouse0))
+            {
+                if (Time.time - lastfired > 1 / FireRate)
+                {
+                    
+                    Shoot();
+                }
+            }
         }
+
+        private void Shoot()
+        {
+            lastfired = Time.time;
+            float angleX = Random.Range(3, 30);
+            float angleZ = Random.Range(-3,3);
+            transform.localRotation *= Quaternion.Euler(-angleX, angleZ, 0);
+            
+            transform.localPosition = Vector3.Lerp(transform.localPosition, transform.localPosition + new Vector3(0,0,-0.5f), 500 * Time.deltaTime );
+
+        }   
     }
 }

@@ -32,6 +32,7 @@ namespace CameraBehavior
         [ShowIf("doCameraFeel")] [Range(-.03f, .03f)] [SerializeField] internal float weaponBobbingAmount;
         
         internal Vector3 defaultPos;
+        
         internal Quaternion smoothOffset;
 
         [Header("Moving")]
