@@ -18,32 +18,37 @@ namespace CameraBehavior
         internal Camera camera;
         internal Transform cameraTransform;
         [SerializeField] internal Transform weaponTransform;
-        
         [SerializeField] internal bool doCameraFeel;
+        internal float currentFov;
         
         // Get All Camera Component
         private CameraSliding cameraSliding;
         private HandSwing handSwing;
         
         internal float timer = 0;
-        [Header("Bobbing")]
+        [Header("-----Cam Effect-----")]
+        [Header("---Bobbing---")]
         [ShowIf("doCameraFeel")] [Range(0, 20)] [SerializeField] internal float walkingBobbingSpeed;
         [ShowIf("doCameraFeel")] [Range(-.01f, .01f)] [SerializeField] internal float cameraBobbingAmount;
         [ShowIf("doCameraFeel")] [Range(-.03f, .03f)] [SerializeField] internal float weaponBobbingAmount;
         
         internal Vector3 defaultPos;
-        
         internal Quaternion smoothOffset;
+        
+        [Header("---Idle---")]
+        [ShowIf("doCameraFeel")][SerializeField] internal float timeToGetToTheNewFOV;
+        [ShowIf("doCameraFeel")][SerializeField] internal float fovIdle;
 
-        [Header("Moving")]
+        [Header("---Moving---")]
+        [ShowIf("doCameraFeel")][SerializeField] internal float fovMoving;
         [ShowIf("doCameraFeel")][SerializeField] internal Vector3 rotationOffSet;
         [ShowIf("doCameraFeel")][SerializeField] internal float rotationOffSetSmooth;
 
-        [Header("Sliding")] 
+        [Header("---Sliding---")] 
         [ShowIf("doCameraFeel")][SerializeField] internal Transform slindingPos;
         [ShowIf("doCameraFeel")][SerializeField] internal float slindingRotMultiplier = 3f;
         
-        [Header("Weapon Sway Settings")]
+        [Header("---Weapon Sway Settings---")]
         [ShowIf("doCameraFeel")][SerializeField] internal float weaponSwaySmooth;
         [ShowIf("doCameraFeel")][SerializeField] internal float weaponSwaymultiplier;
         
@@ -53,6 +58,9 @@ namespace CameraBehavior
             camera = GetComponentInChildren<Camera>();
             cameraTransform = camera.GetComponent<Transform>();
             defaultPos = playerTransform.position;
+
+            currentFov = fovIdle;
+            camera.fieldOfView = currentFov;
         }
 
         private void ChangeState()
@@ -79,14 +87,17 @@ namespace CameraBehavior
             {
                 case PlayerController.PlayerActionStates.Idle:
                     Idle();
+                    IdleFov();
                     break;
                 
                 case PlayerController.PlayerActionStates.Moving:
                     HeadBobing();
+                    MovingFov();
                     break;
                 
                 case PlayerController.PlayerActionStates.Sliding:
                     cameraSliding.Sliding();
+                    MovingFov();
                     break;
                 
                 case PlayerController.PlayerActionStates.Jumping:
@@ -97,13 +108,29 @@ namespace CameraBehavior
             }
         }
 
+        #region Idle
+
         private void Idle()
         {
             timer = 0;
             transform.rotation = Quaternion.Slerp(transform.rotation, playerTransform.rotation, Time.deltaTime * rotationOffSetSmooth);
             smoothOffset = Quaternion.identity;
         }
-        
+
+        private void IdleFov()
+        {
+            if (Math.Abs(currentFov - fovIdle) > 0.1f)
+            {
+                currentFov = Mathf.Lerp(currentFov, fovIdle, Time.deltaTime * timeToGetToTheNewFOV);
+            }
+            camera.fieldOfView = currentFov;
+        }
+
+        #endregion
+
+
+        #region Moving
+
         private void HeadBobing()
         {
             timer += Time.deltaTime * walkingBobbingSpeed;
@@ -132,6 +159,21 @@ namespace CameraBehavior
             transform.rotation = Quaternion.Slerp(transform.rotation, playerTransform.rotation * smoothOffset, 
                 Time.deltaTime * rotationOffSetSmooth); // PlayerController.Instance.playerScriptable.smoothCameraRot
         }
+        
+        private void MovingFov()
+        {
+            if (Math.Abs(currentFov - fovMoving) > 0.1f)
+            {
+                currentFov = Mathf.Lerp(currentFov, fovMoving, Time.deltaTime * timeToGetToTheNewFOV);
+            }
+            camera.fieldOfView = currentFov;
+        }
+
+        #endregion
+        
+        
+        
+        
     }
 }
 
