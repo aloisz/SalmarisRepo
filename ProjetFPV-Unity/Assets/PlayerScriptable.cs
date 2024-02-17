@@ -12,6 +12,7 @@ namespace Player
         [Header("Movements")] public float moveSpeed = 1;
         public float moveThreshold = 0.1f;
         public float jumpForce = 20f;
+        public float wallJumpForce = 50f;
         public float accelerationSpeed = 20f;
         public float moveAirMultiplier = 0.1f;
 
@@ -19,7 +20,8 @@ namespace Player
         public float gravityMultiplier = 1;
 
         [Header("Detection")] public Vector3 groundDetectionWidthHeightDepth = Vector3.one;
-        public Vector2 wallDetectionWidthAndHeight = Vector2.one;
+        public Vector3 wallDetectionWidthAndHeight = Vector3.one;
+        public Vector3 wallDetectionOffset = Vector3.zero;
 
         [Header("View")] 
         public float lookSpeed = 1f;

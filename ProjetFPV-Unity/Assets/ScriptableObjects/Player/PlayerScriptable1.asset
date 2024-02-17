@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0a71b2abe57b72a4da7599e067bad271, type: 3}
   m_Name: PlayerScriptable1
   m_EditorClassIdentifier: 
-  moveSpeed: 25
+  moveSpeed: 18
   moveThreshold: 0.1
   jumpForce: 20
   accelerationSpeed: 200
@@ -20,7 +20,8 @@ MonoBehaviour:
   friction: 1
   gravityMultiplier: 75
   groundDetectionWidthHeightDepth: {x: 0.25, y: 0.5, z: 0.25}
-  wallDetectionWidthAndHeight: {x: 1, y: 1}
+  wallDetectionWidthAndHeight: {x: 0.2, y: 1, z: 1}
+  wallDetectionOffset: {x: 0.5, y: 1, z: 0}
   lookSpeed: 0.05
   lookLimitX: 70
   smoothCameraPos: 40

@@ -39,11 +39,12 @@ namespace Player
         [ShowNonSerializedField] internal PlayerActionStates currentActionState;
         
         [ShowNonSerializedField] private bool isOnGround;
-        [ShowNonSerializedField] private bool isOnGroundLastFrame;
         [ShowNonSerializedField] private bool isMoving;
         [ShowNonSerializedField] private bool isSliding;
         [ShowNonSerializedField] private bool isJumping;
         [ShowNonSerializedField] private bool isWallRunning;
+        [ShowNonSerializedField] private bool wallOnLeft;
+        [ShowNonSerializedField] private bool wallOnRight;
         [ShowNonSerializedField] private bool canJump;
         
         //---------------------------------------
@@ -68,7 +69,7 @@ namespace Player
             
             //get the rigidbody component.
             _rb = GetComponent<Rigidbody>();
-
+            
             Cursor.lockState = CursorLockMode.Locked;
         }
         
@@ -76,6 +77,7 @@ namespace Player
         {
             PlayerInputStateMachine();
             DetectGround();
+            DetectWalls();
             Move();
         }
 
@@ -155,13 +157,21 @@ namespace Player
                 Physics.CheckBox(transform.position,
                     playerScriptable.groundDetectionWidthHeightDepth,
                     Quaternion.identity, groundLayer);
+        }
 
-            if (isOnGroundLastFrame == isOnGround) return;
-            if(isOnGround)
-            {
-                isOnGroundLastFrame = isOnGround;
-                Land();
-            }
+        void DetectWalls()
+        {
+            var offset = playerScriptable.wallDetectionOffset;
+            
+            wallOnLeft = Physics.CheckBox(transform.position - new Vector3(offset.x, -offset.y, offset.z),
+                playerScriptable.wallDetectionWidthAndHeight / 2,
+                Quaternion.identity, groundLayer);
+            
+            wallOnRight = Physics.CheckBox(transform.position + new Vector3(offset.x, offset.y, offset.z),
+                playerScriptable.wallDetectionWidthAndHeight / 2,
+                Quaternion.identity, groundLayer);
+
+            _rb.useGravity = !(wallOnLeft || wallOnRight);
         }
 
         public void Jump(InputAction.CallbackContext ctx)
@@ -171,12 +181,18 @@ namespace Player
                 isJumping = true;
                 _rb.AddForce(playerScriptable.jumpForce * Vector3.up, ForceMode.Impulse);
             }
-        }
-
-        private void Land()
-        {
-            isJumping = false;
-            Debug.Log("Land");
+            
+            if (ctx.performed && wallOnLeft)
+            {
+                isJumping = true;
+                _rb.AddForce(playerScriptable.wallJumpForce * (transform.forward + -transform.right), ForceMode.Impulse);
+            }
+            
+            if (ctx.performed && wallOnRight)
+            {
+                isJumping = true;
+                _rb.AddForce(playerScriptable.wallJumpForce * (transform.forward + transform.right), ForceMode.Impulse);
+            }
         }
 
         void PlayerInputStateMachine()
@@ -201,6 +217,15 @@ namespace Player
         {
             Gizmos.color = Color.cyan;
             Gizmos.DrawWireCube(transform.position, playerScriptable.groundDetectionWidthHeightDepth);
+            
+            Gizmos.color = Color.green;
+            var offset = playerScriptable.wallDetectionOffset;
+            Gizmos.DrawWireCube(transform.position - new Vector3(offset.x, -offset.y, offset.z), 
+                playerScriptable.wallDetectionWidthAndHeight);
+            
+            Gizmos.color = Color.magenta;
+            Gizmos.DrawWireCube(transform.position + new Vector3(offset.x, offset.y, offset.z), 
+                playerScriptable.wallDetectionWidthAndHeight);
         }
     }
 }
