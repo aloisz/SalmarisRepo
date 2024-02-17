@@ -42,7 +42,6 @@ namespace CameraBehavior
             {
                 if (Time.time - lastfired > 1 / FireRate)
                 {
-                    
                     Shoot();
                 }
             }
@@ -53,7 +52,10 @@ namespace CameraBehavior
             lastfired = Time.time;
             float angleX = Random.Range(3, 30);
             float angleZ = Random.Range(-3,3);
-            transform.localRotation *= Quaternion.Euler(-angleX, angleZ, 0);
+            
+            //transform.localRotation *= Quaternion.Euler(-angleX, angleZ, 0);
+            Quaternion shootingRot = transform.localRotation * Quaternion.Euler(-angleX, angleZ, 0);
+            transform.localRotation = Quaternion.Slerp(transform.localRotation, shootingRot, 1500 * Time.deltaTime);
             
             transform.localPosition = Vector3.Lerp(transform.localPosition, transform.localPosition + new Vector3(0,0,-0.5f), 500 * Time.deltaTime );
 
