@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using NaughtyAttributes;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.Serialization;
@@ -111,12 +112,16 @@ namespace Player
             if (!isOnGround)
             {
                 var v = _rb.velocity;
-                v.y -= Time.deltaTime * playerScriptable.gravityMultiplier;
+                
+                if(!wallOnLeft || !wallOnRight)
+                    v.y -= Time.deltaTime * playerScriptable.gravityMultiplier;
                 
                 v.x = _rb.velocity.x + (DirectionFromCamera(direction).x * playerScriptable.moveAirMultiplier);
                 v.z = _rb.velocity.z + (DirectionFromCamera(direction).z * playerScriptable.moveAirMultiplier);
                 
                 _rb.velocity = v;
+
+                _rb.useGravity = false;
             }
         }
         
@@ -165,13 +170,11 @@ namespace Player
             
             wallOnLeft = Physics.CheckBox(transform.position - new Vector3(offset.x, -offset.y, offset.z),
                 playerScriptable.wallDetectionWidthAndHeight / 2,
-                Quaternion.identity, groundLayer);
+                transform.rotation, groundLayer);
             
             wallOnRight = Physics.CheckBox(transform.position + new Vector3(offset.x, offset.y, offset.z),
                 playerScriptable.wallDetectionWidthAndHeight / 2,
-                Quaternion.identity, groundLayer);
-
-            _rb.useGravity = !(wallOnLeft || wallOnRight);
+                transform.rotation, groundLayer);
         }
 
         public void Jump(InputAction.CallbackContext ctx)
@@ -182,16 +185,26 @@ namespace Player
                 _rb.AddForce(playerScriptable.jumpForce * Vector3.up, ForceMode.Impulse);
             }
             
-            if (ctx.performed && wallOnLeft)
+            if (ctx.performed && wallOnLeft && isMoving && !isOnGround)
             {
                 isJumping = true;
-                _rb.AddForce(playerScriptable.wallJumpForce * (transform.forward + -transform.right), ForceMode.Impulse);
+                
+                Vector3 forwardUpDiagonalRight = ((transform.up * playerScriptable.impulseWallJumpMultiplier.y) + 
+                                                 (transform.forward * playerScriptable.impulseWallJumpMultiplier.z) + 
+                                                 (transform.right * playerScriptable.impulseWallJumpMultiplier.x));
+                Debug.Log(forwardUpDiagonalRight);
+                _rb.AddForce(playerScriptable.wallJumpForce * forwardUpDiagonalRight, ForceMode.Impulse);
             }
             
-            if (ctx.performed && wallOnRight)
+            if (ctx.performed && wallOnRight && isMoving && !isOnGround)
             {
                 isJumping = true;
-                _rb.AddForce(playerScriptable.wallJumpForce * (transform.forward + transform.right), ForceMode.Impulse);
+                
+                Vector3 forwardUpDiagonalLeft = ((transform.up * playerScriptable.impulseWallJumpMultiplier.y) + 
+                                                 (transform.forward * playerScriptable.impulseWallJumpMultiplier.z) + 
+                                                 (-transform.right * playerScriptable.impulseWallJumpMultiplier.x));
+                
+                _rb.AddForce(playerScriptable.wallJumpForce * forwardUpDiagonalLeft, ForceMode.Impulse);
             }
         }
 
@@ -217,15 +230,16 @@ namespace Player
         {
             Gizmos.color = Color.cyan;
             Gizmos.DrawWireCube(transform.position, playerScriptable.groundDetectionWidthHeightDepth);
+
+            var offset = playerScriptable.wallDetectionOffset;
+            var position1 = transform.position - new Vector3(offset.x, -offset.y, offset.z);
+            var position2 = transform.position + new Vector3(offset.x, offset.y, offset.z);
             
             Gizmos.color = Color.green;
-            var offset = playerScriptable.wallDetectionOffset;
-            Gizmos.DrawWireCube(transform.position - new Vector3(offset.x, -offset.y, offset.z), 
-                playerScriptable.wallDetectionWidthAndHeight);
+            Gizmos.DrawWireCube(position1, playerScriptable.wallDetectionWidthAndHeight);
             
             Gizmos.color = Color.magenta;
-            Gizmos.DrawWireCube(transform.position + new Vector3(offset.x, offset.y, offset.z), 
-                playerScriptable.wallDetectionWidthAndHeight);
+            Gizmos.DrawWireCube(position2, playerScriptable.wallDetectionWidthAndHeight);
         }
     }
 }
