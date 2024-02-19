@@ -11,8 +11,7 @@ namespace AI
         protected override void Start()
         {
             base.Start();
-            navMeshAgent.speed = walkingSpeed;
-            navMeshAgent.stoppingDistance = stoppingDistance;
+            
         }
     }
 }

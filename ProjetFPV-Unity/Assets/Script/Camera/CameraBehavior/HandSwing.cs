@@ -26,8 +26,8 @@ namespace CameraBehavior
         {
             if (!cameraManager.doCameraFeel)return;
             
-            float mouseX = Input.GetAxisRaw("Mouse X") * cameraManager.weaponSwaymultiplier;
-            float mouseY = Input.GetAxisRaw("Mouse Y") * cameraManager.weaponSwaymultiplier;
+            float mouseX = Input.GetAxisRaw("Mouse X") * cameraManager.so_Camera.weaponSwaymultiplier;
+            float mouseY = Input.GetAxisRaw("Mouse Y") * cameraManager.so_Camera.weaponSwaymultiplier;
             
             // Calculate the rotation
             Quaternion rotationX = Quaternion.AngleAxis(-mouseY, Vector3.right);
@@ -35,8 +35,8 @@ namespace CameraBehavior
 
             Quaternion targetRotation = rotationX * rotationY;
             
-            transform.localRotation = Quaternion.Slerp(transform.localRotation, targetRotation, cameraManager.weaponSwaySmooth * Time.deltaTime );
-            transform.localPosition = Vector3.Lerp(transform.localPosition, basePos, cameraManager.weaponSwaySmooth * Time.deltaTime);
+            transform.localRotation = Quaternion.Slerp(transform.localRotation, targetRotation, cameraManager.so_Camera.weaponSwaySmooth * Time.deltaTime );
+            transform.localPosition = Vector3.Lerp(transform.localPosition, basePos, cameraManager.so_Camera.weaponSwaySmooth * Time.deltaTime);
             
             if (Input.GetKey(KeyCode.Mouse0))
             {

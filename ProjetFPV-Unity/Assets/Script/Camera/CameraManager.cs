@@ -13,46 +13,30 @@ namespace CameraBehavior
 {
     public class CameraManager : MonoBehaviour
     {
+        [Header("---Scriptable---")] 
+        public SO_Camera so_Camera;
+        
+        [Header("---Camera Parameter---")]
         [SerializeField] internal Transform transitionParent;
         [SerializeField] internal Transform playerTransform;
-        internal Camera camera;
-        internal Transform cameraTransform;
         [SerializeField] internal Transform weaponTransform;
         [SerializeField] internal bool doCameraFeel;
+        
+        [Header("---Sliding---")] 
+        [ShowIf("doCameraFeel")][SerializeField] internal Transform slindingPos;
+        
+        internal Camera camera;
+        internal Transform cameraTransform;
+        
         internal float currentFov;
+        internal Vector3 defaultPos;
+        internal Quaternion smoothOffset;
         
         // Get All Camera Component
         private CameraSliding cameraSliding;
         private HandSwing handSwing;
         
         internal float timer = 0;
-        [Header("-----Cam Effect-----")]
-        [ShowIf("doCameraFeel")][SerializeField] internal float positionOffSetSmooth;
-        [ShowIf("doCameraFeel")][SerializeField] internal float rotationOffSetSmooth;
-        
-        [Header("---Bobbing---")]
-        [ShowIf("doCameraFeel")] [Range(0, 20)] [SerializeField] internal float walkingBobbingSpeed;
-        [ShowIf("doCameraFeel")] [Range(-.01f, .01f)] [SerializeField] internal float cameraBobbingAmount;
-        [ShowIf("doCameraFeel")] [Range(-.03f, .03f)] [SerializeField] internal float weaponBobbingAmount;
-        
-        internal Vector3 defaultPos;
-        internal Quaternion smoothOffset;
-        
-        [Header("---Idle---")]
-        [ShowIf("doCameraFeel")][SerializeField] internal float timeToGetToTheNewFOV;
-        [ShowIf("doCameraFeel")][SerializeField] internal float fovIdle;
-
-        [Header("---Moving---")]
-        [ShowIf("doCameraFeel")][SerializeField] internal float fovMoving;
-        [ShowIf("doCameraFeel")][SerializeField] internal Vector3 rotationOffSet;
-
-        [Header("---Sliding---")] 
-        [ShowIf("doCameraFeel")][SerializeField] internal Transform slindingPos;
-        [ShowIf("doCameraFeel")][SerializeField] internal float slindingRotMultiplier = 3f;
-        
-        [Header("---Weapon Sway Settings---")]
-        [ShowIf("doCameraFeel")][SerializeField] internal float weaponSwaySmooth;
-        [ShowIf("doCameraFeel")][SerializeField] internal float weaponSwaymultiplier;
         
         private void Awake()
         {
@@ -60,7 +44,7 @@ namespace CameraBehavior
             camera = GetComponentInChildren<Camera>();
             cameraTransform = camera.GetComponent<Transform>();
             
-            currentFov = fovIdle;
+            currentFov = so_Camera.fovIdle;
             camera.fieldOfView = currentFov;
         }
         
@@ -69,7 +53,7 @@ namespace CameraBehavior
         {
             defaultPos = playerTransform.position;
             transitionParent.position = Vector3.Lerp(transitionParent.position, playerTransform.position, 
-                Time.deltaTime * positionOffSetSmooth); // PlayerController.Instance.playerScriptable.smoothCameraPos
+                Time.deltaTime * so_Camera.positionOffSetSmooth); // PlayerController.Instance.playerScriptable.smoothCameraPos
             
             if (!doCameraFeel)
             {
@@ -82,7 +66,7 @@ namespace CameraBehavior
                 case PlayerController.PlayerActionStates.Idle:
                     Idle();
                     IdleFov();
-                    cameraTransform.position = Vector3.Lerp(cameraTransform.position, defaultPos, Time.deltaTime * positionOffSetSmooth);
+                    cameraTransform.position = Vector3.Lerp(cameraTransform.position, defaultPos, Time.deltaTime * so_Camera.positionOffSetSmooth);
                     break;
                 
                 case PlayerController.PlayerActionStates.Moving:
@@ -108,15 +92,15 @@ namespace CameraBehavior
         private void Idle()
         {
             timer = 0;
-            transitionParent.rotation = Quaternion.Slerp(transitionParent.rotation, playerTransform.rotation, Time.deltaTime * rotationOffSetSmooth);
+            transitionParent.rotation = Quaternion.Slerp(transitionParent.rotation, playerTransform.rotation, Time.deltaTime * so_Camera.rotationOffSetSmooth);
             smoothOffset = Quaternion.identity;
         }
 
         private void IdleFov()
         {
-            if (Math.Abs(currentFov - fovIdle) > 0.1f)
+            if (Math.Abs(currentFov - so_Camera.fovIdle) > 0.1f)
             {
-                currentFov = Mathf.Lerp(currentFov, fovIdle, Time.deltaTime * timeToGetToTheNewFOV);
+                currentFov = Mathf.Lerp(currentFov, so_Camera.fovIdle, Time.deltaTime * so_Camera.timeToGetToTheNewFOV);
             }
             camera.fieldOfView = currentFov;
         }
@@ -128,15 +112,15 @@ namespace CameraBehavior
 
         private void HeadBobing()
         {
-            timer += Time.deltaTime * walkingBobbingSpeed;
+            timer += Time.deltaTime * so_Camera.walkingBobbingSpeed;
             
             // Camera HeadBob
-            Vector3 cameraBobbingPos = new Vector3(cameraTransform.transform.position.x, Mathf.Sin(timer) * cameraBobbingAmount + cameraTransform.position.y,
+            Vector3 cameraBobbingPos = new Vector3(cameraTransform.transform.position.x, Mathf.Sin(timer) * so_Camera.cameraBobbingAmount + cameraTransform.position.y,
                 cameraTransform.position.z);
             cameraTransform.position = Vector3.Lerp(cameraTransform.position, cameraBobbingPos, timer);
             
             // Weapon HeadBob
-            Vector3 weaponBobbingPos = new Vector3(weaponTransform.position.x, Mathf.Sin(timer) * weaponBobbingAmount + weaponTransform.position.y,
+            Vector3 weaponBobbingPos = new Vector3(weaponTransform.position.x, Mathf.Sin(timer) * so_Camera.weaponBobbingAmount + weaponTransform.position.y,
                 weaponTransform.position.z);
             weaponTransform.position = Vector3.Lerp(weaponTransform.transform.position, weaponBobbingPos, timer);
             
@@ -145,21 +129,21 @@ namespace CameraBehavior
             float xValue = 0;
             if (PlayerController.Instance.direction.z <= 0) // Is player going backward
             {
-                xValue = -PlayerController.Instance.direction.z * rotationOffSet.x;
+                xValue = -PlayerController.Instance.direction.z * so_Camera.rotationOffSet.x;
             }
             
-            smoothOffset = Quaternion.Slerp(smoothOffset, Quaternion.Euler(xValue, rotationOffSet.y, -PlayerController.Instance.direction.x * rotationOffSet.z),
+            smoothOffset = Quaternion.Slerp(smoothOffset, Quaternion.Euler(xValue, so_Camera.rotationOffSet.y, -PlayerController.Instance.direction.x * so_Camera.rotationOffSet.z),
                 Time.deltaTime * PlayerController.Instance.playerScriptable.smoothCameraRot);
             
             transitionParent.rotation = Quaternion.Slerp(transitionParent.rotation, playerTransform.rotation * smoothOffset, 
-                Time.deltaTime * rotationOffSetSmooth); // PlayerController.Instance.playerScriptable.smoothCameraRot
+                Time.deltaTime * so_Camera.rotationOffSetSmooth); // PlayerController.Instance.playerScriptable.smoothCameraRot
         }
         
         private void MovingFov()
         {
-            if (Math.Abs(currentFov - fovMoving) > 0.1f)
+            if (Math.Abs(currentFov - so_Camera.fovMoving) > 0.1f)
             {
-                currentFov = Mathf.Lerp(currentFov, fovMoving, Time.deltaTime * timeToGetToTheNewFOV);
+                currentFov = Mathf.Lerp(currentFov, so_Camera.fovMoving, Time.deltaTime * so_Camera.timeToGetToTheNewFOV);
             }
             camera.fieldOfView = currentFov;
         }
