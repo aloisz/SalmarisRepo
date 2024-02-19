@@ -77,9 +77,14 @@ namespace Player
         private void Update()
         {
             PlayerInputStateMachine();
+            
             DetectGround();
             DetectWalls();
+            
             Move();
+            WallSlide();
+            
+            ManageGravity();
         }
 
         #region Movements
@@ -103,26 +108,16 @@ namespace Player
         /// </summary>
         private void Move()
         {
-            //_rb.velocity = Vector3.Lerp(_rb.velocity, _rb.velocity + DirectionFromCamera(direction) * playerScriptable.moveSpeed, playerScriptable.changeDirectionSpeed * Time.deltaTime);
-
             var dir = DirectionFromCamera(direction) * playerScriptable.moveSpeed;
             var targetVelocity = new Vector3(dir.x, _rb.velocity.y, dir.z);
+
+            if (isWallRunning)
+            {
+                dir.x = 0;
+                targetVelocity.x = 0;
+            }
             
             _rb.velocity = Vector3.MoveTowards(_rb.velocity, targetVelocity, Time.deltaTime * playerScriptable.accelerationSpeed);
-            if (!isOnGround)
-            {
-                var v = _rb.velocity;
-                
-                if(!wallOnLeft || !wallOnRight)
-                    v.y -= Time.deltaTime * playerScriptable.gravityMultiplier;
-                
-                v.x = _rb.velocity.x + (DirectionFromCamera(direction).x * playerScriptable.moveAirMultiplier);
-                v.z = _rb.velocity.z + (DirectionFromCamera(direction).z * playerScriptable.moveAirMultiplier);
-                
-                _rb.velocity = v;
-
-                _rb.useGravity = false;
-            }
         }
         
         #endregion
@@ -171,10 +166,26 @@ namespace Player
             wallOnLeft = Physics.CheckBox(transform.position - new Vector3(offset.x, -offset.y, offset.z),
                 playerScriptable.wallDetectionWidthAndHeight / 2,
                 transform.rotation, groundLayer);
-            
+
             wallOnRight = Physics.CheckBox(transform.position + new Vector3(offset.x, offset.y, offset.z),
                 playerScriptable.wallDetectionWidthAndHeight / 2,
                 transform.rotation, groundLayer);
+        }
+
+        void ManageGravity()
+        {
+            if (!isOnGround && !isWallRunning)
+            {
+                var v = _rb.velocity;
+                
+                if(!wallOnLeft || !wallOnRight)
+                    v.y -= Time.deltaTime * playerScriptable.gravityMultiplier;
+                
+                v.x = _rb.velocity.x + (DirectionFromCamera(direction).x * playerScriptable.moveAirMultiplier);
+                v.z = _rb.velocity.z + (DirectionFromCamera(direction).z * playerScriptable.moveAirMultiplier);
+                
+                _rb.velocity = v;
+            }
         }
 
         public void Jump(InputAction.CallbackContext ctx)
@@ -189,22 +200,32 @@ namespace Player
             {
                 isJumping = true;
                 
-                Vector3 forwardUpDiagonalRight = ((transform.up * playerScriptable.impulseWallJumpMultiplier.y) + 
-                                                 (transform.forward * playerScriptable.impulseWallJumpMultiplier.z) + 
-                                                 (transform.right * playerScriptable.impulseWallJumpMultiplier.x));
-                Debug.Log(forwardUpDiagonalRight);
-                _rb.AddForce(playerScriptable.wallJumpForce * forwardUpDiagonalRight, ForceMode.Impulse);
+                _rb.AddForce(playerScriptable.wallJumpForce * transform.right, ForceMode.Impulse);
             }
             
             if (ctx.performed && wallOnRight && isMoving && !isOnGround)
             {
                 isJumping = true;
                 
-                Vector3 forwardUpDiagonalLeft = ((transform.up * playerScriptable.impulseWallJumpMultiplier.y) + 
-                                                 (transform.forward * playerScriptable.impulseWallJumpMultiplier.z) + 
-                                                 (-transform.right * playerScriptable.impulseWallJumpMultiplier.x));
-                
-                _rb.AddForce(playerScriptable.wallJumpForce * forwardUpDiagonalLeft, ForceMode.Impulse);
+                _rb.AddForce(playerScriptable.wallJumpForce * -transform.right, ForceMode.Impulse);
+            }
+        }
+
+        private void WallSlide()
+        {
+            if (!isOnGround && (wallOnLeft || wallOnRight))
+            {
+                isWallRunning = true;
+                _rb.useGravity = false;
+
+                var v = _rb.velocity;
+                v.y = 0;
+                _rb.velocity = v;
+            }
+            else
+            {
+                isWallRunning = false;
+                _rb.useGravity = true;
             }
         }
 
