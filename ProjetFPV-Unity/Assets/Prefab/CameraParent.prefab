@@ -1,5 +1,38 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &722949570626428620
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3575910731196181252}
+  m_Layer: 0
+  m_Name: TransitionParent
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3575910731196181252
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 722949570626428620}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 612950091941730897}
+  - {fileID: 3545947993598188687}
+  m_Father: {fileID: 8561856535418673292}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &3375880369610840122
 GameObject:
   m_ObjectHideFlags: 0
@@ -70,12 +103,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6828706350314435878}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0.765, y: -0.74, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 8561856535418673292}
+  m_Father: {fileID: 3575910731196181252}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &8108733499738347442
 GameObject:
@@ -108,8 +141,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 612950091941730897}
-  - {fileID: 3545947993598188687}
+  - {fileID: 3575910731196181252}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &3698928635149738337
@@ -124,9 +156,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b44c52357e48b6343bad509a70f15815, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  transitionParent: {fileID: 3575910731196181252}
   playerTransform: {fileID: 0}
   weaponTransform: {fileID: 7597889783967174112}
   doCameraFeel: 1
+  positionOffSetSmooth: 17
+  rotationOffSetSmooth: 25
   walkingBobbingSpeed: 19
   cameraBobbingAmount: 0.008
   weaponBobbingAmount: 0.0005
@@ -134,7 +169,6 @@ MonoBehaviour:
   fovIdle: 60
   fovMoving: 90
   rotationOffSet: {x: -0.5, y: 0, z: -1.25}
-  rotationOffSetSmooth: 25
   slindingPos: {fileID: 3545947993598188687}
   slindingRotMultiplier: 8
   weaponSwaySmooth: 20
@@ -184,7 +218,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 7597889783967174112}
-  m_Father: {fileID: 8561856535418673292}
+  m_Father: {fileID: 3575910731196181252}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!20 &1219454692140418237
 Camera:

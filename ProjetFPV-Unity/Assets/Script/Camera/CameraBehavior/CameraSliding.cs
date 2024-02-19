@@ -17,8 +17,8 @@ namespace CameraBehavior
         public void Sliding()
         {
             // Position
-            transform.position = Vector3.Lerp(transform.position, cameraManager.slindingPos.position, 
-                Time.deltaTime * cameraManager.rotationOffSetSmooth);
+            cameraManager.transitionParent.position = Vector3.Lerp(cameraManager.transitionParent.position, cameraManager.slindingPos.position, 
+                Time.deltaTime * cameraManager.positionOffSetSmooth);
             
             
             //Handles rotation
@@ -38,7 +38,7 @@ namespace CameraBehavior
             }
             
             
-            transform.rotation = Quaternion.Slerp(transform.rotation, cameraManager.playerTransform.rotation * cameraManager.smoothOffset, 
+            cameraManager.transitionParent.rotation = Quaternion.Slerp(cameraManager.transitionParent.rotation, cameraManager.playerTransform.rotation * cameraManager.smoothOffset, 
                 Time.deltaTime * cameraManager.rotationOffSetSmooth); // PlayerController.Instance.playerScriptable.smoothCameraRot
         }
     }

@@ -13,7 +13,7 @@ namespace CameraBehavior
 {
     public class CameraManager : MonoBehaviour
     {
-        
+        [SerializeField] internal Transform transitionParent;
         [SerializeField] internal Transform playerTransform;
         internal Camera camera;
         internal Transform cameraTransform;
@@ -27,6 +27,9 @@ namespace CameraBehavior
         
         internal float timer = 0;
         [Header("-----Cam Effect-----")]
+        [ShowIf("doCameraFeel")][SerializeField] internal float positionOffSetSmooth;
+        [ShowIf("doCameraFeel")][SerializeField] internal float rotationOffSetSmooth;
+        
         [Header("---Bobbing---")]
         [ShowIf("doCameraFeel")] [Range(0, 20)] [SerializeField] internal float walkingBobbingSpeed;
         [ShowIf("doCameraFeel")] [Range(-.01f, .01f)] [SerializeField] internal float cameraBobbingAmount;
@@ -42,7 +45,6 @@ namespace CameraBehavior
         [Header("---Moving---")]
         [ShowIf("doCameraFeel")][SerializeField] internal float fovMoving;
         [ShowIf("doCameraFeel")][SerializeField] internal Vector3 rotationOffSet;
-        [ShowIf("doCameraFeel")][SerializeField] internal float rotationOffSetSmooth;
 
         [Header("---Sliding---")] 
         [ShowIf("doCameraFeel")][SerializeField] internal Transform slindingPos;
@@ -57,8 +59,7 @@ namespace CameraBehavior
             cameraSliding = GetComponent<CameraSliding>();
             camera = GetComponentInChildren<Camera>();
             cameraTransform = camera.GetComponent<Transform>();
-            defaultPos = playerTransform.position;
-
+            
             currentFov = fovIdle;
             camera.fieldOfView = currentFov;
         }
@@ -73,9 +74,10 @@ namespace CameraBehavior
 
         private void LateUpdate()
         {
-            transform.position = Vector3.Lerp(transform.position, playerTransform.position, 
-                Time.deltaTime * PlayerController.Instance.playerScriptable.smoothCameraPos);
-
+            defaultPos = playerTransform.position;
+            transitionParent.position = Vector3.Lerp(transitionParent.position, playerTransform.position, 
+                Time.deltaTime * positionOffSetSmooth); // PlayerController.Instance.playerScriptable.smoothCameraPos
+            
             if (!doCameraFeel)
             {
                 Idle();
@@ -88,6 +90,7 @@ namespace CameraBehavior
                 case PlayerController.PlayerActionStates.Idle:
                     Idle();
                     IdleFov();
+                    cameraTransform.position = Vector3.Lerp(cameraTransform.position, defaultPos, Time.deltaTime * positionOffSetSmooth);
                     break;
                 
                 case PlayerController.PlayerActionStates.Moving:
@@ -113,7 +116,7 @@ namespace CameraBehavior
         private void Idle()
         {
             timer = 0;
-            transform.rotation = Quaternion.Slerp(transform.rotation, playerTransform.rotation, Time.deltaTime * rotationOffSetSmooth);
+            transitionParent.rotation = Quaternion.Slerp(transitionParent.rotation, playerTransform.rotation, Time.deltaTime * rotationOffSetSmooth);
             smoothOffset = Quaternion.identity;
         }
 
@@ -156,7 +159,7 @@ namespace CameraBehavior
             smoothOffset = Quaternion.Slerp(smoothOffset, Quaternion.Euler(xValue, rotationOffSet.y, -PlayerController.Instance.direction.x * rotationOffSet.z),
                 Time.deltaTime * PlayerController.Instance.playerScriptable.smoothCameraRot);
             
-            transform.rotation = Quaternion.Slerp(transform.rotation, playerTransform.rotation * smoothOffset, 
+            transitionParent.rotation = Quaternion.Slerp(transitionParent.rotation, playerTransform.rotation * smoothOffset, 
                 Time.deltaTime * rotationOffSetSmooth); // PlayerController.Instance.playerScriptable.smoothCameraRot
         }
         
