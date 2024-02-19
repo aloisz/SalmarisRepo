@@ -63,14 +63,7 @@ namespace CameraBehavior
             currentFov = fovIdle;
             camera.fieldOfView = currentFov;
         }
-
-        private void ChangeState()
-        {
-            if (Input.GetKey(KeyCode.LeftShift))
-            {
-                PlayerController.Instance.currentActionState = PlayerController.PlayerActionStates.Sliding;
-            }
-        }
+        
 
         private void LateUpdate()
         {
@@ -84,7 +77,6 @@ namespace CameraBehavior
                 return;
             }
             
-            ChangeState();
             switch (PlayerController.Instance.currentActionState)
             {
                 case PlayerController.PlayerActionStates.Idle:
