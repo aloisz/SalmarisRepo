@@ -276,6 +276,25 @@ namespace Player
             Gizmos.DrawRay(transform.position, -transform.right * playerScriptable.wallDetectionLenght);*/
             #endregion
         }
+
+        private void OnGUI()
+        {
+            // Set up GUI style for the text
+            GUIStyle style = new GUIStyle();
+            style.fontSize = 24;
+            style.normal.textColor = Color.white;
+
+            // Set the position and size of the text
+            Rect rect = new Rect(10, 10, 200, 50);
+            Rect rect1 = new Rect(10, 60, 200, 50);
+            Rect rect2 = new Rect(10, 110, 200, 50);
+
+            // Display the text on the screen
+            GUI.Label(rect, $"Direction : {direction}", style);
+            GUI.Label(rect1, $"Direction No reset : {directionNotReset}", style);
+            GUI.Label(rect2, $"Rigidbody Velocity : {_rb.velocity}", style);
+            GUI.Label(rect2, $"Rigidbody Velocity : {_rb.velocity}", style);
+        }
     }
 }
 
