@@ -25,12 +25,15 @@ namespace Player
         
         //---------------------------------------
 
-        [Header("Values")] 
+        [Header("Values")]
+        public float intertiaMultiplier = 1f;
+        
         [ShowNonSerializedField] internal Vector3 direction;
         [ShowNonSerializedField] internal Vector3 directionNotReset;
         
-        [ShowNonSerializedField] private float _velocity;
+        private float _velocity;
         private float _rotationX;
+        private float dashTimer;
         
         private const float _gravity = -9.81f;
         
@@ -39,7 +42,9 @@ namespace Player
         [Header("States")]
         [ShowNonSerializedField] internal PlayerActionStates currentActionState;
         
+        [ShowNonSerializedField] private bool canApplyGravity;
         [ShowNonSerializedField] private bool isOnGround;
+        [ShowNonSerializedField] private bool wasOnGroundLastFrame;
         [ShowNonSerializedField] private bool isMoving;
         [ShowNonSerializedField] private bool isSliding;
         [ShowNonSerializedField] private bool isJumping;
@@ -77,38 +82,31 @@ namespace Player
         private void Update()
         {
             PlayerInputStateMachine();
-            
             DetectGround();
-            //DetectWalls();
             
+            dashTimer.DecreaseTimerIfPositive();
+            if (dashTimer <= 0f)
+            {
+                canApplyGravity = true;
+            }
+        }
+        
+        private void FixedUpdate()
+        {
             Move();
-            //WallSlide();
-            
             ManageGravity();
         }
+        
+        //-------------------- Movements ----------------------
 
         #region Movements
         
-        /// <summary>
-        /// get the current inputs to set the moving direction. Added in the Plyer Input Component.
-        /// </summary>
-        /// <param name="ctx">Automatic parameter to get the current input values.</param>
-        public void GetMoveInputs(InputAction.CallbackContext ctx)
-        {
-            //Set the current input values to the direction.
-            var dir = ctx.ReadValue<Vector2>();
-            direction = new Vector3(dir.x, 0, dir.y).normalized;
-            
-            //If the direction isn't null, set the direction not reset to direction.
-            if (direction.magnitude > playerScriptable.moveThreshold) directionNotReset = direction;
-        }
-
         /// <summary>
         /// Move the player in the current direction value, based on scriptable parameters.
         /// </summary>
         private void Move()
         {
-            var dir = DirectionFromCamera(direction) * playerScriptable.moveSpeed;
+            var dir = DirectionFromCamera(direction).normalized * playerScriptable.moveSpeed;
             var targetVelocity = new Vector3(dir.x, _rb.velocity.y, dir.z);
 
             #region WallRide
@@ -119,24 +117,15 @@ namespace Player
             }*/
             #endregion
             
-            _rb.velocity = Vector3.MoveTowards(_rb.velocity, targetVelocity, Time.deltaTime * playerScriptable.accelerationSpeed);
-        }
-        
-        #endregion
-        
-        #region Camera
-        
-        public void RotateCameraFromInput(InputAction.CallbackContext ctx)
-        {
-            if (canMove)
-            {
-                _rotationX += -ctx.ReadValue<Vector2>().y * playerScriptable.lookSpeed;
-                _rotationX = Mathf.Clamp(_rotationX, -playerScriptable.lookLimitX, playerScriptable.lookLimitX);
-                cameraAttachPosition.localRotation = Quaternion.Euler(_rotationX, 0, 0);
-                transform.rotation *= Quaternion.Euler(0, ctx.ReadValue<Vector2>().x * playerScriptable.lookSpeed, 0);
-            }
+            _rb.velocity = Vector3.MoveTowards(_rb.velocity, targetVelocity * intertiaMultiplier, 
+                Time.deltaTime * playerScriptable.accelerationSpeed);
         }
 
+        #endregion
+        
+        //-------------------- Camera ----------------------
+        
+        #region Camera
         public Vector3 DirectionFromCamera(Vector3 dir)
         {
             Vector3 camForward = cameraAttachPosition.forward;
@@ -152,7 +141,31 @@ namespace Player
         }
         
         #endregion
-
+        
+        //-------------------- Physic ----------------------
+        
+        #region Physic
+        void ManageGravity()
+        {
+            if (canApplyGravity)
+            {
+                var v = _rb.velocity;
+                
+                //if(!wallOnLeft || !wallOnRight)
+                v.y -= Time.deltaTime * playerScriptable.gravityMultiplier;
+                
+                v.x = _rb.velocity.x + (DirectionFromCamera(direction).x * playerScriptable.moveAirMultiplier);
+                v.z = _rb.velocity.z + (DirectionFromCamera(direction).z * playerScriptable.moveAirMultiplier);
+                
+                _rb.velocity = v;
+            }
+        }
+        
+        #endregion
+        
+        //-------------------- Detections ----------------------
+        
+        #region Detections
         void DetectGround()
         {
             isOnGround =
@@ -160,10 +173,15 @@ namespace Player
                     playerScriptable.groundDetectionWidthHeightDepth,
                     Quaternion.identity, groundLayer);
 
-            if (isOnGround) isJumping = false;
+            if (isOnGround && !wasOnGroundLastFrame)
+            {
+                OnLand();
+            }
+            
+            wasOnGroundLastFrame = isOnGround;
         }
 
-        void DetectWalls()
+        private void DetectWalls()
         {
             var offset = playerScriptable.wallDetectionOffset;
             
@@ -179,22 +197,24 @@ namespace Player
             wallOnRight = Physics.Raycast(transform.position, transform.right, playerScriptable.wallDetectionLenght, groundLayer);
         }
 
-        void ManageGravity()
+        private void OnLand()
         {
-            if (!isOnGround && !isWallRunning)
-            {
-                var v = _rb.velocity;
-                
-                //if(!wallOnLeft || !wallOnRight)
-                v.y -= Time.deltaTime * playerScriptable.gravityMultiplier;
-                
-                v.x = _rb.velocity.x + (DirectionFromCamera(direction).x * playerScriptable.moveAirMultiplier);
-                v.z = _rb.velocity.z + (DirectionFromCamera(direction).z * playerScriptable.moveAirMultiplier);
-                
-                _rb.velocity = v;
-            }
+            isJumping = false;
+            canApplyGravity = false;
+            
+            Debug.Log("land");
         }
-
+        
+        #endregion
+        
+        //-------------------- Inputs ----------------------
+        
+        #region Inputs
+        
+        /// <summary>
+        /// Make the player jump when pressing an input
+        /// </summary>
+        /// <param name="ctx">Automatic parameter to get the current input values.</param>
         public void Jump(InputAction.CallbackContext ctx)
         {
             if (ctx.performed && isOnGround)
@@ -207,42 +227,85 @@ namespace Player
             /*if (ctx.performed && wallOnLeft && isMoving && !isOnGround)
             {
                 isJumping = true;
-                
+
                 _rb.AddForce(playerScriptable.wallJumpForce * transform.right, ForceMode.Impulse);
             }
-            
+
             if (ctx.performed && wallOnRight && isMoving && !isOnGround)
             {
                 isJumping = true;
-                
+
                 _rb.AddForce(playerScriptable.wallJumpForce * -transform.right, ForceMode.Impulse);
             }*/
             #endregion
         }
 
+        /// <summary>
+        /// Make the player slide when pressing an input. 
+        /// </summary>
+        /// <param name="ctx">Automatic parameter to get the current input values.</param>
         public void Slide(InputAction.CallbackContext ctx)
         {
             isSliding = ctx.performed && isMoving && isOnGround;
         }
-
-        private void WallSlide()
+        
+        /// <summary>
+        /// Get the current inputs to set the moving direction. Added in the Plyer Input Component.
+        /// </summary>
+        /// <param name="ctx">Automatic parameter to get the current input values.</param>
+        public void GetMoveInputs(InputAction.CallbackContext ctx)
         {
-            if (!isOnGround && (wallOnLeft || wallOnRight))
+            //Set the current input values to the direction.
+            var dir = ctx.ReadValue<Vector2>();
+            direction = new Vector3(dir.x, 0, dir.y).normalized;
+            
+            //If the direction isn't null, set the direction not reset to direction.
+            if (direction.magnitude > playerScriptable.moveThreshold) directionNotReset = direction;
+        }
+        
+        /// <summary>
+        /// Make the camera rotate from where the player look.
+        /// </summary>
+        /// <param name="ctx">Automatic parameter to get the current input values.</param>
+        public void RotateCameraFromInput(InputAction.CallbackContext ctx)
+        {
+            if (canMove)
             {
-                isWallRunning = true;
-                _rb.useGravity = false;
-
-                var v = _rb.velocity;
-                v.y = 0;
-                _rb.velocity = v;
-            }
-            else
-            {
-                isWallRunning = false;
-                _rb.useGravity = true;
+                _rotationX += -ctx.ReadValue<Vector2>().y * playerScriptable.lookSpeed;
+                _rotationX = Mathf.Clamp(_rotationX, -playerScriptable.lookLimitX, playerScriptable.lookLimitX);
+                cameraAttachPosition.localRotation = Quaternion.Euler(_rotationX, 0, 0);
+                transform.rotation *= Quaternion.Euler(0, ctx.ReadValue<Vector2>().x * playerScriptable.lookSpeed, 0);
             }
         }
 
+        /// <summary>
+        /// Make the player dash in the current moving direction. No diagonales.
+        /// </summary>
+        /// <param name="ctx">Automatic parameter to get the current input values.</param>
+        public void Dash(InputAction.CallbackContext ctx)
+        {
+            if (ctx.performed && isMoving)
+            {
+                var dashDirectionConvert = Helper.ConvertTo4Dir(new Vector2(direction.x, direction.z));
+                var dirFromCam = new Vector3(dashDirectionConvert.x, 0, dashDirectionConvert.y);
+                var dashDirection = DirectionFromCamera(dirFromCam);
+                
+                _rb.AddForce(dashDirection * playerScriptable.dashForce, ForceMode.Impulse);
+
+                canApplyGravity = false;
+                dashTimer = playerScriptable.dashDuration;
+                
+                var v = _rb.velocity;
+                v.y = 0f;
+                _rb.velocity = v;
+            }
+        }
+        
+        #endregion
+        
+        //-------------------- State Machine ----------------------
+
+        #region StateMachine
         void PlayerInputStateMachine()
         {
             isMoving = direction.magnitude > playerScriptable.moveThreshold;
@@ -256,7 +319,12 @@ namespace Player
 
             else currentActionState = PlayerActionStates.Idle;
         }
+        
+        #endregion
+        
+        //-------------------- Debug ----------------------
 
+        #region Debug
         private void OnDrawGizmos()
         {
             Gizmos.color = Color.cyan;
@@ -295,6 +363,32 @@ namespace Player
             GUI.Label(rect2, $"Rigidbody Velocity : {_rb.velocity}", style);
             GUI.Label(rect2, $"Rigidbody Velocity : {_rb.velocity}", style);
         }
+        
+        #endregion
+        
+        //-------------------- Unused ----------------------
+        
+        #region Unused
+        
+        private void WallSlide()
+        {
+            if (!isOnGround && (wallOnLeft || wallOnRight))
+            {
+                isWallRunning = true;
+                _rb.useGravity = false;
+
+                var v = _rb.velocity;
+                v.y = 0;
+                _rb.velocity = v;
+            }
+            else
+            {
+                isWallRunning = false;
+                _rb.useGravity = true;
+            }
+        }
+        
+        #endregion
     }
 }
 

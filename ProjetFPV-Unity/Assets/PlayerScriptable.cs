@@ -15,6 +15,8 @@ namespace Player
         public float wallJumpForce = 50f;
         public float accelerationSpeed = 20f;
         public float moveAirMultiplier = 0.1f;
+        public float dashForce = 5f;
+        public float dashDuration = 0.5f;
 
         [Header("Physics")] public float friction = 1;
         public float gravityMultiplier = 1;
