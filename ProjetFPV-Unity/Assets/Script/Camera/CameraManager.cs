@@ -11,7 +11,7 @@ using Player;
 
 namespace CameraBehavior
 {
-    public class CameraManager : MonoBehaviour
+    public class CameraManager : GenericSingletonClass<CameraManager>
     {
         [Header("---Scriptable---")] 
         public SO_Camera so_Camera;

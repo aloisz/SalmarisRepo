@@ -27,7 +27,6 @@ namespace CameraBehavior
         [field: SerializeField] internal Vector3 rotationOffSet { get; private set; }
 
         [field: Header("---Sliding---")] 
-        [field: SerializeField] internal Transform slindingPos { get; private set; }
         [field: SerializeField] internal float slindingRotMultiplier { get; private set; }
         
         [field: Header("---Weapon Sway Settings---")]
