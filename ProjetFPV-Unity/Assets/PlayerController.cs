@@ -79,10 +79,10 @@ namespace Player
             PlayerInputStateMachine();
             
             DetectGround();
-            DetectWalls();
+            //DetectWalls();
             
             Move();
-            WallSlide();
+            //WallSlide();
             
             ManageGravity();
         }
@@ -111,11 +111,13 @@ namespace Player
             var dir = DirectionFromCamera(direction) * playerScriptable.moveSpeed;
             var targetVelocity = new Vector3(dir.x, _rb.velocity.y, dir.z);
 
-            if (isWallRunning)
+            #region WallRide
+            /*if (isWallRunning)
             {
                 dir.x = 0;
                 targetVelocity.x = 0;
-            }
+            }*/
+            #endregion
             
             _rb.velocity = Vector3.MoveTowards(_rb.velocity, targetVelocity, Time.deltaTime * playerScriptable.accelerationSpeed);
         }
@@ -157,19 +159,24 @@ namespace Player
                 Physics.CheckBox(transform.position,
                     playerScriptable.groundDetectionWidthHeightDepth,
                     Quaternion.identity, groundLayer);
+
+            if (isOnGround) isJumping = false;
         }
 
         void DetectWalls()
         {
             var offset = playerScriptable.wallDetectionOffset;
             
-            wallOnLeft = Physics.CheckBox(transform.position - new Vector3(offset.x, -offset.y, offset.z),
+            /*wallOnLeft = Physics.CheckBox(transform.position - new Vector3(offset.x, -offset.y, offset.z),
                 playerScriptable.wallDetectionWidthAndHeight / 2,
                 transform.rotation, groundLayer);
 
             wallOnRight = Physics.CheckBox(transform.position + new Vector3(offset.x, offset.y, offset.z),
                 playerScriptable.wallDetectionWidthAndHeight / 2,
-                transform.rotation, groundLayer);
+                transform.rotation, groundLayer);*/
+
+            wallOnLeft = Physics.Raycast(transform.position, -transform.right, playerScriptable.wallDetectionLenght, groundLayer);
+            wallOnRight = Physics.Raycast(transform.position, transform.right, playerScriptable.wallDetectionLenght, groundLayer);
         }
 
         void ManageGravity()
@@ -178,8 +185,8 @@ namespace Player
             {
                 var v = _rb.velocity;
                 
-                if(!wallOnLeft || !wallOnRight)
-                    v.y -= Time.deltaTime * playerScriptable.gravityMultiplier;
+                //if(!wallOnLeft || !wallOnRight)
+                v.y -= Time.deltaTime * playerScriptable.gravityMultiplier;
                 
                 v.x = _rb.velocity.x + (DirectionFromCamera(direction).x * playerScriptable.moveAirMultiplier);
                 v.z = _rb.velocity.z + (DirectionFromCamera(direction).z * playerScriptable.moveAirMultiplier);
@@ -196,7 +203,8 @@ namespace Player
                 _rb.AddForce(playerScriptable.jumpForce * Vector3.up, ForceMode.Impulse);
             }
             
-            if (ctx.performed && wallOnLeft && isMoving && !isOnGround)
+            #region WallRide
+            /*if (ctx.performed && wallOnLeft && isMoving && !isOnGround)
             {
                 isJumping = true;
                 
@@ -208,7 +216,13 @@ namespace Player
                 isJumping = true;
                 
                 _rb.AddForce(playerScriptable.wallJumpForce * -transform.right, ForceMode.Impulse);
-            }
+            }*/
+            #endregion
+        }
+
+        public void Slide(InputAction.CallbackContext ctx)
+        {
+            isSliding = ctx.performed && isMoving && isOnGround;
         }
 
         private void WallSlide()
@@ -232,17 +246,13 @@ namespace Player
         void PlayerInputStateMachine()
         {
             isMoving = direction.magnitude > playerScriptable.moveThreshold;
-            
-            isSliding = false; //TODO
-            isJumping = false; //TODO
-            isWallRunning = false; //TODO
 
             if (isMoving && !isSliding) currentActionState = PlayerActionStates.Moving;
             
             else if(isMoving && isSliding) currentActionState = PlayerActionStates.Sliding;
             
             else if(isJumping) currentActionState = PlayerActionStates.Jumping;
-            else if (isWallRunning) currentActionState = PlayerActionStates.WallRunning;
+            //else if (isWallRunning) currentActionState = PlayerActionStates.WallRunning;
 
             else currentActionState = PlayerActionStates.Idle;
         }
@@ -252,15 +262,19 @@ namespace Player
             Gizmos.color = Color.cyan;
             Gizmos.DrawWireCube(transform.position, playerScriptable.groundDetectionWidthHeightDepth);
 
-            var offset = playerScriptable.wallDetectionOffset;
+            #region WallRide
+            /*var offset = playerScriptable.wallDetectionOffset;
             var position1 = transform.position - new Vector3(offset.x, -offset.y, offset.z);
             var position2 = transform.position + new Vector3(offset.x, offset.y, offset.z);
             
             Gizmos.color = Color.green;
-            Gizmos.DrawWireCube(position1, playerScriptable.wallDetectionWidthAndHeight);
+            //Gizmos.DrawWireCube(position1, playerScriptable.wallDetectionWidthAndHeight);
+            Gizmos.DrawRay(transform.position, transform.right * playerScriptable.wallDetectionLenght);
             
             Gizmos.color = Color.magenta;
-            Gizmos.DrawWireCube(position2, playerScriptable.wallDetectionWidthAndHeight);
+            //Gizmos.DrawWireCube(position2, playerScriptable.wallDetectionWidthAndHeight);
+            Gizmos.DrawRay(transform.position, -transform.right * playerScriptable.wallDetectionLenght);*/
+            #endregion
         }
     }
 }

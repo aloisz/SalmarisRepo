@@ -22,7 +22,7 @@ namespace Player
         [Header("Detection")] public Vector3 groundDetectionWidthHeightDepth = Vector3.one;
         public Vector3 wallDetectionWidthAndHeight = Vector3.one;
         public Vector3 wallDetectionOffset = Vector3.zero;
-        public Vector3 impulseWallJumpMultiplier = Vector3.one;
+        public float wallDetectionLenght = 2f;
 
         [Header("View")] 
         public float lookSpeed = 1f;
