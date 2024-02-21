@@ -81,9 +81,6 @@ namespace CameraBehavior
                 
                 case PlayerController.PlayerActionStates.Jumping:
                     break;
-                
-                case PlayerController.PlayerActionStates.WallRunning:
-                    break;
             }
         }
 

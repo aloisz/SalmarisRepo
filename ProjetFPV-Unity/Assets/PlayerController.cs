@@ -48,9 +48,6 @@ namespace Player
         [ShowNonSerializedField] private bool isMoving;
         [ShowNonSerializedField] private bool isSliding;
         [ShowNonSerializedField] private bool isJumping;
-        [ShowNonSerializedField] private bool isWallRunning;
-        [ShowNonSerializedField] private bool wallOnLeft;
-        [ShowNonSerializedField] private bool wallOnRight;
         [ShowNonSerializedField] private bool canJump;
         
         //---------------------------------------
@@ -64,7 +61,6 @@ namespace Player
             Moving,
             Sliding,
             Jumping,
-            WallRunning
         }
         
         //---------------------------------------
@@ -108,14 +104,6 @@ namespace Player
         {
             var dir = DirectionFromCamera(direction).normalized * playerScriptable.moveSpeed;
             var targetVelocity = new Vector3(dir.x, _rb.velocity.y, dir.z);
-
-            #region WallRide
-            /*if (isWallRunning)
-            {
-                dir.x = 0;
-                targetVelocity.x = 0;
-            }*/
-            #endregion
             
             _rb.velocity = Vector3.MoveTowards(_rb.velocity, targetVelocity * intertiaMultiplier, 
                 Time.deltaTime * playerScriptable.accelerationSpeed);
@@ -181,22 +169,6 @@ namespace Player
             wasOnGroundLastFrame = isOnGround;
         }
 
-        private void DetectWalls()
-        {
-            var offset = playerScriptable.wallDetectionOffset;
-            
-            /*wallOnLeft = Physics.CheckBox(transform.position - new Vector3(offset.x, -offset.y, offset.z),
-                playerScriptable.wallDetectionWidthAndHeight / 2,
-                transform.rotation, groundLayer);
-
-            wallOnRight = Physics.CheckBox(transform.position + new Vector3(offset.x, offset.y, offset.z),
-                playerScriptable.wallDetectionWidthAndHeight / 2,
-                transform.rotation, groundLayer);*/
-
-            wallOnLeft = Physics.Raycast(transform.position, -transform.right, playerScriptable.wallDetectionLenght, groundLayer);
-            wallOnRight = Physics.Raycast(transform.position, transform.right, playerScriptable.wallDetectionLenght, groundLayer);
-        }
-
         private void OnLand()
         {
             isJumping = false;
@@ -222,22 +194,6 @@ namespace Player
                 isJumping = true;
                 _rb.AddForce(playerScriptable.jumpForce * Vector3.up, ForceMode.Impulse);
             }
-            
-            #region WallRide
-            /*if (ctx.performed && wallOnLeft && isMoving && !isOnGround)
-            {
-                isJumping = true;
-
-                _rb.AddForce(playerScriptable.wallJumpForce * transform.right, ForceMode.Impulse);
-            }
-
-            if (ctx.performed && wallOnRight && isMoving && !isOnGround)
-            {
-                isJumping = true;
-
-                _rb.AddForce(playerScriptable.wallJumpForce * -transform.right, ForceMode.Impulse);
-            }*/
-            #endregion
         }
 
         /// <summary>
@@ -329,20 +285,6 @@ namespace Player
         {
             Gizmos.color = Color.cyan;
             Gizmos.DrawWireCube(transform.position, playerScriptable.groundDetectionWidthHeightDepth);
-
-            #region WallRide
-            /*var offset = playerScriptable.wallDetectionOffset;
-            var position1 = transform.position - new Vector3(offset.x, -offset.y, offset.z);
-            var position2 = transform.position + new Vector3(offset.x, offset.y, offset.z);
-            
-            Gizmos.color = Color.green;
-            //Gizmos.DrawWireCube(position1, playerScriptable.wallDetectionWidthAndHeight);
-            Gizmos.DrawRay(transform.position, transform.right * playerScriptable.wallDetectionLenght);
-            
-            Gizmos.color = Color.magenta;
-            //Gizmos.DrawWireCube(position2, playerScriptable.wallDetectionWidthAndHeight);
-            Gizmos.DrawRay(transform.position, -transform.right * playerScriptable.wallDetectionLenght);*/
-            #endregion
         }
 
         private void OnGUI()
@@ -369,24 +311,6 @@ namespace Player
         //-------------------- Unused ----------------------
         
         #region Unused
-        
-        private void WallSlide()
-        {
-            if (!isOnGround && (wallOnLeft || wallOnRight))
-            {
-                isWallRunning = true;
-                _rb.useGravity = false;
-
-                var v = _rb.velocity;
-                v.y = 0;
-                _rb.velocity = v;
-            }
-            else
-            {
-                isWallRunning = false;
-                _rb.useGravity = true;
-            }
-        }
         
         #endregion
     }
