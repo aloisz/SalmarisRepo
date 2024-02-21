@@ -80,6 +80,12 @@ namespace CameraBehavior
                     break;
                 
                 case PlayerController.PlayerActionStates.Jumping:
+                    HeadBobing();
+                    if(!PlayerController.Instance.isMoving)
+                        IdleFov();
+                    else 
+                        MovingFov();
+                    
                     break;
             }
         }

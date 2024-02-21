@@ -51,6 +51,7 @@ MonoBehaviour:
   canMove: 1
   playerScriptable: {fileID: 11400000, guid: b64488bd6eec9cb4cba32d12244e0f8a, type: 2}
   cameraAttachPosition: {fileID: 0}
+  intertiaMultiplier: 1
   groundLayer:
     serializedVersion: 2
     m_Bits: 64
@@ -160,7 +161,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 2763259352716298194}
         m_TargetAssemblyTypeName: Player.PlayerController, Assembly-CSharp
-        m_MethodName: Jump
+        m_MethodName: JumpInput
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -192,7 +193,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 2763259352716298194}
         m_TargetAssemblyTypeName: Player.PlayerController, Assembly-CSharp
-        m_MethodName: Dash
+        m_MethodName: DashInput
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

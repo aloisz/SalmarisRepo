@@ -12,20 +12,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0a71b2abe57b72a4da7599e067bad271, type: 3}
   m_Name: PlayerScriptable1
   m_EditorClassIdentifier: 
-  moveSpeed: 18
+  moveSpeed: 2
   moveThreshold: 0.1
-  jumpForce: 20
-  wallJumpForce: 60
-  accelerationSpeed: 200
+  jumpForce: 25
+  accelerationSpeed: 50
   moveAirMultiplier: 0.1
-  dashForce: 50
+  dashForce: 120
   dashDuration: 0.2
   friction: 1
   gravityMultiplier: 75
+  groundDrag: 7
+  airDrag: 3
   groundDetectionWidthHeightDepth: {x: 0.25, y: 0.5, z: 0.25}
-  wallDetectionWidthAndHeight: {x: 1, y: 1, z: 1}
-  wallDetectionOffset: {x: 0.65, y: 1, z: 0}
-  wallDetectionLenght: 2
   lookSpeed: 0.02
   lookLimitX: 70
   smoothCameraPos: 40

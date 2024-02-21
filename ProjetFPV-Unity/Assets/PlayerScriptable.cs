@@ -19,6 +19,8 @@ namespace Player
 
         [Header("Physics")] public float friction = 1;
         public float gravityMultiplier = 1;
+        public float groundDrag = 1;
+        public float airDrag = 1;
 
         [Header("Detection")] public Vector3 groundDetectionWidthHeightDepth = Vector3.one;
 

@@ -30,6 +30,8 @@ namespace Player
         
         [ShowNonSerializedField] internal Vector3 direction;
         [ShowNonSerializedField] internal Vector3 directionNotReset;
+
+        private float moveSpeed;
         
         private float _velocity;
         private float _rotationX;
@@ -42,13 +44,19 @@ namespace Player
         [Header("States")]
         [ShowNonSerializedField] internal PlayerActionStates currentActionState;
         
-        [ShowNonSerializedField] private bool canApplyGravity;
-        [ShowNonSerializedField] private bool isOnGround;
-        [ShowNonSerializedField] private bool wasOnGroundLastFrame;
-        [ShowNonSerializedField] private bool isMoving;
-        [ShowNonSerializedField] private bool isSliding;
-        [ShowNonSerializedField] private bool isJumping;
-        [ShowNonSerializedField] private bool canJump;
+        public bool isOnGround;
+        public bool wasOnGroundLastFrame;
+        public bool isMoving;
+        public bool isSliding;
+        public bool isJumping;
+        public bool isDashing;
+        
+        [ShowNonSerializedField] private bool canJump = true;
+        [ShowNonSerializedField] private bool canDash = true;
+        [ShowNonSerializedField] private bool canApplyGravity = true;
+        
+        [ShowNonSerializedField] private bool receivedJumpInput;
+        [ShowNonSerializedField] private bool receivedDashInput;
         
         //---------------------------------------
 
@@ -74,23 +82,36 @@ namespace Player
             
             Cursor.lockState = CursorLockMode.Locked;
         }
-        
+
         private void Update()
         {
             PlayerInputStateMachine();
             DetectGround();
             
-            dashTimer.DecreaseTimerIfPositive();
-            if (dashTimer <= 0f)
-            {
-                canApplyGravity = true;
-            }
+            ManageDashTimer();
+
+            SetMoveSpeed();
         }
         
         private void FixedUpdate()
         {
             Move();
             ManageGravity();
+            
+            _rb.drag = isOnGround ? playerScriptable.groundDrag : playerScriptable.airDrag;
+            
+            if(isOnGround && receivedJumpInput) Jump();
+            if(receivedDashInput && !isDashing && isMoving && canDash) Dash();
+        }
+
+        private void ManageDashTimer()
+        {
+            dashTimer.DecreaseTimerIfPositive();
+            if (dashTimer <= 0f)
+            {
+                canApplyGravity = true;
+                isDashing = false;
+            }
         }
         
         //-------------------- Movements ----------------------
@@ -102,11 +123,20 @@ namespace Player
         /// </summary>
         private void Move()
         {
-            var dir = DirectionFromCamera(direction).normalized * playerScriptable.moveSpeed;
-            var targetVelocity = new Vector3(dir.x, _rb.velocity.y, dir.z);
+            var dir = DirectionFromCamera(direction).normalized * moveSpeed;
             
+            #region unused
+            /*var targetVelocity = new Vector3(dir.x, _rb.velocity.y, dir.z);
             _rb.velocity = Vector3.MoveTowards(_rb.velocity, targetVelocity * intertiaMultiplier, 
-                Time.deltaTime * playerScriptable.accelerationSpeed);
+                Time.deltaTime * playerScriptable.accelerationSpeed);*/
+            #endregion
+            
+            _rb.AddForce(moveSpeed * dir, ForceMode.Impulse);
+        }
+        
+        private void SetMoveSpeed()
+        {
+            moveSpeed = isOnGround ? playerScriptable.moveSpeed : playerScriptable.moveSpeed / 2.5f;
         }
 
         #endregion
@@ -173,8 +203,7 @@ namespace Player
         {
             isJumping = false;
             canApplyGravity = false;
-            
-            Debug.Log("land");
+            canDash = true;
         }
         
         #endregion
@@ -187,13 +216,15 @@ namespace Player
         /// Make the player jump when pressing an input
         /// </summary>
         /// <param name="ctx">Automatic parameter to get the current input values.</param>
-        public void Jump(InputAction.CallbackContext ctx)
+        public void JumpInput(InputAction.CallbackContext ctx)
         {
-            if (ctx.performed && isOnGround)
-            {
-                isJumping = true;
-                _rb.AddForce(playerScriptable.jumpForce * Vector3.up, ForceMode.Impulse);
-            }
+            receivedJumpInput = ctx.performed;
+        }
+
+        private void Jump()
+        {
+            isJumping = true;
+            _rb.AddForce(playerScriptable.jumpForce * Vector3.up, ForceMode.Impulse);
         }
 
         /// <summary>
@@ -225,36 +256,38 @@ namespace Player
         /// <param name="ctx">Automatic parameter to get the current input values.</param>
         public void RotateCameraFromInput(InputAction.CallbackContext ctx)
         {
-            if (canMove)
-            {
-                _rotationX += -ctx.ReadValue<Vector2>().y * playerScriptable.lookSpeed;
-                _rotationX = Mathf.Clamp(_rotationX, -playerScriptable.lookLimitX, playerScriptable.lookLimitX);
-                cameraAttachPosition.localRotation = Quaternion.Euler(_rotationX, 0, 0);
-                transform.rotation *= Quaternion.Euler(0, ctx.ReadValue<Vector2>().x * playerScriptable.lookSpeed, 0);
-            }
+            _rotationX += -ctx.ReadValue<Vector2>().y * playerScriptable.lookSpeed;
+            _rotationX = Mathf.Clamp(_rotationX, -playerScriptable.lookLimitX, playerScriptable.lookLimitX);
+            cameraAttachPosition.localRotation = Quaternion.Euler(_rotationX, 0, 0);
+            transform.rotation *= Quaternion.Euler(0, ctx.ReadValue<Vector2>().x * playerScriptable.lookSpeed, 0);
         }
 
         /// <summary>
         /// Make the player dash in the current moving direction. No diagonales.
         /// </summary>
         /// <param name="ctx">Automatic parameter to get the current input values.</param>
-        public void Dash(InputAction.CallbackContext ctx)
+        public void DashInput(InputAction.CallbackContext ctx)
         {
-            if (ctx.performed && isMoving)
-            {
-                var dashDirectionConvert = Helper.ConvertTo4Dir(new Vector2(direction.x, direction.z));
-                var dirFromCam = new Vector3(dashDirectionConvert.x, 0, dashDirectionConvert.y);
-                var dashDirection = DirectionFromCamera(dirFromCam);
-                
-                _rb.AddForce(dashDirection * playerScriptable.dashForce, ForceMode.Impulse);
+            receivedDashInput = ctx.performed;
+        }
 
-                canApplyGravity = false;
-                dashTimer = playerScriptable.dashDuration;
+        private void Dash()
+        {
+            var dashDirectionConvert = Helper.ConvertTo4Dir(new Vector2(direction.x, direction.z));
+            var dirFromCam = new Vector3(dashDirectionConvert.x, 0, dashDirectionConvert.y);
+            var dashDirection = DirectionFromCamera(dirFromCam);
                 
-                var v = _rb.velocity;
-                v.y = 0f;
-                _rb.velocity = v;
-            }
+            _rb.AddForce(dashDirection * playerScriptable.dashForce, ForceMode.Impulse);
+
+            canApplyGravity = false;
+            dashTimer = playerScriptable.dashDuration;
+
+            isDashing = true;
+            canDash = false;
+                
+            var v = _rb.velocity;
+            v.y = 0f;
+            _rb.velocity = v;
         }
         
         #endregion
@@ -266,12 +299,11 @@ namespace Player
         {
             isMoving = direction.magnitude > playerScriptable.moveThreshold;
 
-            if (isMoving && !isSliding) currentActionState = PlayerActionStates.Moving;
+            if (isMoving && !isSliding && !isJumping) currentActionState = PlayerActionStates.Moving;
             
-            else if(isMoving && isSliding) currentActionState = PlayerActionStates.Sliding;
+            else if(isMoving && isSliding && !isJumping) currentActionState = PlayerActionStates.Sliding;
             
-            else if(isJumping) currentActionState = PlayerActionStates.Jumping;
-            //else if (isWallRunning) currentActionState = PlayerActionStates.WallRunning;
+            else if(isMoving && !isSliding&& isJumping) currentActionState = PlayerActionStates.Jumping;
 
             else currentActionState = PlayerActionStates.Idle;
         }
@@ -302,7 +334,6 @@ namespace Player
             // Display the text on the screen
             GUI.Label(rect, $"Direction : {direction}", style);
             GUI.Label(rect1, $"Direction No reset : {directionNotReset}", style);
-            GUI.Label(rect2, $"Rigidbody Velocity : {_rb.velocity}", style);
             GUI.Label(rect2, $"Rigidbody Velocity : {_rb.velocity}", style);
         }
         
