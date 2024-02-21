@@ -29,6 +29,10 @@ namespace CameraBehavior
         [field: Header("---Sliding---")] 
         [field: SerializeField] internal float slindingRotMultiplier { get; private set; }
         
+        [field: Header("---Dashing---")] 
+        [field: SerializeField] internal float fovDashing { get; private set; }
+        [field: SerializeField] internal float timeToGetToTheNewFOVDashing { get; private set; }
+        
         [field: Header("---Weapon Sway Settings---")]
         [field: SerializeField] internal float weaponSwaySmooth { get; private set; }
         [field: SerializeField] internal float weaponSwaymultiplier { get; private set; }

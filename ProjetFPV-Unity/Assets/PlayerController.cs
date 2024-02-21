@@ -12,7 +12,7 @@ namespace Player
     [RequireComponent(typeof(Rigidbody))]
     public class PlayerController : GenericSingletonClass<PlayerController>
     {
-        [Header("Management")]
+        [Header("Overall Behavior")]
         public bool canMove = true;
         
         //---------------------------------------
@@ -20,19 +20,17 @@ namespace Player
         [Header("Components")]
         [SerializeField] internal PlayerScriptable playerScriptable;
         [SerializeField] private Transform cameraAttachPosition;
+        [SerializeField] private Collider capsuleCollider;
         
         private Rigidbody _rb;
         
         //---------------------------------------
 
         [Header("Values")]
-        public float intertiaMultiplier = 1f;
-        
-        [ShowNonSerializedField] internal Vector3 direction;
-        [ShowNonSerializedField] internal Vector3 directionNotReset;
+        internal Vector3 direction;
+        internal Vector3 directionNotReset;
 
         private float moveSpeed;
-        
         private float _velocity;
         private float _rotationX;
         private float dashTimer;
@@ -40,10 +38,22 @@ namespace Player
         private const float _gravity = -9.81f;
         
         //---------------------------------------
+
+        [field: Header("Momentum")] 
+        private float momentumCurveEvaluate;
+        private float _momentumCurveEvaluate
+        {
+            get => momentumCurveEvaluate;
+            set => momentumCurveEvaluate = Mathf.Clamp(value, 0f, 1f);
+        }
+        private float momentumCurveValue;
+
+        private float velocityMagnitude;
+        private float newVelocityMagnitude;
+        
+        //---------------------------------------
         
         [Header("States")]
-        [ShowNonSerializedField] internal PlayerActionStates currentActionState;
-        
         public bool isOnGround;
         public bool wasOnGroundLastFrame;
         public bool isMoving;
@@ -51,12 +61,16 @@ namespace Player
         public bool isJumping;
         public bool isDashing;
         
-        [ShowNonSerializedField] private bool canJump = true;
-        [ShowNonSerializedField] private bool canDash = true;
-        [ShowNonSerializedField] private bool canApplyGravity = true;
+        internal PlayerActionStates currentActionState;
         
-        [ShowNonSerializedField] private bool receivedJumpInput;
-        [ShowNonSerializedField] private bool receivedDashInput;
+        private bool canJump = true;
+        private bool canApplyGravity = true;
+        
+        private bool isAccelerating;
+        private bool isDecelerating;
+        
+        private bool receivedJumpInput;
+        private bool receivedDashInput;
         
         //---------------------------------------
 
@@ -69,6 +83,7 @@ namespace Player
             Moving,
             Sliding,
             Jumping,
+            Dashing,
         }
         
         //---------------------------------------
@@ -91,6 +106,8 @@ namespace Player
             ManageDashTimer();
 
             SetMoveSpeed();
+            
+            RechargeStaminaFromSpeed();
         }
         
         private void FixedUpdate()
@@ -98,10 +115,23 @@ namespace Player
             Move();
             ManageGravity();
             
-            _rb.drag = isOnGround ? playerScriptable.groundDrag : playerScriptable.airDrag;
+            SetDrag();
             
             if(isOnGround && receivedJumpInput) Jump();
-            if(receivedDashInput && !isDashing && isMoving && canDash) Dash();
+            if (receivedDashInput && !isDashing)
+            {
+                if (PlayerStamina.Instance.HasEnoughStamina(1))
+                {
+                    PlayerStamina.Instance.ConsumeStaminaStep(1);
+                    Dash();
+                }
+            }
+        }
+
+        private void RechargeStaminaFromSpeed()
+        {
+            if(_rb.velocity.magnitude > playerScriptable.speedMinToRecharge && !isDashing)
+                PlayerStamina.Instance.GenerateStaminaStep(0.005f);
         }
 
         private void ManageDashTimer()
@@ -110,8 +140,14 @@ namespace Player
             if (dashTimer <= 0f)
             {
                 canApplyGravity = true;
+                _rb.useGravity = true;
                 isDashing = false;
             }
+        }
+
+        private void SetDrag()
+        {
+            _rb.drag = isOnGround ? playerScriptable.groundDrag : playerScriptable.airDrag;
         }
         
         //-------------------- Movements ----------------------
@@ -169,7 +205,6 @@ namespace Player
             {
                 var v = _rb.velocity;
                 
-                //if(!wallOnLeft || !wallOnRight)
                 v.y -= Time.deltaTime * playerScriptable.gravityMultiplier;
                 
                 v.x = _rb.velocity.x + (DirectionFromCamera(direction).x * playerScriptable.moveAirMultiplier);
@@ -203,7 +238,6 @@ namespace Player
         {
             isJumping = false;
             canApplyGravity = false;
-            canDash = true;
         }
         
         #endregion
@@ -280,11 +314,11 @@ namespace Player
             _rb.AddForce(dashDirection * playerScriptable.dashForce, ForceMode.Impulse);
 
             canApplyGravity = false;
+            _rb.useGravity = false;
             dashTimer = playerScriptable.dashDuration;
 
             isDashing = true;
-            canDash = false;
-                
+
             var v = _rb.velocity;
             v.y = 0f;
             _rb.velocity = v;
@@ -299,16 +333,45 @@ namespace Player
         {
             isMoving = direction.magnitude > playerScriptable.moveThreshold;
 
-            if (isMoving && !isSliding && !isJumping) currentActionState = PlayerActionStates.Moving;
+            if (isMoving && !isSliding && !isJumping && !isDashing) currentActionState = PlayerActionStates.Moving;
             
-            else if(isMoving && isSliding && !isJumping) currentActionState = PlayerActionStates.Sliding;
+            else if(isMoving && isSliding && !isJumping && !isDashing) currentActionState = PlayerActionStates.Sliding;
             
-            else if(isMoving && !isSliding&& isJumping) currentActionState = PlayerActionStates.Jumping;
+            else if (isMoving && !isSliding && isJumping && !isDashing) currentActionState = PlayerActionStates.Jumping;
+                
+            else if(isMoving && isDashing) currentActionState = PlayerActionStates.Dashing;
 
             else currentActionState = PlayerActionStates.Idle;
+
+            switch (currentActionState)
+            {
+                case PlayerActionStates.Idle: 
+                    if(_rb.velocity.magnitude < 0.08f)
+                        SetPhysicalMaterialCollider(playerScriptable.frictionMaterial);
+                    break;
+                case PlayerActionStates.Moving:
+                    SetPhysicalMaterialCollider(playerScriptable.movingMaterial);
+                    break;
+                case PlayerActionStates.Sliding:
+                    SetPhysicalMaterialCollider(playerScriptable.movingMaterial);
+                    break;
+                case PlayerActionStates.Jumping:
+                    SetPhysicalMaterialCollider(playerScriptable.movingMaterial);
+                    break;
+                case PlayerActionStates.Dashing:
+                    SetPhysicalMaterialCollider(playerScriptable.movingMaterial);
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
         }
         
         #endregion
+
+        private void SetPhysicalMaterialCollider(PhysicMaterial pm)
+        {
+            capsuleCollider.material = pm;
+        }
         
         //-------------------- Debug ----------------------
 
@@ -325,16 +388,26 @@ namespace Player
             GUIStyle style = new GUIStyle();
             style.fontSize = 24;
             style.normal.textColor = Color.white;
-
+            
             // Set the position and size of the text
             Rect rect = new Rect(10, 10, 200, 50);
             Rect rect1 = new Rect(10, 60, 200, 50);
             Rect rect2 = new Rect(10, 110, 200, 50);
+            Rect rect3 = new Rect(10, 160, 200, 50);
 
             // Display the text on the screen
             GUI.Label(rect, $"Direction : {direction}", style);
             GUI.Label(rect1, $"Direction No reset : {directionNotReset}", style);
             GUI.Label(rect2, $"Rigidbody Velocity : {_rb.velocity}", style);
+            GUI.Label(rect3, $"Rigidbody Magnitude : {_rb.velocity.magnitude}", style);
+        }
+
+        GUIStyle BoolStyle(bool value)
+        {
+            var style = new GUIStyle();
+            style.fontSize = 24;
+            style.normal.textColor = value ? Color.green : Color.red;
+            return style;
         }
         
         #endregion

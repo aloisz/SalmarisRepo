@@ -61,6 +61,8 @@ namespace CameraBehavior
                 return;
             }
             
+            RotateCamera();
+            
             switch (PlayerController.Instance.currentActionState)
             {
                 case PlayerController.PlayerActionStates.Idle:
@@ -87,7 +89,28 @@ namespace CameraBehavior
                         MovingFov();
                     
                     break;
+                
+                case PlayerController.PlayerActionStates.Dashing:
+                    HeadBobing();
+                    DashingFov();
+                    break;
             }
+        }
+
+        void RotateCamera()
+        {
+            // Rotation added to all child
+            float xValue = 0;
+            if (PlayerController.Instance.direction.z <= 0) // Is player going backward
+            {
+                xValue = -PlayerController.Instance.direction.z * so_Camera.rotationOffSet.x;
+            }
+            
+            smoothOffset = Quaternion.Slerp(smoothOffset, Quaternion.Euler(xValue, so_Camera.rotationOffSet.y, -PlayerController.Instance.direction.x * so_Camera.rotationOffSet.z),
+                Time.deltaTime * PlayerController.Instance.playerScriptable.smoothCameraRot);
+            
+            transitionParent.rotation = Quaternion.Slerp(transitionParent.rotation, playerTransform.rotation * smoothOffset, 
+                Time.deltaTime * so_Camera.rotationOffSetSmooth); // PlayerController.Instance.playerScriptable.smoothCameraRot
         }
 
         #region Idle
@@ -126,20 +149,8 @@ namespace CameraBehavior
             Vector3 weaponBobbingPos = new Vector3(weaponTransform.position.x, Mathf.Sin(timer) * so_Camera.weaponBobbingAmount + weaponTransform.position.y,
                 weaponTransform.position.z);
             weaponTransform.position = Vector3.Lerp(weaponTransform.transform.position, weaponBobbingPos, timer);
-            
-            
-            // Rotation added to all child
-            float xValue = 0;
-            if (PlayerController.Instance.direction.z <= 0) // Is player going backward
-            {
-                xValue = -PlayerController.Instance.direction.z * so_Camera.rotationOffSet.x;
-            }
-            
-            smoothOffset = Quaternion.Slerp(smoothOffset, Quaternion.Euler(xValue, so_Camera.rotationOffSet.y, -PlayerController.Instance.direction.x * so_Camera.rotationOffSet.z),
-                Time.deltaTime * PlayerController.Instance.playerScriptable.smoothCameraRot);
-            
-            transitionParent.rotation = Quaternion.Slerp(transitionParent.rotation, playerTransform.rotation * smoothOffset, 
-                Time.deltaTime * so_Camera.rotationOffSetSmooth); // PlayerController.Instance.playerScriptable.smoothCameraRot
+
+            weaponTransform.position -= PlayerController.Instance.direction * (Camera.main.fieldOfView / 100f);
         }
         
         private void MovingFov()
@@ -153,7 +164,18 @@ namespace CameraBehavior
 
         #endregion
         
-        
+        #region Dashing
+
+        private void DashingFov()
+        {
+            if (Math.Abs(currentFov - so_Camera.fovDashing) > 0.1f)
+            {
+                currentFov = Mathf.Lerp(currentFov, so_Camera.fovDashing, Time.deltaTime * so_Camera.timeToGetToTheNewFOVDashing);
+            }
+            camera.fieldOfView = currentFov;
+        }
+
+        #endregion
         
         
     }
