@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -9,6 +10,7 @@ public class PlayerStamina : GenericSingletonClass<PlayerStamina>
 
     [SerializeField] private int numberOfSteps;
     [SerializeField] private Image chargeUIDisplay;
+    [SerializeField] private TextMeshProUGUI chargeText;
     
     public bool HasEnoughStamina(int numberOfStep)
     {
@@ -27,8 +29,12 @@ public class PlayerStamina : GenericSingletonClass<PlayerStamina>
         UpdateStaminaUI();
     }
 
+    /// <summary>
+    /// Update the Stamina Jaune UI.
+    /// </summary>
     private void UpdateStaminaUI()
     {
         chargeUIDisplay.fillAmount = staminaValue / 100f;
+        chargeText.text = ((int)staminaValue).ToString();
     }
 }

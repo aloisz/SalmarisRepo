@@ -149,8 +149,6 @@ namespace CameraBehavior
             Vector3 weaponBobbingPos = new Vector3(weaponTransform.position.x, Mathf.Sin(timer) * so_Camera.weaponBobbingAmount + weaponTransform.position.y,
                 weaponTransform.position.z);
             weaponTransform.position = Vector3.Lerp(weaponTransform.transform.position, weaponBobbingPos, timer);
-
-            weaponTransform.position -= PlayerController.Instance.direction * (Camera.main.fieldOfView / 100f);
         }
         
         private void MovingFov()
@@ -164,6 +162,7 @@ namespace CameraBehavior
 
         #endregion
         
+        
         #region Dashing
 
         private void DashingFov()
@@ -176,8 +175,6 @@ namespace CameraBehavior
         }
 
         #endregion
-        
-        
     }
 }
 
