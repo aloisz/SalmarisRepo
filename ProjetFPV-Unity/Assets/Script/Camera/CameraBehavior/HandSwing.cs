@@ -42,7 +42,7 @@ namespace CameraBehavior
             {
                 if (Time.time - lastfired > 1 / FireRate)
                 {
-                    Shoot();
+                    //Shoot();
                 }
             }
         }
