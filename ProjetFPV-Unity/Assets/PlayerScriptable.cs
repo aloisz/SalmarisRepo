@@ -16,6 +16,7 @@ namespace Player
         public float dashForce = 5f;
         public float dashDuration = 0.5f;
         public float speedMinToRecharge = 17f;
+        public float speedMaxToNoFriction = 0.1f;
 
         [Header("Physics")] public float friction = 1;
         public float gravityMultiplier = 1;

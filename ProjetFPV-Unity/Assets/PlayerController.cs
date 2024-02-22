@@ -346,7 +346,7 @@ namespace Player
             switch (currentActionState)
             {
                 case PlayerActionStates.Idle: 
-                    if(_rb.velocity.magnitude < 0.08f)
+                    if(_rb.velocity.magnitude < playerScriptable.speedMaxToNoFriction)
                         SetPhysicalMaterialCollider(playerScriptable.frictionMaterial);
                     break;
                 case PlayerActionStates.Moving:
