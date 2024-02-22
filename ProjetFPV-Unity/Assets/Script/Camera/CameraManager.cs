@@ -61,7 +61,7 @@ namespace CameraBehavior
                 return;
             }
             
-            RotateCamera();
+            //RotateCamera();
             
             switch (PlayerController.Instance.currentActionState)
             {
@@ -97,7 +97,7 @@ namespace CameraBehavior
             }
         }
 
-        void RotateCamera()
+        /*void RotateCamera()
         {
             // Rotation added to all child
             float xValue = 0;
@@ -111,7 +111,7 @@ namespace CameraBehavior
             
             transitionParent.rotation = Quaternion.Slerp(transitionParent.rotation, playerTransform.rotation * smoothOffset, 
                 Time.deltaTime * so_Camera.rotationOffSetSmooth); // PlayerController.Instance.playerScriptable.smoothCameraRot
-        }
+        }*/
 
         #region Idle
 
@@ -149,6 +149,19 @@ namespace CameraBehavior
             Vector3 weaponBobbingPos = new Vector3(weaponTransform.position.x, Mathf.Sin(timer) * so_Camera.weaponBobbingAmount + weaponTransform.position.y,
                 weaponTransform.position.z);
             weaponTransform.position = Vector3.Lerp(weaponTransform.transform.position, weaponBobbingPos, timer);
+            
+            // Rotation added to all child
+            float xValue = 0;
+            if (PlayerController.Instance.direction.z <= 0) // Is player going backward
+            {
+                xValue = -PlayerController.Instance.direction.z * so_Camera.rotationOffSet.x;
+            }
+            
+            smoothOffset = Quaternion.Slerp(smoothOffset, Quaternion.Euler(xValue, so_Camera.rotationOffSet.y, -PlayerController.Instance.direction.x * so_Camera.rotationOffSet.z),
+                Time.deltaTime * PlayerController.Instance.playerScriptable.smoothCameraRot);
+            
+            transitionParent.rotation = Quaternion.Slerp(transitionParent.rotation, playerTransform.rotation * smoothOffset, 
+                Time.deltaTime * so_Camera.rotationOffSetSmooth); // PlayerController.Instance.playerScriptable.smoothCameraRot
         }
         
         private void MovingFov()
