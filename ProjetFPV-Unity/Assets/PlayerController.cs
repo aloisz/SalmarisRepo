@@ -130,8 +130,8 @@ namespace Player
 
         private void RechargeStaminaFromSpeed()
         {
-            if(_rb.velocity.magnitude > playerScriptable.speedMinToRecharge && !isDashing)
-                PlayerStamina.Instance.GenerateStaminaStep(0.005f);
+            if(!isDashing)
+                PlayerStamina.Instance.GenerateStaminaStep(playerScriptable.staminaPerSecond);
         }
 
         private void ManageDashTimer()
@@ -167,7 +167,10 @@ namespace Player
                 Time.deltaTime * playerScriptable.accelerationSpeed);*/
             #endregion
             
-            _rb.AddForce(moveSpeed * dir, ForceMode.Impulse);
+            if(_rb.velocity.magnitude < playerScriptable.speedMaxToAccelerate)
+                _rb.AddForce((moveSpeed * playerScriptable.accelerationMultiplier) * dir, ForceMode.Impulse);
+            else
+                _rb.AddForce(moveSpeed * dir, ForceMode.Impulse);
         }
         
         private void SetMoveSpeed()
@@ -290,10 +293,10 @@ namespace Player
         /// <param name="ctx">Automatic parameter to get the current input values.</param>
         public void RotateCameraFromInput(InputAction.CallbackContext ctx)
         {
-            _rotationX += -ctx.ReadValue<Vector2>().y * playerScriptable.lookSpeed;
-            _rotationX = Mathf.Clamp(_rotationX, -playerScriptable.lookLimitX, playerScriptable.lookLimitX);
+            _rotationX += -ctx.ReadValue<Vector2>().y * playerScriptable.sensibility;
+            _rotationX = Mathf.Clamp(_rotationX, -playerScriptable.lookLimitY, playerScriptable.lookLimitY);
             cameraAttachPosition.localRotation = Quaternion.Euler(_rotationX, 0, 0);
-            transform.rotation *= Quaternion.Euler(0, ctx.ReadValue<Vector2>().x * playerScriptable.lookSpeed, 0);
+            transform.rotation *= Quaternion.Euler(0, ctx.ReadValue<Vector2>().x * playerScriptable.sensibility, 0);
         }
 
         /// <summary>

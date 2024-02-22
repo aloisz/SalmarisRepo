@@ -18,15 +18,16 @@ MonoBehaviour:
   moveAirMultiplier: 0.1
   dashForce: 20
   dashDuration: 0.25
-  speedMinToRecharge: 14
   speedMaxToNoFriction: 2
-  friction: 1
+  speedMaxToAccelerate: 12
+  accelerationMultiplier: 1.2
+  staminaPerSecond: 0.0015
   gravityMultiplier: 75
   groundDrag: 7
   airDrag: 1.8
   groundDetectionWidthHeightDepth: {x: 0.25, y: 0.8, z: 0.25}
-  lookSpeed: 0.02
-  lookLimitX: 70
+  sensibility: 0.05
+  lookLimitY: 70
   smoothCameraPos: 40
   smoothCameraRot: 40
   frictionMaterial: {fileID: 13400000, guid: 66462d3f498916c45b06fcf1b1aa7596, type: 2}

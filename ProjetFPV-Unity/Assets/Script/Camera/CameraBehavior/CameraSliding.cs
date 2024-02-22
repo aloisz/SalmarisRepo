@@ -28,13 +28,13 @@ namespace CameraBehavior
                 zValue = -4;
                 cameraManager.smoothOffset = Quaternion.Slerp(cameraManager.smoothOffset, 
                     Quaternion.Euler(0, cameraManager.so_Camera.rotationOffSet.y, zValue),
-                    Time.deltaTime * PlayerController.Instance.playerScriptable.smoothCameraRot);
+                    Time.deltaTime * cameraManager.so_Camera.rotationOffSetSmooth);
             }
             else
             {
                 cameraManager.smoothOffset = Quaternion.Slerp(cameraManager.smoothOffset, 
                     Quaternion.Euler(0, cameraManager.so_Camera.rotationOffSet.y, -PlayerController.Instance.direction.x * cameraManager.so_Camera.rotationOffSet.z * cameraManager.so_Camera.slindingRotMultiplier),
-                    Time.deltaTime * PlayerController.Instance.playerScriptable.smoothCameraRot);
+                    Time.deltaTime * cameraManager.so_Camera.rotationOffSetSmooth);
             }
             
             

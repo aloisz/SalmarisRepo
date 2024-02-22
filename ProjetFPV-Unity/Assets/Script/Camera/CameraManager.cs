@@ -158,7 +158,7 @@ namespace CameraBehavior
             }
             
             smoothOffset = Quaternion.Slerp(smoothOffset, Quaternion.Euler(xValue, so_Camera.rotationOffSet.y, -PlayerController.Instance.direction.x * so_Camera.rotationOffSet.z),
-                Time.deltaTime * PlayerController.Instance.playerScriptable.smoothCameraRot);
+                Time.deltaTime * so_Camera.rotationOffSetSmooth);
             
             transitionParent.rotation = Quaternion.Slerp(transitionParent.rotation, playerTransform.rotation * smoothOffset, 
                 Time.deltaTime * so_Camera.rotationOffSetSmooth); // PlayerController.Instance.playerScriptable.smoothCameraRot
