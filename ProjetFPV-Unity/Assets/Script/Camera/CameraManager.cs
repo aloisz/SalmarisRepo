@@ -19,7 +19,7 @@ namespace CameraBehavior
         [Header("---Camera Parameter---")]
         [SerializeField] internal Transform transitionParent;
         [SerializeField] internal Transform playerTransform;
-        [SerializeField] internal Transform weaponTransform;
+        public Transform weaponTransform;
         [SerializeField] internal bool doCameraFeel;
         
         [Header("---Sliding---")] 

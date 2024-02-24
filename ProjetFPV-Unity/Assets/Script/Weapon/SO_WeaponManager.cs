@@ -23,6 +23,7 @@ public class WeaponState
 {
     // Weapon State
     public int numberOfBullet;
+    public float timeToReload;
     public float bulletSpeed;
     public float bulletDamage;
     public float fireRate;
