@@ -1,11 +1,12 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
-using Player;
 using UnityEngine;
+
 
 namespace CameraBehavior
 {
-    public class CameraJumping : MonoBehaviour
+    public class CameraDash : MonoBehaviour
     {
         private CameraManager cameraManager;
 
@@ -14,15 +15,19 @@ namespace CameraBehavior
             cameraManager = GetComponent<CameraManager>();
         }
         
-        public void Jumping()
+        public void Dash()
         {
-            if(!PlayerController.Instance.isMoving)
-                cameraManager.IdleFov();
-            else 
-                cameraManager.MovingFov();
-            
+            DashingFov();
             Position();
             Rotation();
+        }
+        private void DashingFov()
+        {
+            if (Math.Abs(cameraManager.currentFov - cameraManager.so_Camera.fovDashing) > 0.1f)
+            {
+                cameraManager.currentFov = Mathf.Lerp(cameraManager.currentFov, cameraManager.so_Camera.fovDashing, Time.deltaTime * cameraManager.so_Camera.timeToGetToTheNewFOVDashing);
+            }
+            cameraManager.camera.fieldOfView = cameraManager.currentFov;
         }
         
         private void Position()
@@ -39,5 +44,4 @@ namespace CameraBehavior
         }
     }
 }
-
 

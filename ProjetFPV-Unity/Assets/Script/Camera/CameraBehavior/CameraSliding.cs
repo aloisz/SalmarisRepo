@@ -16,11 +16,19 @@ namespace CameraBehavior
 
         public void Sliding()
         {
+            Position();
+            Rotation();
+        }
+
+        private void Position()
+        {
             // Position
             cameraManager.transitionParent.position = Vector3.Lerp(cameraManager.transitionParent.position, cameraManager.slindingPos.position, 
                 Time.deltaTime * cameraManager.so_Camera.positionOffSetSmooth);
-            
-            
+        }
+
+        private void Rotation()
+        {
             //Handles rotation
             float zValue = 0; // base value of cam rotation when sliding
             if (PlayerController.Instance.direction.x == 0) // Is player Not going to side left or right then add a little rotation

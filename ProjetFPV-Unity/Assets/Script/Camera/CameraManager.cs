@@ -29,11 +29,12 @@ namespace CameraBehavior
         internal Transform cameraTransform;
         
         internal float currentFov;
-        internal Vector3 defaultPos;
         internal Quaternion smoothOffset;
         
         // Get All Camera Component
         private CameraSliding cameraSliding;
+        private CameraJumping cameraJumping;
+        private CameraDash cameraDash;
         private HandSwing handSwing;
         
         internal float timer = 0;
@@ -41,6 +42,8 @@ namespace CameraBehavior
         private void Awake()
         {
             cameraSliding = GetComponent<CameraSliding>();
+            cameraJumping = GetComponent<CameraJumping>();
+            cameraDash = GetComponent<CameraDash>();
             camera = GetComponentInChildren<Camera>();
             cameraTransform = camera.GetComponent<Transform>();
             
@@ -48,13 +51,29 @@ namespace CameraBehavior
             camera.fieldOfView = currentFov;
         }
         
-
         private void LateUpdate()
         {
-            defaultPos = playerTransform.position;
-            transitionParent.position = Vector3.Lerp(transitionParent.position, playerTransform.position, 
-                Time.deltaTime * so_Camera.positionOffSetSmooth); // PlayerController.Instance.playerScriptable.smoothCameraPos
-            
+            MovingCameraManager();
+            CameraStateManagamement();
+        }
+
+        
+        #region Global Management
+
+        /// <summary>
+        /// Moving the CameraManager Transform
+        /// </summary>
+        private void MovingCameraManager()
+        {
+            transform.position = Vector3.Lerp(transform.position, playerTransform.position, 
+                Time.deltaTime * so_Camera.positionOffSetSmooth);
+        }
+
+        /// <summary>
+        /// Manage the Camera State
+        /// </summary>
+        private void CameraStateManagamement()
+        {
             if (!doCameraFeel)
             {
                 Idle();
@@ -68,53 +87,40 @@ namespace CameraBehavior
                 case PlayerController.PlayerActionStates.Idle:
                     Idle();
                     IdleFov();
-                    cameraTransform.position = Vector3.Lerp(cameraTransform.position, defaultPos, Time.deltaTime * so_Camera.positionOffSetSmooth);
+                    ReInitialiseCameraPos();
                     break;
                 
                 case PlayerController.PlayerActionStates.Moving:
                     HeadBobing();
                     MovingFov();
+                    MovingTransitionParent();
                     break;
                 
                 case PlayerController.PlayerActionStates.Sliding:
                     cameraSliding.Sliding();
                     MovingFov();
+                    ReInitialiseCameraPos();
                     break;
                 
                 case PlayerController.PlayerActionStates.Jumping:
-                    HeadBobing();
-                    if(!PlayerController.Instance.isMoving)
-                        IdleFov();
-                    else 
-                        MovingFov();
-                    
+                    cameraJumping.Jumping();
+                    ReInitialiseCameraPos();
                     break;
                 
                 case PlayerController.PlayerActionStates.Dashing:
-                    HeadBobing();
-                    DashingFov();
+                    cameraDash.Dash();
+                    ReInitialiseCameraPos();
                     break;
             }
         }
 
-        /*void RotateCamera()
-        {
-            // Rotation added to all child
-            float xValue = 0;
-            if (PlayerController.Instance.direction.z <= 0) // Is player going backward
-            {
-                xValue = -PlayerController.Instance.direction.z * so_Camera.rotationOffSet.x;
-            }
-            
-            smoothOffset = Quaternion.Slerp(smoothOffset, Quaternion.Euler(xValue, so_Camera.rotationOffSet.y, -PlayerController.Instance.direction.x * so_Camera.rotationOffSet.z),
-                Time.deltaTime * PlayerController.Instance.playerScriptable.smoothCameraRot);
-            
-            transitionParent.rotation = Quaternion.Slerp(transitionParent.rotation, playerTransform.rotation * smoothOffset, 
-                Time.deltaTime * so_Camera.rotationOffSetSmooth); // PlayerController.Instance.playerScriptable.smoothCameraRot
-        }*/
-
+        #endregion
+        
         #region Idle
 
+        /// <summary>
+        /// Handles Transition Parent when Idle
+        /// </summary>
         private void Idle()
         {
             timer = 0;
@@ -122,7 +128,10 @@ namespace CameraBehavior
             smoothOffset = Quaternion.identity;
         }
 
-        private void IdleFov()
+        /// <summary>
+        /// Handles The Idle FOV
+        /// </summary>
+        internal void IdleFov()
         {
             if (Math.Abs(currentFov - so_Camera.fovIdle) > 0.1f)
             {
@@ -131,11 +140,21 @@ namespace CameraBehavior
             camera.fieldOfView = currentFov;
         }
 
+        /// <summary>
+        ///  Bring back the camera to correct position
+        /// </summary>
+        private void ReInitialiseCameraPos()
+        {
+            cameraTransform.localPosition = Vector3.Lerp(cameraTransform.localPosition, Vector3.zero, Time.deltaTime * so_Camera.positionOffSetSmooth);
+        }
+
         #endregion
-
-
+        
         #region Moving
 
+        /// <summary>
+        /// Handles Moving Camera, weapon Child transform for head boobing
+        /// </summary>
         private void HeadBobing()
         {
             timer += Time.deltaTime * so_Camera.walkingBobbingSpeed;
@@ -149,8 +168,26 @@ namespace CameraBehavior
             Vector3 weaponBobbingPos = new Vector3(weaponTransform.position.x, Mathf.Sin(timer) * so_Camera.weaponBobbingAmount + weaponTransform.position.y,
                 weaponTransform.position.z);
             weaponTransform.position = Vector3.Lerp(weaponTransform.transform.position, weaponBobbingPos, timer);
+        }
+        
+        /// <summary>
+        /// Handles The FOv when PC is moving
+        /// </summary>
+        internal void MovingFov()
+        {
+            if (Math.Abs(currentFov - so_Camera.fovMoving) > 0.1f)
+            {
+                currentFov = Mathf.Lerp(currentFov, so_Camera.fovMoving, Time.deltaTime * so_Camera.timeToGetToTheNewFOV);
+            }
+            camera.fieldOfView = currentFov;
+        }
+
+        private void MovingTransitionParent()
+        {
+            transitionParent.position = Vector3.Lerp(transitionParent.position, playerTransform.position, 
+                Time.deltaTime * so_Camera.positionOffSetSmooth); // PlayerController.Instance.playerScriptable.smoothCameraPos
             
-            // Rotation added to all child
+            // Rotation
             float xValue = 0;
             if (PlayerController.Instance.direction.z <= 0) // Is player going backward
             {
@@ -163,31 +200,9 @@ namespace CameraBehavior
             transitionParent.rotation = Quaternion.Slerp(transitionParent.rotation, playerTransform.rotation * smoothOffset, 
                 Time.deltaTime * so_Camera.rotationOffSetSmooth); // PlayerController.Instance.playerScriptable.smoothCameraRot
         }
-        
-        private void MovingFov()
-        {
-            if (Math.Abs(currentFov - so_Camera.fovMoving) > 0.1f)
-            {
-                currentFov = Mathf.Lerp(currentFov, so_Camera.fovMoving, Time.deltaTime * so_Camera.timeToGetToTheNewFOV);
-            }
-            camera.fieldOfView = currentFov;
-        }
 
         #endregion
         
-        
-        #region Dashing
-
-        private void DashingFov()
-        {
-            if (Math.Abs(currentFov - so_Camera.fovDashing) > 0.1f)
-            {
-                currentFov = Mathf.Lerp(currentFov, so_Camera.fovDashing, Time.deltaTime * so_Camera.timeToGetToTheNewFOVDashing);
-            }
-            camera.fieldOfView = currentFov;
-        }
-
-        #endregion
     }
 }
 
