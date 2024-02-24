@@ -9,33 +9,53 @@ namespace CameraBehavior
     [CreateAssetMenu(menuName = "Camera Scriptable/Camera_Scriptable", fileName = "new Camera Behavior")]
     public class SO_Camera : ScriptableObject
     {
-        [field: Header("-----Cam Effect-----")]
-        [field: SerializeField] internal float positionOffSetSmooth { get; private set; }
-        [field: SerializeField] internal float rotationOffSetSmooth { get; private set; }
+        /// <summary>
+        /// Cam Effect
+        /// </summary>
+        [field: BoxGroup("-----Cam Effect-----")][field: SerializeField] internal float positionOffSetSmooth { get; private set; }
+        [field: BoxGroup("-----Cam Effect-----")][field: SerializeField] internal float rotationOffSetSmooth { get; private set; }
         
-        [field: Header("---Bobbing---")]
-        [field: Range(0, 20)] [field:SerializeField] internal float walkingBobbingSpeed { get; private set; }
-        [field: Range(-.01f, .01f)] [field:SerializeField] internal float cameraBobbingAmount { get; private set; }
-        [field: Range(-.03f, .03f)] [field:SerializeField] internal float weaponBobbingAmount { get; private set; }
+        /// <summary>
+        /// Bobbing
+        /// </summary>
+        [field: BoxGroup("---Bobbing---")][field: Range(0, 20)] [field:SerializeField] internal float walkingBobbingSpeed { get; private set; }
+        [field: BoxGroup("---Bobbing---")][field: Range(-.01f, .01f)] [field:SerializeField] internal float cameraBobbingAmount { get; private set; }
+        [field: BoxGroup("---Bobbing---")][field: Range(-.03f, .03f)] [field:SerializeField] internal float weaponBobbingAmount { get; private set; }
         
-        [field: Header("---Idle---")]
-        [field: SerializeField] internal float timeToGetToTheNewFOV { get; private set; }
-        [field: SerializeField] internal float fovIdle { get; private set; }
+        
+        /// <summary>
+        /// Idle
+        /// </summary>
+        [field: BoxGroup("---Idle---")][field: SerializeField] internal float timeToGetToTheNewFOV { get; private set; }
+        [field: BoxGroup("---Idle---")][field: SerializeField] internal float fovIdle { get; private set; }
+        
+        
+        /// <summary>
+        /// Moving
+        /// </summary>
+        [field: BoxGroup("---Moving---")][field: SerializeField] internal float fovMoving { get; private set; }
+        [field: BoxGroup("---Moving---")][field: SerializeField] internal Vector3 rotationOffSet { get; private set; }
 
-        [field: Header("---Moving---")]
-        [field: SerializeField] internal float fovMoving { get; private set; }
-        [field: SerializeField] internal Vector3 rotationOffSet { get; private set; }
-
-        [field: Header("---Sliding---")] 
-        [field: SerializeField] internal float slindingRotMultiplier { get; private set; }
+       
+        /// <summary>
+        /// Sliding
+        /// </summary>
+        [field: BoxGroup("---Sliding---")][field: SerializeField] internal float slindingRotMultiplier { get; private set; }
+        [field: BoxGroup("---Sliding---")][field: SerializeField] internal float fovSliding { get; private set; }
         
-        [field: Header("---Dashing---")] 
-        [field: SerializeField] internal float fovDashing { get; private set; }
-        [field: SerializeField] internal float timeToGetToTheNewFOVDashing { get; private set; }
         
-        [field: Header("---Weapon Sway Settings---")]
-        [field: SerializeField] internal float weaponSwaySmooth { get; private set; }
-        [field: SerializeField] internal float weaponSwaymultiplier { get; private set; }
+        /// <summary>
+        /// Dashing
+        /// </summary>
+        [field: BoxGroup("---Dashing---")][field: SerializeField] internal float fovDashing { get; private set; }
+        [field: BoxGroup("---Dashing---")][field: SerializeField] internal float timeToGetToTheNewFOVDashing { get; private set; }
+        
+        
+        /// <summary>
+        /// Weapon Sway Settings
+        /// </summary>
+        [field: BoxGroup("---Weapon Sway Settings---")][field: SerializeField] internal float weaponSwaySmooth { get; private set; }
+        [field: BoxGroup("---Weapon Sway Settings---")][field: SerializeField] internal float weaponSwaymultiplier { get; private set; }
     }
 }
 

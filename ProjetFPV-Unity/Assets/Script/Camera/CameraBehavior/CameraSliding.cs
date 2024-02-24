@@ -18,6 +18,7 @@ namespace CameraBehavior
         {
             Position();
             Rotation();
+            SlidingFov();
         }
 
         private void Position()
@@ -48,6 +49,15 @@ namespace CameraBehavior
             
             cameraManager.transitionParent.rotation = Quaternion.Slerp(cameraManager.transitionParent.rotation, cameraManager.playerTransform.rotation * cameraManager.smoothOffset, 
                 Time.deltaTime * cameraManager.so_Camera.rotationOffSetSmooth); // PlayerController.Instance.playerScriptable.smoothCameraRot
+        }
+        
+        internal void SlidingFov()
+        {
+            if (Math.Abs(cameraManager.currentFov - cameraManager.so_Camera.fovSliding) > 0.1f)
+            {
+                cameraManager.currentFov = Mathf.Lerp(cameraManager.currentFov, cameraManager.so_Camera.fovSliding, Time.deltaTime * cameraManager.so_Camera.timeToGetToTheNewFOV);
+            }
+            cameraManager.camera.fieldOfView = cameraManager.currentFov;
         }
     }
 

@@ -14,7 +14,7 @@ namespace CameraBehavior
     public class CameraManager : GenericSingletonClass<CameraManager>
     {
         [Header("---Scriptable---")] 
-        public SO_Camera so_Camera;
+        [Expandable]public SO_Camera so_Camera;
         
         [Header("---Camera Parameter---")]
         [SerializeField] internal Transform transitionParent;
