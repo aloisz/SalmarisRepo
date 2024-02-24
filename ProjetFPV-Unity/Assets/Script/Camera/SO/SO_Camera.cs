@@ -50,6 +50,9 @@ namespace CameraBehavior
         [field: BoxGroup("---Dashing---")][field: SerializeField] internal float fovDashing { get; private set; }
         [field: BoxGroup("---Dashing---")][field: SerializeField] internal float timeToGetToTheNewFOVDashing { get; private set; }
         
+        [field: BoxGroup("---Dashing---")][field: SerializeField] internal float dashingRotMultiplier { get; private set; }
+        [field: BoxGroup("---Dashing---")][field: SerializeField] internal Vector3 dashingRotationOffSet { get; private set; }
+        
         
         /// <summary>
         /// Weapon Sway Settings
