@@ -17,19 +17,25 @@ MonoBehaviour:
   jumpForce: 8
   moveAirMultiplier: 0.1
   dashForce: 20
-  dashDuration: 0.25
+  dashDuration: 0.3
+  dashSpeedMultiplier: 1.25
+  dashSpeedMultiplierDuration: 1.5
+  dashSpeedMultiplierResetDuration: 2
   speedMaxToNoFriction: 2
   speedMaxToAccelerate: 12
   accelerationMultiplier: 1.2
-  staminaPerSecond: 0.0015
+  speedDuringSlopeClimb: 20
+  speedDuringSlopeFall: 20
+  staminaPerSecond: 0.01
   gravityMultiplier: 75
   groundDrag: 7
   airDrag: 1.8
   groundDetectionWidthHeightDepth: {x: 0.25, y: 0.8, z: 0.25}
-  sensibility: 0.05
+  raycastLenghtSlopeDetection: 1
+  minSlopeDegrees: 25
+  sensibility: 0.02
   lookLimitY: 70
-  smoothCameraPos: 40
-  smoothCameraRot: 40
   frictionMaterial: {fileID: 13400000, guid: 66462d3f498916c45b06fcf1b1aa7596, type: 2}
   wallMaterial: {fileID: 13400000, guid: 394c912cc7e142549ba3f2b085deeae4, type: 2}
   movingMaterial: {fileID: 13400000, guid: 394c912cc7e142549ba3f2b085deeae4, type: 2}
+  timeBeforeDetectedIdle: 0.06

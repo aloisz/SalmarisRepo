@@ -33,23 +33,19 @@ namespace Player
         private float moveSpeed;
         private float _velocity;
         private float _rotationX;
+        
         private float dashTimer;
+        private float idleTimer;
+
+        private float actualSlopeAngle;
         
         private const float _gravity = -9.81f;
         
         //---------------------------------------
 
-        [field: Header("Momentum")] 
-        private float momentumCurveEvaluate;
-        private float _momentumCurveEvaluate
-        {
-            get => momentumCurveEvaluate;
-            set => momentumCurveEvaluate = Mathf.Clamp(value, 0f, 1f);
-        }
-        private float momentumCurveValue;
-
-        private float velocityMagnitude;
-        private float newVelocityMagnitude;
+        [Header("Momentum")] 
+        private float dashTimerSpeedAdd;
+        private float speedMultiplierFromDash = 1f;
         
         //---------------------------------------
         
@@ -60,10 +56,13 @@ namespace Player
         public bool isSliding;
         public bool isJumping;
         public bool isDashing;
+        public bool isOnSlope;
+        public bool isSlopeClimbing;
         
         internal PlayerActionStates currentActionState;
         
         private bool canJump = true;
+        private bool canDash = true;
         private bool canApplyGravity = true;
         
         private bool isAccelerating;
@@ -76,6 +75,9 @@ namespace Player
 
         [Header("Detection")] 
         [SerializeField] private LayerMask groundLayer;
+
+        private RaycastHit raycastSlope;
+        private RaycastHit raycastSlopeFront;
         
         internal enum PlayerActionStates
         {
@@ -103,11 +105,19 @@ namespace Player
             PlayerInputStateMachine();
             DetectGround();
             
-            ManageDashTimer();
-
-            SetMoveSpeed();
+            ManageDashDuration();
+            ManageSpeedMultiplierFromDash();
             
+            SetMoveSpeed();
+
             RechargeStaminaFromSpeed();
+            
+            DetectIdling();
+            
+            DetectSlope();
+
+            canDash = receivedDashInput && !isDashing && PlayerStamina.Instance.HasEnoughStamina(1);
+            canJump = isOnGround && receivedJumpInput;
         }
         
         private void FixedUpdate()
@@ -117,39 +127,10 @@ namespace Player
             
             SetDrag();
             
-            if(isOnGround && receivedJumpInput) Jump();
-            if (receivedDashInput && !isDashing)
-            {
-                if (PlayerStamina.Instance.HasEnoughStamina(1))
-                {
-                    PlayerStamina.Instance.ConsumeStaminaStep(1);
-                    Dash();
-                }
-            }
+            VerifyJumpExecution();
+            VerifyDashExecution();
         }
 
-        private void RechargeStaminaFromSpeed()
-        {
-            if(!isDashing)
-                PlayerStamina.Instance.GenerateStaminaStep(playerScriptable.staminaPerSecond);
-        }
-
-        private void ManageDashTimer()
-        {
-            dashTimer.DecreaseTimerIfPositive();
-            if (dashTimer <= 0f)
-            {
-                canApplyGravity = true;
-                _rb.useGravity = true;
-                isDashing = false;
-            }
-        }
-
-        private void SetDrag()
-        {
-            _rb.drag = isOnGround ? playerScriptable.groundDrag : playerScriptable.airDrag;
-        }
-        
         //-------------------- Movements ----------------------
 
         #region Movements
@@ -159,23 +140,76 @@ namespace Player
         /// </summary>
         private void Move()
         {
-            var dir = DirectionFromCamera(direction).normalized * moveSpeed;
+            var dir = DirectionFromCamera(direction).normalized * GetOverallSpeed();
             
             #region unused
             /*var targetVelocity = new Vector3(dir.x, _rb.velocity.y, dir.z);
             _rb.velocity = Vector3.MoveTowards(_rb.velocity, targetVelocity * intertiaMultiplier, 
                 Time.deltaTime * playerScriptable.accelerationSpeed);*/
             #endregion
-            
-            if(_rb.velocity.magnitude < playerScriptable.speedMaxToAccelerate)
-                _rb.AddForce((moveSpeed * playerScriptable.accelerationMultiplier) * dir, ForceMode.Impulse);
+
+            if (!isOnSlope)
+            {
+                if (_rb.velocity.magnitude < playerScriptable.speedMaxToAccelerate)
+                {
+                    _rb.AddForce((GetOverallSpeed() * playerScriptable.accelerationMultiplier) * dir, ForceMode.Impulse);
+                }
+                else
+                {
+                    _rb.AddForce(GetOverallSpeed() * dir, ForceMode.Impulse);
+                }
+            }
             else
-                _rb.AddForce(moveSpeed * dir, ForceMode.Impulse);
+            {
+                if (isSlopeClimbing)
+                {
+                    _rb.AddForce(dir * GetOverallSpeed() * (actualSlopeAngle / playerScriptable.speedDuringSlopeClimb), ForceMode.Impulse);
+                }
+                else
+                {
+                    _rb.AddForce(dir * GetOverallSpeed() * (actualSlopeAngle / playerScriptable.speedDuringSlopeFall), ForceMode.Impulse);
+                }
+            }
         }
         
         private void SetMoveSpeed()
         {
             moveSpeed = isOnGround ? playerScriptable.moveSpeed : playerScriptable.moveSpeed / 2.5f;
+        }
+        
+        private void ManageDashDuration()
+        {
+            dashTimer.DecreaseTimerIfPositive();
+            if (dashTimer <= 0f)
+            {
+                canApplyGravity = true;
+                _rb.useGravity = true;
+                isDashing = false;
+            }
+        }
+        
+        private void ManageSpeedMultiplierFromDash()
+        {
+            //Decrease the duration while the value is positive.
+            dashTimerSpeedAdd.DecreaseTimerIfPositive();
+            
+            //Set the speed multiplier from dash to the added % value if the timer isn't finished.
+            // Lerp the speed to the multiplier in 1s.
+            // Lerp the speed to the basic value in Xs.
+            speedMultiplierFromDash = dashTimerSpeedAdd > 0 ? 
+                Mathf.Lerp(speedMultiplierFromDash, playerScriptable.dashSpeedMultiplier, Time.deltaTime) : 
+                Mathf.Lerp(speedMultiplierFromDash, 1f, Time.deltaTime / playerScriptable.dashSpeedMultiplierResetDuration);
+        }
+        
+        private void RechargeStaminaFromSpeed()
+        {
+            if(!isDashing)
+                PlayerStamina.Instance.GenerateStaminaStep(playerScriptable.staminaPerSecond);
+        }
+
+        private float GetOverallSpeed()
+        {
+            return moveSpeed * speedMultiplierFromDash;
         }
 
         #endregion
@@ -215,6 +249,36 @@ namespace Player
                 
                 _rb.velocity = v;
             }
+        }
+        
+        void DetectSlope()
+        {
+            Physics.Raycast(transform.position + new Vector3(0,0.35f,0), Vector3.down, out raycastSlope, playerScriptable.raycastLenghtSlopeDetection,
+                groundLayer);
+
+            actualSlopeAngle = Vector3.Angle(raycastSlope.normal, Vector3.up);
+
+            if (actualSlopeAngle > playerScriptable.minSlopeDegrees) 
+            {
+                isOnSlope = true;
+
+                isSlopeClimbing = raycastSlopeFront.collider;
+            }
+            else
+            {
+                isOnSlope = false;
+                isSlopeClimbing = false;
+            }
+        }
+        
+        private void SetPhysicalMaterialCollider(PhysicMaterial pm)
+        {
+            capsuleCollider.material = pm;
+        }
+        
+        private void SetDrag()
+        {
+            _rb.drag = isOnGround ? playerScriptable.groundDrag : playerScriptable.airDrag;
         }
         
         #endregion
@@ -318,13 +382,29 @@ namespace Player
 
             canApplyGravity = false;
             _rb.useGravity = false;
+            
             dashTimer = playerScriptable.dashDuration;
+            dashTimerSpeedAdd = playerScriptable.dashSpeedMultiplierDuration;
 
             isDashing = true;
 
             var v = _rb.velocity;
             v.y = 0f;
             _rb.velocity = v;
+        }
+
+        private void VerifyDashExecution()
+        {
+            if (canDash)
+            {
+                PlayerStamina.Instance.ConsumeStaminaStep(1);
+                Dash();
+            }
+        }
+
+        private void VerifyJumpExecution()
+        {
+            if(canJump) Jump();
         }
         
         #endregion
@@ -344,13 +424,15 @@ namespace Player
                 
             else if(isMoving && isDashing) currentActionState = PlayerActionStates.Dashing;
 
-            else currentActionState = PlayerActionStates.Idle;
+            else if (idleTimer <= 0f) currentActionState = PlayerActionStates.Idle;
+
+            else currentActionState = PlayerActionStates.Moving;
 
             switch (currentActionState)
             {
-                case PlayerActionStates.Idle: 
-                    if(_rb.velocity.magnitude < playerScriptable.speedMaxToNoFriction)
-                        SetPhysicalMaterialCollider(playerScriptable.frictionMaterial);
+                case PlayerActionStates.Idle:
+                    SetPhysicalMaterialCollider(playerScriptable.frictionMaterial);
+                    OnIdle();
                     break;
                 case PlayerActionStates.Moving:
                     SetPhysicalMaterialCollider(playerScriptable.movingMaterial);
@@ -368,14 +450,27 @@ namespace Player
                     throw new ArgumentOutOfRangeException();
             }
         }
+
+        private void DetectIdling()
+        {
+            if (isMoving && isOnGround) idleTimer = playerScriptable.timeBeforeDetectedIdle;
+            else idleTimer.DecreaseTimerIfPositive();
+        }
+
+        private void OnIdle()
+        {
+            //Reset the current dash duration. Make this cancel the dash.
+            dashTimer = 0f;
+            
+            //Reset the timer of the speed dash bonus.
+            dashTimerSpeedAdd = 0f;
+            
+            //Reset the speed bonus from dash.
+            speedMultiplierFromDash = 1f;
+        }
         
         #endregion
 
-        private void SetPhysicalMaterialCollider(PhysicMaterial pm)
-        {
-            capsuleCollider.material = pm;
-        }
-        
         //-------------------- Debug ----------------------
 
         #region Debug
@@ -383,6 +478,15 @@ namespace Player
         {
             Gizmos.color = Color.cyan;
             Gizmos.DrawWireCube(transform.position, playerScriptable.groundDetectionWidthHeightDepth);
+            
+            //Slope Detection
+            Gizmos.color = Color.magenta;
+            Gizmos.DrawRay(transform.position + new Vector3(0, 0.35f, 0),
+                Vector3.down * playerScriptable.raycastLenghtSlopeDetection);
+
+            //Slope Normal
+            Gizmos.color = Color.magenta;
+            Gizmos.DrawRay(raycastSlope.point, raycastSlope.normal * 2.5f);
         }
 
         private void OnGUI()

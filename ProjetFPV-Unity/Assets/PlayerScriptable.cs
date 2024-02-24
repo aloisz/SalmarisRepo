@@ -27,6 +27,15 @@ namespace Player
         [BoxGroup("Movement")][Tooltip("The player's dash duration, time before the player start to fall again.")]
         public float dashDuration = 0.5f;
         
+        [BoxGroup("Movement")][Tooltip("The player's dash speed multiplier. Example : 150% = 1.5")]
+        public float dashSpeedMultiplier = 1.5f;
+        
+        [BoxGroup("Movement")][Tooltip("The player's dash speed multiplier duration.")]
+        public float dashSpeedMultiplierDuration = 1.5f;
+        
+        [BoxGroup("Movement")][Tooltip("The player's dash speed multiplier reset time, the time for the value to reset.")]
+        public float dashSpeedMultiplierResetDuration = 2f;
+        
         [BoxGroup("Movement")][Tooltip("Above this speed magnitude value, the player doesnt have friction.")]
         public float speedMaxToNoFriction = 0.1f;
         
@@ -35,6 +44,12 @@ namespace Player
         
         [BoxGroup("Movement")][Tooltip("Rigidbody's velocity acceleration under the speedMaxToAccelerate value.")]
         public float accelerationMultiplier = 1.2f;
+        
+        [BoxGroup("Movement")][Tooltip("How many speed removed when falling on a slope.")]
+        public float speedDuringSlopeFall = 1.2f;
+        
+        [BoxGroup("Movement")][Tooltip("How many speed removed when climbing a slope.")]
+        public float speedDuringSlopeClimb = 1.2f;
 
         //----------------------------------------------------
         
@@ -57,6 +72,12 @@ namespace Player
         [BoxGroup("Detection")][Tooltip("The BoxCast's dimension to detect ground from the player.")]
         public Vector3 groundDetectionWidthHeightDepth = Vector3.one;
         
+        [BoxGroup("Detection")][Tooltip("Raycast lenght to detect underneath the player's foot.")]
+        public float raycastLenghtSlopeDetection = 1f;
+
+        [BoxGroup("Detection")][Tooltip("The minimum slope degree for be considered as a slope.")]
+        public float minSlopeDegrees = 25f;
+        
         //----------------------------------------------------
         
         [BoxGroup("Look")][Tooltip("The mouse's sensibility.")]
@@ -75,5 +96,10 @@ namespace Player
         
         [BoxGroup("Physical Material")][Tooltip("The friction material to apply when you're moving")]
         public PhysicMaterial movingMaterial;
+        
+        //-----------------------------------------------------
+        
+        [BoxGroup("States")][Tooltip("The time before the player is considered idling.")]
+        public float timeBeforeDetectedIdle = 1f;
     }
 }
