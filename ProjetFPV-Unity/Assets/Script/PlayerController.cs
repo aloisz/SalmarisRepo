@@ -165,6 +165,10 @@ namespace Player
                 {
                     _rb.AddForce(dir * GetOverallSpeed() * (actualSlopeAngle / playerScriptable.speedDuringSlopeClimb), ForceMode.Impulse);
                 }
+                else if(isDashing)
+                {
+                    _rb.AddForce(dir * (GetOverallSpeed() * 2f) * (actualSlopeAngle / playerScriptable.speedDuringSlopeFall), ForceMode.Impulse);
+                }
                 else
                 {
                     _rb.AddForce(dir * GetOverallSpeed() * (actualSlopeAngle / playerScriptable.speedDuringSlopeFall), ForceMode.Impulse);
@@ -388,9 +392,12 @@ namespace Player
 
             isDashing = true;
 
+            _rb.velocity = Vector3.zero;
+
+            /*
             var v = _rb.velocity;
             v.y = 0f;
-            _rb.velocity = v;
+            _rb.velocity = v;*/
         }
 
         private void VerifyDashExecution()
