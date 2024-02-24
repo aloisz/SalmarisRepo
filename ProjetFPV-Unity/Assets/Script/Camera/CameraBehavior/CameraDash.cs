@@ -40,12 +40,16 @@ namespace CameraBehavior
 
         private void Rotation()
         {
-            float zValue = 0; // base value of cam rotation when sliding
+            float xValue = 0; // base value of cam rotation when sliding
             if (PlayerController.Instance.direction.x == 0) // Is player Not going to side left or right then add a little rotation
             {
-                cameraManager.smoothOffset = Quaternion.Slerp(cameraManager.smoothOffset, 
-                    Quaternion.Euler(0, 0, zValue),
-                    Time.deltaTime * cameraManager.so_Camera.rotationOffSetSmooth);
+                if (PlayerController.Instance.direction.z <= 0) // Is player going backward
+                {
+                    xValue = cameraManager.so_Camera.dashingRotationOffSet.x * cameraManager.so_Camera.dashingRotMultiplier;
+                    cameraManager.smoothOffset = Quaternion.Slerp(cameraManager.smoothOffset, 
+                        Quaternion.Euler(xValue, 0, 0),
+                        Time.deltaTime * cameraManager.so_Camera.rotationOffSetSmooth);
+                }
             }
             else
             {
