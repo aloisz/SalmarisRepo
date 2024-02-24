@@ -393,11 +393,6 @@ namespace Player
             isDashing = true;
 
             _rb.velocity = Vector3.zero;
-
-            /*
-            var v = _rb.velocity;
-            v.y = 0f;
-            _rb.velocity = v;*/
         }
 
         private void VerifyDashExecution()
