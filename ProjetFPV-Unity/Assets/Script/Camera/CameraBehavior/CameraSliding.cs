@@ -55,7 +55,7 @@ namespace CameraBehavior
         {
             if (Math.Abs(cameraManager.currentFov - cameraManager.so_Camera.fovSliding) > 0.1f)
             {
-                cameraManager.currentFov = Mathf.Lerp(cameraManager.currentFov, cameraManager.so_Camera.fovSliding, Time.deltaTime * cameraManager.so_Camera.timeToGetToTheNewFOV);
+                cameraManager.currentFov = Mathf.Lerp(cameraManager.currentFov, cameraManager.so_Camera.fovSliding, Time.deltaTime * cameraManager.so_Camera.timeToGetToSlidingFov);
             }
             cameraManager.camera.fieldOfView = cameraManager.currentFov;
         }

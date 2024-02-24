@@ -26,13 +26,14 @@ namespace CameraBehavior
         /// <summary>
         /// Idle
         /// </summary>
-        [field: BoxGroup("---Idle---")][field: SerializeField] internal float timeToGetToTheNewFOV { get; private set; }
+        [field: BoxGroup("---Idle---")][field: SerializeField] internal float timeToGetToIdleFov { get; private set; }
         [field: BoxGroup("---Idle---")][field: SerializeField] internal float fovIdle { get; private set; }
         
         
         /// <summary>
         /// Moving
         /// </summary>
+        [field: BoxGroup("---Moving---")][field: SerializeField] internal float timeToGetToMovingFov { get; private set; }
         [field: BoxGroup("---Moving---")][field: SerializeField] internal float fovMoving { get; private set; }
         [field: BoxGroup("---Moving---")][field: SerializeField] internal Vector3 rotationOffSet { get; private set; }
 
@@ -41,14 +42,15 @@ namespace CameraBehavior
         /// Sliding
         /// </summary>
         [field: BoxGroup("---Sliding---")][field: SerializeField] internal float slindingRotMultiplier { get; private set; }
+        [field: BoxGroup("---Sliding---")][field: SerializeField] internal float timeToGetToSlidingFov { get; private set; }
         [field: BoxGroup("---Sliding---")][field: SerializeField] internal float fovSliding { get; private set; }
         
         
         /// <summary>
         /// Dashing
         /// </summary>
+        [field: BoxGroup("---Dashing---")][field: SerializeField] internal float timeToGetToDashingFov { get; private set; }
         [field: BoxGroup("---Dashing---")][field: SerializeField] internal float fovDashing { get; private set; }
-        [field: BoxGroup("---Dashing---")][field: SerializeField] internal float timeToGetToTheNewFOVDashing { get; private set; }
         
         [field: BoxGroup("---Dashing---")][field: SerializeField] internal float dashingRotMultiplier { get; private set; }
         [field: BoxGroup("---Dashing---")][field: SerializeField] internal Vector3 dashingRotationOffSet { get; private set; }

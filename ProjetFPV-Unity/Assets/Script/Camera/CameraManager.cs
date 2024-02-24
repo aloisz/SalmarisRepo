@@ -135,7 +135,7 @@ namespace CameraBehavior
         {
             if (Math.Abs(currentFov - so_Camera.fovIdle) > 0.1f)
             {
-                currentFov = Mathf.Lerp(currentFov, so_Camera.fovIdle, Time.deltaTime * so_Camera.timeToGetToTheNewFOV);
+                currentFov = Mathf.Lerp(currentFov, so_Camera.fovIdle, Time.deltaTime * so_Camera.timeToGetToIdleFov);
             }
             camera.fieldOfView = currentFov;
         }
@@ -177,7 +177,7 @@ namespace CameraBehavior
         {
             if (Math.Abs(currentFov - so_Camera.fovMoving) > 0.1f)
             {
-                currentFov = Mathf.Lerp(currentFov, so_Camera.fovMoving, Time.deltaTime * so_Camera.timeToGetToTheNewFOV);
+                currentFov = Mathf.Lerp(currentFov, so_Camera.fovMoving, Time.deltaTime * so_Camera.timeToGetToMovingFov);
             }
             camera.fieldOfView = currentFov;
         }

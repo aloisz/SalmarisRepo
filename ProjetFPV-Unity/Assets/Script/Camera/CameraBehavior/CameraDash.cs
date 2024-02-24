@@ -26,7 +26,7 @@ namespace CameraBehavior
         {
             if (Math.Abs(cameraManager.currentFov - cameraManager.so_Camera.fovDashing) > 0.1f)
             {
-                cameraManager.currentFov = Mathf.Lerp(cameraManager.currentFov, cameraManager.so_Camera.fovDashing, Time.deltaTime * cameraManager.so_Camera.timeToGetToTheNewFOVDashing);
+                cameraManager.currentFov = Mathf.Lerp(cameraManager.currentFov, cameraManager.so_Camera.fovDashing, Time.deltaTime * cameraManager.so_Camera.timeToGetToDashingFov);
             }
             cameraManager.camera.fieldOfView = cameraManager.currentFov;
         }
