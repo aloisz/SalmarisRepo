@@ -18,6 +18,9 @@ namespace Player
         [BoxGroup("Movement")][Tooltip("The player's jump impulsion force.")]
         public float jumpForce = 20f;
         
+        [BoxGroup("Movement")][Tooltip("The player's coyote jump impulsion force.")]
+        public float coyoteJumpForce = 20f;
+        
         [BoxGroup("Movement")][Tooltip("The player's movement air multiplier.")]
         public float moveAirMultiplier = 0.1f;
         
@@ -36,8 +39,8 @@ namespace Player
         [BoxGroup("Movement")][Tooltip("The player's dash speed multiplier reset time, the time for the value to reset.")]
         public float dashSpeedMultiplierResetDuration = 2f;
         
-        [BoxGroup("Movement")][Tooltip("Above this speed magnitude value, the player doesnt have friction.")]
-        public float speedMaxToNoFriction = 0.1f;
+        [BoxGroup("Movement")][Tooltip("How much the speed is multiplied when player dash into a slope.")]
+        public float dashInSlopeSpeedMultiplier = 1.35f;
         
         [BoxGroup("Movement")][Tooltip("Under this speed magnitude value, the rigidbody velocity will be boosted.")]
         public float speedMaxToAccelerate = 12f;
@@ -50,6 +53,9 @@ namespace Player
         
         [BoxGroup("Movement")][Tooltip("How many speed removed when climbing a slope.")]
         public float speedDuringSlopeClimb = 1.2f;
+        
+        [BoxGroup("Movement")][Tooltip("How much time the player can still jump while in the air.")]
+        public float coyoteJump = 0.35f;
 
         //----------------------------------------------------
         

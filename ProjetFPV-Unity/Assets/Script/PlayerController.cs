@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using NaughtyAttributes;
+using Unity.VisualScripting;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -36,6 +37,7 @@ namespace Player
         
         private float dashTimer;
         private float idleTimer;
+        private float coyoteTimer;
 
         private float actualSlopeAngle;
         
@@ -61,8 +63,8 @@ namespace Player
         
         internal PlayerActionStates currentActionState;
         
-        private bool canJump = true;
-        private bool canDash = true;
+        private bool canJump;
+        private bool canDash;
         private bool canApplyGravity = true;
         
         private bool isAccelerating;
@@ -115,9 +117,15 @@ namespace Player
             DetectIdling();
             
             DetectSlope();
+            
+            //CoyoteJump();
+
+            if (Input.GetKeyDown(KeyCode.Keypad1)) Time.timeScale = 0.1f;
+            if (Input.GetKeyDown(KeyCode.Keypad2)) Time.timeScale = 0.5f;
+            if (Input.GetKeyDown(KeyCode.Keypad3)) Time.timeScale = 1f;
 
             canDash = receivedDashInput && !isDashing && PlayerStamina.Instance.HasEnoughStamina(1);
-            canJump = isOnGround && receivedJumpInput;
+            canJump = /*(coyoteTimer > 0f && receivedJumpInput) || */(isOnGround && receivedJumpInput);
         }
         
         private void FixedUpdate()
@@ -147,32 +155,14 @@ namespace Player
             _rb.velocity = Vector3.MoveTowards(_rb.velocity, targetVelocity * intertiaMultiplier, 
                 Time.deltaTime * playerScriptable.accelerationSpeed);*/
             #endregion
-
-            if (!isOnSlope)
+            
+            if (_rb.velocity.magnitude < playerScriptable.speedMaxToAccelerate)
             {
-                if (_rb.velocity.magnitude < playerScriptable.speedMaxToAccelerate)
-                {
-                    _rb.AddForce((GetOverallSpeed() * playerScriptable.accelerationMultiplier) * dir, ForceMode.Impulse);
-                }
-                else
-                {
-                    _rb.AddForce(GetOverallSpeed() * dir, ForceMode.Impulse);
-                }
+                _rb.AddForce((GetOverallSpeed() * playerScriptable.accelerationMultiplier) * dir, ForceMode.Impulse);
             }
             else
             {
-                if (isSlopeClimbing)
-                {
-                    _rb.AddForce(dir * GetOverallSpeed() * (actualSlopeAngle / playerScriptable.speedDuringSlopeClimb), ForceMode.Impulse);
-                }
-                else if(isDashing)
-                {
-                    _rb.AddForce(dir * (GetOverallSpeed() * 2f) * (actualSlopeAngle / playerScriptable.speedDuringSlopeFall), ForceMode.Impulse);
-                }
-                else
-                {
-                    _rb.AddForce(dir * GetOverallSpeed() * (actualSlopeAngle / playerScriptable.speedDuringSlopeFall), ForceMode.Impulse);
-                }
+                _rb.AddForce(GetOverallSpeed() * dir, ForceMode.Impulse);
             }
         }
         
@@ -213,7 +203,34 @@ namespace Player
 
         private float GetOverallSpeed()
         {
-            return moveSpeed * speedMultiplierFromDash;
+            if (!isOnSlope)
+            {
+                return moveSpeed * speedMultiplierFromDash;
+            }
+            else
+            {
+                if (isSlopeClimbing)
+                {
+                    return moveSpeed * speedMultiplierFromDash * (actualSlopeAngle / playerScriptable.speedDuringSlopeClimb);
+                }
+                else if(isDashing)
+                {
+                    return (moveSpeed * speedMultiplierFromDash * (actualSlopeAngle / playerScriptable.speedDuringSlopeFall)) 
+                           * playerScriptable.dashInSlopeSpeedMultiplier;
+                }
+                else
+                {
+                    return moveSpeed * speedMultiplierFromDash * (actualSlopeAngle / playerScriptable.speedDuringSlopeFall);
+                }
+            }
+
+            return 1f;
+        }
+
+        private void CoyoteJump()
+        {
+            if (!isOnGround) coyoteTimer.DecreaseTimerIfPositive();
+            else coyoteTimer = playerScriptable.coyoteJump;
         }
 
         #endregion
@@ -301,7 +318,7 @@ namespace Player
             {
                 OnLand();
             }
-            
+
             wasOnGroundLastFrame = isOnGround;
         }
 
@@ -329,7 +346,13 @@ namespace Player
         private void Jump()
         {
             isJumping = true;
-            _rb.AddForce(playerScriptable.jumpForce * Vector3.up, ForceMode.Impulse);
+            
+            /*if(coyoteTimer < playerScriptable.coyoteJump - 0.1f)
+                _rb.AddForce(playerScriptable.coyoteJumpForce * Vector3.up, ForceMode.Impulse);
+            else */
+                _rb.AddForce(playerScriptable.jumpForce * Vector3.up, ForceMode.Impulse);
+            
+            coyoteTimer = 0f;
         }
 
         /// <summary>
@@ -422,7 +445,7 @@ namespace Player
             
             else if(isMoving && isSliding && !isJumping && !isDashing) currentActionState = PlayerActionStates.Sliding;
             
-            else if (isMoving && !isSliding && isJumping && !isDashing) currentActionState = PlayerActionStates.Jumping;
+            else if (!isSliding && isJumping && !isDashing) currentActionState = PlayerActionStates.Jumping;
                 
             else if(isMoving && isDashing) currentActionState = PlayerActionStates.Dashing;
 
@@ -499,16 +522,32 @@ namespace Player
             style.normal.textColor = Color.white;
             
             // Set the position and size of the text
+            // 70 each part
+            // 50 each elements
             Rect rect = new Rect(10, 10, 200, 50);
             Rect rect1 = new Rect(10, 60, 200, 50);
-            Rect rect2 = new Rect(10, 110, 200, 50);
-            Rect rect3 = new Rect(10, 160, 200, 50);
+            
+            Rect rect2 = new Rect(10, 130, 200, 50);
+            Rect rect3 = new Rect(10, 180, 200, 50);
+            
+            Rect rect4 = new Rect(10, 250, 200, 50);
+            
+            Rect rect5 = new Rect(10, 320, 200, 50);
+            
+            Rect rect6 = new Rect(10, 390, 200, 50);
 
             // Display the text on the screen
             GUI.Label(rect, $"Direction : {direction}", style);
             GUI.Label(rect1, $"Direction No reset : {directionNotReset}", style);
+            
             GUI.Label(rect2, $"Rigidbody Velocity : {_rb.velocity}", style);
             GUI.Label(rect3, $"Rigidbody Magnitude : {_rb.velocity.magnitude}", style);
+            
+            GUI.Label(rect4, $"Current State : {Convert.ToString(currentActionState)}", style);
+            
+            GUI.Label(rect5, $"Overall Speed : {GetOverallSpeed()}", style);
+            
+            GUI.Label(rect6, $"Grounded ? : {isOnGround}", BoolStyle(isOnGround));
         }
 
         GUIStyle BoolStyle(bool value)
