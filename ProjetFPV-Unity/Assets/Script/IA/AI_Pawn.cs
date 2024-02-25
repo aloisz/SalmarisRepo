@@ -9,7 +9,7 @@ using UnityEngine.AI;
 
 namespace AI
 {
-    public class AI_Pawn : MonoBehaviour
+    public class AI_Pawn : MonoBehaviour, IDamage
     {
 
         [SerializeField] private Transform targetToFollow;
@@ -46,6 +46,11 @@ namespace AI
         protected virtual void OnTriggerEnter(Collider other)
         {
             targetToFollow = PlayerController.Instance.transform;
+        }
+        
+        public virtual void Hit()
+        {
+            throw new NotImplementedException();
         }
 
 

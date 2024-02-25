@@ -163,13 +163,13 @@ namespace Weapon
             if (Physics.Raycast(camera.transform.position, camera.transform.forward, out hit, 1000))
             {
                 Debug.DrawRay(camera.transform.position, camera.transform.forward * 1000, Color.red, .2f);
-                if (hit.transform.GetComponent<IDamage>() != null)
-                {
-                    hit.transform.GetComponent<IDamage>().Hit();
-                }
                 if (hit.transform.GetComponent<Collider>() != null)
                 {
                     InstantiateBulletImpact(hit);
+                }
+                if (hit.transform.GetComponent<IDamage>() != null)
+                {
+                    hit.transform.GetComponent<IDamage>().Hit();
                 }
             }
         }
@@ -191,23 +191,22 @@ namespace Weapon
                 if (Physics.Raycast(camera.transform.position, direction, out hit, 1000))
                 {
                     Debug.DrawRay(camera.transform.position, direction * 1000, Color.red, .2f);
-                    if (hit.transform.GetComponent<IDamage>() != null)
-                    {
-                        hit.transform.GetComponent<IDamage>().Hit();
-                    }
-
                     if (hit.transform.GetComponent<Collider>() != null)
                     {
                         InstantiateBulletImpact(hit);
                     }
                     
+                    if (hit.transform.GetComponent<IDamage>() != null)
+                    {
+                        hit.transform.GetComponent<IDamage>().Hit();
+                    }
                 }
             }
         }
 
         protected virtual void InstantiateBulletImpact(RaycastHit hit)
         {
-            GameObject particle =  Instantiate(GameManager.Instance.PS_BulletImpact, hit.point, Quaternion.identity);
+            GameObject particle =  Instantiate(GameManager.Instance.PS_BulletImpact, hit.point, Quaternion.identity, GameManager.Instance.transform);
             particle.transform.up = hit.normal;
         }
 
