@@ -9,15 +9,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 89a56944525978d448f6e655749e2e04, type: 3}
-  m_Name: new Weapon
+  m_Script: {fileID: 11500000, guid: f194d50172026464c8db38865beb727b, type: 3}
+  m_Name: Pistol
   m_EditorClassIdentifier: 
   <weaponName>k__BackingField: Pistol
-  <modeOfWeapon>k__BackingField:
-  - numberOfBullet: 10
-    timeToReload: 1.5
-    bulletSpeed: 0
-    bulletDamage: 8
-    fireRate: 10
-    selectiveFireState: 0
-    munitionTypeState: 0
+  <weaponModeIndex>k__BackingField: 0
+  weaponMode:
+  - {fileID: 11400000, guid: 1e156463b3c7bdb4c884590d2faf288f, type: 2}
+  - {fileID: 11400000, guid: a4bcec46f4d067f4786d791a7a1867d7, type: 2}

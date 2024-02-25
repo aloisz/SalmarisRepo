@@ -5,22 +5,23 @@ using CameraBehavior;
 using NaughtyAttributes;
 using Player;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 namespace Weapon
 {
     public class WeaponManager : MonoBehaviour
     {
         [Expandable]
-        public SO_WeaponManager so_Weapon;
-        public SelectFire selectFire;
+        public SO_Weapon so_Weapon;
         
         protected bool canFire = true;
         protected bool isShooting;
         protected bool isReloading;
         
         protected float lastTimefired;
-        protected int actualNumberOfBullet;
-        
+        protected int actualNumberOfBullet, standbyActualNumberOfBulletPrimaryMode, standbyActualNumberOfBulletSecondaryMode; // Permit to store the secondary mode number of bullet
+        protected WeaponMode actualWeaponModeIndex;
+        protected bool isChangingActualWeaponModeIndex;
         
         // Get All Component
         protected PlayerController PlayerController;
@@ -30,54 +31,134 @@ namespace Weapon
         {
             PlayerController = PlayerController.Instance;
             camera = Camera.main;
+            
             WeaponRefreshement();
         }
         
         /// <summary>
-        /// when Changing Weapon this will adapt the value weapon to weapon
+        /// when Changing Weapon/ this will adapt the value weapon to weapon
         /// </summary>
         protected virtual void WeaponRefreshement()
         {
-            actualNumberOfBullet = so_Weapon.modeOfWeapon[(int)selectFire].numberOfBullet;
+            actualNumberOfBullet = so_Weapon.weaponMode[(int)actualWeaponModeIndex].numberOfBullet;
         }
-        
+       
         protected virtual void Update()
         {
             GetAllInput();
-            if (actualNumberOfBullet == 0) Reload();
         }
-
+        
         protected virtual void GetAllInput()
         {
-            if (Input.GetKey(KeyCode.Mouse0))
-            {
-                Shoot();
-            }
+            if (Input.GetKey(KeyCode.Mouse0)) Shoot();
             else
             {
                 isShooting = false;
+                canFire = true;
             }
-
-            if (Input.GetKeyDown(KeyCode.R))
+            
+            if (Input.GetKeyDown(KeyCode.R)) Reload();
+            
+            if (Input.GetKeyDown(KeyCode.Mouse1))
             {
-                Reload();
+                isChangingActualWeaponModeIndex = !isChangingActualWeaponModeIndex;
+                actualWeaponModeIndex = isChangingActualWeaponModeIndex ? WeaponMode.Secondary : WeaponMode.Primary;
+                WeaponRefreshement();
             }
         }
-        
-        
+
+        #region Shooting
+
         protected virtual void Shoot()
         {
-            if (Time.time - lastTimefired > 1 / so_Weapon.modeOfWeapon[(int)selectFire].fireRate && !isReloading && canFire)
+            if (actualNumberOfBullet <= 0 || isReloading || !canFire) return; 
+            switch (so_Weapon.weaponMode[(int)actualWeaponModeIndex].selectiveFireState)
             {
-                if (actualNumberOfBullet > 0) HitScan();
+                case SelectiveFireType.Single:
+                    SingleSelectiveFire();
+                    break;
+                
+                case SelectiveFireType.Burst:
+                    BurstSelectiveFire();
+                    break;
+                
+                case SelectiveFireType.Auto:
+                    AutoSelectiveFire();
+                    break;
             }
         }
 
-        private void HitScan()
+        /// <summary>
+        /// Some Logic when shooting
+        /// </summary>
+        protected virtual void LogicWhenShooting()
         {
             isShooting = true;
             lastTimefired = Time.time;
             actualNumberOfBullet--;
+            if(actualNumberOfBullet == 0) Reload();
+        }
+
+        /// <summary>
+        /// Permit to Shoot in Single mode
+        /// </summary>
+        protected virtual void SingleSelectiveFire()
+        {
+            LogicWhenShooting();
+            WichTypeMunitionIsGettingShot();
+            canFire = false;
+        }
+        
+        
+        /// <summary>
+        /// Permit to Shoot in Burst mode
+        /// </summary>
+        protected virtual void BurstSelectiveFire()
+        {
+            LogicWhenShooting();
+        }
+        
+        /// <summary>
+        /// Permit to Shoot in Automatic mode
+        /// </summary>
+        protected virtual void AutoSelectiveFire()
+        {
+            if (Time.time - lastTimefired > 1 / so_Weapon.weaponMode[(int)actualWeaponModeIndex].fireRate)
+            {
+                LogicWhenShooting();
+                WichTypeMunitionIsGettingShot();
+            }
+        }
+
+        /// <summary>
+        /// Conduct the munition type to the correct path
+        /// </summary>
+        protected virtual void WichTypeMunitionIsGettingShot()
+        {
+            switch (so_Weapon.weaponMode[(int)actualWeaponModeIndex].munitionTypeState)
+            {
+                case MunitionType.Raycast:
+                    Raycast();
+                    break;
+                case MunitionType.Projectile:
+                    break;
+            }
+        }
+
+        
+        
+        #region RayCast
+
+        protected virtual void Raycast()
+        {
+            if (so_Weapon.weaponMode[(int)actualWeaponModeIndex].isHavingDispersion)
+            {
+                HitScanWithDispersion();
+            }
+            else HitScan();
+        }
+        protected virtual void HitScan()
+        {
             RaycastHit hit;
             if (Physics.Raycast(camera.transform.position, camera.transform.forward, out hit, 1000))
             {
@@ -86,9 +167,58 @@ namespace Weapon
                 {
                     hit.transform.GetComponent<IDamage>().Hit();
                 }
+                if (hit.transform.GetComponent<Collider>() != null)
+                {
+                    InstantiateBulletImpact(hit);
+                }
             }
         }
+        protected virtual void HitScanWithDispersion()
+        {
+            RaycastHit hit;
+            int howManyRay = Random.Range(so_Weapon.weaponMode[(int)actualWeaponModeIndex].howManyBulletShot.x,
+                so_Weapon.weaponMode[(int)actualWeaponModeIndex].howManyBulletShot.y);
+            for (int i = 0; i < howManyRay; i++)
+            {
+                float zAxisDispersion = Random.Range(so_Weapon.weaponMode[(int)actualWeaponModeIndex].zAxisDispersion.x,
+                    so_Weapon.weaponMode[(int)actualWeaponModeIndex].zAxisDispersion.y);
+                
+                float yAxisDispersion = Random.Range(so_Weapon.weaponMode[(int)actualWeaponModeIndex].yAxisDispersion.x,
+                    so_Weapon.weaponMode[(int)actualWeaponModeIndex].yAxisDispersion.y);
+
+                Vector3 direction = camera.transform.forward + new Vector3(0, yAxisDispersion, zAxisDispersion);
+                
+                if (Physics.Raycast(camera.transform.position, direction, out hit, 1000))
+                {
+                    Debug.DrawRay(camera.transform.position, direction * 1000, Color.red, .2f);
+                    if (hit.transform.GetComponent<IDamage>() != null)
+                    {
+                        hit.transform.GetComponent<IDamage>().Hit();
+                    }
+
+                    if (hit.transform.GetComponent<Collider>() != null)
+                    {
+                        InstantiateBulletImpact(hit);
+                    }
+                    
+                }
+            }
+        }
+
+        protected virtual void InstantiateBulletImpact(RaycastHit hit)
+        {
+            GameObject particle =  Instantiate(GameManager.Instance.PS_BulletImpact, hit.point, Quaternion.identity);
+            particle.transform.up = hit.normal;
+        }
+
+        #endregion
         
+        
+        #endregion
+        
+        //-------------------------------------------
+        #region Reload
+
         protected virtual void Reload()
         {
             isReloading = true;
@@ -97,13 +227,14 @@ namespace Weapon
 
         private IEnumerator TimeToReload()
         {
-            yield return new WaitForSeconds(so_Weapon.modeOfWeapon[(int)selectFire].timeToReload);
-            actualNumberOfBullet = so_Weapon.modeOfWeapon[(int)selectFire].numberOfBullet;
+            yield return new WaitForSeconds(so_Weapon.weaponMode[(int)actualWeaponModeIndex].timeToReload);
+            actualNumberOfBullet = so_Weapon.weaponMode[(int)actualWeaponModeIndex].numberOfBullet;
             isReloading = false;
         }
 
-
-
+        #endregion
+        
+        //-------------------------------------------
         #region Debug
 
         private void OnGUI()
@@ -118,23 +249,20 @@ namespace Weapon
             Rect rect1 = new Rect(1500, 60, 200, 50);
             Rect rect2 = new Rect(1500, 110, 200, 50);
             Rect rect3 = new Rect(1500, 160, 200, 50);
+            Rect rect4 = new Rect(1500, 210, 200, 50);
 
             // Display the text on the screen
-            GUI.Label(rect, $"numberOfBullet : {so_Weapon.modeOfWeapon[0].numberOfBullet}", style);
+            GUI.Label(rect, $"numberOfBullet : {so_Weapon.weaponMode[(int)actualWeaponModeIndex].numberOfBullet}", style);
             GUI.Label(rect1, $"actualNumberOfBullet : {actualNumberOfBullet}", style);
-            GUI.Label(rect2, $"timeToReload : {so_Weapon.modeOfWeapon[0].timeToReload}", style);
-            GUI.Label(rect3, $"fireRate : {so_Weapon.modeOfWeapon[0].fireRate}", style);
+            GUI.Label(rect2, $"timeToReload : {so_Weapon.weaponMode[(int)actualWeaponModeIndex].timeToReload}", style);
+            GUI.Label(rect3, $"fireRate : {so_Weapon.weaponMode[(int)actualWeaponModeIndex].fireRate}", style);
+            GUI.Label(rect4, $"weaponModeIndex : {actualWeaponModeIndex}", style);
         }        
 
         #endregion
+        
+        //-------------------------------------------
     }
-}
-
-
-public enum SelectFire
-{
-    FirstMode,
-    SecondMode
 }
 
 
