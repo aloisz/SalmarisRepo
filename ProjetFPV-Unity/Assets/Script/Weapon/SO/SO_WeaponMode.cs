@@ -31,9 +31,9 @@ namespace Weapon
         [field: ShowIf("isHavingDispersion")] [MinMaxSlider(1, 100.0f)] [field: SerializeField]
         internal Vector2Int howManyBulletShot;
         
-        [field: ShowIf("isHavingDispersion")] [MinMaxSlider(-2, 2)] [field: SerializeField]
+        [field: ShowIf("isHavingDispersion")] [MinMaxSlider(-100, 100)] [field: SerializeField]
         internal Vector2 zAxisDispersion;
-        [field: ShowIf("isHavingDispersion")] [MinMaxSlider(-2, 2)] [field: SerializeField]
+        [field: ShowIf("isHavingDispersion")] [MinMaxSlider(-100, 100)] [field: SerializeField]
         internal Vector2 yAxisDispersion;
         #endregion
         

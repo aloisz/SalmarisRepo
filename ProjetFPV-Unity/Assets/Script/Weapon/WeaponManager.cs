@@ -151,14 +151,11 @@ namespace Weapon
 
         protected virtual void Raycast()
         {
-            if (so_Weapon.weaponMode[(int)actualWeaponModeIndex].isHavingDispersion)
-            {
-                HitScanWithDispersion();
-            }
-            else HitScan();
+            if (so_Weapon.weaponMode[(int)actualWeaponModeIndex].isHavingDispersion) DispersionHitScan();
+            else SingleHitScan();
         }
 
-        protected virtual void HitLogic(RaycastHit hit)
+        protected virtual void HitScanLogic(RaycastHit hit)
         {
             if (hit.transform.GetComponent<Collider>() != null)
             {
@@ -169,35 +166,35 @@ namespace Weapon
                 hit.transform.GetComponent<IDamage>().Hit(so_Weapon.weaponMode[(int)actualWeaponModeIndex].bulletDamage);
             }
         }
-        protected virtual void HitScan()
+        protected virtual void SingleHitScan()
         {
             RaycastHit hit;
             if (Physics.Raycast(camera.transform.position, camera.transform.forward, out hit, 1000, so_Weapon.hitLayer))
             {
                 Debug.DrawRay(camera.transform.position, camera.transform.forward * 1000, Color.red, .2f);
                 
-                HitLogic(hit);
+                HitScanLogic(hit);
             }
         }
-        protected virtual void HitScanWithDispersion()
+        protected virtual void DispersionHitScan()
         {
             RaycastHit hit;
             int howManyRay = Random.Range(so_Weapon.weaponMode[(int)actualWeaponModeIndex].howManyBulletShot.x,
                 so_Weapon.weaponMode[(int)actualWeaponModeIndex].howManyBulletShot.y);
             for (int i = 0; i < howManyRay; i++)
             {
-                float zAxisDispersion = Random.Range(so_Weapon.weaponMode[(int)actualWeaponModeIndex].zAxisDispersion.x,
-                    so_Weapon.weaponMode[(int)actualWeaponModeIndex].zAxisDispersion.y);
+                float zAxisDispersion = Random.Range(so_Weapon.weaponMode[(int)actualWeaponModeIndex].zAxisDispersion.x / 2f,
+                    so_Weapon.weaponMode[(int)actualWeaponModeIndex].zAxisDispersion.y / 2f);
                 
-                float yAxisDispersion = Random.Range(so_Weapon.weaponMode[(int)actualWeaponModeIndex].yAxisDispersion.x,
-                    so_Weapon.weaponMode[(int)actualWeaponModeIndex].yAxisDispersion.y);
-
-                Vector3 direction = camera.transform.forward + new Vector3(-zAxisDispersion, yAxisDispersion, zAxisDispersion) ;
+                float yAxisDispersion = Random.Range(so_Weapon.weaponMode[(int)actualWeaponModeIndex].yAxisDispersion.x / 2f,
+                    so_Weapon.weaponMode[(int)actualWeaponModeIndex].yAxisDispersion.y / 2f);
+                
+                Vector3 direction = Quaternion.Euler(0f, yAxisDispersion, zAxisDispersion) * camera.transform.forward;
                 
                 if (Physics.Raycast(camera.transform.position, direction, out hit, 1000, so_Weapon.hitLayer))
                 {
                     Debug.DrawRay(camera.transform.position, direction * 1000, Color.red, .2f);
-                    HitLogic(hit);
+                    HitScanLogic(hit);
                 }
             }
         }

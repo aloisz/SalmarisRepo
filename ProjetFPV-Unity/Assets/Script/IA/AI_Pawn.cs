@@ -14,12 +14,19 @@ namespace AI
 
         [SerializeField] private Transform targetToFollow;
         [SerializeField] protected SO_IA so_IA;
+
+        protected float actualPawnHealth;
         
         //Component----------------------
         protected NavMeshAgent navMeshAgent;
         [SerializeField] protected SphereCollider visionDetector;
         
         protected virtual void Start()
+        {
+            GetPawnPersonnalInformation();
+        }
+
+        protected virtual void GetPawnPersonnalInformation()
         {
             navMeshAgent = GetComponent<NavMeshAgent>();
 
@@ -28,11 +35,31 @@ namespace AI
             navMeshAgent.acceleration = so_IA.accelerationSpeed;
             navMeshAgent.radius = so_IA.avoidanceDistance;
 
+            actualPawnHealth = so_IA.health;
+
             visionDetector.isTrigger = true;
             visionDetector.radius = so_IA.visionDetectorRadius;
         }
 
         protected virtual void Update()
+        {
+            CheckIfIsStillAlive();
+            FollowTarget();
+        }
+        
+        protected virtual void CheckIfIsStillAlive ()
+        {
+            if (actualPawnHealth <= 0)
+            {
+                Destroy(gameObject);
+            }
+        }
+        
+        
+
+        #region VisionModule
+
+        protected virtual void FollowTarget ()
         {
             if(!targetToFollow) return;
             SetTarget(targetToFollow);
@@ -47,10 +74,13 @@ namespace AI
         {
             targetToFollow = PlayerController.Instance.transform;
         }
+
+        #endregion
         
-        public virtual void Hit()
+        
+        public void Hit(float damageInflicted)
         {
-            throw new NotImplementedException();
+            actualPawnHealth -= damageInflicted;
         }
 
 

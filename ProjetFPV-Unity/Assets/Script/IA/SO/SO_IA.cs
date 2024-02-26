@@ -13,6 +13,8 @@ namespace AI
         [field: Range(0, 50)][field:SerializeField] internal float walkingSpeed { get; private set; }
         [field: Range(0, 10)][field:SerializeField] internal float stoppingDistance { get; private set; }
         
+        [field: Header("Health Module")] 
+        [field: Range(0, 500)][field:SerializeField] internal float health { get; private set; }
 
         [field: Header("Avoidance Module")]
         [field: Range(.5f, 10)][field:SerializeField] internal float avoidanceDistance { get; private set; }
