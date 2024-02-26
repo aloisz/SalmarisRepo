@@ -157,20 +157,26 @@ namespace Weapon
             }
             else HitScan();
         }
+
+        protected virtual void HitLogic(RaycastHit hit)
+        {
+            if (hit.transform.GetComponent<Collider>() != null)
+            {
+                InstantiateBulletImpact(hit);
+            }
+            if (hit.transform.GetComponent<IDamage>() != null)
+            {
+                hit.transform.GetComponent<IDamage>().Hit(so_Weapon.weaponMode[(int)actualWeaponModeIndex].bulletDamage);
+            }
+        }
         protected virtual void HitScan()
         {
             RaycastHit hit;
-            if (Physics.Raycast(camera.transform.position, camera.transform.forward, out hit, 1000))
+            if (Physics.Raycast(camera.transform.position, camera.transform.forward, out hit, 1000, so_Weapon.hitLayer))
             {
                 Debug.DrawRay(camera.transform.position, camera.transform.forward * 1000, Color.red, .2f);
-                if (hit.transform.GetComponent<Collider>() != null)
-                {
-                    InstantiateBulletImpact(hit);
-                }
-                if (hit.transform.GetComponent<IDamage>() != null)
-                {
-                    hit.transform.GetComponent<IDamage>().Hit();
-                }
+                
+                HitLogic(hit);
             }
         }
         protected virtual void HitScanWithDispersion()
@@ -186,20 +192,12 @@ namespace Weapon
                 float yAxisDispersion = Random.Range(so_Weapon.weaponMode[(int)actualWeaponModeIndex].yAxisDispersion.x,
                     so_Weapon.weaponMode[(int)actualWeaponModeIndex].yAxisDispersion.y);
 
-                Vector3 direction = camera.transform.forward + new Vector3(zAxisDispersion, yAxisDispersion, zAxisDispersion);
+                Vector3 direction = camera.transform.forward + new Vector3(-zAxisDispersion, yAxisDispersion, zAxisDispersion) ;
                 
-                if (Physics.Raycast(camera.transform.position, direction, out hit, 1000))
+                if (Physics.Raycast(camera.transform.position, direction, out hit, 1000, so_Weapon.hitLayer))
                 {
                     Debug.DrawRay(camera.transform.position, direction * 1000, Color.red, .2f);
-                    if (hit.transform.GetComponent<Collider>() != null)
-                    {
-                        InstantiateBulletImpact(hit);
-                    }
-                    
-                    if (hit.transform.GetComponent<IDamage>() != null)
-                    {
-                        hit.transform.GetComponent<IDamage>().Hit();
-                    }
+                    HitLogic(hit);
                 }
             }
         }

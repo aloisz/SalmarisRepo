@@ -11,6 +11,7 @@ namespace Weapon
         [field: Header("-----Weapon-----")]
         [field: SerializeField] internal string weaponName{ get; private set; }
         
+        [field: SerializeField] internal LayerMask hitLayer{ get; private set; }
         [field: Tooltip("Which fire mode is selected")]
         [field: SerializeField] internal WeaponMode weaponModeIndex { get; private set; }
         [field: SerializeField] internal List<SO_WeaponMode> weaponMode;
