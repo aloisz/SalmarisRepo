@@ -186,7 +186,7 @@ namespace Weapon
                 float yAxisDispersion = Random.Range(so_Weapon.weaponMode[(int)actualWeaponModeIndex].yAxisDispersion.x,
                     so_Weapon.weaponMode[(int)actualWeaponModeIndex].yAxisDispersion.y);
 
-                Vector3 direction = camera.transform.forward + new Vector3(0, yAxisDispersion, zAxisDispersion);
+                Vector3 direction = camera.transform.forward + new Vector3(zAxisDispersion, yAxisDispersion, zAxisDispersion);
                 
                 if (Physics.Raycast(camera.transform.position, direction, out hit, 1000))
                 {
