@@ -159,6 +159,10 @@ namespace Weapon
             else SingleHitScan(maxDistance);
         }
 
+        /// <summary>
+        /// Where all the hitScan logic is applied
+        /// </summary>
+        /// <param name="hit"></param>
         protected virtual void HitScanLogic(RaycastHit hit)
         {
             if (hit.transform.GetComponent<Collider>() != null)
@@ -170,6 +174,11 @@ namespace Weapon
                 hit.transform.GetComponent<IDamage>().Hit(so_Weapon.weaponMode[(int)actualWeaponModeIndex].bulletDamage);
             }
         }
+        
+        /// <summary>
+        /// Will shoot one ray to the Camera forward direction
+        /// </summary>
+        /// <param name="maxDistance"></param>
         protected virtual void SingleHitScan(float maxDistance)
         {
             RaycastHit hit;
@@ -180,6 +189,11 @@ namespace Weapon
                 HitScanLogic(hit);
             }
         }
+        
+        /// <summary>
+        /// Will Shoot multiple Raycast according to dispersion parameters
+        /// </summary>
+        /// <param name="maxDistance"></param>
         protected virtual void DispersionHitScan(float maxDistance)
         {
             RaycastHit hit;
@@ -187,22 +201,34 @@ namespace Weapon
                 so_Weapon.weaponMode[(int)actualWeaponModeIndex].howManyBulletShot.y);
             for (int i = 0; i < howManyRay; i++)
             {
-                float zAxisDispersion = Random.Range(so_Weapon.weaponMode[(int)actualWeaponModeIndex].zAxisDispersion.x / 2f,
-                    so_Weapon.weaponMode[(int)actualWeaponModeIndex].zAxisDispersion.y / 2f);
-                
-                float yAxisDispersion = Random.Range(so_Weapon.weaponMode[(int)actualWeaponModeIndex].yAxisDispersion.x / 2f,
-                    so_Weapon.weaponMode[(int)actualWeaponModeIndex].yAxisDispersion.y / 2f);
-                
-                Vector3 direction = Quaternion.Euler(yAxisDispersion, zAxisDispersion , yAxisDispersion) * Vector3.forward;
-                direction = camera.transform.rotation * direction;
-                
-                if (Physics.Raycast(camera.transform.position,  direction, out hit, maxDistance, so_Weapon.hitLayer))
+                if (Physics.Raycast(camera.transform.position,  GetTheDispersionDirection(), out hit, maxDistance, so_Weapon.hitLayer))
                 {
-                    Debug.DrawRay(camera.transform.position, direction * maxDistance, Color.red, .2f);
+                    Debug.DrawRay(camera.transform.position, GetTheDispersionDirection() * maxDistance, Color.red, .2f);
                     HitScanLogic(hit);
                 }
             }
         }
+
+        /// <summary>
+        /// Return a random direction within the given parameters (zAxisDispersion, yAxisDispersion)
+        /// </summary>
+        /// <returns></returns>
+        private Vector3 GetTheDispersionDirection()
+        {
+            float zAxisDispersion = Random.Range(so_Weapon.weaponMode[(int)actualWeaponModeIndex].zAxisDispersion.x / 2f,
+                so_Weapon.weaponMode[(int)actualWeaponModeIndex].zAxisDispersion.y / 2f);
+                
+            float yAxisDispersion = Random.Range(so_Weapon.weaponMode[(int)actualWeaponModeIndex].yAxisDispersion.x / 2f,
+                so_Weapon.weaponMode[(int)actualWeaponModeIndex].yAxisDispersion.y / 2f);
+                
+            Vector3 direction = Quaternion.Euler(yAxisDispersion, zAxisDispersion , yAxisDispersion) * Vector3.forward;
+            direction = camera.transform.rotation * direction;
+            return direction;
+        }
+        #endregion
+
+
+        #region FeedBack
 
         protected virtual void InstantiateBulletImpact(RaycastHit hit)
         {
@@ -211,7 +237,6 @@ namespace Weapon
         }
 
         #endregion
-        
         
         #endregion
         
