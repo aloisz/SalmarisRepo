@@ -149,8 +149,14 @@ namespace Weapon
 
         protected virtual void Raycast()
         {
-            if (so_Weapon.weaponMode[(int)actualWeaponModeIndex].isHavingDispersion) DispersionHitScan();
-            else SingleHitScan();
+            float maxDistance;
+            maxDistance = 
+                so_Weapon.weaponMode[(int)actualWeaponModeIndex].isRayDistanceNotInfinte 
+                    ? so_Weapon.weaponMode[(int)actualWeaponModeIndex].RayDistance 
+                    : 10000;
+            
+            if (so_Weapon.weaponMode[(int)actualWeaponModeIndex].isHavingDispersion) DispersionHitScan(maxDistance);
+            else SingleHitScan(maxDistance);
         }
 
         protected virtual void HitScanLogic(RaycastHit hit)
@@ -164,17 +170,17 @@ namespace Weapon
                 hit.transform.GetComponent<IDamage>().Hit(so_Weapon.weaponMode[(int)actualWeaponModeIndex].bulletDamage);
             }
         }
-        protected virtual void SingleHitScan()
+        protected virtual void SingleHitScan(float maxDistance)
         {
             RaycastHit hit;
-            if (Physics.Raycast(camera.transform.position, camera.transform.forward, out hit, 1000, so_Weapon.hitLayer))
+            if (Physics.Raycast(camera.transform.position, camera.transform.forward, out hit, maxDistance, so_Weapon.hitLayer))
             {
-                Debug.DrawRay(camera.transform.position, camera.transform.forward * 1000, Color.red, .2f);
+                Debug.DrawRay(camera.transform.position, camera.transform.forward * maxDistance, Color.red, .2f);
                 
                 HitScanLogic(hit);
             }
         }
-        protected virtual void DispersionHitScan()
+        protected virtual void DispersionHitScan(float maxDistance)
         {
             RaycastHit hit;
             int howManyRay = Random.Range(so_Weapon.weaponMode[(int)actualWeaponModeIndex].howManyBulletShot.x,
@@ -190,9 +196,9 @@ namespace Weapon
                 Vector3 direction = Quaternion.Euler(yAxisDispersion, zAxisDispersion , yAxisDispersion) * Vector3.forward;
                 direction = camera.transform.rotation * direction;
                 
-                if (Physics.Raycast(camera.transform.position,  direction, out hit, 1000, so_Weapon.hitLayer))
+                if (Physics.Raycast(camera.transform.position,  direction, out hit, maxDistance, so_Weapon.hitLayer))
                 {
-                    Debug.DrawRay(camera.transform.position, direction * 1000, Color.red, .2f);
+                    Debug.DrawRay(camera.transform.position, direction * maxDistance, Color.red, .2f);
                     HitScanLogic(hit);
                 }
             }

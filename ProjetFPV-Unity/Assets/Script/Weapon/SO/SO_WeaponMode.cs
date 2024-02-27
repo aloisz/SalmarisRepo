@@ -22,11 +22,21 @@ namespace Weapon
         [field: SerializeField] internal float fireRate{ get; private set; }
 
         [field: Space] 
-        [field: Header("-----Weapon Modificator-----")]
+        #region Raycast
+        // RAY DISTANCE
+        #region Ray Distance
+        [field: Header("-----Ray Distance-----")] 
+        [field: ShowIf("munitionTypeState", MunitionType.Raycast)][field: SerializeField] internal bool isRayDistanceNotInfinte{ get; private set; }
+        [field: ShowIf("isRayDistanceNotInfinte")][field: SerializeField][field: Range(0,1000)] internal float RayDistance{ get; private set; }
+        #endregion
         
+        
+        // DISPERSION
         #region Dispersion
         [field: Space]
-        [field: SerializeField] internal bool isHavingDispersion;
+        [field: Header("-----Dispersion-----")] 
+        [field: SerializeField] internal bool isHavingDispersion{ get; private set; }
+        
         
         [field: ShowIf("isHavingDispersion")] [MinMaxSlider(1, 100.0f)] [field: SerializeField]
         internal Vector2Int howManyBulletShot;
@@ -36,17 +46,20 @@ namespace Weapon
         [field: ShowIf("isHavingDispersion")] [MinMaxSlider(-100, 100)] [field: SerializeField]
         internal Vector2 yAxisDispersion;
         #endregion
+
+        #endregion
         
+        #region Projectile
+        // PORJECTILE CURVE
         #region Projectile Curve
         [field: Space]
+        [field: Header("-----Projectile Curve-----")] 
         [field: ShowIf("munitionTypeState", MunitionType.Projectile)] [field: SerializeField]
         internal bool isProjectileHaveCurve;
         
-        [field: Header("-----Projectile Specs-----")]
         [field: ShowIf("munitionTypeState", MunitionType.Projectile)][field: SerializeField] internal GameObject bullet{ get; private set; }
         [field: ShowIf("munitionTypeState", MunitionType.Projectile)][field: SerializeField] internal float bulletSpeed{ get; private set; }
         
-        [field: Header("-----Projectile Curve-----")]
         [field: ShowIf("isProjectileHaveCurve")] [field: SerializeField]
         internal AnimationCurve projectileAnimationCurve;
         [field: ShowIf("isProjectileHaveCurve")] [field: SerializeField]
@@ -58,6 +71,9 @@ namespace Weapon
 
         #endregion
 
+        #endregion
+        
+        
         
     }
     
