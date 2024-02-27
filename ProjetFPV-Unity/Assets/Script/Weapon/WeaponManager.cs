@@ -144,8 +144,6 @@ namespace Weapon
                     break;
             }
         }
-
-        
         
         #region RayCast
 
@@ -189,9 +187,10 @@ namespace Weapon
                 float yAxisDispersion = Random.Range(so_Weapon.weaponMode[(int)actualWeaponModeIndex].yAxisDispersion.x / 2f,
                     so_Weapon.weaponMode[(int)actualWeaponModeIndex].yAxisDispersion.y / 2f);
                 
-                Vector3 direction = Quaternion.Euler(0f, yAxisDispersion, zAxisDispersion) * camera.transform.forward;
+                Vector3 direction = Quaternion.Euler(yAxisDispersion, zAxisDispersion , yAxisDispersion) * Vector3.forward;
+                direction = camera.transform.rotation * direction;
                 
-                if (Physics.Raycast(camera.transform.position, direction, out hit, 1000, so_Weapon.hitLayer))
+                if (Physics.Raycast(camera.transform.position,  direction, out hit, 1000, so_Weapon.hitLayer))
                 {
                     Debug.DrawRay(camera.transform.position, direction * 1000, Color.red, .2f);
                     HitScanLogic(hit);
