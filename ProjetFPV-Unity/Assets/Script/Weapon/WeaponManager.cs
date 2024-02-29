@@ -185,6 +185,10 @@ namespace Weapon
             if (Physics.Raycast(camera.transform.position, camera.transform.forward, out hit, maxDistance, so_Weapon.hitLayer))
             {
                 Debug.DrawRay(camera.transform.position, camera.transform.forward * maxDistance, Color.red, .2f);
+                LineRenderer lineRenderer = Instantiate(GameManager.Instance.rayLineRenderer,
+                    camera.transform.position, Quaternion.identity, GameManager.Instance.transform);
+                lineRenderer.SetPosition(0, camera.transform.position);
+                lineRenderer.SetPosition(1, hit.point);
                 
                 HitScanLogic(hit);
             }
@@ -203,6 +207,11 @@ namespace Weapon
             {
                 if (Physics.Raycast(camera.transform.position,  GetTheDispersionDirection(), out hit, maxDistance, so_Weapon.hitLayer))
                 {
+                    LineRenderer lineRenderer = Instantiate(GameManager.Instance.rayLineRenderer,
+                        camera.transform.position, Quaternion.identity, GameManager.Instance.transform);
+                    lineRenderer.SetPosition(0, camera.transform.position);
+                    lineRenderer.SetPosition(1, hit.point);
+                    
                     Debug.DrawRay(camera.transform.position, GetTheDispersionDirection() * maxDistance, Color.red, .2f);
                     HitScanLogic(hit);
                 }

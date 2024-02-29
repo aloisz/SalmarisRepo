@@ -34,6 +34,7 @@ namespace AI
             navMeshAgent.stoppingDistance = so_IA.stoppingDistance;
             navMeshAgent.acceleration = so_IA.accelerationSpeed;
             navMeshAgent.radius = so_IA.avoidanceDistance;
+            navMeshAgent.angularSpeed = so_IA.angularSpeed;
 
             actualPawnHealth = so_IA.health;
 
@@ -44,6 +45,7 @@ namespace AI
         protected virtual void Update()
         {
             CheckIfIsStillAlive();
+            PawnAvoidance();
             FollowTarget();
         }
         
@@ -54,8 +56,23 @@ namespace AI
                 Destroy(gameObject);
             }
         }
-        
-        
+
+        #region Avoidance Module
+
+        protected void PawnAvoidance()
+        {
+            RaycastHit hit;
+            if (Physics.Raycast(transform.position, transform.forward, out hit, 10))
+            {
+                Debug.DrawRay(transform.position, transform.forward * 10, Color.yellow);
+                if (hit.transform.GetComponent<AI_Pawn>() != null)
+                {
+                    transform.GetComponent<Rigidbody>().AddForce(transform.right * 50, ForceMode.Impulse);
+                }
+            }
+        }
+
+        #endregion
 
         #region VisionModule
 
@@ -74,7 +91,7 @@ namespace AI
         {
             targetToFollow = PlayerController.Instance.transform;
         }
-
+        
         #endregion
         
         
@@ -87,6 +104,7 @@ namespace AI
 #if UNITY_EDITOR
         protected virtual void OnDrawGizmos()
         {
+            //Vision Module
             Handles.color = Color.red;
             Handles.DrawWireArc(transform.position, transform.up, transform.right, 360, so_IA.visionDetectorRadius, 3);
             Handles.DrawWireArc(transform.position, transform.right, transform.up, 360, so_IA.visionDetectorRadius, 3);
