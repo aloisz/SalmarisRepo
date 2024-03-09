@@ -60,6 +60,7 @@ namespace Player
         public bool isDashing;
         public bool isOnSlope;
         public bool isSlopeClimbing;
+        public bool hasAnEdgeForward;
         
         internal PlayerActionStates currentActionState;
         
@@ -105,7 +106,9 @@ namespace Player
         private void Update()
         {
             PlayerInputStateMachine();
+            
             DetectGround();
+            DetectEdges();
             
             ManageDashDuration();
             ManageSpeedMultiplierFromDash();
@@ -373,6 +376,45 @@ namespace Player
             canApplyGravity = false;
         }
         
+        /// <summary>
+        /// Detect an edge forward from the player, for anticipate a collision and make it smooth to climb, adjusting the jump height.
+        /// </summary>
+        void DetectEdges()
+        {
+            //if the player isn't jumping, dont detect edges.
+            if (!isJumping & isMoving && _rb.velocity.y > 15 && !isOnGround) return;
+            
+            //Security array to stack ground colliders detected, fixed to 10 max colliders.
+            Collider[] hitSphere = new Collider[10];
+            
+            //Create a hit variable to stock the next edge surface collider.
+            RaycastHit raycastHit;
+            
+            var selfTransform = transform;
+            
+            //Setting the origin position of the sphere cast for edges.
+            var posSphere = (selfTransform.position + new Vector3(0, playerScriptable.edgeHeightDetection, 0)) +
+                      (selfTransform.forward * playerScriptable.edgeForwardMultiplierDetection);
+            
+            //Setting the origin position of the raycast for edges' next surface. 
+            var posRaycast = (selfTransform.position + new Vector3(0, playerScriptable.edgeHeightDetection * 1.5f, 0)) +
+                            (selfTransform.forward * (playerScriptable.edgeForwardMultiplierDetection * 2f));
+            
+            //Detecting the forward wall.
+            var detectForward = Physics.OverlapSphereNonAlloc(posSphere, playerScriptable.edgeRadiusDetection, hitSphere, groundLayer) > 0;
+            
+            //Detecting the next edge surface.
+            var detectForwardGround = Physics.Raycast(posRaycast, Vector3.down, out raycastHit, 1.25f, groundLayer);
+
+            //if a wall is detected and the surface above is accessible, then there is an edge.
+            hasAnEdgeForward = detectForward && detectForwardGround && raycastHit.collider;
+
+            //Apply force if the player jump and detect an edge.
+            if(hasAnEdgeForward && receivedJumpInput) 
+                _rb.AddForce(((Vector3.up / playerScriptable.edgeCompensationForce.x) + 
+                              (transform.forward * playerScriptable.edgeCompensationForce.y)), ForceMode.Impulse);
+        }
+        
         #endregion
         
         //-------------------- Inputs ----------------------
@@ -549,14 +591,26 @@ namespace Player
         #region Debug
         private void OnDrawGizmos()
         {
+            var position = transform.position;
+
             //Slope Detection
             Gizmos.color = Color.magenta;
-            Gizmos.DrawRay(transform.position + new Vector3(0, 0.35f, 0),
+            Gizmos.DrawRay(position + new Vector3(0, 0.35f, 0),
                 Vector3.down * playerScriptable.raycastLenghtSlopeDetection);
 
             //Slope Normal
             Gizmos.color = Color.magenta;
             Gizmos.DrawRay(raycastSlope.point, raycastSlope.normal * 2.5f);
+            
+            //Detect Edges
+            Gizmos.color = Color.cyan;
+            var pos = (position + new Vector3(0, playerScriptable.edgeHeightDetection, 0)) +
+                      (transform.forward * (playerScriptable.edgeForwardMultiplierDetection));
+            Gizmos.DrawWireSphere(pos, playerScriptable.edgeRadiusDetection);
+            
+            var pos2 = (position + new Vector3(0, playerScriptable.edgeHeightDetection * 1.5f, 0)) +
+                      (transform.forward * (playerScriptable.edgeForwardMultiplierDetection * 2f));
+            Gizmos.DrawRay(pos2, Vector3.down * 1.25f);
         }
 
         private void OnGUI()
@@ -585,6 +639,8 @@ namespace Player
             Rect rect5 = new Rect(10, 320, 200, 50);
             
             Rect rect6 = new Rect(10, 390, 200, 50);
+            
+            Rect rect7 = new Rect(10, 460, 200, 50);
 
             // Display the text on the screen
             GUI.Label(rect, $"Direction : {direction}", style);
@@ -598,6 +654,8 @@ namespace Player
             GUI.Label(rect5, $"Overall Speed : {GetOverallSpeed()}", style);
             
             GUI.Label(rect6, $"Grounded ? : {isOnGround}", BoolStyle(isOnGround));
+            
+            GUI.Label(rect7, $"Has an Edge Forward ? : {hasAnEdgeForward}", BoolStyle(hasAnEdgeForward));
         }
 
         GUIStyle BoolStyle(bool value)
