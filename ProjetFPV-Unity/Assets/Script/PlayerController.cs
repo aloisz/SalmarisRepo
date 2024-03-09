@@ -118,14 +118,14 @@ namespace Player
             
             DetectSlope();
             
-            //CoyoteJump();
+            CoyoteJump();
 
             if (Input.GetKeyDown(KeyCode.Keypad1)) Time.timeScale = 0.1f;
             if (Input.GetKeyDown(KeyCode.Keypad2)) Time.timeScale = 0.5f;
             if (Input.GetKeyDown(KeyCode.Keypad3)) Time.timeScale = 1f;
 
             canDash = receivedDashInput && !isDashing && PlayerStamina.Instance.HasEnoughStamina(1);
-            canJump = /*(coyoteTimer > 0f && receivedJumpInput) || */(isOnGround && receivedJumpInput);
+            canJump = (coyoteTimer > 0f && receivedJumpInput) || (isOnGround && receivedJumpInput);
         }
         
         private void FixedUpdate()
@@ -227,6 +227,10 @@ namespace Player
             return 1f;
         }
 
+        
+        /// <summary>
+        /// Manage the coyote jump and timer, and reset it.
+        /// </summary>
         private void CoyoteJump()
         {
             if (!isOnGround) coyoteTimer.DecreaseTimerIfPositive();
@@ -257,22 +261,31 @@ namespace Player
         //-------------------- Physic ----------------------
         
         #region Physic
-        void ManageGravity()
+        
+        /// <summary>
+        /// Managing the gravity by applying a force on the Y velocity axis, and adapt the XZ from the camera direction.
+        /// </summary>
+        private void ManageGravity()
         {
             if (canApplyGravity)
             {
-                var v = _rb.velocity;
+                var velocity = _rb.velocity;
+                
+                var v = velocity;
                 
                 v.y -= Time.deltaTime * playerScriptable.gravityMultiplier;
                 
-                v.x = _rb.velocity.x + (DirectionFromCamera(direction).x * playerScriptable.moveAirMultiplier);
+                v.x = velocity.x + (DirectionFromCamera(direction).x * playerScriptable.moveAirMultiplier);
                 v.z = _rb.velocity.z + (DirectionFromCamera(direction).z * playerScriptable.moveAirMultiplier);
                 
                 _rb.velocity = v;
             }
         }
-        
-        void DetectSlope()
+
+        /// <summary>
+        /// Detect the slope under the player, check if the player is climbing the slope or falling onto it.
+        /// </summary>
+        private void DetectSlope()
         {
             Physics.Raycast(transform.position + new Vector3(0,0.35f,0), Vector3.down, out raycastSlope, playerScriptable.raycastLenghtSlopeDetection,
                 groundLayer);
@@ -292,11 +305,20 @@ namespace Player
             }
         }
         
+        /// <summary>
+        /// Set the physical material of the player, from it's different states.
+        /// </summary>
+        /// <param name="pm">The physical material to apply.</param>
         private void SetPhysicalMaterialCollider(PhysicMaterial pm)
         {
-            capsuleCollider.material = pm;
+            //if the capsule hasn't the material yet, apply it.
+            if(capsuleCollider.material != pm) capsuleCollider.material = pm;
         }
         
+        
+        /// <summary>
+        /// Set the rigidbody drag of the player, from it's different states.
+        /// </summary>
         private void SetDrag()
         {
             _rb.drag = isOnGround ? playerScriptable.groundDrag : playerScriptable.airDrag;
@@ -307,21 +329,44 @@ namespace Player
         //-------------------- Detections ----------------------
         
         #region Detections
+        
+        /// <summary>
+        /// Detect the ground by drawing an overlapBoxNonAlloc, and manage the landing verification.
+        /// </summary>
         void DetectGround()
         {
+            var transform1 = transform;
+            var position = transform1.position;
+            var rotation = transform1.rotation;
+            
+            //Security array to stack ground colliders detected, fixed to 10 max colliders.
+            Collider[] hit = new Collider[10];
+            
+            //Create an offset if the player moving, for balance the FOV trick.
+            var offset = isMoving ? (transform.forward * playerScriptable.groundDetectionForwardOffsetMoving) : Vector3.zero;
+            
+            //Check if the player is on the ground or not, by an overlapBoxNonAlloc.
             isOnGround =
-                Physics.CheckBox(transform.position,
-                    playerScriptable.groundDetectionWidthHeightDepth,
-                    Quaternion.identity, groundLayer);
+                Physics.OverlapBoxNonAlloc(position - offset,
+                    playerScriptable.groundDetectionWidthHeightDepth, hit, rotation, groundLayer) > 0;
 
+            //Debug the overlapBoxNonAlloc.
+            ExtDebug.DrawBoxCastBox(position - offset,
+                playerScriptable.groundDetectionWidthHeightDepth, rotation, Vector3.zero, 0.2f, Color.cyan);
+
+            //Check if the player just landed.
             if (isOnGround && !wasOnGroundLastFrame)
             {
                 OnLand();
             }
 
+            //Update the last frame ground state.
             wasOnGroundLastFrame = isOnGround;
         }
 
+        /// <summary>
+        /// On land, execute and reset variables.
+        /// </summary>
         private void OnLand()
         {
             isJumping = false;
@@ -343,13 +388,16 @@ namespace Player
             receivedJumpInput = ctx.performed;
         }
 
+        /// <summary>
+        /// Make the player jump, at different heights if he's in coyote jump or not. 
+        /// </summary>
         private void Jump()
         {
             isJumping = true;
             
-            /*if(coyoteTimer < playerScriptable.coyoteJump - 0.1f)
+            if(coyoteTimer < playerScriptable.coyoteJump - 0.1f)
                 _rb.AddForce(playerScriptable.coyoteJumpForce * Vector3.up, ForceMode.Impulse);
-            else */
+            else
                 _rb.AddForce(playerScriptable.jumpForce * Vector3.up, ForceMode.Impulse);
             
             coyoteTimer = 0f;
@@ -365,7 +413,7 @@ namespace Player
         }
         
         /// <summary>
-        /// Get the current inputs to set the moving direction. Added in the Plyer Input Component.
+        /// Get the current inputs to set the moving direction. Added in the Player Input Component.
         /// </summary>
         /// <param name="ctx">Automatic parameter to get the current input values.</param>
         public void GetMoveInputs(InputAction.CallbackContext ctx)
@@ -391,7 +439,7 @@ namespace Player
         }
 
         /// <summary>
-        /// Make the player dash in the current moving direction. No diagonales.
+        /// Make the player dash in the current moving direction. No diagonals.
         /// </summary>
         /// <param name="ctx">Automatic parameter to get the current input values.</param>
         public void DashInput(InputAction.CallbackContext ctx)
@@ -501,9 +549,6 @@ namespace Player
         #region Debug
         private void OnDrawGizmos()
         {
-            Gizmos.color = Color.cyan;
-            Gizmos.DrawWireCube(transform.position, playerScriptable.groundDetectionWidthHeightDepth);
-            
             //Slope Detection
             Gizmos.color = Color.magenta;
             Gizmos.DrawRay(transform.position + new Vector3(0, 0.35f, 0),
@@ -517,10 +562,15 @@ namespace Player
         private void OnGUI()
         {
             // Set up GUI style for the text
-            GUIStyle style = new GUIStyle();
-            style.fontSize = 24;
-            style.normal.textColor = Color.white;
-            
+            GUIStyle style = new GUIStyle
+            {
+                fontSize = 24,
+                normal =
+                {
+                    textColor = Color.white
+                }
+            };
+
             // Set the position and size of the text
             // 70 each part
             // 50 each elements
@@ -552,9 +602,14 @@ namespace Player
 
         GUIStyle BoolStyle(bool value)
         {
-            var style = new GUIStyle();
-            style.fontSize = 24;
-            style.normal.textColor = value ? Color.green : Color.red;
+            var style = new GUIStyle
+            {
+                fontSize = 24,
+                normal =
+                {
+                    textColor = value ? Color.green : Color.red
+                }
+            };
             return style;
         }
         
