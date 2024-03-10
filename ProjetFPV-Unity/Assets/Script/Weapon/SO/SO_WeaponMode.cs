@@ -27,8 +27,15 @@ namespace Weapon
         #region Ray Distance
         [field: Header("-----Ray Distance-----")] 
         [field: ShowIf("munitionTypeState", MunitionType.Raycast)][field: SerializeField] internal bool isRayDistanceNotInfinte{ get; private set; }
-        [field: ShowIf("isRayDistanceNotInfinte")][field: SerializeField][field: Range(0,1000)] internal float RayDistance{ get; private set; }
-        #endregion
+        [field: ShowIf("isRayDistanceNotInfinte")][field: SerializeField][field: Range(0,1000)] internal float RayDistance{ get; private set; } 
+        
+        // RAY Cast Type
+        [field: Header("-----Raycast Type-----")] 
+        [field: ShowIf("munitionTypeState", MunitionType.Raycast)][field: SerializeField] internal RaycastType raycastType{ get; private set; }
+        
+        // RAY Radius
+        [field: Header("-----Raycast Type-----")] 
+        [field: ShowIf("raycastType", RaycastType.SphereCast)][field: SerializeField] internal float sphereCastRadius{ get; private set; }
         
         
         // DISPERSION
@@ -47,6 +54,7 @@ namespace Weapon
         internal Vector2 yAxisDispersion;
         #endregion
 
+        #endregion
         #endregion
         
         #region Projectile
@@ -72,13 +80,7 @@ namespace Weapon
         #endregion
 
         #endregion
-        
-        
-        
     }
-    
-    
-    
     
     public enum SelectiveFireType
     {
@@ -91,6 +93,12 @@ namespace Weapon
     {
         Raycast,
         Projectile
+    }
+    
+    public enum RaycastType
+    {
+        Raycast,
+        SphereCast
     }
 }
 
