@@ -50,21 +50,35 @@ namespace Weapon
         
         protected virtual void GetAllInput()
         {
-            if (Input.GetKey(KeyCode.Mouse0)) Shoot();
+            if (Input.GetKey(KeyCode.Mouse0))
+            {
+                if (actualWeaponModeIndex != WeaponMode.Primary)
+                {
+                    actualWeaponModeIndex = WeaponMode.Primary;
+                    WeaponRefreshement();
+                }
+                Shoot();
+            }
             else
             {
                 isShooting = false;
                 canFire = true;
             }
             
-            if (Input.GetKeyDown(KeyCode.R)) Reload();
-            
             if (Input.GetKeyDown(KeyCode.Mouse1))
             {
-                isChangingActualWeaponModeIndex = !isChangingActualWeaponModeIndex;
+                if (actualWeaponModeIndex != WeaponMode.Secondary)
+                {
+                    actualWeaponModeIndex = WeaponMode.Secondary;
+                    WeaponRefreshement();
+                }
+                Shoot();
+                /*isChangingActualWeaponModeIndex = !isChangingActualWeaponModeIndex;
                 actualWeaponModeIndex = isChangingActualWeaponModeIndex ? WeaponMode.Secondary : WeaponMode.Primary;
-                WeaponRefreshement();
+                WeaponRefreshement();*/
             }
+            
+            if (Input.GetKeyDown(KeyCode.R)) Reload();
         }
 
         #region Shooting
@@ -241,8 +255,7 @@ namespace Weapon
 
         protected virtual void InstantiateBulletImpact(RaycastHit hit)
         {
-            GameObject particle =  Instantiate(GameManager.Instance.PS_BulletImpact, hit.point, Quaternion.identity, GameManager.Instance.transform);
-            particle.transform.up = hit.normal;
+            
         }
 
         #endregion
