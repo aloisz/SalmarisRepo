@@ -19,7 +19,7 @@ namespace Weapon
         protected bool isReloading;
         
         protected float lastTimefired;
-        protected int actualNumberOfBullet, standbyActualNumberOfBulletPrimaryMode, standbyActualNumberOfBulletSecondaryMode; // Permit to store the secondary mode number of bullet
+        protected int actualNumberOfBullet; // Permit to store the secondary mode number of bullet
         [HideInInspector] public WeaponMode actualWeaponModeIndex;
         protected bool isChangingActualWeaponModeIndex;
         
@@ -145,8 +145,8 @@ namespace Weapon
             int burstFireAmount = 0;
             burstFireAmount = 
                 so_Weapon.weaponMode[(int)actualWeaponModeIndex].burstAmount > actualNumberOfBullet ? 
-                    so_Weapon.weaponMode[(int)actualWeaponModeIndex].burstAmount : 
-                    actualNumberOfBullet;
+                    actualNumberOfBullet : 
+                    so_Weapon.weaponMode[(int)actualWeaponModeIndex].burstAmount; 
             
             for (int i = 0; i < burstFireAmount; i++)
             {

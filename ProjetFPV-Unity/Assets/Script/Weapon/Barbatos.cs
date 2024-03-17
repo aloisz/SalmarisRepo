@@ -6,6 +6,9 @@ using Weapon;
 
 public class Barbatos : Shotgun
 {
+    private int standbyActualNumberOfBulletPrimaryMode, standbyActualNumberOfBulletSecondaryMode;
+    
+    
     protected override void GetAllInput()
     {
         if (Input.GetKeyDown(KeyCode.Mouse0))
@@ -13,7 +16,7 @@ public class Barbatos : Shotgun
             if (actualWeaponModeIndex != WeaponMode.Primary)
             {
                 actualWeaponModeIndex = WeaponMode.Primary;
-                WeaponRefreshement();
+                //WeaponRefreshement();
             }
             Shoot();
         }
@@ -28,7 +31,7 @@ public class Barbatos : Shotgun
             if (actualWeaponModeIndex != WeaponMode.Secondary)
             {
                 actualWeaponModeIndex = WeaponMode.Secondary;
-                WeaponRefreshement();
+                //WeaponRefreshement();
             }
             Shoot();
         }
