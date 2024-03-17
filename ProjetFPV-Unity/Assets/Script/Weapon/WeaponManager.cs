@@ -20,12 +20,12 @@ namespace Weapon
         
         protected float lastTimefired;
         protected int actualNumberOfBullet, standbyActualNumberOfBulletPrimaryMode, standbyActualNumberOfBulletSecondaryMode; // Permit to store the secondary mode number of bullet
-        public WeaponMode actualWeaponModeIndex;
+        [HideInInspector] public WeaponMode actualWeaponModeIndex;
         protected bool isChangingActualWeaponModeIndex;
         
         // Get All Component
         protected PlayerController PlayerController;
-        public Camera camera;
+        [HideInInspector] public Camera camera;
         private RaycastModule raycastModule;
         
         protected virtual void Start()
@@ -162,6 +162,7 @@ namespace Weapon
                     Raycast();
                     break;
                 case MunitionType.Projectile:
+                    
                     break;
             }
         }

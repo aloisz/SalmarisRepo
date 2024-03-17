@@ -16,6 +16,12 @@ namespace Weapon
             base.InstantiateBulletImpact(hit);
             GameObject particle =  Instantiate(GameManager.Instance.PS_BulletImpact, hit.point, Quaternion.identity, GameManager.Instance.transform);
             particle.transform.up = hit.normal;
+
+            if (so_Weapon.weaponMode[(int)actualWeaponModeIndex].doExplosion)
+            {
+                GameObject explosion =  Instantiate(GameManager.Instance.explosion, hit.point, Quaternion.identity, GameManager.Instance.transform);
+            }
+            
         }
     }
 }
