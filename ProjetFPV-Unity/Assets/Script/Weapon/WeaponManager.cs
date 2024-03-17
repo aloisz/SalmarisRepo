@@ -164,15 +164,9 @@ namespace Weapon
             }
         }
         
-        #region RayCast
-
-        protected virtual void Raycast()
-        {
-            
-        }
-        #endregion
-
-
+        protected virtual void Raycast() {}
+        
+        
         #region FeedBack
 
         protected virtual void InstantiateBulletImpact(RaycastHit hit)

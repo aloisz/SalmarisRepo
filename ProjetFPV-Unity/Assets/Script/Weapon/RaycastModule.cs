@@ -6,6 +6,7 @@ using Weapon.Interface;
 
 public class RaycastModule : WeaponManager, IShootRaycast, IShootSphereCast
 {
+    [SerializeField] private Transform gunBarrelPos;
     protected override void Raycast()
     {
         base.Raycast();
@@ -32,7 +33,12 @@ public class RaycastModule : WeaponManager, IShootRaycast, IShootSphereCast
     {
         LineRenderer lineRenderer = Instantiate(GameManager.Instance.rayLineRenderer,
             camera.transform.position, Quaternion.identity, GameManager.Instance.transform);
-        lineRenderer.SetPosition(0, camera.transform.position);
+        lineRenderer.startWidth = 
+            so_Weapon.weaponMode[(int)actualWeaponModeIndex].raycastType == RaycastType.SphereCast ? 
+                so_Weapon.weaponMode[(int)actualWeaponModeIndex].sphereCastRadius : 
+                0.05f;
+        
+        lineRenderer.SetPosition(0, gunBarrelPos.position);
         lineRenderer.SetPosition(1, hit.point);
     }
     
@@ -80,7 +86,7 @@ public class RaycastModule : WeaponManager, IShootRaycast, IShootSphereCast
             case RaycastType.SphereCast:
                 float radius = so_Weapon.weaponMode[(int)actualWeaponModeIndex].sphereCastRadius;
                 if (so_Weapon.weaponMode[(int)actualWeaponModeIndex].isHavingDispersion) SphereCastDispersionHitScan(GetTheDistance(), radius) ;
-                else SphereCastSingleHitScan(GetTheDistance(),radius);
+                else SphereCastSingleHitScan(GetTheDistance(), radius);
                 break;
         }
     }

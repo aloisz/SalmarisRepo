@@ -34,8 +34,10 @@ namespace Weapon
         [field: ShowIf("munitionTypeState", MunitionType.Raycast)][field: SerializeField] internal RaycastType raycastType{ get; private set; }
         
         // RAY Radius
-        [field: Header("-----Raycast Type-----")] 
-        [field: ShowIf("raycastType", RaycastType.SphereCast)][field: SerializeField] internal float sphereCastRadius{ get; private set; }
+        [field: Header("-----RAY Radius-----")] 
+        //[field: ShowIf("raycastType", RaycastType.SphereCast)]
+        [field: ShowIf(EConditionOperator.And,"munitionTypeState", "raycastType" )]
+        [field: SerializeField] internal float sphereCastRadius{ get; private set; }
         
         
         // DISPERSION
@@ -79,6 +81,15 @@ namespace Weapon
 
         #endregion
 
+        #endregion
+
+        #region Commun
+
+        // Do Explosion
+        [field: Header("-----Explosion-----")] 
+        [field: SerializeField] internal bool doExplosion{ get; private set; }
+        [field: ShowIf("doExplosion")][field: SerializeField] [field: MinMaxSlider(1, 100.0f)] internal Vector2 explosionRadius{ get; private set; }
+        [field: ShowIf("doExplosion")][field: SerializeField] [field: MinMaxSlider(1, 100.0f)] internal Vector2 explosionDamage{ get; private set; }
         #endregion
     }
     
