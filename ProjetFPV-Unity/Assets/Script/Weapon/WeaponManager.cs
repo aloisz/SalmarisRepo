@@ -26,7 +26,7 @@ namespace Weapon
         // Get All Component
         protected PlayerController PlayerController;
         [HideInInspector] public Camera camera;
-        private RaycastModule raycastModule;
+        protected RaycastModule raycastModule;
         
         protected virtual void Start()
         {
@@ -75,9 +75,6 @@ namespace Weapon
                     WeaponRefreshement();
                 }
                 Shoot();
-                /*isChangingActualWeaponModeIndex = !isChangingActualWeaponModeIndex;
-                actualWeaponModeIndex = isChangingActualWeaponModeIndex ? WeaponMode.Secondary : WeaponMode.Primary;
-                WeaponRefreshement();*/
             }
             else
             {
@@ -125,8 +122,11 @@ namespace Weapon
         /// </summary>
         protected virtual void SingleSelectiveFire()
         {
-            LogicWhenShooting();
-            WichTypeMunitionIsGettingShot();
+            if (Time.time - lastTimefired > 1 / so_Weapon.weaponMode[(int)actualWeaponModeIndex].fireRate)
+            {
+                LogicWhenShooting();
+                WichTypeMunitionIsGettingShot();
+            }
             canFire = false;
         }
         
@@ -136,8 +136,26 @@ namespace Weapon
         /// </summary>
         protected virtual void BurstSelectiveFire()
         {
-            LogicWhenShooting();
+            StartCoroutine(BurstCoroutine());
+            canFire = false;
         }
+        
+        private IEnumerator BurstCoroutine()
+        {
+            int burstFireAmount = 0;
+            burstFireAmount = 
+                so_Weapon.weaponMode[(int)actualWeaponModeIndex].burstAmount > actualNumberOfBullet ? 
+                    so_Weapon.weaponMode[(int)actualWeaponModeIndex].burstAmount : 
+                    actualNumberOfBullet;
+            
+            for (int i = 0; i < burstFireAmount; i++)
+            {
+                LogicWhenShooting();
+                WichTypeMunitionIsGettingShot();
+                yield return new WaitForSeconds(so_Weapon.weaponMode[(int)actualWeaponModeIndex].burstTime);
+            }
+        }
+        
         
         /// <summary>
         /// Permit to Shoot in Automatic mode

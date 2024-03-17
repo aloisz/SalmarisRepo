@@ -19,7 +19,9 @@ namespace Weapon
         [field: SerializeField] internal int numberOfBullet{ get; private set; }
         [field: SerializeField] internal float timeToReload{ get; private set; }
         [field: SerializeField] internal float bulletDamage{ get; private set; }
-        [field: SerializeField] internal float fireRate{ get; private set; }
+        [field: Tooltip("Fire rate per second")][field: SerializeField] internal float fireRate{ get; private set; }
+        [field: ShowIf("selectiveFireState", SelectiveFireType.Burst)] [field: SerializeField] internal int burstAmount{ get; private set; }
+        [field: ShowIf("selectiveFireState", SelectiveFireType.Burst)] [field: SerializeField] internal float burstTime{ get; private set; }
 
         [field: Space] 
         #region Raycast
