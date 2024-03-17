@@ -20,17 +20,19 @@ namespace Weapon
         
         protected float lastTimefired;
         protected int actualNumberOfBullet, standbyActualNumberOfBulletPrimaryMode, standbyActualNumberOfBulletSecondaryMode; // Permit to store the secondary mode number of bullet
-        protected WeaponMode actualWeaponModeIndex;
+        public WeaponMode actualWeaponModeIndex;
         protected bool isChangingActualWeaponModeIndex;
         
         // Get All Component
         protected PlayerController PlayerController;
-        protected Camera camera;
+        public Camera camera;
+        private RaycastModule raycastModule;
         
         protected virtual void Start()
         {
             PlayerController = PlayerController.Instance;
             camera = Camera.main;
+            raycastModule = GetComponent<RaycastModule>();
             
             WeaponRefreshement();
         }
@@ -163,13 +165,18 @@ namespace Weapon
                     break;
             }
         }
+
         
-        protected virtual void Raycast() {}
+        
+        protected virtual void Raycast()
+        {
+            raycastModule.ChooseEnum(so_Weapon.weaponMode[(int)actualWeaponModeIndex].raycastType);
+        }
         
         
         #region FeedBack
 
-        protected virtual void InstantiateBulletImpact(RaycastHit hit)
+        public virtual void InstantiateBulletImpact(RaycastHit hit)
         {
             
         }

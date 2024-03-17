@@ -9,9 +9,9 @@ using Random = UnityEngine.Random;
 
 namespace Weapon
 {
-    public class Pistol : RaycastModule
+    public class Pistol : WeaponManager
     {
-        protected override void InstantiateBulletImpact(RaycastHit hit)
+        public override void InstantiateBulletImpact(RaycastHit hit)
         {
             base.InstantiateBulletImpact(hit);
             GameObject particle =  Instantiate(GameManager.Instance.PS_BulletImpact, hit.point, Quaternion.identity, GameManager.Instance.transform);
