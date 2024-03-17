@@ -30,7 +30,7 @@ public class PlayerStamina : GenericSingletonClass<PlayerStamina>
     }
 
     /// <summary>
-    /// Update the Stamina Jaune UI.
+    /// Update the Stamina UI.
     /// </summary>
     private void UpdateStaminaUI()
     {

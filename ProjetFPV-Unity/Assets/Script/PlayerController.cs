@@ -200,7 +200,7 @@ namespace Player
         
         private void RechargeStaminaFromSpeed()
         {
-            if(!isDashing)
+            if(!isDashing && !isJumping)
                 PlayerStamina.Instance.GenerateStaminaStep(playerScriptable.staminaPerSecond);
         }
 
@@ -312,10 +312,18 @@ namespace Player
         /// Set the physical material of the player, from it's different states.
         /// </summary>
         /// <param name="pm">The physical material to apply.</param>
-        private void SetPhysicalMaterialCollider(PhysicMaterial pm)
+        private void SetPhysicalMaterialCollider(PlayerActionStates s)
         {
+            var chosenMat = s == PlayerActionStates.Idle
+                ? playerScriptable.frictionMaterial
+                : playerScriptable.movingMaterial;
+            
             //if the capsule hasn't the material yet, apply it.
-            if(capsuleCollider.material != pm) capsuleCollider.material = pm;
+            if (capsuleCollider.sharedMaterial != chosenMat)
+            {
+                capsuleCollider.material = chosenMat;
+                Debug.Log("Material changed.");
+            }
         }
         
         
@@ -466,25 +474,21 @@ namespace Player
 
             switch (currentActionState)
             {
-                case PlayerActionStates.Idle:
-                    SetPhysicalMaterialCollider(playerScriptable.frictionMaterial);
-                    OnIdle();
+                case PlayerActionStates.Idle: OnIdle();
                     break;
                 case PlayerActionStates.Moving:
-                    SetPhysicalMaterialCollider(playerScriptable.movingMaterial);
                     break;
                 case PlayerActionStates.Sliding:
-                    SetPhysicalMaterialCollider(playerScriptable.movingMaterial);
                     break;
                 case PlayerActionStates.Jumping:
-                    SetPhysicalMaterialCollider(playerScriptable.movingMaterial);
                     break;
                 case PlayerActionStates.Dashing:
-                    SetPhysicalMaterialCollider(playerScriptable.movingMaterial);
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();
             }
+            
+            SetPhysicalMaterialCollider(currentActionState);
         }
 
         private void DetectIdling()
