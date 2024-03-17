@@ -56,9 +56,6 @@ namespace Player
         
         [BoxGroup("Movement")][Tooltip("How much time the player can still jump while in the air.")]
         public float coyoteJump = 0.35f;
-        
-        [BoxGroup("Movement")][Tooltip("Divide the edge jump Y axis from X and multiply the jump forward axis from Y.")]
-        public Vector2 edgeCompensationForce = Vector2.one;
 
         //----------------------------------------------------
         
@@ -89,16 +86,7 @@ namespace Player
 
         [BoxGroup("Detection")][Tooltip("The minimum slope degree for be considered as a slope.")]
         public float minSlopeDegrees = 25f;
-        
-        [BoxGroup("Detection")][Tooltip("The height of the edge detection from the player's feet.")]
-        public float edgeHeightDetection = 0.2f;
-        
-        [BoxGroup("Detection")][Tooltip("The radius of the edge detection from the middle of the detection sphere.")]
-        public float edgeRadiusDetection = 0.2f;
-        
-        [BoxGroup("Detection")][Tooltip("The forward multiplier of the edge detection, for balance anticipation.")]
-        public float edgeForwardMultiplierDetection = 1.2f;
-        
+
         //----------------------------------------------------
         
         [BoxGroup("Look")][Tooltip("The mouse's sensibility.")]

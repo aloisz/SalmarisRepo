@@ -60,8 +60,7 @@ namespace Player
         public bool isDashing;
         public bool isOnSlope;
         public bool isSlopeClimbing;
-        public bool hasAnEdgeForward;
-        
+
         internal PlayerActionStates currentActionState;
         
         private bool canJump;
@@ -70,10 +69,7 @@ namespace Player
         
         private bool isAccelerating;
         private bool isDecelerating;
-        
-        private bool receivedJumpInput;
-        private bool receivedDashInput;
-        
+
         //---------------------------------------
 
         [Header("Detection")] 
@@ -108,8 +104,7 @@ namespace Player
             PlayerInputStateMachine();
             
             DetectGround();
-            DetectEdges();
-            
+
             ManageDashDuration();
             ManageSpeedMultiplierFromDash();
             
@@ -123,12 +118,15 @@ namespace Player
             
             CoyoteJump();
 
+            RotateCameraFromInput();
+
             if (Input.GetKeyDown(KeyCode.Keypad1)) Time.timeScale = 0.1f;
             if (Input.GetKeyDown(KeyCode.Keypad2)) Time.timeScale = 0.5f;
             if (Input.GetKeyDown(KeyCode.Keypad3)) Time.timeScale = 1f;
 
-            canDash = receivedDashInput && !isDashing && PlayerStamina.Instance.HasEnoughStamina(1);
-            canJump = (coyoteTimer > 0f && receivedJumpInput) || (isOnGround && receivedJumpInput);
+            canDash = PlayerInputs.Instance.isReceivingDashInputs && !isDashing && PlayerStamina.Instance.HasEnoughStamina(1);
+            canJump = (coyoteTimer > 0f && PlayerInputs.Instance.isReceivingJumpInputs) || (isOnGround && PlayerInputs.Instance.isReceivingJumpInputs);
+            isSliding = PlayerInputs.Instance.isReceivingSlideInputs && isMoving && isOnGround;
         }
         
         private void FixedUpdate()
@@ -151,14 +149,16 @@ namespace Player
         /// </summary>
         private void Move()
         {
+            //Set the current input values to the direction.
+            var dirFromInputs = PlayerInputs.Instance.moveValue;
+            direction = new Vector3(dirFromInputs.x, 0, dirFromInputs.y).normalized;
+            
+            //If the direction isn't null, set the direction not reset to direction.
+            if (direction.magnitude > playerScriptable.moveThreshold) directionNotReset = direction;
+            
+            
             var dir = DirectionFromCamera(direction).normalized * GetOverallSpeed();
-            
-            #region unused
-            /*var targetVelocity = new Vector3(dir.x, _rb.velocity.y, dir.z);
-            _rb.velocity = Vector3.MoveTowards(_rb.velocity, targetVelocity * intertiaMultiplier, 
-                Time.deltaTime * playerScriptable.accelerationSpeed);*/
-            #endregion
-            
+
             if (_rb.velocity.magnitude < playerScriptable.speedMaxToAccelerate)
             {
                 _rb.AddForce((GetOverallSpeed() * playerScriptable.accelerationMultiplier) * dir, ForceMode.Impulse);
@@ -375,60 +375,12 @@ namespace Player
             isJumping = false;
             canApplyGravity = false;
         }
-        
-        /// <summary>
-        /// Detect an edge forward from the player, for anticipate a collision and make it smooth to climb, adjusting the jump height.
-        /// </summary>
-        void DetectEdges()
-        {
-            //if the player isn't jumping, dont detect edges.
-            if (!isJumping & isMoving && _rb.velocity.y > 15 && !isOnGround) return;
-            
-            //Security array to stack ground colliders detected, fixed to 10 max colliders.
-            Collider[] hitSphere = new Collider[10];
-            
-            //Create a hit variable to stock the next edge surface collider.
-            RaycastHit raycastHit;
-            
-            var selfTransform = transform;
-            
-            //Setting the origin position of the sphere cast for edges.
-            var posSphere = (selfTransform.position + new Vector3(0, playerScriptable.edgeHeightDetection, 0)) +
-                      (selfTransform.forward * playerScriptable.edgeForwardMultiplierDetection);
-            
-            //Setting the origin position of the raycast for edges' next surface. 
-            var posRaycast = (selfTransform.position + new Vector3(0, playerScriptable.edgeHeightDetection * 1.5f, 0)) +
-                            (selfTransform.forward * (playerScriptable.edgeForwardMultiplierDetection * 2f));
-            
-            //Detecting the forward wall.
-            var detectForward = Physics.OverlapSphereNonAlloc(posSphere, playerScriptable.edgeRadiusDetection, hitSphere, groundLayer) > 0;
-            
-            //Detecting the next edge surface.
-            var detectForwardGround = Physics.Raycast(posRaycast, Vector3.down, out raycastHit, 1.25f, groundLayer);
 
-            //if a wall is detected and the surface above is accessible, then there is an edge.
-            hasAnEdgeForward = detectForward && detectForwardGround && raycastHit.collider;
-
-            //Apply force if the player jump and detect an edge.
-            if(hasAnEdgeForward && receivedJumpInput) 
-                _rb.AddForce(((Vector3.up / playerScriptable.edgeCompensationForce.x) + 
-                              (transform.forward * playerScriptable.edgeCompensationForce.y)), ForceMode.Impulse);
-        }
-        
         #endregion
         
         //-------------------- Inputs ----------------------
         
         #region Inputs
-        
-        /// <summary>
-        /// Make the player jump when pressing an input
-        /// </summary>
-        /// <param name="ctx">Automatic parameter to get the current input values.</param>
-        public void JumpInput(InputAction.CallbackContext ctx)
-        {
-            receivedJumpInput = ctx.performed;
-        }
 
         /// <summary>
         /// Make the player jump, at different heights if he's in coyote jump or not. 
@@ -446,47 +398,16 @@ namespace Player
         }
 
         /// <summary>
-        /// Make the player slide when pressing an input. 
-        /// </summary>
-        /// <param name="ctx">Automatic parameter to get the current input values.</param>
-        public void Slide(InputAction.CallbackContext ctx)
-        {
-            isSliding = ctx.performed && isMoving && isOnGround;
-        }
-        
-        /// <summary>
-        /// Get the current inputs to set the moving direction. Added in the Player Input Component.
-        /// </summary>
-        /// <param name="ctx">Automatic parameter to get the current input values.</param>
-        public void GetMoveInputs(InputAction.CallbackContext ctx)
-        {
-            //Set the current input values to the direction.
-            var dir = ctx.ReadValue<Vector2>();
-            direction = new Vector3(dir.x, 0, dir.y).normalized;
-            
-            //If the direction isn't null, set the direction not reset to direction.
-            if (direction.magnitude > playerScriptable.moveThreshold) directionNotReset = direction;
-        }
-        
-        /// <summary>
         /// Make the camera rotate from where the player look.
         /// </summary>
-        /// <param name="ctx">Automatic parameter to get the current input values.</param>
-        public void RotateCameraFromInput(InputAction.CallbackContext ctx)
+        private void RotateCameraFromInput()
         {
-            _rotationX += -ctx.ReadValue<Vector2>().y * playerScriptable.sensibility;
+            var rot = PlayerInputs.Instance.rotateValue;
+            
+            _rotationX += -rot.y * playerScriptable.sensibility;
             _rotationX = Mathf.Clamp(_rotationX, -playerScriptable.lookLimitY, playerScriptable.lookLimitY);
             cameraAttachPosition.localRotation = Quaternion.Euler(_rotationX, 0, 0);
-            transform.rotation *= Quaternion.Euler(0, ctx.ReadValue<Vector2>().x * playerScriptable.sensibility, 0);
-        }
-
-        /// <summary>
-        /// Make the player dash in the current moving direction. No diagonals.
-        /// </summary>
-        /// <param name="ctx">Automatic parameter to get the current input values.</param>
-        public void DashInput(InputAction.CallbackContext ctx)
-        {
-            receivedDashInput = ctx.performed;
+            transform.rotation *= Quaternion.Euler(0, rot.x * playerScriptable.sensibility, 0);
         }
 
         private void Dash()
@@ -601,16 +522,6 @@ namespace Player
             //Slope Normal
             Gizmos.color = Color.magenta;
             Gizmos.DrawRay(raycastSlope.point, raycastSlope.normal * 2.5f);
-            
-            //Detect Edges
-            Gizmos.color = Color.cyan;
-            var pos = (position + new Vector3(0, playerScriptable.edgeHeightDetection, 0)) +
-                      (transform.forward * (playerScriptable.edgeForwardMultiplierDetection));
-            Gizmos.DrawWireSphere(pos, playerScriptable.edgeRadiusDetection);
-            
-            var pos2 = (position + new Vector3(0, playerScriptable.edgeHeightDetection * 1.5f, 0)) +
-                      (transform.forward * (playerScriptable.edgeForwardMultiplierDetection * 2f));
-            Gizmos.DrawRay(pos2, Vector3.down * 1.25f);
         }
 
         private void OnGUI()
@@ -655,7 +566,7 @@ namespace Player
             
             GUI.Label(rect6, $"Grounded ? : {isOnGround}", BoolStyle(isOnGround));
             
-            GUI.Label(rect7, $"Has an Edge Forward ? : {hasAnEdgeForward}", BoolStyle(hasAnEdgeForward));
+            //GUI.Label(rect7, $"Has an Edge Forward ? : {hasAnEdgeForward}", BoolStyle(hasAnEdgeForward));
         }
 
         GUIStyle BoolStyle(bool value)

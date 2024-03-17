@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7372045558108116486}
   - component: {fileID: 2763259352716298194}
+  - component: {fileID: 5313092729534710420}
   - component: {fileID: 1253742103546626655}
   - component: {fileID: 4329080655008607625}
   - component: {fileID: 4285045805137103391}
@@ -64,6 +65,24 @@ MonoBehaviour:
   groundLayer:
     serializedVersion: 2
     m_Bits: 64
+--- !u!114 &5313092729534710420
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 359912182890571611}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6a40896cca62a6a47b83464afbcb8d32, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isReceivingMoveInputs: 0
+  isReceivingDashInputs: 0
+  isReceivingJumpInputs: 0
+  isReceivingSlideInputs: 0
+  moveValue: {x: 0, y: 0}
+  rotateValue: {x: 0, y: 0}
 --- !u!114 &1253742103546626655
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -108,9 +127,9 @@ MonoBehaviour:
   m_ActionEvents:
   - m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 2763259352716298194}
-        m_TargetAssemblyTypeName: Player.PlayerController, Assembly-CSharp
-        m_MethodName: GetMoveInputs
+      - m_Target: {fileID: 5313092729534710420}
+        m_TargetAssemblyTypeName: PlayerInputs, Assembly-CSharp
+        m_MethodName: MoveInputs
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -124,9 +143,9 @@ MonoBehaviour:
     m_ActionName: Player/Move[/Keyboard/w,/Keyboard/upArrow,/Keyboard/s,/Keyboard/downArrow,/Keyboard/a,/Keyboard/leftArrow,/Keyboard/d,/Keyboard/rightArrow]
   - m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 2763259352716298194}
-        m_TargetAssemblyTypeName: Player.PlayerController, Assembly-CSharp
-        m_MethodName: RotateCameraFromInput
+      - m_Target: {fileID: 5313092729534710420}
+        m_TargetAssemblyTypeName: PlayerInputs, Assembly-CSharp
+        m_MethodName: LookInputs
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -184,8 +203,8 @@ MonoBehaviour:
     m_ActionName: UI/TrackedDeviceOrientation
   - m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 2763259352716298194}
-        m_TargetAssemblyTypeName: Player.PlayerController, Assembly-CSharp
+      - m_Target: {fileID: 5313092729534710420}
+        m_TargetAssemblyTypeName: PlayerInputs, Assembly-CSharp
         m_MethodName: JumpInput
         m_Mode: 0
         m_Arguments:
@@ -200,9 +219,9 @@ MonoBehaviour:
     m_ActionName: Player/Jump[/Keyboard/space]
   - m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 2763259352716298194}
-        m_TargetAssemblyTypeName: Player.PlayerController, Assembly-CSharp
-        m_MethodName: Slide
+      - m_Target: {fileID: 5313092729534710420}
+        m_TargetAssemblyTypeName: PlayerInputs, Assembly-CSharp
+        m_MethodName: SlideInput
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -216,8 +235,8 @@ MonoBehaviour:
     m_ActionName: Player/Slide[/Keyboard/e]
   - m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 2763259352716298194}
-        m_TargetAssemblyTypeName: Player.PlayerController, Assembly-CSharp
+      - m_Target: {fileID: 5313092729534710420}
+        m_TargetAssemblyTypeName: PlayerInputs, Assembly-CSharp
         m_MethodName: DashInput
         m_Mode: 0
         m_Arguments:
