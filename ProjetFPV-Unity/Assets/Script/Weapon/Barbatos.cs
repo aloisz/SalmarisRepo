@@ -6,7 +6,6 @@ using Weapon;
 
 public class Barbatos : Shotgun
 {
-    private int standbyActualNumberOfBulletPrimaryMode, standbyActualNumberOfBulletSecondaryMode;
     
     
     protected override void GetAllInput()
@@ -43,6 +42,20 @@ public class Barbatos : Shotgun
             
         if (Input.GetKeyDown(KeyCode.R)) Reload();
     }
+
+
+    protected override void HitScanLogic(RaycastHit hit)
+    {
+        base.HitScanLogic(hit);
+        
+        if (!so_Weapon.weaponMode[(int)actualWeaponModeIndex].isRocketJump) return;
+        if (hit.transform.GetComponent<Collider>() != null)
+        {
+            PlayerController.GetComponent<Rigidbody>().AddForce( PlayerController.transform.position - hit.point * so_Weapon.weaponMode[(int)actualWeaponModeIndex].rocketForceApplied);
+        }
+    }
+    
+    
     
     
     public override void InstantiateBulletImpact(RaycastHit hit)

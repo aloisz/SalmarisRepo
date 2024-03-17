@@ -32,7 +32,7 @@ namespace Weapon
         {
             PlayerController = PlayerController.Instance;
             camera = Camera.main;
-            raycastModule = GetComponent<RaycastModule>();
+            //raycastModule = GetComponent<RaycastModule>();
             
             WeaponRefreshement();
         }
@@ -189,7 +189,7 @@ namespace Weapon
         
         protected virtual void Raycast()
         {
-            raycastModule.ChooseEnum(so_Weapon.weaponMode[(int)actualWeaponModeIndex].raycastType);
+            //raycastModule.ChooseEnum(so_Weapon.weaponMode[(int)actualWeaponModeIndex].raycastType);
         }
         
         

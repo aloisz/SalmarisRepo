@@ -26,7 +26,6 @@ namespace Weapon
         [field: Space] 
         #region Raycast
         // RAY DISTANCE
-        #region Ray Distance
         [field: Header("-----Ray Distance-----")] 
         [field: ShowIf("munitionTypeState", MunitionType.Raycast)][field: SerializeField] internal bool isRayDistanceNotInfinte{ get; private set; }
         [field: ShowIf("isRayDistanceNotInfinte")][field: SerializeField][field: Range(0,1000)] internal float RayDistance{ get; private set; } 
@@ -58,7 +57,17 @@ namespace Weapon
         internal Vector2 yAxisDispersion;
         #endregion
 
+        // DISPERSION
+        #region RocketJump
+
+        [field: Space]
+        [field: Header("-----Rocket Jump-----")] 
+        [field: ShowIf("munitionTypeState", MunitionType.Raycast)][field: SerializeField] internal bool isRocketJump{ get; private set; }
+        [field: ShowIf("isRocketJump")] [field: SerializeField] internal float rocketForceApplied;
+
         #endregion
+
+        
         #endregion
         
         #region Projectile
