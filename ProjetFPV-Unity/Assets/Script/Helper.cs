@@ -24,4 +24,10 @@ public static class Helper
         if (f > 0) f -= Time.unscaledDeltaTime;
         if (f < 0) f = 0;
     }
+
+    public static Vector3 ConvertToV3Int(Vector3 v)
+    {
+        var vector = new Vector3(Mathf.RoundToInt(v.x), Mathf.RoundToInt(v.y), Mathf.RoundToInt(v.z));
+        return vector;
+    }
 }

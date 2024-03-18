@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: PlayerScriptable
   m_EditorClassIdentifier: 
   moveSpeed: 1.65
+  moveSpeedInAirDivider: 2.5
   moveThreshold: 0.1
   jumpForce: 12
   coyoteJumpForce: 45
@@ -32,10 +33,10 @@ MonoBehaviour:
   gravityMultiplier: 75
   groundDrag: 7
   airDrag: 1.8
-  groundDetectionWidthHeightDepth: {x: 0.2, y: 0.6, z: 0.6}
+  groundDetectionWidthHeightDepth: {x: 0.3, y: 0.6, z: 0.6}
   raycastLenghtSlopeDetection: 1
-  groundDetectionForwardOffsetMoving: 1.2
-  minSlopeDegrees: 25
+  groundDetectionForwardOffset: 0.2
+  minSlopeDegrees: 7
   sensibility: 0.08
   lookLimitY: 70
   frictionMaterial: {fileID: 13400000, guid: 66462d3f498916c45b06fcf1b1aa7596, type: 2}

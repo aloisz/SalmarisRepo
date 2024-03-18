@@ -12,6 +12,9 @@ namespace Player
         [BoxGroup("Movement")][Tooltip("The player's movement speed.")] 
         public float moveSpeed = 1;
         
+        [BoxGroup("Movement")][Tooltip("The player's movement speed will be divided by X in the air.")] 
+        public float moveSpeedInAirDivider = 1;
+        
         [BoxGroup("Movement")][Tooltip("The min speed magnitude where the player is considered moving.")] 
         public float moveThreshold = 0.1f;
         
@@ -81,8 +84,8 @@ namespace Player
         [BoxGroup("Detection")][Tooltip("Raycast lenght to detect underneath the player's foot.")]
         public float raycastLenghtSlopeDetection = 1f;
         
-        [BoxGroup("Detection")][Tooltip("The BoxCast's offset while moving for balancing with the FOV vision trick.")]
-        public float groundDetectionForwardOffsetMoving = 1.2f;
+        [BoxGroup("Detection")][Tooltip("The BoxCast's offset")]
+        public float groundDetectionForwardOffset = 1.2f;
 
         [BoxGroup("Detection")][Tooltip("The minimum slope degree for be considered as a slope.")]
         public float minSlopeDegrees = 25f;

@@ -110,7 +110,7 @@ namespace Player
             
             SetMoveSpeed();
 
-            RechargeStaminaFromSpeed();
+            RechargeStamina();
             
             DetectIdling();
             
@@ -126,7 +126,7 @@ namespace Player
 
             canDash = PlayerInputs.Instance.isReceivingDashInputs && !isDashing && PlayerStamina.Instance.HasEnoughStamina(1);
             canJump = (coyoteTimer > 0f && PlayerInputs.Instance.isReceivingJumpInputs) || (isOnGround && PlayerInputs.Instance.isReceivingJumpInputs);
-            isSliding = PlayerInputs.Instance.isReceivingSlideInputs && isMoving && isOnGround;
+            isSliding = PlayerInputs.Instance.isReceivingSlideInputs /*&& isMoving*/ && isOnGround;
         }
         
         private void FixedUpdate()
@@ -158,6 +158,7 @@ namespace Player
             
             
             var dir = DirectionFromCamera(direction).normalized * GetOverallSpeed();
+            
 
             if (_rb.velocity.magnitude < playerScriptable.speedMaxToAccelerate)
             {
@@ -167,11 +168,19 @@ namespace Player
             {
                 _rb.AddForce(GetOverallSpeed() * dir, ForceMode.Impulse);
             }
+
+            var slopeDirection = (transform.forward - raycastSlope.point).normalized;
+            if (isOnSlope && isSliding)
+            {
+                _rb.AddForce(Vector3.down * (Time.deltaTime * 3000f));
+                _rb.AddForce(slopeDirection * (2f * (Time.deltaTime * 3000f)));
+            }
         }
         
         private void SetMoveSpeed()
         {
-            moveSpeed = isOnGround ? playerScriptable.moveSpeed : playerScriptable.moveSpeed / 2.5f;
+            moveSpeed = isOnGround ? playerScriptable.moveSpeed : 
+                playerScriptable.moveSpeed / playerScriptable.moveSpeedInAirDivider;
         }
         
         private void ManageDashDuration()
@@ -198,36 +207,22 @@ namespace Player
                 Mathf.Lerp(speedMultiplierFromDash, 1f, Time.deltaTime / playerScriptable.dashSpeedMultiplierResetDuration);
         }
         
-        private void RechargeStaminaFromSpeed()
+        /// <summary>
+        /// Recharge the player's stamina when he is on the ground or less if he's in the air.
+        /// </summary>
+        private void RechargeStamina()
         {
             if(!isDashing && !isJumping)
                 PlayerStamina.Instance.GenerateStaminaStep(playerScriptable.staminaPerSecond);
+            
+            else if(isJumping)
+                //Generate two times less stamina when in this airs.
+                PlayerStamina.Instance.GenerateStaminaStep(playerScriptable.staminaPerSecond / 2f);
         }
 
         private float GetOverallSpeed()
         {
-            if (!isOnSlope)
-            {
-                return moveSpeed * speedMultiplierFromDash;
-            }
-            else
-            {
-                if (isSlopeClimbing)
-                {
-                    return moveSpeed * speedMultiplierFromDash * (actualSlopeAngle / playerScriptable.speedDuringSlopeClimb);
-                }
-                else if(isDashing)
-                {
-                    return (moveSpeed * speedMultiplierFromDash * (actualSlopeAngle / playerScriptable.speedDuringSlopeFall)) 
-                           * playerScriptable.dashInSlopeSpeedMultiplier;
-                }
-                else
-                {
-                    return moveSpeed * speedMultiplierFromDash * (actualSlopeAngle / playerScriptable.speedDuringSlopeFall);
-                }
-            }
-
-            return 1f;
+            return (moveSpeed * speedMultiplierFromDash);
         }
 
         
@@ -311,7 +306,7 @@ namespace Player
         /// <summary>
         /// Set the physical material of the player, from it's different states.
         /// </summary>
-        /// <param name="pm">The physical material to apply.</param>
+        /// <param name="s">The state to set the material with.</param>
         private void SetPhysicalMaterialCollider(PlayerActionStates s)
         {
             var chosenMat = s == PlayerActionStates.Idle
@@ -322,10 +317,8 @@ namespace Player
             if (capsuleCollider.sharedMaterial != chosenMat)
             {
                 capsuleCollider.material = chosenMat;
-                Debug.Log("Material changed.");
             }
         }
-        
         
         /// <summary>
         /// Set the rigidbody drag of the player, from it's different states.
@@ -333,6 +326,7 @@ namespace Player
         private void SetDrag()
         {
             _rb.drag = isOnGround ? playerScriptable.groundDrag : playerScriptable.airDrag;
+            if (!isOnSlope && isOnGround && !isMoving) _rb.drag = 0f;
         }
         
         #endregion
@@ -349,12 +343,13 @@ namespace Player
             var transform1 = transform;
             var position = transform1.position;
             var rotation = transform1.rotation;
+            var forward = transform1.forward;
             
             //Security array to stack ground colliders detected, fixed to 10 max colliders.
             Collider[] hit = new Collider[10];
             
-            //Create an offset if the player moving, for balance the FOV trick.
-            var offset = isMoving ? (transform.forward * playerScriptable.groundDetectionForwardOffsetMoving) : Vector3.zero;
+            //Create an offset for the boxcast.
+            var offset = forward * playerScriptable.groundDetectionForwardOffset;
             
             //Check if the player is on the ground or not, by an overlapBoxNonAlloc.
             isOnGround =
@@ -570,7 +565,7 @@ namespace Player
             
             GUI.Label(rect6, $"Grounded ? : {isOnGround}", BoolStyle(isOnGround));
             
-            //GUI.Label(rect7, $"Has an Edge Forward ? : {hasAnEdgeForward}", BoolStyle(hasAnEdgeForward));
+            GUI.Label(rect7, $"Is On Slope ? : {isOnSlope}", BoolStyle(isOnSlope));
         }
 
         GUIStyle BoolStyle(bool value)
