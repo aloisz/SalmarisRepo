@@ -35,9 +35,8 @@ namespace Weapon
         [field: ShowIf("munitionTypeState", MunitionType.Raycast)][field: SerializeField] internal RaycastType raycastType{ get; private set; }
         
         // RAY Radius
-        [field: Header("-----RAY Radius-----")] 
-        //[field: ShowIf("raycastType", RaycastType.SphereCast)]
-        [field: ShowIf(EConditionOperator.And,"munitionTypeState", "raycastType" )]
+        [field: ShowIf("raycastType", RaycastType.SphereCast)]
+        //[field: ShowIf(EConditionOperator.And,"munitionTypeState", "raycastType" )]
         [field: SerializeField] internal float sphereCastRadius{ get; private set; }
         
         
@@ -78,7 +77,7 @@ namespace Weapon
         [field: ShowIf("munitionTypeState", MunitionType.Projectile)] [field: SerializeField]
         internal bool isProjectileHaveCurve;
         
-        [field: ShowIf("munitionTypeState", MunitionType.Projectile)][field: SerializeField] internal GameObject bullet{ get; private set; }
+        [field: ShowIf("munitionTypeState", MunitionType.Projectile)][field: SerializeField] internal BulletBehavior bullet{ get; private set; }
         [field: ShowIf("munitionTypeState", MunitionType.Projectile)][field: SerializeField] internal float bulletSpeed{ get; private set; }
         
         [field: ShowIf("isProjectileHaveCurve")] [field: SerializeField]

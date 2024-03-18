@@ -13,11 +13,13 @@ MonoBehaviour:
   m_Name: Pistol_Primary
   m_EditorClassIdentifier: 
   <selectiveFireState>k__BackingField: 2
-  <munitionTypeState>k__BackingField: 0
-  <numberOfBullet>k__BackingField: 10
+  <munitionTypeState>k__BackingField: 1
+  <numberOfBullet>k__BackingField: 30
   <timeToReload>k__BackingField: 1.5
   <bulletDamage>k__BackingField: 7
   <fireRate>k__BackingField: 15
+  <burstAmount>k__BackingField: 0
+  <burstTime>k__BackingField: 0
   <isRayDistanceNotInfinte>k__BackingField: 0
   <RayDistance>k__BackingField: 0
   <raycastType>k__BackingField: 1
@@ -26,9 +28,12 @@ MonoBehaviour:
   howManyBulletShot: {x: 0, y: 0}
   zAxisDispersion: {x: 0, y: 0}
   yAxisDispersion: {x: 0, y: 0}
+  <isRocketJump>k__BackingField: 0
+  rocketForceApplied: 0
   isProjectileHaveCurve: 0
-  <bullet>k__BackingField: {fileID: 0}
-  <bulletSpeed>k__BackingField: 0
+  <bullet>k__BackingField: {fileID: 4847300456583557964, guid: 3007a8a46738cfb4c9ff0ae4fb3ab975,
+    type: 3}
+  <bulletSpeed>k__BackingField: 10000
   projectileAnimationCurve:
     serializedVersion: 2
     m_Curve: []

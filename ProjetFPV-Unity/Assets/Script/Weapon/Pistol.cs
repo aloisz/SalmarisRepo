@@ -9,7 +9,7 @@ using Random = UnityEngine.Random;
 
 namespace Weapon
 {
-    public class Pistol : WeaponManager
+    public class Pistol : ShootingLogicModule
     {
         public override void InstantiateBulletImpact(RaycastHit hit)
         {

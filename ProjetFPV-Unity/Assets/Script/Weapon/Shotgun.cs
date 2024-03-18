@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Weapon;
 
-public class Shotgun : OldRaycastModule
+public class Shotgun : ShootingLogicModule
 {
     
 }

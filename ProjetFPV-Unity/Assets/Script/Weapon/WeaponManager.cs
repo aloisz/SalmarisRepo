@@ -180,18 +180,17 @@ namespace Weapon
                     Raycast();
                     break;
                 case MunitionType.Projectile:
-                    
+                    Projectile();
                     break;
             }
         }
-
-        
         
         protected virtual void Raycast()
         {
             //raycastModule.ChooseEnum(so_Weapon.weaponMode[(int)actualWeaponModeIndex].raycastType);
         }
         
+        protected virtual void Projectile() { }
         
         #region FeedBack
 

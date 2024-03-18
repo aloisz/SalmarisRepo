@@ -6,8 +6,6 @@ using Weapon;
 
 public class Barbatos : Shotgun
 {
-    
-    
     protected override void GetAllInput()
     {
         if (Input.GetKeyDown(KeyCode.Mouse0))

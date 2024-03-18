@@ -1,17 +1,48 @@
 using System.Collections;
 using System.Collections.Generic;
+using CameraBehavior;
 using UnityEngine;
 using Weapon;
 using Weapon.Interface;
 
-public class OldRaycastModule : WeaponManager, IShootRaycast, IShootSphereCast
+public class ShootingLogicModule : WeaponManager, IShootRaycast, IShootSphereCast
 {
     [SerializeField] private Transform gunBarrelPos;
+    
     protected override void Raycast()
     {
         base.Raycast();
-        ChooseEnum();
+        RaycastEnum();
     }
+
+    protected override void Projectile()
+    {
+        base.Projectile();
+        ShootProjectile();
+    }
+
+
+    // -------- HIT SCAN LOGIC ----------
+    // ----------------------------------
+    #region LOGIC 
+
+     private void RaycastEnum()
+    {
+        switch (ChooseRaycastType(so_Weapon.weaponMode[(int)actualWeaponModeIndex].raycastType))
+        {
+            case RaycastType.Raycast:
+                if (so_Weapon.weaponMode[(int)actualWeaponModeIndex].isHavingDispersion) RaycastDispersionHitScan(GetTheDistance());
+                else RaycastSingleHitScan(GetTheDistance());
+                break;
+            
+            case RaycastType.SphereCast:
+                float radius = so_Weapon.weaponMode[(int)actualWeaponModeIndex].sphereCastRadius;
+                if (so_Weapon.weaponMode[(int)actualWeaponModeIndex].isHavingDispersion) SphereCastDispersionHitScan(GetTheDistance(), radius) ;
+                else SphereCastSingleHitScan(GetTheDistance(), radius);
+                break;
+        }
+    }
+    
     
     /// <summary>
     /// Where all the hitScan logic is applied
@@ -72,25 +103,9 @@ public class OldRaycastModule : WeaponManager, IShootRaycast, IShootSphereCast
                 : 10000;
         return maxDistance;
     }
+
+    #endregion
     
-
-    private void ChooseEnum()
-    {
-        switch (ChooseRaycastType(so_Weapon.weaponMode[(int)actualWeaponModeIndex].raycastType))
-        {
-            case RaycastType.Raycast:
-                if (so_Weapon.weaponMode[(int)actualWeaponModeIndex].isHavingDispersion) RaycastDispersionHitScan(GetTheDistance());
-                else RaycastSingleHitScan(GetTheDistance());
-                break;
-            
-            case RaycastType.SphereCast:
-                float radius = so_Weapon.weaponMode[(int)actualWeaponModeIndex].sphereCastRadius;
-                if (so_Weapon.weaponMode[(int)actualWeaponModeIndex].isHavingDispersion) SphereCastDispersionHitScan(GetTheDistance(), radius) ;
-                else SphereCastSingleHitScan(GetTheDistance(), radius);
-                break;
-        }
-    }
-
     #region Raycast
 
     public void RaycastSingleHitScan(float maxDistance)
@@ -131,7 +146,7 @@ public class OldRaycastModule : WeaponManager, IShootRaycast, IShootSphereCast
         if (Physics.SphereCast(camera.transform.position, radius, camera.transform.forward, out hit, maxDistance, so_Weapon.hitLayer))
         {
             Debug.DrawRay(camera.transform.position, camera.transform.forward * maxDistance, Color.red, .2f);
-            InitialiseLineRenderer(hit);
+                InitialiseLineRenderer(hit);
             HitScanLogic(hit);
         }
     }
@@ -154,5 +169,23 @@ public class OldRaycastModule : WeaponManager, IShootRaycast, IShootSphereCast
 
     #endregion
 
+    // -------- Projectile LOGIC ----------
+    // ----------------------------------
+
+    #region LOGIC
+    
+    private void ShootProjectile() // TODO : Integrate Pulling
+    { 
+        BulletBehavior projectileBullet = Instantiate(so_Weapon.weaponMode[(int)actualWeaponModeIndex].bullet, gunBarrelPos.position, Quaternion.identity);
+        
+        // Logic
+        projectileBullet.EnableMovement(true);
+        projectileBullet.transform.rotation *= Quaternion.AngleAxis(90, PlayerController.transform.right);
+        projectileBullet.GetThePlayerDir(new Vector3(PlayerController.transform.forward.x, Camera.main.transform.forward.y, PlayerController.transform.forward.z));
+        projectileBullet.AddDamage(so_Weapon.weaponMode[(int)actualWeaponModeIndex].bulletDamage);
+        projectileBullet.AddVelocity(so_Weapon.weaponMode[(int)actualWeaponModeIndex].bulletSpeed);
+    }   
+
+    #endregion
     
 }
