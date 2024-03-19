@@ -26,7 +26,7 @@ public class ShootingLogicModule : WeaponManager, IShootRaycast, IShootSphereCas
     // ----------------------------------
     #region LOGIC 
 
-     private void RaycastEnum()
+    protected virtual void RaycastEnum()
     {
         switch (ChooseRaycastType(so_Weapon.weaponMode[(int)actualWeaponModeIndex].raycastType))
         {
