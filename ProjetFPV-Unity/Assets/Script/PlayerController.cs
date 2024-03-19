@@ -23,7 +23,7 @@ namespace Player
         [SerializeField] private Transform cameraAttachPosition;
         [SerializeField] private Collider capsuleCollider;
         
-        private Rigidbody _rb;
+        [HideInInspector]public Rigidbody _rb;
         
         //---------------------------------------
 

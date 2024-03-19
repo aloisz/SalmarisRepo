@@ -57,6 +57,12 @@ namespace CameraBehavior
         
         
         /// <summary>
+        /// Jumping
+        /// </summary>
+        [field: BoxGroup("---Jumping---")][field: Range(0, 20)] [field:SerializeField] internal float JumpingBobbingSpeed { get; private set; }
+        [field: BoxGroup("---Jumping---")][field: Range(-.01f, 2)] [field:SerializeField] internal float cameraJumpingBobbingAmount { get; private set; }
+        
+        /// <summary>
         /// Weapon Sway Settings
         /// </summary>
         [field: BoxGroup("---Weapon Sway Settings---")][field: SerializeField] internal float weaponSwaySmooth { get; private set; }
