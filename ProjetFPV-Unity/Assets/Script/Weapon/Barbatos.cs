@@ -41,29 +41,16 @@ public class Barbatos : Shotgun
             
         if (Input.GetKeyDown(KeyCode.R)) Reload();
     }
-
-
-    protected override void HitScanLogic(RaycastHit hit)
-    {
-        base.HitScanLogic(hit);
-        
-        if (!so_Weapon.weaponMode[(int)actualWeaponModeIndex].isRocketJump) return;
-        if (hit.transform.GetComponent<Collider>() != null)
-        {
-            PlayerController.GetComponent<Rigidbody>().AddForce( PlayerController.transform.position - hit.point * so_Weapon.weaponMode[(int)actualWeaponModeIndex].rocketForceApplied);
-        }
-    }
     
     public override void InstantiateBulletImpact(RaycastHit hit)
     {
         base.InstantiateBulletImpact(hit);
-        /*GameObject particle =  Instantiate(GameManager.Instance.PS_BulletImpact, hit.point, Quaternion.identity, GameManager.Instance.transform);
-        particle.transform.up = hit.normal;*/
         
         GameObject particle = Pooling.instance.Pop("BulletImpact");
+        particle.transform.position = hit.point;
+        particle.transform.up = hit.normal;
         Pooling.instance.DelayedDePop("BulletImpact", particle,3);
         
-
         if (so_Weapon.weaponMode[(int)actualWeaponModeIndex].doExplosion)
         {
             GameObject explosion = Pooling.instance.Pop("ExplosionImpact");

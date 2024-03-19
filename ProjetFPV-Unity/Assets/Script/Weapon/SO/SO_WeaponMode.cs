@@ -62,7 +62,8 @@ namespace Weapon
         [field: Space]
         [field: Header("-----Rocket Jump-----")] 
         [field: ShowIf("munitionTypeState", MunitionType.Raycast)][field: SerializeField] internal bool isRocketJump{ get; private set; }
-        [field: ShowIf("isRocketJump")] [field: SerializeField] internal float rocketForceApplied;
+        [field: ShowIf("isRocketJump")] [field: SerializeField] internal float rocketJumpForceApplied;
+        [field: ShowIf("isRocketJump")] [field: SerializeField] internal float rocketJumpDistance;
 
         #endregion
 

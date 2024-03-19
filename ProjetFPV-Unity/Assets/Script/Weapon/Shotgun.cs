@@ -9,7 +9,7 @@ public class Shotgun : ShootingLogicModule
     {
         base.RaycastEnum();
         if (!so_Weapon.weaponMode[(int)actualWeaponModeIndex].isRocketJump) return;
-        RaycastSingleHitScanRocketJump(GetTheDistance());
+        RaycastSingleHitScanRocketJump(so_Weapon.weaponMode[(int)actualWeaponModeIndex].rocketJumpDistance);
     }
     
     public void RaycastSingleHitScanRocketJump(float maxDistance)
@@ -22,7 +22,7 @@ public class Shotgun : ShootingLogicModule
             if (!so_Weapon.weaponMode[(int)actualWeaponModeIndex].isRocketJump) return;
             if (hit.transform.GetComponent<Collider>() != null)
             {
-                PlayerController.GetComponent<Rigidbody>().AddForce( (PlayerController.transform.position - hit.point).normalized * so_Weapon.weaponMode[(int)actualWeaponModeIndex].rocketForceApplied);
+                PlayerController.GetComponent<Rigidbody>().AddForce( (PlayerController.transform.position - hit.point).normalized * so_Weapon.weaponMode[(int)actualWeaponModeIndex].rocketJumpForceApplied);
             }
         }
     }
