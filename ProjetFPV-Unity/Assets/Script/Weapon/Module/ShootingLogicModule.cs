@@ -60,10 +60,14 @@ public class ShootingLogicModule : WeaponManager, IShootRaycast, IShootSphereCas
         }
     }
 
+    private LineRenderer lineRenderer;
     protected virtual void InitialiseLineRenderer(RaycastHit hit)
     {
-        LineRenderer lineRenderer = Instantiate(GameManager.Instance.rayLineRenderer,
-            camera.transform.position, Quaternion.identity, GameManager.Instance.transform);
+        /*LineRenderer lineRenderer = Instantiate(GameManager.Instance.rayLineRenderer,
+            camera.transform.position, Quaternion.identity, GameManager.Instance.transform);*/
+        GameObject lineRendererGO = Pooling.instance.Pop("HitScanRay");
+        lineRenderer = lineRendererGO.GetComponent<LineRenderer>();
+        
         lineRenderer.startWidth = 
             so_Weapon.weaponMode[(int)actualWeaponModeIndex].raycastType == RaycastType.SphereCast ? 
                 so_Weapon.weaponMode[(int)actualWeaponModeIndex].sphereCastRadius : 
@@ -173,13 +177,16 @@ public class ShootingLogicModule : WeaponManager, IShootRaycast, IShootSphereCas
     // ----------------------------------
 
     #region LOGIC
-    
-    private void ShootProjectile() // TODO : Integrate Pulling
+
+    private BulletBehavior bulletProjectile;
+    private void ShootProjectile()
     { 
-        BulletBehavior bulletProjectile = Instantiate(so_Weapon.weaponMode[(int)actualWeaponModeIndex].bullet, gunBarrelPos.position, Quaternion.identity);
-        //GameObject bulletProjectile = Pooling.instance.Pop("BulletProjectile");
+        //BulletBehavior bulletProjectile = Instantiate(so_Weapon.weaponMode[(int)actualWeaponModeIndex].bullet, gunBarrelPos.position, Quaternion.identity);
+        GameObject bulletProjectileGO = Pooling.instance.Pop("BulletProjectile");
+        bulletProjectileGO.transform.position = gunBarrelPos.position;
+        bulletProjectileGO.transform.rotation = Quaternion.identity;
         
-        
+        bulletProjectile = bulletProjectileGO.GetComponent<BulletBehavior>();
         // Logic
         bulletProjectile.EnableMovement(true);
         bulletProjectile.transform.rotation *= Quaternion.AngleAxis(90, PlayerController.transform.right);

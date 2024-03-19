@@ -66,7 +66,8 @@ public class Barbatos : Shotgun
 
         if (so_Weapon.weaponMode[(int)actualWeaponModeIndex].doExplosion)
         {
-            GameObject explosion =  Instantiate(GameManager.Instance.explosion, hit.point, Quaternion.identity, GameManager.Instance.transform);
+            GameObject explosion = Pooling.instance.Pop("ExplosionImpact");
+            explosion.transform.position = hit.point;
         }
     }
     

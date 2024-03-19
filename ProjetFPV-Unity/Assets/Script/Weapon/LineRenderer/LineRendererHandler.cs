@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -9,11 +10,15 @@ public class LineRendererHandler : MonoBehaviour
 
     private LineRenderer lineRenderer;
     
-    private IEnumerator Start()
+    private IEnumerator DePop()
     {
         lineRenderer = GetComponent<LineRenderer>();
         yield return new WaitForSeconds(time);
-        Destroy(gameObject);
+        Pooling.instance.DelayedDePop("HitScanRay", gameObject,0);
     }
-    
+
+    private void OnEnable()
+    {
+        StartCoroutine(DePop());
+    }
 }

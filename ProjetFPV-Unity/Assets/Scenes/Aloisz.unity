@@ -174,12 +174,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7a7b16215d8ff8940aa0d3476af5fbec, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  PS_BulletImpact: {fileID: 5315971860765651078, guid: 2b66011708bf62843adb8880a79bb4b4,
-    type: 3}
-  rayLineRenderer: {fileID: 5162768747617798108, guid: 3513695d60a335a47915ee9053d045f8,
-    type: 3}
-  explosion: {fileID: 923631459655984586, guid: c3e596c6fcddbe84589beb93f7cc79e2,
-    type: 3}
 --- !u!114 &250294493
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -197,14 +191,21 @@ MonoBehaviour:
     pool:
       prefab: {fileID: 5315971860765651078, guid: 2b66011708bf62843adb8880a79bb4b4,
         type: 3}
-      baseCount: 300
+      baseCount: 200
       baseRefreshSpeed: 5
       refreshSpeed: 0
   - key: BulletProjectile
     pool:
       prefab: {fileID: 7183163888607090828, guid: 3007a8a46738cfb4c9ff0ae4fb3ab975,
         type: 3}
-      baseCount: 300
+      baseCount: 100
+      baseRefreshSpeed: 5
+      refreshSpeed: 0
+  - key: HitScanRay
+    pool:
+      prefab: {fileID: 917515355212965685, guid: 3513695d60a335a47915ee9053d045f8,
+        type: 3}
+      baseCount: 100
       baseRefreshSpeed: 5
       refreshSpeed: 0
 --- !u!1 &291436480
