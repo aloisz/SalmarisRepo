@@ -5,7 +5,7 @@ using Weapon;
 
 public class Shotgun : ShootingLogicModule
 {
-    protected virtual void RaycastEnum()
+    protected override void RaycastEnum()
     {
         base.RaycastEnum();
         if (!so_Weapon.weaponMode[(int)actualWeaponModeIndex].isRocketJump) return;
@@ -22,7 +22,7 @@ public class Shotgun : ShootingLogicModule
             if (!so_Weapon.weaponMode[(int)actualWeaponModeIndex].isRocketJump) return;
             if (hit.transform.GetComponent<Collider>() != null)
             {
-                PlayerController.GetComponent<Rigidbody>().AddForce( (PlayerController.transform.position - hit.point) * so_Weapon.weaponMode[(int)actualWeaponModeIndex].rocketForceApplied);
+                PlayerController.GetComponent<Rigidbody>().AddForce( (PlayerController.transform.position - hit.point).normalized * so_Weapon.weaponMode[(int)actualWeaponModeIndex].rocketForceApplied);
             }
         }
     }
@@ -31,11 +31,5 @@ public class Shotgun : ShootingLogicModule
     protected override void HitScanLogic(RaycastHit hit)
     {
         base.HitScanLogic(hit);
-        
-        if (!so_Weapon.weaponMode[(int)actualWeaponModeIndex].isRocketJump) return;
-        if (hit.transform.GetComponent<Collider>() != null)
-        {
-            PlayerController.GetComponent<Rigidbody>().AddForce( (PlayerController.transform.position - hit.point) * so_Weapon.weaponMode[(int)actualWeaponModeIndex].rocketForceApplied);
-        }
     }
 }
