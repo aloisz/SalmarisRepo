@@ -176,14 +176,16 @@ public class ShootingLogicModule : WeaponManager, IShootRaycast, IShootSphereCas
     
     private void ShootProjectile() // TODO : Integrate Pulling
     { 
-        BulletBehavior projectileBullet = Instantiate(so_Weapon.weaponMode[(int)actualWeaponModeIndex].bullet, gunBarrelPos.position, Quaternion.identity);
+        BulletBehavior bulletProjectile = Instantiate(so_Weapon.weaponMode[(int)actualWeaponModeIndex].bullet, gunBarrelPos.position, Quaternion.identity);
+        //GameObject bulletProjectile = Pooling.instance.Pop("BulletProjectile");
+        
         
         // Logic
-        projectileBullet.EnableMovement(true);
-        projectileBullet.transform.rotation *= Quaternion.AngleAxis(90, PlayerController.transform.right);
-        projectileBullet.GetThePlayerDir(new Vector3(PlayerController.transform.forward.x, Camera.main.transform.forward.y, PlayerController.transform.forward.z));
-        projectileBullet.AddDamage(so_Weapon.weaponMode[(int)actualWeaponModeIndex].bulletDamage);
-        projectileBullet.AddVelocity(so_Weapon.weaponMode[(int)actualWeaponModeIndex].bulletSpeed);
+        bulletProjectile.EnableMovement(true);
+        bulletProjectile.transform.rotation *= Quaternion.AngleAxis(90, PlayerController.transform.right);
+        bulletProjectile.GetThePlayerDir(new Vector3(PlayerController.transform.forward.x, Camera.main.transform.forward.y, PlayerController.transform.forward.z));
+        bulletProjectile.AddDamage(so_Weapon.weaponMode[(int)actualWeaponModeIndex].bulletDamage);
+        bulletProjectile.AddVelocity(so_Weapon.weaponMode[(int)actualWeaponModeIndex].bulletSpeed);
     }   
 
     #endregion

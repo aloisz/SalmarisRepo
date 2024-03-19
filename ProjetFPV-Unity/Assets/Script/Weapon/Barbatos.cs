@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Weapon;
+using Object = UnityEngine.Object;
 
 public class Barbatos : Shotgun
 {
@@ -53,14 +54,15 @@ public class Barbatos : Shotgun
         }
     }
     
-    
-    
-    
     public override void InstantiateBulletImpact(RaycastHit hit)
     {
         base.InstantiateBulletImpact(hit);
-        GameObject particle =  Instantiate(GameManager.Instance.PS_BulletImpact, hit.point, Quaternion.identity, GameManager.Instance.transform);
-        particle.transform.up = hit.normal;
+        /*GameObject particle =  Instantiate(GameManager.Instance.PS_BulletImpact, hit.point, Quaternion.identity, GameManager.Instance.transform);
+        particle.transform.up = hit.normal;*/
+        
+        GameObject particle = Pooling.instance.Pop("BulletImpact");
+        Pooling.instance.DelayedDePop("BulletImpact", particle,3);
+        
 
         if (so_Weapon.weaponMode[(int)actualWeaponModeIndex].doExplosion)
         {
