@@ -35,7 +35,7 @@ public class Shotgun : ShootingLogicModule
     private void FixedUpdate()
     {
         if(!isRocketJumping) return;
-        PlayerController.GetComponent<Rigidbody>().AddForce( (PlayerController.transform.position - hitPoint).normalized * so_Weapon.weaponMode[(int)actualWeaponModeIndex].rocketJumpForceApplied);
+        PlayerController.GetComponent<Rigidbody>().AddForce( (( PlayerController.transform.position + Vector3.up) - hitPoint).normalized * so_Weapon.weaponMode[(int)actualWeaponModeIndex].rocketJumpForceApplied);
         isRocketJumping = false;
     }
 }
