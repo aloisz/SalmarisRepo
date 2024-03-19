@@ -156,10 +156,19 @@ namespace Player
             //If the direction isn't null, set the direction not reset to direction.
             if (direction.magnitude > playerScriptable.moveThreshold) directionNotReset = direction;
             
-            
+            //Setup the basic direction
             var dir = DirectionFromCamera(direction).normalized * GetOverallSpeed();
             
+            //Slope interaction
+            var slopeDirection = new Vector3(raycastSlope.normal.x, 0, raycastSlope.normal.z).normalized;
+            
+            if (isOnSlope && isSliding)
+            {
+                _rb.AddForce(Vector3.down * (200f * Time.deltaTime), ForceMode.Impulse);
+                _rb.AddForce(slopeDirection * (200f * Time.deltaTime), ForceMode.Impulse);
+            }
 
+            //Basic movement managing
             if (_rb.velocity.magnitude < playerScriptable.speedMaxToAccelerate)
             {
                 _rb.AddForce((GetOverallSpeed() * playerScriptable.accelerationMultiplier) * dir, ForceMode.Impulse);
@@ -167,13 +176,6 @@ namespace Player
             else
             {
                 _rb.AddForce(GetOverallSpeed() * dir, ForceMode.Impulse);
-            }
-
-            var slopeDirection = (transform.forward - raycastSlope.point).normalized;
-            if (isOnSlope && isSliding)
-            {
-                _rb.AddForce(Vector3.down * (Time.deltaTime * 3000f));
-                _rb.AddForce(slopeDirection * (2f * (Time.deltaTime * 3000f)));
             }
         }
         
@@ -222,7 +224,7 @@ namespace Player
 
         private float GetOverallSpeed()
         {
-            return (moveSpeed * speedMultiplierFromDash);
+            return (moveSpeed * speedMultiplierFromDash) * (isSliding && !isOnSlope ? _rb.velocity.magnitude / 200f : 1f);
         }
 
         
@@ -287,14 +289,16 @@ namespace Player
         {
             Physics.Raycast(transform.position + new Vector3(0,0.35f,0), Vector3.down, out raycastSlope, playerScriptable.raycastLenghtSlopeDetection,
                 groundLayer);
+            
+            Physics.Raycast(transform.position + new Vector3(0,0.35f,0) + (transform.forward * 2f), Vector3.down, 
+                out raycastSlopeFront, playerScriptable.raycastLenghtSlopeDetection, groundLayer);
 
             actualSlopeAngle = Vector3.Angle(raycastSlope.normal, Vector3.up);
 
             if (actualSlopeAngle > playerScriptable.minSlopeDegrees) 
             {
                 isOnSlope = true;
-
-                isSlopeClimbing = raycastSlopeFront.collider;
+                isSlopeClimbing = raycastSlopeFront.point.y > transform.position.y;
             }
             else
             {
@@ -391,11 +395,13 @@ namespace Player
         private void Jump()
         {
             isJumping = true;
+
+            var forwardMomentumVector = transform.forward * (new Vector3(_rb.velocity.x, 0, _rb.velocity.z).magnitude / 50f);
             
             if(coyoteTimer < playerScriptable.coyoteJump - 0.1f)
-                _rb.AddForce(playerScriptable.coyoteJumpForce * Vector3.up, ForceMode.Impulse);
+                _rb.AddForce(playerScriptable.coyoteJumpForce * (Vector3.up + forwardMomentumVector), ForceMode.Impulse);
             else
-                _rb.AddForce(playerScriptable.jumpForce * Vector3.up, ForceMode.Impulse);
+                _rb.AddForce(playerScriptable.jumpForce * (Vector3.up + forwardMomentumVector), ForceMode.Impulse);
             
             coyoteTimer = 0f;
         }
@@ -457,7 +463,7 @@ namespace Player
 
             if (isMoving && !isSliding && !isJumping && !isDashing) currentActionState = PlayerActionStates.Moving;
             
-            else if(isMoving && isSliding && !isJumping && !isDashing) currentActionState = PlayerActionStates.Sliding;
+            else if(isSliding && !isJumping && !isDashing) currentActionState = PlayerActionStates.Sliding;
             
             else if (!isSliding && isJumping && !isDashing) currentActionState = PlayerActionStates.Jumping;
                 
@@ -517,9 +523,13 @@ namespace Player
             Gizmos.color = Color.magenta;
             Gizmos.DrawRay(position + new Vector3(0, 0.35f, 0),
                 Vector3.down * playerScriptable.raycastLenghtSlopeDetection);
+            
+            Gizmos.color = Color.cyan;
+            Gizmos.DrawRay(transform.position + new Vector3(0,0.35f,0) + (transform.forward * 2f),
+                Vector3.down * playerScriptable.raycastLenghtSlopeDetection);
 
             //Slope Normal
-            Gizmos.color = Color.magenta;
+            Gizmos.color = Color.green;
             Gizmos.DrawRay(raycastSlope.point, raycastSlope.normal * 2.5f);
         }
 
@@ -551,6 +561,8 @@ namespace Player
             Rect rect6 = new Rect(10, 390, 200, 50);
             
             Rect rect7 = new Rect(10, 460, 200, 50);
+            
+            Rect rect8 = new Rect(10, 530, 200, 50);
 
             // Display the text on the screen
             GUI.Label(rect, $"Direction : {direction}", style);
@@ -566,6 +578,9 @@ namespace Player
             GUI.Label(rect6, $"Grounded ? : {isOnGround}", BoolStyle(isOnGround));
             
             GUI.Label(rect7, $"Is On Slope ? : {isOnSlope}", BoolStyle(isOnSlope));
+
+            var text = raycastSlope.collider ? new Vector3(raycastSlope.normal.x, 0, raycastSlope.normal.z).normalized : Vector3.zero;
+            GUI.Label(rect8, $"Current Slope Direction : {text}", style);
         }
 
         GUIStyle BoolStyle(bool value)
