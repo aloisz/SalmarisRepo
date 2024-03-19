@@ -126,7 +126,7 @@ namespace Player
 
             canDash = PlayerInputs.Instance.isReceivingDashInputs && !isDashing && PlayerStamina.Instance.HasEnoughStamina(1);
             canJump = (coyoteTimer > 0f && PlayerInputs.Instance.isReceivingJumpInputs) || (isOnGround && PlayerInputs.Instance.isReceivingJumpInputs);
-            isSliding = PlayerInputs.Instance.isReceivingSlideInputs /*&& isMoving*/ && isOnGround;
+            isSliding = PlayerInputs.Instance.isReceivingSlideInputs && isOnGround;
         }
         
         private void FixedUpdate()
@@ -156,27 +156,48 @@ namespace Player
             //If the direction isn't null, set the direction not reset to direction.
             if (direction.magnitude > playerScriptable.moveThreshold) directionNotReset = direction;
             
+            
             //Setup the basic direction
-            var dir = DirectionFromCamera(direction).normalized * GetOverallSpeed();
+            //var dir = DirectionFromCamera(direction).normalized;
             
             //Slope interaction
-            var slopeDirection = new Vector3(raycastSlope.normal.x, 0, raycastSlope.normal.z).normalized;
+            //var slopeDirection = new Vector3(raycastSlope.normal.x, 0, raycastSlope.normal.z).normalized;
             
-            if (isOnSlope && isSliding)
+            /*if (isOnSlope && isSliding)
             {
-                _rb.AddForce(Vector3.down * (200f * Time.deltaTime), ForceMode.Impulse);
-                _rb.AddForce(slopeDirection * (200f * Time.deltaTime), ForceMode.Impulse);
+                _rb.AddForce(Vector3.down * (playerScriptable.slidingInSlopeDownForce * Time.deltaTime), ForceMode.Impulse);
+                _rb.AddForce(slopeDirection * ((actualSlopeAngle / playerScriptable.slidingInSlopeLimiter) * Time.deltaTime), ForceMode.Impulse);
             }
 
             //Basic movement managing
             if (_rb.velocity.magnitude < playerScriptable.speedMaxToAccelerate)
             {
-                _rb.AddForce((GetOverallSpeed() * playerScriptable.accelerationMultiplier) * dir, ForceMode.Impulse);
+                _rb.AddForce(dir * playerScriptable.accelerationMultiplier, ForceMode.Impulse);
             }
             else
             {
                 _rb.AddForce(GetOverallSpeed() * dir, ForceMode.Impulse);
-            }
+            }*/
+            
+            _rb.AddForce(GetOverallMomentumVector(), ForceMode.Impulse);
+        }
+        
+        
+        private Vector3 GetOverallMomentumVector()
+        {
+            var vectorMove = DirectionFromCamera(direction).normalized * (moveSpeed * speedMultiplierFromDash);
+            
+            var slopeDirection = new Vector3(raycastSlope.normal.x, 0, raycastSlope.normal.z).normalized;
+            var vectorSlideDown = Vector3.down * (playerScriptable.slidingInSlopeDownForce * Time.deltaTime);
+            var vectorSlideForward = slopeDirection * ((actualSlopeAngle / playerScriptable.slidingInSlopeLimiter) * Time.deltaTime);
+            var vectorSlide = vectorSlideDown + vectorSlideForward;
+
+            var accelerating = _rb.velocity.magnitude < playerScriptable.speedMaxToAccelerate;
+            
+            var finalVector = ((isMoving ? vectorMove : Vector3.zero) * (accelerating ? playerScriptable.accelerationMultiplier : 1f))
+                              + (isOnSlope && isSliding ? vectorSlide : Vector3.zero);
+            
+            return finalVector;
         }
         
         private void SetMoveSpeed()
@@ -220,11 +241,6 @@ namespace Player
             else if(isJumping)
                 //Generate two times less stamina when in this airs.
                 PlayerStamina.Instance.GenerateStaminaStep(playerScriptable.staminaPerSecond / 2f);
-        }
-
-        private float GetOverallSpeed()
-        {
-            return (moveSpeed * speedMultiplierFromDash) * (isSliding && !isOnSlope ? _rb.velocity.magnitude / 200f : 1f);
         }
 
         
@@ -330,7 +346,7 @@ namespace Player
         private void SetDrag()
         {
             _rb.drag = isOnGround ? playerScriptable.groundDrag : playerScriptable.airDrag;
-            if (!isOnSlope && isOnGround && !isMoving) _rb.drag = 0f;
+            if (isOnGround && !isMoving) _rb.drag = 0f;
         }
         
         #endregion
@@ -563,6 +579,9 @@ namespace Player
             Rect rect7 = new Rect(10, 460, 200, 50);
             
             Rect rect8 = new Rect(10, 530, 200, 50);
+            Rect rect9 = new Rect(10, 580, 200, 50);
+            
+            Rect rect10 = new Rect(10, 640, 200, 50);
 
             // Display the text on the screen
             GUI.Label(rect, $"Direction : {direction}", style);
@@ -573,7 +592,7 @@ namespace Player
             
             GUI.Label(rect4, $"Current State : {Convert.ToString(currentActionState)}", style);
             
-            GUI.Label(rect5, $"Overall Speed : {GetOverallSpeed()}", style);
+            GUI.Label(rect5, $"Overall Speed : {GetOverallMomentumVector()}", style);
             
             GUI.Label(rect6, $"Grounded ? : {isOnGround}", BoolStyle(isOnGround));
             
@@ -581,6 +600,9 @@ namespace Player
 
             var text = raycastSlope.collider ? new Vector3(raycastSlope.normal.x, 0, raycastSlope.normal.z).normalized : Vector3.zero;
             GUI.Label(rect8, $"Current Slope Direction : {text}", style);
+            GUI.Label(rect9, $"Current Slope Angle : {actualSlopeAngle}", style);
+            
+            
         }
 
         GUIStyle BoolStyle(bool value)
