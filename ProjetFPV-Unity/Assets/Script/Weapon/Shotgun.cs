@@ -21,7 +21,7 @@ public class Shotgun : ShootingLogicModule
         RaycastHit hit;
         if (Physics.Raycast(camera.transform.position, camera.transform.forward, out hit, maxDistance, so_Weapon.hitLayer))
         {
-            Debug.DrawRay(camera.transform.position, camera.transform.forward * maxDistance, Color.red, .2f);
+            Debug.DrawRay(camera.transform.position, camera.transform.forward * maxDistance, Color.yellow, .4f);
             
             if (!so_Weapon.weaponMode[(int)actualWeaponModeIndex].isRocketJump) return;
             if (hit.transform.GetComponent<Collider>() != null)
