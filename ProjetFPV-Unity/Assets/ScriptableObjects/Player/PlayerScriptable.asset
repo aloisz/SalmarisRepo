@@ -16,7 +16,7 @@ MonoBehaviour:
   moveSpeedInAirDivider: 10
   moveThreshold: 0.1
   jumpForce: 9
-  coyoteJumpForce: 9
+  coyoteJumpForce: 40
   moveAirMultiplier: 0.1
   dashForce: 50
   dashDuration: 0.3
@@ -25,7 +25,7 @@ MonoBehaviour:
   dashSpeedMultiplierResetDuration: 2
   speedMaxToAccelerate: 12
   accelerationMultiplier: 1.2
-  coyoteJump: 0.1
+  coyoteJump: 0
   slidingInSlopeDownForce: 2
   slidingInSlopeLimiter: 100
   staminaPerSecond: 0.01
@@ -67,9 +67,9 @@ MonoBehaviour:
     m_RotationOrder: 4
   groundDetectionLenght: 1
   raycastLenghtSlopeDetection: 1
-  groundDetectionForwardOffset: 0.35
+  groundDetectionForwardOffset: 0.46
   minSlopeDegrees: 3
-  sensibility: 0.08
+  sensibility: 0.03
   lookLimitY: 90
   frictionMaterial: {fileID: 13400000, guid: 66462d3f498916c45b06fcf1b1aa7596, type: 2}
   wallMaterial: {fileID: 13400000, guid: 394c912cc7e142549ba3f2b085deeae4, type: 2}

@@ -226,6 +226,8 @@ namespace Weapon
 
         private void OnGUI()
         {
+            return; 
+            
             // Set up GUI style for the text
             GUIStyle style = new GUIStyle();
             style.fontSize = 24;

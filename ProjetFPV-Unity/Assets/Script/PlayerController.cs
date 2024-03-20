@@ -75,7 +75,11 @@ namespace Player
         [Header("Detection")] 
         [SerializeField] private LayerMask groundLayer;
 
-        private RaycastHit raycastGround;
+        private RaycastHit raycastGroundRight;
+        private RaycastHit raycastGroundLeft;
+        private RaycastHit raycastGroundForward;
+        private RaycastHit raycastGroundBack;
+        
         private RaycastHit raycastSlope;
         private RaycastHit raycastSlopeFront;
         
@@ -371,24 +375,23 @@ namespace Player
             var pos = transform.position + new Vector3(0,0.25f,0);
             
             var posCheckRight = ReturnCheckOffsetFromDir(pos, Helper.ReturnDirFromIndex(0), offset);
-            var isOnGroundTempRight = Physics.Raycast(posCheckRight, Vector3.down * playerScriptable.groundDetectionLenght, out raycastGround, 
+            var isOnGroundTempRight = Physics.Raycast(posCheckRight, Vector3.down * playerScriptable.groundDetectionLenght, out raycastGroundRight, 
                 playerScriptable.groundDetectionLenght, groundLayer);
             
             var posCheckLeft = ReturnCheckOffsetFromDir(pos, Helper.ReturnDirFromIndex(1), offset);
-            var isOnGroundTempLeft = Physics.Raycast(posCheckLeft, Vector3.down * playerScriptable.groundDetectionLenght, out raycastGround, 
+            var isOnGroundTempLeft = Physics.Raycast(posCheckLeft, Vector3.down * playerScriptable.groundDetectionLenght, out raycastGroundLeft, 
                 playerScriptable.groundDetectionLenght, groundLayer);
             
             var posCheckForward = ReturnCheckOffsetFromDir(pos, Helper.ReturnDirFromIndex(2), offset);
-            var isOnGroundTempForward = Physics.Raycast(posCheckForward, Vector3.down * playerScriptable.groundDetectionLenght, out raycastGround, 
+            var isOnGroundTempForward = Physics.Raycast(posCheckForward, Vector3.down * playerScriptable.groundDetectionLenght, out raycastGroundForward, 
                 playerScriptable.groundDetectionLenght, groundLayer);
             
             var posCheckBack = ReturnCheckOffsetFromDir(pos, Helper.ReturnDirFromIndex(3), offset);
-            var isOnGroundTempBack = Physics.Raycast(posCheckBack, Vector3.down * playerScriptable.groundDetectionLenght, out raycastGround, 
+            var isOnGroundTempBack = Physics.Raycast(posCheckBack, Vector3.down * playerScriptable.groundDetectionLenght, out raycastGroundBack, 
                 playerScriptable.groundDetectionLenght, groundLayer);
                
             isOnGround = isOnGroundTempRight || isOnGroundTempLeft || isOnGroundTempForward || isOnGroundTempBack;
             
-
             //Check if the player just landed.
             if (isOnGround && !wasOnGroundLastFrame)
             {
@@ -587,6 +590,8 @@ namespace Player
 
         private void OnGUI()
         {
+            return;
+            
             // Set up GUI style for the text
             GUIStyle style = new GUIStyle
             {
