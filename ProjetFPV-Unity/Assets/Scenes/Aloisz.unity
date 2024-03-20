@@ -1233,6 +1233,58 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 312053563}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1 &322400571
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 322400572}
+  - component: {fileID: 322400573}
+  m_Layer: 0
+  m_Name: NavMesh Link (1)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &322400572
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 322400571}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: 0.08138681, z: -0, w: 0.99668264}
+  m_LocalPosition: {x: -14.02, y: 3.4055183, z: 67.12}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1632280029}
+  m_LocalEulerAnglesHint: {x: 0, y: 9.337, z: 0}
+--- !u!114 &322400573
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 322400571}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6eeb5dc026fdf4b488bc7ae0138ab719, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_AgentTypeID: 0
+  m_StartPoint: {x: -1.6845188, y: -0.8783412, z: 0.8330078}
+  m_EndPoint: {x: -3.6799412, y: 1.180104, z: 0.4893875}
+  m_Width: 7.9
+  m_CostModifier: -1
+  m_Bidirectional: 1
+  m_AutoUpdatePosition: 0
+  m_Area: 0
 --- !u!1 &325608813
 GameObject:
   m_ObjectHideFlags: 0
@@ -3311,7 +3363,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'Deplacement : WASD
+  m_text: 'Deplacement : ZQSD
 
     Dash : left shift
 
@@ -12312,6 +12364,8 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1641013973}
+  - {fileID: 322400572}
+  - {fileID: 2066833670}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &1632555063 stripped
@@ -12365,8 +12419,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_AgentTypeID: 0
-  m_StartPoint: {x: -4.12, y: 3.94, z: 0}
-  m_EndPoint: {x: 0, y: 1.04, z: 0}
+  m_StartPoint: {x: -3.4172032, y: 3.9400003, z: 0.000000017024629}
+  m_EndPoint: {x: -1.5298057, y: 1.04, z: -0.00000023481718}
   m_Width: 20.41
   m_CostModifier: -1
   m_Bidirectional: 1
@@ -19150,6 +19204,58 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 71f951629bed9f0468abebcf5f737845, type: 3}
+--- !u!1 &2066833669
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2066833670}
+  - component: {fileID: 2066833671}
+  m_Layer: 0
+  m_Name: NavMesh Link (2)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2066833670
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2066833669}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: 0.075018995, z: -0, w: 0.99718213}
+  m_LocalPosition: {x: -21.01, y: 5.08, z: 67.12}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1632280029}
+  m_LocalEulerAnglesHint: {x: 0, y: 8.605, z: 0}
+--- !u!114 &2066833671
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2066833669}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6eeb5dc026fdf4b488bc7ae0138ab719, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_AgentTypeID: 0
+  m_StartPoint: {x: -0.7653837, y: -0.8783412, z: 0.83300275}
+  m_EndPoint: {x: -2.7178464, y: 1.1801043, z: 0.48939443}
+  m_Width: 7.9
+  m_CostModifier: -1
+  m_Bidirectional: 1
+  m_AutoUpdatePosition: 0
+  m_Area: 0
 --- !u!1 &2081046893
 GameObject:
   m_ObjectHideFlags: 0
