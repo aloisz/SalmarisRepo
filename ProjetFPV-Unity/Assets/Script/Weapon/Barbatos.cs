@@ -7,9 +7,17 @@ using Object = UnityEngine.Object;
 
 public class Barbatos : Shotgun
 {
+    private BarbatosInput barbatosInput;
+
+    protected override void Start()
+    {
+        base.Start();
+        barbatosInput = GetComponent<BarbatosInput>();
+    }
+
     protected override void GetAllInput()
     {
-        if (Input.GetKeyDown(KeyCode.Mouse0))
+        if (barbatosInput.isReceivingPrimary)
         {
             if (actualWeaponModeIndex != WeaponMode.Primary)
             {
@@ -24,7 +32,7 @@ public class Barbatos : Shotgun
             canFire = true;
         }
             
-        if (Input.GetKeyDown(KeyCode.Mouse1))
+        if (barbatosInput.isReceivingSecondary)
         {
             if (actualWeaponModeIndex != WeaponMode.Secondary)
             {
@@ -39,7 +47,7 @@ public class Barbatos : Shotgun
             canFire = true;
         }
             
-        if (Input.GetKeyDown(KeyCode.R)) Reload();
+        if (barbatosInput.isReceivingReload) Reload();
     }
     
     public override void InstantiateBulletImpact(RaycastHit hit)

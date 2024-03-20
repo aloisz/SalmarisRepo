@@ -206,7 +206,7 @@ namespace Weapon
         //-------------------------------------------
         #region Reload
 
-        protected virtual void Reload()
+        public virtual void Reload()
         {
             isReloading = true;
             StartCoroutine(TimeToReload());
