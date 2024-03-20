@@ -3,11 +3,14 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Serialization;
 using Weapon;
+using DG.Tweening;
 
 public class Vlad : HeavyArtillery
 {
     private VladInput vladInput;
     private bool hasClicked;
+
+    private Transform baseTransform;
 
     [Header("Overheating")]
     [SerializeField] private float vladOverheatActualValue;
@@ -27,6 +30,7 @@ public class Vlad : HeavyArtillery
     {
         base.Start();
         vladInput = GetComponent<VladInput>();
+        baseTransform = transform;
     }
 
     protected override void GetAllInput()

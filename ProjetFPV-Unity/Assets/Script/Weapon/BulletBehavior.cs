@@ -12,10 +12,12 @@ public class BulletBehavior : MonoBehaviour, IBulletBehavior
     public LayerMask enemyMask;
     // Components
     private Rigidbody rb;
+    private Renderer renderer;
 
     private void Awake()
     {
         rb = GetComponent<Rigidbody>();
+        renderer = GetComponent<Renderer>();
     }
 
     private void FixedUpdate()
