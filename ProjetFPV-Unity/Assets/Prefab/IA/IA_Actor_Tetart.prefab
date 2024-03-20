@@ -94,6 +94,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7670129111412073086}
   - component: {fileID: 7272881338494786430}
+  - component: {fileID: 8506461778801699736}
   - component: {fileID: 2789770422107626833}
   - component: {fileID: 1287084627326769800}
   - component: {fileID: 412076518239776887}
@@ -138,6 +139,52 @@ MonoBehaviour:
   targetToFollow: {fileID: 0}
   so_IA: {fileID: 11400000, guid: 47d4e7c9114fa1c4aa6f7d75063c530c, type: 2}
   visionDetector: {fileID: 146247463210128156}
+--- !u!114 &8506461778801699736
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6159587722465297484}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c5d2922de1a78f34cb0306f74cb382de, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Curve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 2
+      outSlope: 2
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 0.5010648
+      value: 1.0006287
+      inSlope: 0.23362423
+      outSlope: 0.23362423
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.18074475
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  duration: 0.35
 --- !u!33 &2789770422107626833
 MeshFilter:
   m_ObjectHideFlags: 0

@@ -54,14 +54,12 @@ public class Barbatos : Shotgun
 
     public void Secondary()
     {
-        Debug.Log("Begin");
         if (actualWeaponModeIndex != WeaponMode.Secondary)
         {
             actualWeaponModeIndex = WeaponMode.Secondary;
             //WeaponRefreshement();
         }
         Shoot();
-        Debug.Log("Secondary");
     }
     
     public override void InstantiateBulletImpact(RaycastHit hit)

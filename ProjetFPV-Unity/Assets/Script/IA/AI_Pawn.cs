@@ -48,7 +48,12 @@ namespace AI
             PawnAvoidance();
             FollowTarget();
         }
-        
+
+        private void OnDisable()
+        {
+            targetToFollow = null;
+        }
+
         protected virtual void CheckIfIsStillAlive ()
         {
             if (actualPawnHealth <= 0)

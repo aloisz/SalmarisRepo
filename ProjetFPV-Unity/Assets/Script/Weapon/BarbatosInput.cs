@@ -27,7 +27,6 @@ public class BarbatosInput : MonoBehaviour
         //isReceivingSecondary = ctx.performed;
         if (ctx.started)
         {
-            Debug.Log("started");
             barbatos.Secondary();
         }
     }
