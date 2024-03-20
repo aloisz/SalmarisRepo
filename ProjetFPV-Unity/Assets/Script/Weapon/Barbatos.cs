@@ -31,8 +31,8 @@ public class Barbatos : Shotgun
             isShooting = false;
             canFire = true;
         }
-            
-        if (barbatosInput.isReceivingSecondary)
+        
+        /*if (barbatosInput.isReceivingSecondary)
         {
             if (actualWeaponModeIndex != WeaponMode.Secondary)
             {
@@ -40,14 +40,28 @@ public class Barbatos : Shotgun
                 //WeaponRefreshement();
             }
             Shoot();
+            Debug.Log("Secondary");
         }
         else
         {
             isShooting = false;
             canFire = true;
-        }
+        }*/
+        
             
         if (barbatosInput.isReceivingReload) Reload();
+    }
+
+    public void Secondary()
+    {
+        Debug.Log("Begin");
+        if (actualWeaponModeIndex != WeaponMode.Secondary)
+        {
+            actualWeaponModeIndex = WeaponMode.Secondary;
+            //WeaponRefreshement();
+        }
+        Shoot();
+        Debug.Log("Secondary");
     }
     
     public override void InstantiateBulletImpact(RaycastHit hit)

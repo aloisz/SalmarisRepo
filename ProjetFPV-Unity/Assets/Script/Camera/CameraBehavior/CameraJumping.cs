@@ -96,8 +96,6 @@ namespace CameraBehavior
                 cameraManager.transitionParent.rotation = Quaternion.Slerp(cameraManager.transitionParent.rotation, cameraManager.playerTransform.rotation * cameraManager.smoothOffset, 
                     Time.deltaTime * cameraManager.so_Camera.rotationOffSetSmooth); // PlayerController.Instance.playerScriptable.smoothCameraRot
             }
-            
-            Debug.Log(multiplicator);
         }
 
 

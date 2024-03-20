@@ -178,8 +178,8 @@ public class ShootingLogicModule : WeaponManager, IShootRaycast, IShootSphereCas
 
     #region LOGIC
 
-    private BulletBehavior bulletProjectile;
-    private void ShootProjectile()
+    internal BulletBehavior bulletProjectile;
+    protected virtual void ShootProjectile()
     { 
         //BulletBehavior bulletProjectile = Instantiate(so_Weapon.weaponMode[(int)actualWeaponModeIndex].bullet, gunBarrelPos.position, Quaternion.identity);
         GameObject bulletProjectileGO = Pooling.instance.Pop("BulletProjectile");
