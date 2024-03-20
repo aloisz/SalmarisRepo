@@ -114,6 +114,7 @@ namespace CameraBehavior
                     ReInitialiseCameraPos();
                     break;
             }
+            cameraJumping.HandlesHighSpeed();
         }
 
         #endregion
