@@ -43,4 +43,17 @@ public static class Helper
         }
         return value;
     }
+    
+    public static Vector3 ReturnDirFromTransform(int index, Transform t)
+    {
+        Vector3 value = Vector3.zero;
+        switch (index)
+        {
+            case 0: value = t.right; break;
+            case 1: value = -t.right; break;
+            case 2: value = t.forward; break;
+            case 3: value = -t.forward; break;
+        }
+        return value;
+    }
 }

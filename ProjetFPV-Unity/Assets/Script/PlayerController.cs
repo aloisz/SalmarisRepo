@@ -369,15 +369,25 @@ namespace Player
         {
             var offset = playerScriptable.groundDetectionForwardOffset;
             var pos = transform.position + new Vector3(0,0.25f,0);
-
-            for (int i = 0; i < 4; i++)
-            {
-                var posCheck = ReturnCheckOffsetFromDir(pos, Helper.ReturnDirFromIndex(i), offset);
-                
-                var isOnGroundTemp = Physics.Raycast(posCheck, Vector3.down * playerScriptable.groundDetectionLenght, out raycastGround,
-                    playerScriptable.groundDetectionLenght, groundLayer);
-                isOnGround = isOnGroundTemp;
-            }
+            
+            var posCheckRight = ReturnCheckOffsetFromDir(pos, Helper.ReturnDirFromIndex(0), offset);
+            var isOnGroundTempRight = Physics.Raycast(posCheckRight, Vector3.down * playerScriptable.groundDetectionLenght, out raycastGround, 
+                playerScriptable.groundDetectionLenght, groundLayer);
+            
+            var posCheckLeft = ReturnCheckOffsetFromDir(pos, Helper.ReturnDirFromIndex(1), offset);
+            var isOnGroundTempLeft = Physics.Raycast(posCheckLeft, Vector3.down * playerScriptable.groundDetectionLenght, out raycastGround, 
+                playerScriptable.groundDetectionLenght, groundLayer);
+            
+            var posCheckForward = ReturnCheckOffsetFromDir(pos, Helper.ReturnDirFromIndex(2), offset);
+            var isOnGroundTempForward = Physics.Raycast(posCheckForward, Vector3.down * playerScriptable.groundDetectionLenght, out raycastGround, 
+                playerScriptable.groundDetectionLenght, groundLayer);
+            
+            var posCheckBack = ReturnCheckOffsetFromDir(pos, Helper.ReturnDirFromIndex(3), offset);
+            var isOnGroundTempBack = Physics.Raycast(posCheckBack, Vector3.down * playerScriptable.groundDetectionLenght, out raycastGround, 
+                playerScriptable.groundDetectionLenght, groundLayer);
+               
+            isOnGround = isOnGroundTempRight || isOnGroundTempLeft || isOnGroundTempForward || isOnGroundTempBack;
+            
 
             //Check if the player just landed.
             if (isOnGround && !wasOnGroundLastFrame)
