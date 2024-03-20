@@ -67,7 +67,7 @@ namespace AI
                 Debug.DrawRay(transform.position, transform.forward * 10, Color.yellow);
                 if (hit.transform.GetComponent<AI_Pawn>() != null)
                 {
-                    transform.GetComponent<Rigidbody>().AddForce(transform.right * 50, ForceMode.Impulse);
+                    //transform.GetComponent<Rigidbody>().AddForce(transform.right * 50, ForceMode.Impulse);
                 }
             }
         }
