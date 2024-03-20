@@ -7,6 +7,7 @@ public class AgentLinkMover : MonoBehaviour
 {
     public AnimationCurve m_Curve = new AnimationCurve();
     public float duration = 0.5f;
+    public float tickVerification = 0.1f;
 
     IEnumerator Start()
     {
@@ -19,7 +20,7 @@ public class AgentLinkMover : MonoBehaviour
                 yield return StartCoroutine(Curve(agent, duration));
                 agent.CompleteOffMeshLink();
             }
-            yield return null;
+            yield return new WaitForSeconds(tickVerification);
         }
     }
 
