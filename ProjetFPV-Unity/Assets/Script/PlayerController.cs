@@ -75,6 +75,7 @@ namespace Player
         [Header("Detection")] 
         [SerializeField] private LayerMask groundLayer;
 
+        private RaycastHit raycastGround;
         private RaycastHit raycastSlope;
         private RaycastHit raycastSlopeFront;
         
@@ -101,7 +102,7 @@ namespace Player
 
         private void Update()
         {
-            PlayerInputStateMachine();
+            PlayerStateMachine();
             
             DetectGround();
 
@@ -123,10 +124,6 @@ namespace Player
             if (Input.GetKeyDown(KeyCode.Keypad1)) Time.timeScale = 0.1f;
             if (Input.GetKeyDown(KeyCode.Keypad2)) Time.timeScale = 0.5f;
             if (Input.GetKeyDown(KeyCode.Keypad3)) Time.timeScale = 1f;
-
-            canDash = PlayerInputs.Instance.isReceivingDashInputs && !isDashing && PlayerStamina.Instance.HasEnoughStamina(1);
-            canJump = (coyoteTimer > 0f && PlayerInputs.Instance.isReceivingJumpInputs) || (isOnGround && PlayerInputs.Instance.isReceivingJumpInputs);
-            isSliding = PlayerInputs.Instance.isReceivingSlideInputs && isOnGround;
         }
         
         private void FixedUpdate()
@@ -143,6 +140,8 @@ namespace Player
         //-------------------- Movements ----------------------
 
         #region Movements
+
+        private float decelerationSlideOnGround;
         
         /// <summary>
         /// Move the player in the current direction value, based on scriptable parameters.
@@ -156,48 +155,29 @@ namespace Player
             //If the direction isn't null, set the direction not reset to direction.
             if (direction.magnitude > playerScriptable.moveThreshold) directionNotReset = direction;
             
-            
-            //Setup the basic direction
-            //var dir = DirectionFromCamera(direction).normalized;
-            
-            //Slope interaction
-            //var slopeDirection = new Vector3(raycastSlope.normal.x, 0, raycastSlope.normal.z).normalized;
-            
-            /*if (isOnSlope && isSliding)
-            {
-                _rb.AddForce(Vector3.down * (playerScriptable.slidingInSlopeDownForce * Time.deltaTime), ForceMode.Impulse);
-                _rb.AddForce(slopeDirection * ((actualSlopeAngle / playerScriptable.slidingInSlopeLimiter) * Time.deltaTime), ForceMode.Impulse);
-            }
-
-            //Basic movement managing
-            if (_rb.velocity.magnitude < playerScriptable.speedMaxToAccelerate)
-            {
-                _rb.AddForce(dir * playerScriptable.accelerationMultiplier, ForceMode.Impulse);
-            }
-            else
-            {
-                _rb.AddForce(GetOverallSpeed() * dir, ForceMode.Impulse);
-            }*/
-            
             _rb.AddForce(GetOverallMomentumVector(), ForceMode.Impulse);
+
+            if (_rb.velocity.magnitude > 100) _rb.velocity = Vector3.ClampMagnitude(_rb.velocity, 100f);
         }
         
         
         private Vector3 GetOverallMomentumVector()
         {
-            var vectorMove = DirectionFromCamera(direction).normalized * (moveSpeed * speedMultiplierFromDash);
+            var accelerating = _rb.velocity.magnitude < playerScriptable.speedMaxToAccelerate && !isOnSlope && !isSliding;
+            var vectorMove = DirectionFromCamera(direction).normalized * 
+                             (moveSpeed * speedMultiplierFromDash * (accelerating ? playerScriptable.accelerationMultiplier : 1f));
             
             var slopeDirection = new Vector3(raycastSlope.normal.x, 0, raycastSlope.normal.z).normalized;
-            var vectorSlideDown = Vector3.down * (playerScriptable.slidingInSlopeDownForce * Time.deltaTime);
-            var vectorSlideForward = slopeDirection * ((actualSlopeAngle / playerScriptable.slidingInSlopeLimiter) * Time.deltaTime);
+            var vectorSlideDown = Vector3.down * (playerScriptable.slidingInSlopeDownForce);
+            var vectorSlideForward = slopeDirection * (actualSlopeAngle / playerScriptable.slidingInSlopeLimiter);
             var vectorSlide = vectorSlideDown + vectorSlideForward;
-
-            var accelerating = _rb.velocity.magnitude < playerScriptable.speedMaxToAccelerate;
             
-            var finalVector = ((isMoving ? vectorMove : Vector3.zero) * (accelerating ? playerScriptable.accelerationMultiplier : 1f))
-                              + (isOnSlope && isSliding ? vectorSlide : Vector3.zero);
+            if(isSliding && !isOnSlope) decelerationSlideOnGround += Time.deltaTime * 50f;
             
-            return finalVector;
+            var finalVector = ((isMoving ? vectorMove : Vector3.zero) + (isOnSlope && isSliding ? vectorSlide : Vector3.zero))
+                              / (isSliding && !isOnSlope ? decelerationSlideOnGround : 1f);
+            
+            return finalVector / (isSliding && isMoving && isOnSlope ? 10f : 1f);
         }
         
         private void SetMoveSpeed()
@@ -345,8 +325,35 @@ namespace Player
         /// </summary>
         private void SetDrag()
         {
-            _rb.drag = isOnGround ? playerScriptable.groundDrag : playerScriptable.airDrag;
-            if (isOnGround && !isMoving) _rb.drag = 0f;
+            if (isOnGround && isSliding && isOnSlope && !isSlopeClimbing)
+            {
+                _rb.drag = 0f;
+            }
+            else if (isOnGround && isSliding && !isOnSlope && !isSlopeClimbing)
+            {
+                _rb.drag = 0.65f;
+            }
+            else if (isOnSlope && !isSliding)
+            {
+                _rb.drag = playerScriptable.groundDrag;
+            }
+            else if (isOnGround && isSliding && !isOnSlope && _rb.velocity.magnitude < 20f)
+            {
+                _rb.drag = 10f;
+            }
+            else if (isOnGround && !isSliding)
+            {
+                _rb.drag = playerScriptable.groundDrag;
+            }
+            else
+            {
+                _rb.drag = playerScriptable.airDrag;
+            }
+            
+            //is on ground and not sliding = 7f;
+            //is on ground and sliding = 1f;
+            //is on slope and not sliding = 0f;
+            //is on slope and sliding = 0f;
         }
         
         #endregion
@@ -360,25 +367,17 @@ namespace Player
         /// </summary>
         void DetectGround()
         {
-            var transform1 = transform;
-            var position = transform1.position;
-            var rotation = transform1.rotation;
-            var forward = transform1.forward;
-            
-            //Security array to stack ground colliders detected, fixed to 10 max colliders.
-            Collider[] hit = new Collider[10];
-            
-            //Create an offset for the boxcast.
-            var offset = forward * playerScriptable.groundDetectionForwardOffset;
-            
-            //Check if the player is on the ground or not, by an overlapBoxNonAlloc.
-            isOnGround =
-                Physics.OverlapBoxNonAlloc(position - offset,
-                    playerScriptable.groundDetectionWidthHeightDepth, hit, rotation, groundLayer) > 0;
+            var offset = playerScriptable.groundDetectionForwardOffset;
+            var pos = transform.position + new Vector3(0,0.25f,0);
 
-            //Debug the overlapBoxNonAlloc.
-            ExtDebug.DrawBoxCastBox(position - offset,
-                playerScriptable.groundDetectionWidthHeightDepth, rotation, Vector3.zero, 0.2f, Color.cyan);
+            for (int i = 0; i < 4; i++)
+            {
+                var posCheck = ReturnCheckOffsetFromDir(pos, Helper.ReturnDirFromIndex(i), offset);
+                
+                var isOnGroundTemp = Physics.Raycast(posCheck, Vector3.down * playerScriptable.groundDetectionLenght, out raycastGround,
+                    playerScriptable.groundDetectionLenght, groundLayer);
+                isOnGround = isOnGroundTemp;
+            }
 
             //Check if the player just landed.
             if (isOnGround && !wasOnGroundLastFrame)
@@ -390,6 +389,15 @@ namespace Player
             wasOnGroundLastFrame = isOnGround;
         }
 
+        /// <summary>
+        /// Return a position from an offset and a lenght of offset. Used for ground checking.
+        /// </summary>
+        /// <param name="pos">The base position where the offset will be applied.</param>
+        /// <param name="dir">The direction where appling the offset.</param>
+        /// <param name="offset">The amount of offset to apply.</param>
+        /// <returns></returns>
+        private Vector3 ReturnCheckOffsetFromDir(Vector3 pos, Vector3 dir, float offset) => pos + dir * offset;
+        
         /// <summary>
         /// On land, execute and reset variables.
         /// </summary>
@@ -411,8 +419,8 @@ namespace Player
         private void Jump()
         {
             isJumping = true;
-
-            var forwardMomentumVector = transform.forward * (new Vector3(_rb.velocity.x, 0, _rb.velocity.z).magnitude / 50f);
+            
+            var forwardMomentumVector = GetOverallMomentumVector() / 20f;
             
             if(coyoteTimer < playerScriptable.coyoteJump - 0.1f)
                 _rb.AddForce(playerScriptable.coyoteJumpForce * (Vector3.up + forwardMomentumVector), ForceMode.Impulse);
@@ -473,10 +481,14 @@ namespace Player
         //-------------------- State Machine ----------------------
 
         #region StateMachine
-        void PlayerInputStateMachine()
+        void PlayerStateMachine()
         {
+            canDash = PlayerInputs.Instance.isReceivingDashInputs && !isDashing && PlayerStamina.Instance.HasEnoughStamina(1);
+            canJump = (coyoteTimer > 0f && PlayerInputs.Instance.isReceivingJumpInputs) || (isOnGround && PlayerInputs.Instance.isReceivingJumpInputs);
+            
+            isSliding = PlayerInputs.Instance.isReceivingSlideInputs && isOnGround;
             isMoving = direction.magnitude > playerScriptable.moveThreshold;
-
+            
             if (isMoving && !isSliding && !isJumping && !isDashing) currentActionState = PlayerActionStates.Moving;
             
             else if(isSliding && !isJumping && !isDashing) currentActionState = PlayerActionStates.Sliding;
@@ -493,7 +505,7 @@ namespace Player
             {
                 case PlayerActionStates.Idle: OnIdle();
                     break;
-                case PlayerActionStates.Moving:
+                case PlayerActionStates.Moving: decelerationSlideOnGround = 1f;
                     break;
                 case PlayerActionStates.Sliding:
                     break;
@@ -524,6 +536,9 @@ namespace Player
             
             //Reset the speed bonus from dash.
             speedMultiplierFromDash = 1f;
+            
+            //Reset the deceleration for the slide on ground.
+            decelerationSlideOnGround = 1f;
         }
         
         #endregion
@@ -547,6 +562,17 @@ namespace Player
             //Slope Normal
             Gizmos.color = Color.green;
             Gizmos.DrawRay(raycastSlope.point, raycastSlope.normal * 2.5f);
+            
+            var offset = playerScriptable.groundDetectionForwardOffset;
+            var pos = transform.position + new Vector3(0,0.25f,0);
+
+            for (int i = 0; i < 4; i++)
+            {
+                var posCheck = ReturnCheckOffsetFromDir(pos, Helper.ReturnDirFromIndex(i), offset);
+                
+                Gizmos.color = Color.blue;
+                Gizmos.DrawRay(posCheck, Vector3.down * playerScriptable.groundDetectionLenght);
+            }
         }
 
         private void OnGUI()
@@ -562,26 +588,31 @@ namespace Player
             };
 
             // Set the position and size of the text
-            // 70 each part
-            // 50 each elements
+            // 60 each part
+            // 30 each elements
             Rect rect = new Rect(10, 10, 200, 50);
-            Rect rect1 = new Rect(10, 60, 200, 50);
+            Rect rect1 = new Rect(10, 40, 200, 50);
             
-            Rect rect2 = new Rect(10, 130, 200, 50);
-            Rect rect3 = new Rect(10, 180, 200, 50);
+            Rect rect2 = new Rect(10, 100, 200, 50);
+            Rect rect3 = new Rect(10, 130, 200, 50);
             
-            Rect rect4 = new Rect(10, 250, 200, 50);
+            Rect rect4 = new Rect(10, 190, 200, 50);
             
-            Rect rect5 = new Rect(10, 320, 200, 50);
+            Rect rect5 = new Rect(10, 250, 200, 50);
             
-            Rect rect6 = new Rect(10, 390, 200, 50);
+            Rect rect6 = new Rect(10, 310, 200, 50);
             
-            Rect rect7 = new Rect(10, 460, 200, 50);
+            Rect rect7 = new Rect(10, 370, 200, 50);
             
-            Rect rect8 = new Rect(10, 530, 200, 50);
-            Rect rect9 = new Rect(10, 580, 200, 50);
+            Rect rect8 = new Rect(10, 430, 200, 50);
+            Rect rect9 = new Rect(10, 460, 200, 50);
             
-            Rect rect10 = new Rect(10, 640, 200, 50);
+            Rect rect10 = new Rect(10, 520, 200, 50);
+            
+            Rect rect11 = new Rect(10, 580, 200, 50);
+            Rect rect12 = new Rect(10, 610, 200, 50);
+            Rect rect13 = new Rect(10, 640, 200, 50);
+            Rect rect14 = new Rect(10, 670, 200, 50);
 
             // Display the text on the screen
             GUI.Label(rect, $"Direction : {direction}", style);
@@ -592,7 +623,7 @@ namespace Player
             
             GUI.Label(rect4, $"Current State : {Convert.ToString(currentActionState)}", style);
             
-            GUI.Label(rect5, $"Overall Speed : {GetOverallMomentumVector()}", style);
+            GUI.Label(rect5, $"Overall Momentum Vector : {GetOverallMomentumVector()}", style);
             
             GUI.Label(rect6, $"Grounded ? : {isOnGround}", BoolStyle(isOnGround));
             
@@ -602,7 +633,7 @@ namespace Player
             GUI.Label(rect8, $"Current Slope Direction : {text}", style);
             GUI.Label(rect9, $"Current Slope Angle : {actualSlopeAngle}", style);
             
-            
+            GUI.Label(rect10, $"Rigidbody Drag : {_rb.drag}", style);
         }
 
         GUIStyle BoolStyle(bool value)

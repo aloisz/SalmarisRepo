@@ -30,4 +30,17 @@ public static class Helper
         var vector = new Vector3(Mathf.RoundToInt(v.x), Mathf.RoundToInt(v.y), Mathf.RoundToInt(v.z));
         return vector;
     }
+
+    public static Vector3 ReturnDirFromIndex(int index)
+    {
+        Vector3 value = Vector3.zero;
+        switch (index)
+        {
+            case 0: value = Vector3.right; break;
+            case 1: value = Vector3.left; break;
+            case 2: value = Vector3.forward; break;
+            case 3: value = Vector3.back; break;
+        }
+        return value;
+    }
 }

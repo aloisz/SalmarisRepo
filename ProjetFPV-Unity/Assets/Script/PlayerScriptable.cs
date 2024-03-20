@@ -73,10 +73,13 @@ namespace Player
         [BoxGroup("Physic")][Tooltip("The Rigidbody's drag while the player is in the air.")]
         public float airDrag = 1.8f;
 
+        [BoxGroup("Physic")] [Tooltip("The jump's curve.")]
+        public AnimationCurve jumpCurve;
+
         //----------------------------------------------------
         
         [BoxGroup("Detection")][Tooltip("The BoxCast's dimension to detect ground from the player.")]
-        public Vector3 groundDetectionWidthHeightDepth = Vector3.one;
+        public float groundDetectionLenght = 1f;
         
         [BoxGroup("Detection")][Tooltip("Raycast lenght to detect underneath the player's foot.")]
         public float raycastLenghtSlopeDetection = 1f;

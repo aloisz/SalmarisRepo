@@ -13,10 +13,10 @@ MonoBehaviour:
   m_Name: PlayerScriptable
   m_EditorClassIdentifier: 
   moveSpeed: 3
-  moveSpeedInAirDivider: 5
+  moveSpeedInAirDivider: 10
   moveThreshold: 0.1
-  jumpForce: 12
-  coyoteJumpForce: 45
+  jumpForce: 9
+  coyoteJumpForce: 9
   moveAirMultiplier: 0.1
   dashForce: 50
   dashDuration: 0.3
@@ -25,16 +25,49 @@ MonoBehaviour:
   dashSpeedMultiplierResetDuration: 2
   speedMaxToAccelerate: 12
   accelerationMultiplier: 1.2
-  coyoteJump: 0.35
-  slidingInSlopeDownForce: 200
+  coyoteJump: 0.1
+  slidingInSlopeDownForce: 2
   slidingInSlopeLimiter: 100
   staminaPerSecond: 0.01
   gravityMultiplier: 75
   groundDrag: 7
   airDrag: 1.8
-  groundDetectionWidthHeightDepth: {x: 0.3, y: 0.6, z: 0.6}
+  jumpCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 0.5
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  groundDetectionLenght: 1
   raycastLenghtSlopeDetection: 1
-  groundDetectionForwardOffset: 0.2
+  groundDetectionForwardOffset: 0.35
   minSlopeDegrees: 3
   sensibility: 0.08
   lookLimitY: 90
