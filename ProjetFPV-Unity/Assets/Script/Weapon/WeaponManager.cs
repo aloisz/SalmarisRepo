@@ -220,14 +220,22 @@ namespace Weapon
         }
 
         #endregion
+
+        #region Swaping Weapon
+        
+        /// <summary>
+        /// If needed to add event when swapping weapon
+        /// </summary>
+        public virtual void SwapWeapon(){}
+
+        #endregion
+        
         
         //-------------------------------------------
         #region Debug
 
         private void OnGUI()
         {
-            return; 
-            
             // Set up GUI style for the text
             GUIStyle style = new GUIStyle();
             style.fontSize = 24;
