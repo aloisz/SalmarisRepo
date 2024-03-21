@@ -13,11 +13,11 @@ public class Vlad : HeavyArtillery
     private Transform baseTransform;
 
     [Header("Overheating")]
-    [SerializeField] private float vladOverheatActualValue;
+    public float vladOverheatActualValue;
     [SerializeField] private float vladOverheatMultiplier;
     [SerializeField] private float vladCoolingMultiplier;
-    [SerializeField] private float vladOverheat;
-    [SerializeField] private float vladOverheatMax;
+    public float vladOverheatMin;
+    public float vladOverheatMax;
     [SerializeField] private bool isVladOnFire;
     private bool canNotShoot;
     
@@ -69,7 +69,7 @@ public class Vlad : HeavyArtillery
             {
                 canNotShoot = true;
             }
-            if(vladOverheatActualValue <= vladOverheat)
+            if(vladOverheatActualValue <= vladOverheatMin)
             {
                 canNotShoot = false;
             }
@@ -110,7 +110,7 @@ public class Vlad : HeavyArtillery
             if (vladOverheatActualValue <= vladOverheatMax)
             {
                 vladOverheatActualValue += Time.deltaTime * vladOverheatMultiplier;
-                if (vladOverheatActualValue >= vladOverheat)
+                if (vladOverheatActualValue >= vladOverheatMin)
                 {
                     isVladOnFire = true;
                 }
@@ -121,7 +121,7 @@ public class Vlad : HeavyArtillery
             if (vladOverheatActualValue >= 0)
             {
                 vladOverheatActualValue -= Time.deltaTime * vladCoolingMultiplier;
-                if (vladOverheatActualValue <= vladOverheat)
+                if (vladOverheatActualValue <= vladOverheatMin)
                 {
                     isVladOnFire = false;
                 }

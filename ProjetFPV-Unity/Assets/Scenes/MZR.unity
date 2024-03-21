@@ -1115,6 +1115,16 @@ PrefabInstance:
       propertyPath: cameraAttachPosition
       value: 
       objectReference: {fileID: 997534705}
+    - target: {fileID: 5313092729534710420, guid: b8b6c0fdf0c4fdc45a7a779e068e839d,
+        type: 3}
+      propertyPath: weapons.Array.data[0]
+      value: 
+      objectReference: {fileID: 1577721172}
+    - target: {fileID: 5313092729534710420, guid: b8b6c0fdf0c4fdc45a7a779e068e839d,
+        type: 3}
+      propertyPath: weapons.Array.data[1]
+      value: 
+      objectReference: {fileID: 1859384046}
     - target: {fileID: 6655356332372034070, guid: b8b6c0fdf0c4fdc45a7a779e068e839d,
         type: 3}
       propertyPath: ammo
@@ -1132,9 +1142,19 @@ PrefabInstance:
       objectReference: {fileID: 473781263886660748}
     - target: {fileID: 6655356332372034070, guid: b8b6c0fdf0c4fdc45a7a779e068e839d,
         type: 3}
+      propertyPath: weaponName
+      value: 
+      objectReference: {fileID: 2142235341}
+    - target: {fileID: 6655356332372034070, guid: b8b6c0fdf0c4fdc45a7a779e068e839d,
+        type: 3}
       propertyPath: staminaCharge
       value: 
       objectReference: {fileID: 251917628}
+    - target: {fileID: 6655356332372034070, guid: b8b6c0fdf0c4fdc45a7a779e068e839d,
+        type: 3}
+      propertyPath: surchargeWeapon
+      value: 
+      objectReference: {fileID: 473781263886660749}
     - target: {fileID: 7372045558108116486, guid: b8b6c0fdf0c4fdc45a7a779e068e839d,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -13460,6 +13480,18 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4aa3f077e844b0646951e40a1ddba60e, type: 3}
+--- !u!114 &1577721172 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5311028813223075449, guid: 9294123db3fc3a54b89f62907126f122,
+    type: 3}
+  m_PrefabInstance: {fileID: 997534704}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 02086de2c3b926643a7e99a81ab99b08, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1667798098
 GameObject:
   m_ObjectHideFlags: 0
@@ -19218,6 +19250,18 @@ MonoBehaviour:
   m_SelectedFaces: 
   m_SelectedEdges: []
   m_SelectedVertices: 
+--- !u!114 &1859384046 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6364967691326366049, guid: 9294123db3fc3a54b89f62907126f122,
+    type: 3}
+  m_PrefabInstance: {fileID: 997534704}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d6209a84d6d899140b143fd0be3ce460, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!43 &1871674647
 Mesh:
   m_ObjectHideFlags: 0
@@ -20257,6 +20301,18 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2098560532}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &2142235341 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5446655469181326108, guid: 84d40c77e7b58464992652bedc437abe,
+    type: 3}
+  m_PrefabInstance: {fileID: 473781263886660747}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &473781263886660747
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -20805,6 +20861,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &473781263886660749 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5136160420619219807, guid: 84d40c77e7b58464992652bedc437abe,
+    type: 3}
+  m_PrefabInstance: {fileID: 473781263886660747}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1660057539 &9223372036854775807
