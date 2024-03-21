@@ -15,7 +15,7 @@ MonoBehaviour:
   moveSpeed: 3.2
   moveSpeedInAirDivider: 10
   moveThreshold: 0.1
-  jumpForce: 14
+  jumpForce: 33
   coyoteJumpForce: 45
   moveAirMultiplier: 0.1
   dashForce: 55
@@ -32,40 +32,7 @@ MonoBehaviour:
   gravityMultiplier: 75
   groundDrag: 7
   airDrag: 1.8
-  jumpCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0.0083351135
-      value: 0.000011444092
-      inSlope: 2.0301027
-      outSlope: 2.0301027
-      tangentMode: 34
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0.33333334
-    - serializedVersion: 3
-      time: 0.50079036
-      value: 0.9997462
-      inSlope: 0.013741493
-      outSlope: 0.013741493
-      tangentMode: 34
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    - serializedVersion: 3
-      time: 1
-      value: 0.000019073486
-      inSlope: -2.0026197
-      outSlope: -2.0026197
-      tangentMode: 34
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  groundDetectionLenght: 1
+  groundDetectionLenght: 0.42
   raycastLenghtSlopeDetection: 1
   groundDetectionForwardOffset: 0.46
   minSlopeDegrees: 3
