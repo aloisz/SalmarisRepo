@@ -20,17 +20,29 @@ public class Vlad : HeavyArtillery
     [SerializeField] private float vladOverheatMax;
     [SerializeField] private bool isVladOnFire;
     private bool canNotShoot;
-    [Space]
-    [Header("Spikes")]
+    
+    [Space] 
+    [Header("Draw Speed")] 
     [SerializeField] private float bulletSpeedMultiplier;
-    [SerializeField] private  float spikesMultiplier;
-    [SerializeField] private  float spikesMax;
+    [SerializeField] private  float DrawSpeedMultiplier;
+    [SerializeField] private  float DrawSpeedMax;
+    private float basebulletSpeedMultiplier;
+    
+    [Space] 
+    [Header("Bullet Damage multiplier")] 
+    [SerializeField] private float bulletDamageMultiplier = 1;
+    [SerializeField] private  float DrawDamageMultiplier;
+    [SerializeField] private  float DrawDamageMax;
+    [SerializeField] private  float DrawDamageMultiplierOverheating;
+    private float basebulletDamageMultiplier;
 
     protected override void Start()
     {
         base.Start();
         vladInput = GetComponent<VladInput>();
         baseTransform = transform;
+        basebulletSpeedMultiplier = bulletSpeedMultiplier;
+        basebulletDamageMultiplier = bulletDamageMultiplier;
     }
 
     protected override void GetAllInput()
@@ -120,7 +132,14 @@ public class Vlad : HeavyArtillery
 
     private void DrawSpikes()
     {
-        if (bulletSpeedMultiplier <= spikesMax) bulletSpeedMultiplier += Time.deltaTime * spikesMultiplier;
+        if (bulletSpeedMultiplier <= DrawSpeedMax)
+        {
+            bulletSpeedMultiplier += Time.deltaTime * DrawSpeedMultiplier;
+        }
+        if (bulletDamageMultiplier <= DrawDamageMax)
+        {
+            bulletDamageMultiplier += Time.deltaTime * DrawDamageMultiplier;
+        }
     }
 
     private void LooseSpikes()
@@ -128,8 +147,9 @@ public class Vlad : HeavyArtillery
         if (hasClicked && !vladInput.isReceivingSecondary)
         {
             Shoot();
+            bulletSpeedMultiplier = basebulletSpeedMultiplier;
+            bulletDamageMultiplier = basebulletDamageMultiplier;
             hasClicked = false;
-            bulletSpeedMultiplier = 0;  
         }
     }
 
@@ -137,6 +157,15 @@ public class Vlad : HeavyArtillery
     {
         base.ShootProjectile();
         bulletProjectile.AddVelocity(so_Weapon.weaponMode[(int)actualWeaponModeIndex].bulletSpeed * bulletSpeedMultiplier);
+        if (isVladOnFire)
+        {
+            bulletProjectile.IsBulletOnFire(isVladOnFire);
+            bulletProjectile.AddDamage(so_Weapon.weaponMode[(int)actualWeaponModeIndex].bulletDamage * DrawDamageMultiplierOverheating);
+        }
+        else
+        {
+            bulletProjectile.AddDamage(so_Weapon.weaponMode[(int)actualWeaponModeIndex].bulletDamage * bulletDamageMultiplier);
+        }
     }
     
     public override void InstantiateBulletImpact(RaycastHit hit)

@@ -178,7 +178,7 @@ public class ShootingLogicModule : WeaponManager, IShootRaycast, IShootSphereCas
 
     #region LOGIC
 
-    internal BulletBehavior bulletProjectile;
+    internal VladBullet bulletProjectile;
     protected virtual void ShootProjectile()
     { 
         //BulletBehavior bulletProjectile = Instantiate(so_Weapon.weaponMode[(int)actualWeaponModeIndex].bullet, gunBarrelPos.position, Quaternion.identity);
@@ -186,7 +186,7 @@ public class ShootingLogicModule : WeaponManager, IShootRaycast, IShootSphereCas
         bulletProjectileGO.transform.position = gunBarrelPos.position;
         bulletProjectileGO.transform.rotation = Quaternion.identity;
         
-        bulletProjectile = bulletProjectileGO.GetComponent<BulletBehavior>();
+        bulletProjectile = bulletProjectileGO.GetComponent<VladBullet>();
         // Logic
         bulletProjectile.EnableMovement(true);
         bulletProjectile.transform.rotation *= Quaternion.AngleAxis(90, PlayerController.transform.right);

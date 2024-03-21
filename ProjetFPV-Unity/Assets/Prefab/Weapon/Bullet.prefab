@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 4572721240021358849}
   - component: {fileID: 1018216163049657796}
   - component: {fileID: 885317847517004861}
-  - component: {fileID: 4847300456583557964}
+  - component: {fileID: 7710508199563362689}
   - component: {fileID: 896334556867835736}
   - component: {fileID: 1269866551655785890}
   - component: {fileID: 3993839925558551246}
@@ -65,7 +65,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: be547201ba29ab74fb13e23b00526aa5, type: 2}
+  - {fileID: 2100000, guid: b461eeac797930e4692d47447bfeaa8e, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -87,7 +87,7 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!114 &4847300456583557964
+--- !u!114 &7710508199563362689
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -96,7 +96,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 7183163888607090828}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cb3af1c382894ac40b313e8ee3172543, type: 3}
+  m_Script: {fileID: 11500000, guid: 9bb262f20e5bb7c47bff89a2ff192793, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   bullet:
@@ -110,6 +110,7 @@ MonoBehaviour:
   enemyMask:
     serializedVersion: 2
     m_Bits: 256
+  isBulletOnFire: 0
 --- !u!136 &896334556867835736
 CapsuleCollider:
   m_ObjectHideFlags: 0
