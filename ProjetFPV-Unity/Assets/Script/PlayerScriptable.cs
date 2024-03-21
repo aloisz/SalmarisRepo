@@ -42,23 +42,20 @@ namespace Player
         [BoxGroup("Movement")][Tooltip("The player's dash speed multiplier reset time, the time for the value to reset.")]
         public float dashSpeedMultiplierResetDuration = 2f;
         
-        [BoxGroup("Movement")][Tooltip("How much the speed is multiplied when player dash into a slope.")]
-        public float dashInSlopeSpeedMultiplier = 1.35f;
-        
         [BoxGroup("Movement")][Tooltip("Under this speed magnitude value, the rigidbody velocity will be boosted.")]
         public float speedMaxToAccelerate = 12f;
         
         [BoxGroup("Movement")][Tooltip("Rigidbody's velocity acceleration under the speedMaxToAccelerate value.")]
         public float accelerationMultiplier = 1.2f;
         
-        [BoxGroup("Movement")][Tooltip("How many speed removed when falling on a slope.")]
-        public float speedDuringSlopeFall = 1.2f;
-        
-        [BoxGroup("Movement")][Tooltip("How many speed removed when climbing a slope.")]
-        public float speedDuringSlopeClimb = 1.2f;
-        
         [BoxGroup("Movement")][Tooltip("How much time the player can still jump while in the air.")]
         public float coyoteJump = 0.35f;
+        
+        [BoxGroup("Movement")][Tooltip("Rigidbody's velocity force applied down when sliding a slope.")]
+        public float slidingInSlopeDownForce = 200f;
+        
+        [FormerlySerializedAs("slidingInSlopeForce")] [BoxGroup("Movement")][Tooltip("Rigidbody's velocity force applied toward the slope when sliding it.")]
+        public float slidingInSlopeLimiter = 2f;
 
         //----------------------------------------------------
         
@@ -76,10 +73,13 @@ namespace Player
         [BoxGroup("Physic")][Tooltip("The Rigidbody's drag while the player is in the air.")]
         public float airDrag = 1.8f;
 
+        [BoxGroup("Physic")] [Tooltip("The jump's curve.")]
+        public AnimationCurve jumpCurve;
+
         //----------------------------------------------------
         
         [BoxGroup("Detection")][Tooltip("The BoxCast's dimension to detect ground from the player.")]
-        public Vector3 groundDetectionWidthHeightDepth = Vector3.one;
+        public float groundDetectionLenght = 1f;
         
         [BoxGroup("Detection")][Tooltip("Raycast lenght to detect underneath the player's foot.")]
         public float raycastLenghtSlopeDetection = 1f;

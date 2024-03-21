@@ -113,7 +113,7 @@ namespace Weapon
         {
             isShooting = true;
             lastTimefired = Time.time;
-            actualNumberOfBullet--;
+            if(!so_Weapon.weaponMode[(int)actualWeaponModeIndex].isBulletInfinite) actualNumberOfBullet--;
             if(actualNumberOfBullet == 0) Reload();
         }
 
@@ -149,7 +149,7 @@ namespace Weapon
                     so_Weapon.weaponMode[(int)actualWeaponModeIndex].burstAmount; 
             
             for (int i = 0; i < burstFireAmount; i++)
-            {
+            {   
                 LogicWhenShooting();
                 WichTypeMunitionIsGettingShot();
                 yield return new WaitForSeconds(so_Weapon.weaponMode[(int)actualWeaponModeIndex].burstTime);
@@ -206,7 +206,7 @@ namespace Weapon
         //-------------------------------------------
         #region Reload
 
-        protected virtual void Reload()
+        public virtual void Reload()
         {
             isReloading = true;
             StartCoroutine(TimeToReload());
@@ -226,6 +226,8 @@ namespace Weapon
 
         private void OnGUI()
         {
+            return; 
+            
             // Set up GUI style for the text
             GUIStyle style = new GUIStyle();
             style.fontSize = 24;

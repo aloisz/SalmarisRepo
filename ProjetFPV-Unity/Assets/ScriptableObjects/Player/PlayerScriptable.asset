@@ -12,33 +12,65 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0a71b2abe57b72a4da7599e067bad271, type: 3}
   m_Name: PlayerScriptable
   m_EditorClassIdentifier: 
-  moveSpeed: 1.65
-  moveSpeedInAirDivider: 2.5
+  moveSpeed: 3
+  moveSpeedInAirDivider: 10
   moveThreshold: 0.1
-  jumpForce: 12
-  coyoteJumpForce: 45
+  jumpForce: 9
+  coyoteJumpForce: 40
   moveAirMultiplier: 0.1
   dashForce: 50
   dashDuration: 0.3
   dashSpeedMultiplier: 1.25
   dashSpeedMultiplierDuration: 1.5
   dashSpeedMultiplierResetDuration: 2
-  dashInSlopeSpeedMultiplier: 1.35
   speedMaxToAccelerate: 12
   accelerationMultiplier: 1.2
-  speedDuringSlopeFall: 20
-  speedDuringSlopeClimb: 20
-  coyoteJump: 0.35
+  coyoteJump: 0
+  slidingInSlopeDownForce: 2
+  slidingInSlopeLimiter: 100
   staminaPerSecond: 0.01
   gravityMultiplier: 75
   groundDrag: 7
   airDrag: 1.8
-  groundDetectionWidthHeightDepth: {x: 0.3, y: 0.6, z: 0.6}
+  jumpCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 0.5
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  groundDetectionLenght: 1
   raycastLenghtSlopeDetection: 1
-  groundDetectionForwardOffset: 0.2
-  minSlopeDegrees: 7
-  sensibility: 0.08
-  lookLimitY: 70
+  groundDetectionForwardOffset: 0.46
+  minSlopeDegrees: 3
+  sensibility: 0.03
+  lookLimitY: 90
   frictionMaterial: {fileID: 13400000, guid: 66462d3f498916c45b06fcf1b1aa7596, type: 2}
   wallMaterial: {fileID: 13400000, guid: 394c912cc7e142549ba3f2b085deeae4, type: 2}
   movingMaterial: {fileID: 13400000, guid: 394c912cc7e142549ba3f2b085deeae4, type: 2}

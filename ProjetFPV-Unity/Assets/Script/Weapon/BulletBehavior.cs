@@ -12,17 +12,19 @@ public class BulletBehavior : MonoBehaviour, IBulletBehavior
     public LayerMask enemyMask;
     // Components
     private Rigidbody rb;
+    private Renderer renderer;
 
     private void Awake()
     {
         rb = GetComponent<Rigidbody>();
-        Destroy(gameObject, 10);
+        renderer = GetComponent<Renderer>();
     }
 
     private void FixedUpdate()
     {
         if (!EnableMovement(bullet.isMoving)) return;
         rb.velocity = (GetThePlayerDir(bullet.playerDir)) * (bullet.speed * Time.fixedDeltaTime);
+        rb.isKinematic = false;
     }
 
     private void OnCollisionEnter(Collision collision)
@@ -32,13 +34,13 @@ public class BulletBehavior : MonoBehaviour, IBulletBehavior
             bullet.isMoving = false;
             rb.velocity = Vector3.zero;
             rb.isKinematic = true;
-            Destroy(gameObject, 3);
+            Pooling.instance.DelayedDePop("BulletProjectile", gameObject,3);
         }
         
         if (LayerMask.GetMask(LayerMask.LayerToName(collision.gameObject.layer)) == enemyMask)
         {
             collision.transform.GetComponent<IDamage>().Hit(bullet.damage);
-            Destroy(gameObject);
+            Pooling.instance.DelayedDePop("BulletProjectile", gameObject,0);
         }
     }
 

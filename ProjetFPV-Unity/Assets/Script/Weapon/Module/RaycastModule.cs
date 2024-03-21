@@ -48,8 +48,8 @@ public class RaycastModule : MonoBehaviour, IShootRaycast, IShootSphereCast
 
     protected virtual void InitialiseLineRenderer(RaycastHit hit)
     {
-        // TODO : Pulling !!!
-        LineRenderer lineRenderer = Instantiate(GameManager.Instance.rayLineRenderer,
+        
+        /*LineRenderer lineRenderer = Instantiate(GameManager.Instance.rayLineRenderer,
             weaponManager.camera.transform.position, Quaternion.identity, GameManager.Instance.transform);
         
         lineRenderer.startWidth = 
@@ -58,7 +58,7 @@ public class RaycastModule : MonoBehaviour, IShootRaycast, IShootSphereCast
                 0.05f;
         
         lineRenderer.SetPosition(0, gunBarrelPos.position);
-        lineRenderer.SetPosition(1, hit.point);
+        lineRenderer.SetPosition(1, hit.point);*/
     }
     
     

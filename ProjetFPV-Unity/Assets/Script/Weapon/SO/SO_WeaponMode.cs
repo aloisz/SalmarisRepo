@@ -16,6 +16,7 @@ namespace Weapon
         
         [field: Space]
         [field: Header("-----Base Modification-----")] 
+        [field: SerializeField] internal bool isBulletInfinite{ get; private set; } 
         [field: SerializeField] internal int numberOfBullet{ get; private set; }
         [field: SerializeField] internal float timeToReload{ get; private set; }
         [field: SerializeField] internal float bulletDamage{ get; private set; }
@@ -62,7 +63,8 @@ namespace Weapon
         [field: Space]
         [field: Header("-----Rocket Jump-----")] 
         [field: ShowIf("munitionTypeState", MunitionType.Raycast)][field: SerializeField] internal bool isRocketJump{ get; private set; }
-        [field: ShowIf("isRocketJump")] [field: SerializeField] internal float rocketForceApplied;
+        [field: ShowIf("isRocketJump")] [field: SerializeField] internal float rocketJumpForceApplied;
+        [field: ShowIf("isRocketJump")] [field: SerializeField] internal float rocketJumpDistance;
 
         #endregion
 

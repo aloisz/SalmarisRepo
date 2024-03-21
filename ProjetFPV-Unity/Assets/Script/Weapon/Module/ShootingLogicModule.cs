@@ -26,7 +26,7 @@ public class ShootingLogicModule : WeaponManager, IShootRaycast, IShootSphereCas
     // ----------------------------------
     #region LOGIC 
 
-     private void RaycastEnum()
+    protected virtual void RaycastEnum()
     {
         switch (ChooseRaycastType(so_Weapon.weaponMode[(int)actualWeaponModeIndex].raycastType))
         {
@@ -60,10 +60,14 @@ public class ShootingLogicModule : WeaponManager, IShootRaycast, IShootSphereCas
         }
     }
 
+    private LineRenderer lineRenderer;
     protected virtual void InitialiseLineRenderer(RaycastHit hit)
     {
-        LineRenderer lineRenderer = Instantiate(GameManager.Instance.rayLineRenderer,
-            camera.transform.position, Quaternion.identity, GameManager.Instance.transform);
+        /*LineRenderer lineRenderer = Instantiate(GameManager.Instance.rayLineRenderer,
+            camera.transform.position, Quaternion.identity, GameManager.Instance.transform);*/
+        GameObject lineRendererGO = Pooling.instance.Pop("HitScanRay");
+        lineRenderer = lineRendererGO.GetComponent<LineRenderer>();
+        
         lineRenderer.startWidth = 
             so_Weapon.weaponMode[(int)actualWeaponModeIndex].raycastType == RaycastType.SphereCast ? 
                 so_Weapon.weaponMode[(int)actualWeaponModeIndex].sphereCastRadius : 
@@ -173,17 +177,22 @@ public class ShootingLogicModule : WeaponManager, IShootRaycast, IShootSphereCas
     // ----------------------------------
 
     #region LOGIC
-    
-    private void ShootProjectile() // TODO : Integrate Pulling
+
+    internal BulletBehavior bulletProjectile;
+    protected virtual void ShootProjectile()
     { 
-        BulletBehavior projectileBullet = Instantiate(so_Weapon.weaponMode[(int)actualWeaponModeIndex].bullet, gunBarrelPos.position, Quaternion.identity);
+        //BulletBehavior bulletProjectile = Instantiate(so_Weapon.weaponMode[(int)actualWeaponModeIndex].bullet, gunBarrelPos.position, Quaternion.identity);
+        GameObject bulletProjectileGO = Pooling.instance.Pop("BulletProjectile");
+        bulletProjectileGO.transform.position = gunBarrelPos.position;
+        bulletProjectileGO.transform.rotation = Quaternion.identity;
         
+        bulletProjectile = bulletProjectileGO.GetComponent<BulletBehavior>();
         // Logic
-        projectileBullet.EnableMovement(true);
-        projectileBullet.transform.rotation *= Quaternion.AngleAxis(90, PlayerController.transform.right);
-        projectileBullet.GetThePlayerDir(new Vector3(PlayerController.transform.forward.x, Camera.main.transform.forward.y, PlayerController.transform.forward.z));
-        projectileBullet.AddDamage(so_Weapon.weaponMode[(int)actualWeaponModeIndex].bulletDamage);
-        projectileBullet.AddVelocity(so_Weapon.weaponMode[(int)actualWeaponModeIndex].bulletSpeed);
+        bulletProjectile.EnableMovement(true);
+        bulletProjectile.transform.rotation *= Quaternion.AngleAxis(90, PlayerController.transform.right);
+        bulletProjectile.GetThePlayerDir(new Vector3(PlayerController.transform.forward.x, Camera.main.transform.forward.y, PlayerController.transform.forward.z));
+        bulletProjectile.AddDamage(so_Weapon.weaponMode[(int)actualWeaponModeIndex].bulletDamage);
+        bulletProjectile.AddVelocity(so_Weapon.weaponMode[(int)actualWeaponModeIndex].bulletSpeed);
     }   
 
     #endregion

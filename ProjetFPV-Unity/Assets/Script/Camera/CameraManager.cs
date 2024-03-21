@@ -36,6 +36,8 @@ namespace CameraBehavior
         private CameraJumping cameraJumping;
         private CameraDash cameraDash;
         private HandSwing handSwing;
+
+        private bool isCommingBackFromEffect;
         
         internal float timer = 0;
         
@@ -88,6 +90,7 @@ namespace CameraBehavior
                     Idle();
                     IdleFov();
                     ReInitialiseCameraPos();
+                    isCommingBackFromEffect = true;
                     break;
                 
                 case PlayerController.PlayerActionStates.Moving:
@@ -98,7 +101,6 @@ namespace CameraBehavior
                 
                 case PlayerController.PlayerActionStates.Sliding:
                     cameraSliding.Sliding();
-                    MovingFov();
                     ReInitialiseCameraPos();
                     break;
                 
@@ -112,6 +114,7 @@ namespace CameraBehavior
                     ReInitialiseCameraPos();
                     break;
             }
+            cameraJumping.HandlesHighSpeed();
         }
 
         #endregion
@@ -146,6 +149,13 @@ namespace CameraBehavior
         private void ReInitialiseCameraPos()
         {
             cameraTransform.localPosition = Vector3.Lerp(cameraTransform.localPosition, Vector3.zero, Time.deltaTime * so_Camera.positionOffSetSmooth);
+            if (isCommingBackFromEffect)
+            {
+                isCommingBackFromEffect = false;
+                transitionParent.position = Vector3.Lerp(transitionParent.position, playerTransform.position, 
+                    Time.deltaTime * so_Camera.positionOffSetSmooth);
+            }
+            
         }
 
         #endregion

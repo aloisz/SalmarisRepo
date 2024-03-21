@@ -3,12 +3,21 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Weapon;
+using Object = UnityEngine.Object;
 
 public class Barbatos : Shotgun
 {
+    private BarbatosInput barbatosInput;
+
+    protected override void Start()
+    {
+        base.Start();
+        barbatosInput = GetComponent<BarbatosInput>();
+    }
+
     protected override void GetAllInput()
     {
-        if (Input.GetKeyDown(KeyCode.Mouse0))
+        if (barbatosInput.isReceivingPrimary)
         {
             if (actualWeaponModeIndex != WeaponMode.Primary)
             {
@@ -22,8 +31,8 @@ public class Barbatos : Shotgun
             isShooting = false;
             canFire = true;
         }
-            
-        if (Input.GetKeyDown(KeyCode.Mouse1))
+        
+        /*if (barbatosInput.isReceivingSecondary)
         {
             if (actualWeaponModeIndex != WeaponMode.Secondary)
             {
@@ -31,40 +40,41 @@ public class Barbatos : Shotgun
                 //WeaponRefreshement();
             }
             Shoot();
+            Debug.Log("Secondary");
         }
         else
         {
             isShooting = false;
             canFire = true;
-        }
-            
-        if (Input.GetKeyDown(KeyCode.R)) Reload();
-    }
-
-
-    protected override void HitScanLogic(RaycastHit hit)
-    {
-        base.HitScanLogic(hit);
+        }*/
         
-        if (!so_Weapon.weaponMode[(int)actualWeaponModeIndex].isRocketJump) return;
-        if (hit.transform.GetComponent<Collider>() != null)
-        {
-            PlayerController.GetComponent<Rigidbody>().AddForce( PlayerController.transform.position - hit.point * so_Weapon.weaponMode[(int)actualWeaponModeIndex].rocketForceApplied);
-        }
+            
+        if (barbatosInput.isReceivingReload) Reload();
     }
-    
-    
-    
+
+    public void Secondary()
+    {
+        if (actualWeaponModeIndex != WeaponMode.Secondary)
+        {
+            actualWeaponModeIndex = WeaponMode.Secondary;
+            //WeaponRefreshement();
+        }
+        Shoot();
+    }
     
     public override void InstantiateBulletImpact(RaycastHit hit)
     {
         base.InstantiateBulletImpact(hit);
-        GameObject particle =  Instantiate(GameManager.Instance.PS_BulletImpact, hit.point, Quaternion.identity, GameManager.Instance.transform);
+        
+        GameObject particle = Pooling.instance.Pop("BulletImpact");
+        particle.transform.position = hit.point;
         particle.transform.up = hit.normal;
-
+        Pooling.instance.DelayedDePop("BulletImpact", particle,3);
+        
         if (so_Weapon.weaponMode[(int)actualWeaponModeIndex].doExplosion)
         {
-            GameObject explosion =  Instantiate(GameManager.Instance.explosion, hit.point, Quaternion.identity, GameManager.Instance.transform);
+            GameObject explosion = Pooling.instance.Pop("ExplosionImpact");
+            explosion.transform.position = hit.point;
         }
     }
     

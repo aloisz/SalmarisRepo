@@ -1,19 +1,26 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
+using NaughtyAttributes;
+using Random = UnityEngine.Random;
 
 public class LineRendererHandler : MonoBehaviour
 {
-    public float time = 0.2f;
+    [MinMaxSlider(0, 5)]public Vector2 time ;
 
     private LineRenderer lineRenderer;
     
-    private IEnumerator Start()
+    private IEnumerator DePop()
     {
         lineRenderer = GetComponent<LineRenderer>();
-        yield return new WaitForSeconds(time);
-        Destroy(gameObject);
+        yield return new WaitForSeconds(Random.Range(time.x, time.y));
+        Pooling.instance.DelayedDePop("HitScanRay", gameObject,0);
     }
-    
+
+    private void OnEnable()
+    {
+        StartCoroutine(DePop());
+    }
 }
