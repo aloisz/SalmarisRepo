@@ -73,9 +73,6 @@ namespace Player
         [BoxGroup("Physic")][Tooltip("The Rigidbody's drag while the player is in the air.")]
         public float airDrag = 1.8f;
 
-        [BoxGroup("Physic")] [Tooltip("The jump's curve.")]
-        public AnimationCurve jumpCurve;
-
         //----------------------------------------------------
         
         [BoxGroup("Detection")][Tooltip("The BoxCast's dimension to detect ground from the player.")]

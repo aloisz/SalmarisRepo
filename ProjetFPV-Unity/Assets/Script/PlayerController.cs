@@ -37,7 +37,6 @@ namespace Player
         
         private float dashTimer;
         private float idleTimer;
-        private float coyoteTimer;
 
         private float actualSlopeAngle;
         
@@ -103,12 +102,9 @@ namespace Player
             
             Cursor.lockState = CursorLockMode.Locked;
         }
-
         private void Update()
         {
             PlayerStateMachine();
-            
-            DetectGround();
 
             ManageDashDuration();
             ManageSpeedMultiplierFromDash();
@@ -121,7 +117,9 @@ namespace Player
             
             DetectSlope();
             
-            CoyoteJump();
+            DetectGround();
+            
+            //CoyoteJump();
 
             RotateCameraFromInput();
 
@@ -137,7 +135,7 @@ namespace Player
             
             SetDrag();
             
-            VerifyJumpExecution();
+            PlayerInputs.Instance.onJump?.Invoke();
             VerifyDashExecution();
         }
 
@@ -145,7 +143,7 @@ namespace Player
 
         #region Movements
 
-        private float decelerationSlideOnGround;
+        private float _decelerationSlideOnGround;
         
         /// <summary>
         /// Move the player in the current direction value, based on scriptable parameters.
@@ -176,10 +174,10 @@ namespace Player
             var vectorSlideForward = slopeDirection * (actualSlopeAngle / playerScriptable.slidingInSlopeLimiter);
             var vectorSlide = vectorSlideDown + vectorSlideForward;
             
-            if(isSliding && !isOnSlope) decelerationSlideOnGround += Time.deltaTime * 50f;
+            if(isSliding && !isOnSlope) _decelerationSlideOnGround += Time.deltaTime * 50f;
             
             var finalVector = ((isMoving ? vectorMove : Vector3.zero) + (isOnSlope && isSliding ? vectorSlide : Vector3.zero))
-                              / (isSliding && !isOnSlope ? decelerationSlideOnGround : 1f);
+                              / (isSliding && !isOnSlope ? _decelerationSlideOnGround : 1f);
             
             return finalVector / (isSliding && isMoving && isOnSlope ? 10f : 1f);
         }
@@ -233,8 +231,8 @@ namespace Player
         /// </summary>
         private void CoyoteJump()
         {
-            if (!isOnGround) coyoteTimer.DecreaseTimerIfPositive();
-            else coyoteTimer = playerScriptable.coyoteJump;
+            //if (!isOnGround) coyoteTimer.DecreaseTimerIfPositive();
+            //else coyoteTimer = playerScriptable.coyoteJump;
         }
 
         #endregion
@@ -276,7 +274,7 @@ namespace Player
                 v.y -= Time.deltaTime * playerScriptable.gravityMultiplier;
                 
                 v.x = velocity.x + (DirectionFromCamera(direction).x * playerScriptable.moveAirMultiplier);
-                v.z = _rb.velocity.z + (DirectionFromCamera(direction).z * playerScriptable.moveAirMultiplier);
+                v.z = velocity.z + (DirectionFromCamera(direction).z * playerScriptable.moveAirMultiplier);
                 
                 _rb.velocity = v;
             }
@@ -389,15 +387,20 @@ namespace Player
             var posCheckBack = ReturnCheckOffsetFromDir(pos, Helper.ReturnDirFromIndex(3), offset);
             var isOnGroundTempBack = Physics.Raycast(posCheckBack, Vector3.down * playerScriptable.groundDetectionLenght, out raycastGroundBack, 
                 playerScriptable.groundDetectionLenght, groundLayer);
-               
-            isOnGround = isOnGroundTempRight || isOnGroundTempLeft || isOnGroundTempForward || isOnGroundTempBack;
-            
-            //Check if the player just landed.
-            if (isOnGround && !wasOnGroundLastFrame)
-            {
-                OnLand();
-            }
 
+            if (isOnGroundTempRight || isOnGroundTempLeft || isOnGroundTempForward || isOnGroundTempBack)
+            {
+                if (!isOnGround)
+                {
+                    isOnGround = true;
+                    StartCoroutine(nameof(OnLand));
+                }
+            }
+            else
+            {
+                isOnGround = false;
+            }
+            
             //Update the last frame ground state.
             wasOnGroundLastFrame = isOnGround;
         }
@@ -414,10 +417,11 @@ namespace Player
         /// <summary>
         /// On land, execute and reset variables.
         /// </summary>
-        private void OnLand()
+        IEnumerator OnLand()
         {
-            isJumping = false;
             canApplyGravity = false;
+            yield return new WaitForSeconds(0.025f);
+            isJumping = false;
         }
 
         #endregion
@@ -435,12 +439,9 @@ namespace Player
             
             var forwardMomentumVector = GetOverallMomentumVector() / 20f;
             
-            if(coyoteTimer < playerScriptable.coyoteJump - 0.1f)
-                _rb.AddForce(playerScriptable.coyoteJumpForce * (Vector3.up + forwardMomentumVector), ForceMode.Impulse);
-            else
-                _rb.AddForce(playerScriptable.jumpForce * (Vector3.up + forwardMomentumVector), ForceMode.Impulse);
+            _rb.AddForce(playerScriptable.jumpForce * (Vector3.up), ForceMode.Impulse);
             
-            coyoteTimer = 0f;
+            //coyoteTimer = 0f;
         }
 
         /// <summary>
@@ -484,9 +485,10 @@ namespace Player
             }
         }
 
-        private void VerifyJumpExecution()
+        public void VerifyJumpExecution()
         {
             if(canJump) Jump();
+            PlayerInputs.Instance.onJump -= VerifyJumpExecution;
         }
         
         #endregion
@@ -497,7 +499,7 @@ namespace Player
         void PlayerStateMachine()
         {
             canDash = PlayerInputs.Instance.isReceivingDashInputs && !isDashing && PlayerStamina.Instance.HasEnoughStamina(1);
-            canJump = (coyoteTimer > 0f && PlayerInputs.Instance.isReceivingJumpInputs) || (isOnGround && PlayerInputs.Instance.isReceivingJumpInputs);
+            canJump = isOnGround && !isJumping;
             
             isSliding = PlayerInputs.Instance.isReceivingSlideInputs && isOnGround;
             isMoving = direction.magnitude > playerScriptable.moveThreshold;
@@ -518,7 +520,7 @@ namespace Player
             {
                 case PlayerActionStates.Idle: OnIdle();
                     break;
-                case PlayerActionStates.Moving: decelerationSlideOnGround = 1f;
+                case PlayerActionStates.Moving: _decelerationSlideOnGround = 1f;
                     break;
                 case PlayerActionStates.Sliding:
                     break;
@@ -551,7 +553,7 @@ namespace Player
             speedMultiplierFromDash = 1f;
             
             //Reset the deceleration for the slide on ground.
-            decelerationSlideOnGround = 1f;
+            _decelerationSlideOnGround = 1f;
         }
         
         #endregion
