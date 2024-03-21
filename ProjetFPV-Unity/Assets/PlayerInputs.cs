@@ -84,8 +84,8 @@ public class PlayerInputs : GenericSingletonClass<PlayerInputs>
     {
         if (ctx.started)
         {
-            isOnMainWeapon = !isOnMainWeapon;
             GetWeaponByIndex(GetIndexByBoolean(isOnMainWeapon));
+            isOnMainWeapon = !isOnMainWeapon;
             
             foreach (var weapon in weapons)
             {

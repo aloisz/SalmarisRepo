@@ -26,7 +26,7 @@ namespace CameraBehavior
         [ShowIf("doCameraFeel")][SerializeField] internal Transform slindingPos;
         
         internal Camera camera;
-        public Transform cameraTransform;
+        internal Transform cameraTransform;
         
         internal float currentFov;  
         internal Quaternion smoothOffset;
