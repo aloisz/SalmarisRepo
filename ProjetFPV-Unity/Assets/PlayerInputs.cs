@@ -1,5 +1,7 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using Player;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -9,6 +11,8 @@ public class PlayerInputs : GenericSingletonClass<PlayerInputs>
     public bool isReceivingDashInputs;
     public bool isReceivingJumpInputs;
     public bool isReceivingSlideInputs;
+
+    public Action onJump;
 
     public Vector2 moveValue;
     public Vector2 rotateValue;
@@ -39,7 +43,10 @@ public class PlayerInputs : GenericSingletonClass<PlayerInputs>
     /// <param name="ctx">Automatic parameter to get the current input values.</param>
     public void JumpInput(InputAction.CallbackContext ctx)
     {
-        isReceivingJumpInputs = ctx.performed;
+        if (ctx.started)
+        {
+            onJump += PlayerController.Instance.VerifyJumpExecution;
+        }
     }
     
     /// <summary>

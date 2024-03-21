@@ -15,16 +15,16 @@ MonoBehaviour:
   moveSpeed: 3
   moveSpeedInAirDivider: 10
   moveThreshold: 0.1
-  jumpForce: 9
+  jumpForce: 35
   coyoteJumpForce: 40
-  moveAirMultiplier: 0.1
+  moveAirMultiplier: 0.75
   dashForce: 50
   dashDuration: 0.3
   dashSpeedMultiplier: 1.25
   dashSpeedMultiplierDuration: 1.5
   dashSpeedMultiplierResetDuration: 2
   speedMaxToAccelerate: 12
-  accelerationMultiplier: 1.2
+  accelerationMultiplier: 2
   coyoteJump: 0
   slidingInSlopeDownForce: 2
   slidingInSlopeLimiter: 100
@@ -32,40 +32,7 @@ MonoBehaviour:
   gravityMultiplier: 75
   groundDrag: 7
   airDrag: 1.8
-  jumpCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 0
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
-    - serializedVersion: 3
-      time: 0.5
-      value: 1
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
-    - serializedVersion: 3
-      time: 1
-      value: 0
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  groundDetectionLenght: 1
+  groundDetectionLenght: 0.42
   raycastLenghtSlopeDetection: 1
   groundDetectionForwardOffset: 0.46
   minSlopeDegrees: 3

@@ -12,10 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0a71b2abe57b72a4da7599e067bad271, type: 3}
   m_Name: PlayerScriptable 1
   m_EditorClassIdentifier: 
-  moveSpeed: 1.7
-  moveSpeedInAirDivider: 4
+  moveSpeed: 3.2
+  moveSpeedInAirDivider: 10
   moveThreshold: 0.1
-  jumpForce: 16.5
+  jumpForce: 14
   coyoteJumpForce: 45
   moveAirMultiplier: 0.1
   dashForce: 55
@@ -23,20 +23,52 @@ MonoBehaviour:
   dashSpeedMultiplier: 1.25
   dashSpeedMultiplierDuration: 1.25
   dashSpeedMultiplierResetDuration: 1.5
-  dashInSlopeSpeedMultiplier: 1.35
   speedMaxToAccelerate: 12
   accelerationMultiplier: 1.2
-  speedDuringSlopeFall: 20
-  speedDuringSlopeClimb: 20
-  coyoteJump: 0.35
+  coyoteJump: 0.4
+  slidingInSlopeDownForce: 2
+  slidingInSlopeLimiter: 100
   staminaPerSecond: 0.0045
   gravityMultiplier: 75
   groundDrag: 7
   airDrag: 1.8
-  groundDetectionWidthHeightDepth: {x: 0.2, y: 0.6, z: 0.6}
+  jumpCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0.0083351135
+      value: 0.000011444092
+      inSlope: 2.0301027
+      outSlope: 2.0301027
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 0.50079036
+      value: 0.9997462
+      inSlope: 0.013741493
+      outSlope: 0.013741493
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0.000019073486
+      inSlope: -2.0026197
+      outSlope: -2.0026197
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  groundDetectionLenght: 1
   raycastLenghtSlopeDetection: 1
-  groundDetectionForwardOffset: 1.2
-  minSlopeDegrees: 25
+  groundDetectionForwardOffset: 0.46
+  minSlopeDegrees: 3
   sensibility: 0.1
   lookLimitY: 90
   frictionMaterial: {fileID: 13400000, guid: 66462d3f498916c45b06fcf1b1aa7596, type: 2}
