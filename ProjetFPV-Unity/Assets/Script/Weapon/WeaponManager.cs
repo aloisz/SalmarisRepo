@@ -19,7 +19,7 @@ namespace Weapon
         protected bool isReloading;
         
         protected float lastTimefired;
-        protected int actualNumberOfBullet; // Permit to store the secondary mode number of bullet
+        public int actualNumberOfBullet; // Permit to store the secondary mode number of bullet
         [HideInInspector] public WeaponMode actualWeaponModeIndex;
         protected bool isChangingActualWeaponModeIndex;
         

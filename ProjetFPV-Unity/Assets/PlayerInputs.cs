@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using Player;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.Serialization;
 using Weapon;
 
 public class PlayerInputs : GenericSingletonClass<PlayerInputs>
@@ -20,20 +21,11 @@ public class PlayerInputs : GenericSingletonClass<PlayerInputs>
     
     //WeaponSwap
     public List<WeaponManager> weapons;
-    public bool weaponIndex = true;
+    public bool isOnMainWeapon = true;
 
     private void Start()
     {
-        if (weaponIndex)
-        {
-            weapons[1].transform.gameObject.SetActive(false);
-            weapons[0].transform.gameObject.SetActive(true);
-        }
-        else
-        {
-            weapons[1].transform.gameObject.SetActive(true);
-            weapons[0].transform.gameObject.SetActive(false);
-        }
+        GetWeaponByIndex(GetIndexByBoolean(isOnMainWeapon));
     }
 
 
@@ -92,22 +84,21 @@ public class PlayerInputs : GenericSingletonClass<PlayerInputs>
     {
         if (ctx.started)
         {
-            weaponIndex = !weaponIndex;
-            if (weaponIndex)
-            {
-                weapons[1].transform.gameObject.SetActive(false);
-                weapons[0].transform.gameObject.SetActive(true);
-            }
-            else
-            {
-                weapons[1].transform.gameObject.SetActive(true);
-                weapons[0].transform.gameObject.SetActive(false);
-            }
-
+            isOnMainWeapon = !isOnMainWeapon;
+            GetWeaponByIndex(GetIndexByBoolean(isOnMainWeapon));
+            
             foreach (var weapon in weapons)
             {
                 weapon.SwapWeapon();
             }
         }
     }
+
+    void GetWeaponByIndex(int index)
+    {
+        weapons[index].transform.gameObject.SetActive(true);
+        weapons[(index == 0 ? 1 : 0)].transform.gameObject.SetActive(false);
+    }
+    
+    public int GetIndexByBoolean(bool b) => Convert.ToInt32(b);
 }
