@@ -239,7 +239,7 @@ namespace Weapon
             // Set up GUI style for the text
             GUIStyle style = new GUIStyle();
             style.fontSize = 24;
-            style.normal.textColor = Color.green;
+            style.normal.textColor = Color.red;
             
             // Set the position and size of the text
             Rect rect = new Rect(1500, 10, 200, 50);

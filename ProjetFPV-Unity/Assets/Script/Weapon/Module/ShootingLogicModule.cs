@@ -181,19 +181,36 @@ public class ShootingLogicModule : WeaponManager, IShootRaycast, IShootSphereCas
     internal VladBullet bulletProjectile;
     protected virtual void ShootProjectile()
     { 
-        //BulletBehavior bulletProjectile = Instantiate(so_Weapon.weaponMode[(int)actualWeaponModeIndex].bullet, gunBarrelPos.position, Quaternion.identity);
+        //BulletBehavior
         GameObject bulletProjectileGO = Pooling.instance.Pop("BulletProjectile");
         bulletProjectileGO.transform.position = gunBarrelPos.position;
         bulletProjectileGO.transform.rotation = Quaternion.identity;
         
         bulletProjectile = bulletProjectileGO.GetComponent<VladBullet>();
+        
         // Logic
-        bulletProjectile.EnableMovement(true);
+        bulletProjectile.EnableMovement(true);  
         bulletProjectile.transform.rotation *= Quaternion.AngleAxis(90, PlayerController.transform.right);
-        bulletProjectile.GetThePlayerDir(new Vector3(PlayerController.transform.forward.x, Camera.main.transform.forward.y, PlayerController.transform.forward.z));
+        //bulletProjectile.transform.LookAt(screenCenter);
         bulletProjectile.AddDamage(so_Weapon.weaponMode[(int)actualWeaponModeIndex].bulletDamage);
         bulletProjectile.AddVelocity(so_Weapon.weaponMode[(int)actualWeaponModeIndex].bulletSpeed);
-    }   
+        bulletProjectile.GetThePlayerDir(GetTheAimDirection());
+    }
+
+    private Vector3 GetTheAimDirection()
+    {
+        Vector3 mouseWorldPosition = Vector3.zero;
+        RaycastHit hit;
+        Vector2 screenCenterPoint = new Vector2(Screen.width / 2f, Screen.height / 2f);
+        Ray ray = Camera.main.ScreenPointToRay(screenCenterPoint);
+        if (Physics.Raycast(ray,out hit,10000, so_Weapon.hitLayer))
+        {
+            Debug.DrawRay(screenCenterPoint, hit.point, Color.red, 2);
+            mouseWorldPosition = hit.point;
+        }
+        Vector3 aimDir = (mouseWorldPosition - gunBarrelPos.transform.position).normalized;
+        return aimDir;
+    }
 
     #endregion
     

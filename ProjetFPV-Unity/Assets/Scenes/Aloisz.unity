@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.42779714, g: 1.2679161, b: 0.96036506, a: 1}
+  m_IndirectSpecularColor: {r: 0.46765283, g: 1.3009491, b: 0.98909175, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -833,14 +833,14 @@ MonoBehaviour:
     pool:
       prefab: {fileID: 7183163888607090828, guid: 3007a8a46738cfb4c9ff0ae4fb3ab975,
         type: 3}
-      baseCount: 300
+      baseCount: 3
       baseRefreshSpeed: 5
       refreshSpeed: 0
   - key: HitScanRay
     pool:
       prefab: {fileID: 917515355212965685, guid: 3513695d60a335a47915ee9053d045f8,
         type: 3}
-      baseCount: 400
+      baseCount: 0
       baseRefreshSpeed: 5
       refreshSpeed: 0
 --- !u!1 &279843178
@@ -3925,6 +3925,18 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 853899933}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &885985718 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5311028813223075449, guid: 9294123db3fc3a54b89f62907126f122,
+    type: 3}
+  m_PrefabInstance: {fileID: 6290109903192429939}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 02086de2c3b926643a7e99a81ab99b08, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &902478721
 GameObject:
   m_ObjectHideFlags: 0
@@ -9401,11 +9413,16 @@ PrefabInstance:
         type: 3}
       propertyPath: weapons.Array.data[0]
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 885985718}
     - target: {fileID: 5313092729534710420, guid: b8b6c0fdf0c4fdc45a7a779e068e839d,
         type: 3}
       propertyPath: weapons.Array.data[1]
       value: 
+      objectReference: {fileID: 1182824914}
+    - target: {fileID: 6655356332372034070, guid: b8b6c0fdf0c4fdc45a7a779e068e839d,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7372045558108116486, guid: b8b6c0fdf0c4fdc45a7a779e068e839d,
         type: 3}
@@ -10445,6 +10462,18 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 71f951629bed9f0468abebcf5f737845, type: 3}
+--- !u!114 &1182824914 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6364967691326366049, guid: 9294123db3fc3a54b89f62907126f122,
+    type: 3}
+  m_PrefabInstance: {fileID: 6290109903192429939}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d6209a84d6d899140b143fd0be3ce460, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1243449862
 GameObject:
   m_ObjectHideFlags: 0
