@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using Player;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using Weapon;
 
 public class PlayerInputs : GenericSingletonClass<PlayerInputs>
 {
@@ -17,7 +18,25 @@ public class PlayerInputs : GenericSingletonClass<PlayerInputs>
     public Vector2 moveValue;
     public Vector2 rotateValue;
     
-    
+    //WeaponSwap
+    public List<WeaponManager> weapons;
+    public bool weaponIndex = true;
+
+    private void Start()
+    {
+        if (weaponIndex)
+        {
+            weapons[1].transform.gameObject.SetActive(false);
+            weapons[0].transform.gameObject.SetActive(true);
+        }
+        else
+        {
+            weapons[1].transform.gameObject.SetActive(true);
+            weapons[0].transform.gameObject.SetActive(false);
+        }
+    }
+
+
     /// <summary>
     /// Get the moving inputs.
     /// </summary>
@@ -64,5 +83,31 @@ public class PlayerInputs : GenericSingletonClass<PlayerInputs>
     public void LookInputs(InputAction.CallbackContext ctx)
     {
         rotateValue = ctx.ReadValue<Vector2>();
+    }
+
+    /// <summary>
+    /// SwapWeapon
+    /// </summary>
+    public void SwapWeapon(InputAction.CallbackContext ctx)
+    {
+        if (ctx.started)
+        {
+            weaponIndex = !weaponIndex;
+            if (weaponIndex)
+            {
+                weapons[1].transform.gameObject.SetActive(false);
+                weapons[0].transform.gameObject.SetActive(true);
+            }
+            else
+            {
+                weapons[1].transform.gameObject.SetActive(true);
+                weapons[0].transform.gameObject.SetActive(false);
+            }
+
+            foreach (var weapon in weapons)
+            {
+                weapon.SwapWeapon();
+            }
+        }
     }
 }

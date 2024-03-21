@@ -61,6 +61,15 @@ public class Barbatos : Shotgun
         }
         Shoot();
     }
+
+
+    public override void SwapWeapon()
+    {
+        if (actualNumberOfBullet <= 0)
+        {
+            Reload();
+        }
+    }
     
     public override void InstantiateBulletImpact(RaycastHit hit)
     {
