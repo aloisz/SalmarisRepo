@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 1253742103546626655}
   - component: {fileID: 4329080655008607625}
   - component: {fileID: 4285045805137103391}
+  - component: {fileID: 6655356332372034070}
   m_Layer: 7
   m_Name: Player
   m_TagString: Player
@@ -54,6 +55,7 @@ MonoBehaviour:
   playerScriptable: {fileID: 11400000, guid: b64488bd6eec9cb4cba32d12244e0f8a, type: 2}
   cameraAttachPosition: {fileID: 0}
   capsuleCollider: {fileID: 3057406663904845015}
+  _rb: {fileID: 0}
   isOnGround: 0
   wasOnGroundLastFrame: 0
   isMoving: 0
@@ -83,6 +85,10 @@ MonoBehaviour:
   isReceivingSlideInputs: 0
   moveValue: {x: 0, y: 0}
   rotateValue: {x: 0, y: 0}
+  weapons:
+  - {fileID: 0}
+  - {fileID: 0}
+  weaponIndex: 1
 --- !u!114 &1253742103546626655
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -249,6 +255,34 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: aa2dfb46-d1a5-4909-a60a-c93f0181842b
     m_ActionName: Player/Dash[/Keyboard/z]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: bb8adb43-550f-4d55-96aa-c7357f5b3b8b
+    m_ActionName: Barbatos/Primary[/Mouse/leftButton]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 2d8d8813-e324-4f41-b3ea-edd4c67e36ad
+    m_ActionName: Barbatos/Secondary[/Mouse/rightButton]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: eff964e1-bfe1-4e97-ab6c-e98cade1e28f
+    m_ActionName: Barbatos/Reload[/Keyboard/r]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 5313092729534710420}
+        m_TargetAssemblyTypeName: PlayerInputs, Assembly-CSharp
+        m_MethodName: SwapWeapon
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 0d47f93a-234d-4f17-a019-bb1f63e886fb
+    m_ActionName: Player/SwapWeapon[/Keyboard/f]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Player
@@ -281,6 +315,18 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 112
   m_CollisionDetection: 2
+--- !u!114 &6655356332372034070
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 359912182890571611}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c52d7c9653bb8a2498c07d5a1f1696a5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1500785809118063574
 GameObject:
   m_ObjectHideFlags: 0

@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using Player;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.Serialization;
+using Weapon;
 
 public class PlayerInputs : GenericSingletonClass<PlayerInputs>
 {
@@ -17,7 +19,16 @@ public class PlayerInputs : GenericSingletonClass<PlayerInputs>
     public Vector2 moveValue;
     public Vector2 rotateValue;
     
-    
+    //WeaponSwap
+    public List<WeaponManager> weapons;
+    public bool isOnMainWeapon = true;
+
+    private void Start()
+    {
+        GetWeaponByIndex(GetIndexByBoolean(isOnMainWeapon));
+    }
+
+
     /// <summary>
     /// Get the moving inputs.
     /// </summary>
@@ -65,4 +76,29 @@ public class PlayerInputs : GenericSingletonClass<PlayerInputs>
     {
         rotateValue = ctx.ReadValue<Vector2>();
     }
+
+    /// <summary>
+    /// SwapWeapon
+    /// </summary>
+    public void SwapWeapon(InputAction.CallbackContext ctx)
+    {
+        if (ctx.started)
+        {
+            GetWeaponByIndex(GetIndexByBoolean(isOnMainWeapon));
+            isOnMainWeapon = !isOnMainWeapon;
+            
+            foreach (var weapon in weapons)
+            {
+                weapon.SwapWeapon();
+            }
+        }
+    }
+
+    void GetWeaponByIndex(int index)
+    {
+        weapons[index].transform.gameObject.SetActive(true);
+        weapons[(index == 0 ? 1 : 0)].transform.gameObject.SetActive(false);
+    }
+    
+    public int GetIndexByBoolean(bool b) => Convert.ToInt32(b);
 }

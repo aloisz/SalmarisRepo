@@ -19,7 +19,7 @@ namespace Weapon
         protected bool isReloading;
         
         protected float lastTimefired;
-        protected int actualNumberOfBullet; // Permit to store the secondary mode number of bullet
+        public int actualNumberOfBullet; // Permit to store the secondary mode number of bullet
         [HideInInspector] public WeaponMode actualWeaponModeIndex;
         protected bool isChangingActualWeaponModeIndex;
         
@@ -220,18 +220,26 @@ namespace Weapon
         }
 
         #endregion
+
+        #region Swaping Weapon
+        
+        /// <summary>
+        /// If needed to add event when swapping weapon
+        /// </summary>
+        public virtual void SwapWeapon(){}
+
+        #endregion
+        
         
         //-------------------------------------------
         #region Debug
 
         private void OnGUI()
         {
-            return; 
-            
             // Set up GUI style for the text
             GUIStyle style = new GUIStyle();
             style.fontSize = 24;
-            style.normal.textColor = Color.green;
+            style.normal.textColor = Color.red;
             
             // Set the position and size of the text
             Rect rect = new Rect(1500, 10, 200, 50);

@@ -11,7 +11,7 @@ using Player;
 
 namespace CameraBehavior
 {
-    public class CameraManager : GenericSingletonClass<CameraManager>
+    public class CameraManager : MonoBehaviour
     {
         [Header("---Scriptable---")] 
         [Expandable]public SO_Camera so_Camera;
@@ -28,7 +28,7 @@ namespace CameraBehavior
         internal Camera camera;
         internal Transform cameraTransform;
         
-        internal float currentFov;
+        internal float currentFov;  
         internal Quaternion smoothOffset;
         
         // Get All Camera Component
@@ -40,6 +40,8 @@ namespace CameraBehavior
         private bool isCommingBackFromEffect;
         
         internal float timer = 0;
+
+        public static CameraManager Instance;
         
         private void Awake()
         {
@@ -48,6 +50,8 @@ namespace CameraBehavior
             cameraDash = GetComponent<CameraDash>();
             camera = GetComponentInChildren<Camera>();
             cameraTransform = camera.GetComponent<Transform>();
+
+            Instance = this;
             
             currentFov = so_Camera.fovIdle;
             camera.fieldOfView = currentFov;
