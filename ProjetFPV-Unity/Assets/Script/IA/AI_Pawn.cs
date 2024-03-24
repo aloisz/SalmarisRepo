@@ -61,13 +61,14 @@ namespace AI
             targetToFollow = null;
         }
 
-        protected virtual void CheckIfIsStillAlive ()
+        private void CheckIfIsStillAlive()
         {
             if (actualPawnHealth <= 0)
             {
-                Destroy(gameObject);
+                DestroyLogic();
             }
         }
+        protected virtual void DestroyLogic(){}
 
         #region Avoidance Module
 

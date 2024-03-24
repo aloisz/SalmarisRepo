@@ -101,7 +101,7 @@ GameObject:
   - component: {fileID: 978088160069668588}
   - component: {fileID: 3138227253059653242}
   m_Layer: 8
-  m_Name: IA_Actor_Tetart
+  m_Name: IA_TrashMob
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -139,6 +139,9 @@ MonoBehaviour:
   targetToFollow: {fileID: 0}
   so_IA: {fileID: 11400000, guid: 47d4e7c9114fa1c4aa6f7d75063c530c, type: 2}
   visionDetector: {fileID: 146247463210128156}
+  agentSpeedRadius: 20
+  agentSpeedWhenIsToFar: 50
+  tickVerification: 0.5
 --- !u!114 &8506461778801699736
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -244,7 +247,7 @@ Rigidbody:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6159587722465297484}
   serializedVersion: 4
-  m_Mass: 7
+  m_Mass: 2
   m_Drag: 1
   m_AngularDrag: 0.05
   m_CenterOfMass: {x: 0, y: 0, z: 0}
