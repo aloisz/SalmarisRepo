@@ -26,7 +26,7 @@ RenderSettings:
   m_AmbientIntensity: 1
   m_AmbientMode: 0
   m_SubtractiveShadowColor: {r: 0.42, g: 0.478, b: 0.627, a: 1}
-  m_SkyboxMaterial: {fileID: 2100000, guid: 4a50dfadaaf25a448b24ffddbff33f34, type: 2}
+  m_SkyboxMaterial: {fileID: 10304, guid: 0000000000000000f000000000000000, type: 0}
   m_HaloStrength: 0.5
   m_FlareStrength: 1
   m_FlareFadeSpeed: 3
@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.4506504, g: 1.285527, b: 0.97625935, a: 1}
+  m_IndirectSpecularColor: {r: 0.18028378, g: 0.22571412, b: 0.30692285, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -752,6 +752,74 @@ MonoBehaviour:
   m_SelectedFaces: 
   m_SelectedEdges: []
   m_SelectedVertices: 
+--- !u!1001 &171602686
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: -8679921383154817045, guid: 2e3a8c99cac6dbf4891abb5f59269b10,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 12.35
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 2e3a8c99cac6dbf4891abb5f59269b10,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -0.51
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 2e3a8c99cac6dbf4891abb5f59269b10,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 13.81
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 2e3a8c99cac6dbf4891abb5f59269b10,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.70710784
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 2e3a8c99cac6dbf4891abb5f59269b10,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0.000000015454363
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 2e3a8c99cac6dbf4891abb5f59269b10,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0.70710576
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 2e3a8c99cac6dbf4891abb5f59269b10,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0.000000015454315
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 2e3a8c99cac6dbf4891abb5f59269b10,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 2e3a8c99cac6dbf4891abb5f59269b10,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 90
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 2e3a8c99cac6dbf4891abb5f59269b10,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 2e3a8c99cac6dbf4891abb5f59269b10,
+        type: 3}
+      propertyPath: m_Name
+      value: SM_TableTest
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 2e3a8c99cac6dbf4891abb5f59269b10, type: 3}
 --- !u!4 &207635216 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7670129111412073086, guid: 71f951629bed9f0468abebcf5f737845,
@@ -860,7 +928,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &279843179
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12498,7 +12566,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1656290021
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -14047,6 +14115,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: HUD (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 4578877613765379770, guid: 84d40c77e7b58464992652bedc437abe,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -19773,6 +19846,11 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1219454692140418237, guid: 9294123db3fc3a54b89f62907126f122,
+        type: 3}
+      propertyPath: m_ClearFlags
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3698928635149738337, guid: 9294123db3fc3a54b89f62907126f122,
         type: 3}
       propertyPath: playerTransform
@@ -19782,6 +19860,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: CameraParent
+      objectReference: {fileID: 0}
+    - target: {fileID: 8108733499738347442, guid: 9294123db3fc3a54b89f62907126f122,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8561856535418673292, guid: 9294123db3fc3a54b89f62907126f122,
         type: 3}
@@ -19854,3 +19937,4 @@ SceneRoots:
   - {fileID: 1432737616}
   - {fileID: 728192051}
   - {fileID: 279843181}
+  - {fileID: 171602686}
