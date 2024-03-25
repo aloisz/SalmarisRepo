@@ -510,7 +510,7 @@ namespace Player
             
             else if (!isSliding && isJumping && !isDashing) currentActionState = PlayerActionStates.Jumping;
                 
-            else if(isMoving && isDashing) currentActionState = PlayerActionStates.Dashing;
+            else if(isDashing) currentActionState = PlayerActionStates.Dashing;
 
             else if (idleTimer <= 0f) currentActionState = PlayerActionStates.Idle;
 
