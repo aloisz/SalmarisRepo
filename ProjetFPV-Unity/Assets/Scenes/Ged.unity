@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.11096938, g: 1.1075947, b: 0.8525286, a: 1}
+  m_IndirectSpecularColor: {r: 0.11101188, g: 1.1077578, b: 0.852434, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -9628,6 +9628,11 @@ MonoBehaviour:
   targetToFollow: {fileID: 0}
   so_IA: {fileID: 0}
   visionDetector: {fileID: 0}
+  agentSpeedRadius: 2
+  agentSpeedWhenIsToFar: 50
+  agentDashRadius: 2
+  agentDashSpeed: 500
+  tickVerification: 0.2
 --- !u!1 &505232849 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 4aa3f077e844b0646951e40a1ddba60e,
@@ -18032,27 +18037,27 @@ PrefabInstance:
   serializedVersion: 2
   m_Modification:
     serializedVersion: 3
-    m_TransformParent: {fileID: 5360622010343640540}
+    m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: -8679921383154817045, guid: 94930fe0732c8ba428943408003c3490,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0.032
+      value: 20.82467
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 94930fe0732c8ba428943408003c3490,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: -1.372
+      value: 0.74800014
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 94930fe0732c8ba428943408003c3490,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: -0.767
+      value: 136.98532
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 94930fe0732c8ba428943408003c3490,
         type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.9972411
+      value: -0.9904811
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 94930fe0732c8ba428943408003c3490,
         type: 3}
@@ -18062,7 +18067,7 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: 94930fe0732c8ba428943408003c3490,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0.074231565
+      value: -0.13764963
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 94930fe0732c8ba428943408003c3490,
         type: 3}
@@ -19241,12 +19246,6 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 1635640911}
   m_SourcePrefab: {fileID: 100100000, guid: 4aa3f077e844b0646951e40a1ddba60e, type: 3}
---- !u!4 &1426121156 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 94930fe0732c8ba428943408003c3490,
-    type: 3}
-  m_PrefabInstance: {fileID: 1326098182}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1430761528
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -36310,6 +36309,11 @@ MonoBehaviour:
   targetToFollow: {fileID: 0}
   so_IA: {fileID: 0}
   visionDetector: {fileID: 0}
+  agentSpeedRadius: 2
+  agentSpeedWhenIsToFar: 50
+  agentDashRadius: 2
+  agentDashSpeed: 500
+  tickVerification: 0.2
 --- !u!4 &1725257681
 Transform:
   m_ObjectHideFlags: 0
@@ -49659,6 +49663,11 @@ MonoBehaviour:
   targetToFollow: {fileID: 0}
   so_IA: {fileID: 0}
   visionDetector: {fileID: 0}
+  agentSpeedRadius: 2
+  agentSpeedWhenIsToFar: 50
+  agentDashRadius: 2
+  agentDashSpeed: 500
+  tickVerification: 0.2
 --- !u!4 &2098660486
 Transform:
   m_ObjectHideFlags: 0
@@ -51841,7 +51850,6 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 1426121156}
   - {fileID: 861533576729678213}
   - {fileID: 1991478310}
   - {fileID: 145573395}
@@ -53167,3 +53175,4 @@ SceneRoots:
   - {fileID: 7372045558049408132}
   - {fileID: 1862569040663046097}
   - {fileID: 1825743037}
+  - {fileID: 1326098182}
