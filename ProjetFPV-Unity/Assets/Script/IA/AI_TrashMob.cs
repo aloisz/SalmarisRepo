@@ -38,7 +38,6 @@ namespace AI
         {
             base.Start();
             StartCoroutine(HandleTicBehavior());
-            GameManager.Instance.aiPawnsAvailable.Add(this);
         }
 
         protected TrashMobState ChangeState(TrashMobState state)

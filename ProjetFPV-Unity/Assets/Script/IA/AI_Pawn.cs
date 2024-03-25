@@ -12,7 +12,6 @@ namespace AI
 {
     public class AI_Pawn : MonoBehaviour, IDamage
     {
-
         [SerializeField] private Transform targetToFollow;
         [SerializeField] protected SO_IA so_IA;
 
@@ -30,6 +29,7 @@ namespace AI
             agentLinkMover = GetComponent<AgentLinkMover>();
             rb = GetComponent<Rigidbody>();
             GetPawnPersonnalInformation();
+            GameManager.Instance.aiPawnsAvailable.Add(this);
         }
 
         protected virtual void GetPawnPersonnalInformation()
