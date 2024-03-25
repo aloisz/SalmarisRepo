@@ -10,29 +10,66 @@ namespace AI
 {
     public class AI_TrashMob : AI_Pawn
     {
-        [Header("--- AI_TrashMob ---")]
+        [Header("--- AI_TrashMob ---")] 
+        [SerializeField] protected TrashMobState trashMobState;
+        [Space]
         [SerializeField] protected float agentSpeedRadius = 2;
         [SerializeField] protected float agentSpeedWhenIsToFar = 50;
         
         [Space]
         [SerializeField] protected float agentDashRadius = 2;
         [SerializeField] protected float agentDashSpeed = 500;
+        [Tooltip("Each tick count increase, when matching value attack will be performed")]
+        [SerializeField] protected float countBeforeAttack = 10;
+        private int actualCountBeforeAttack = 0;
         private bool isPerformingAttack;
         
         [Space]
         [SerializeField][Tooltip("How many time the check is performed")] protected float tickVerification = 0.2f;
+        
+        protected enum TrashMobState
+        {
+            Idle,
+            Moving,
+            AttackingCloseRange
+        }
+        
         protected override void Start()
         {
             base.Start();
-            StartCoroutine(CheckDistance());
+            StartCoroutine(HandleTicBehavior());
             GameManager.Instance.aiPawnsAvailable.Add(this);
         }
+
+        protected TrashMobState ChangeState(TrashMobState state)
+        {
+            return this.trashMobState = state;
+        }
+        
+        protected virtual IEnumerator HandleTicBehavior()
+        {
+            switch (trashMobState)
+            {
+                case TrashMobState.Idle:
+                    break;
+                case TrashMobState.Moving:
+                    CheckDistance();
+                    break;
+                case TrashMobState.AttackingCloseRange:
+                    yield return StartCoroutine(Attack());
+                    break;
+            }
+            
+            yield return new WaitForSeconds(tickVerification);
+            StartCoroutine(HandleTicBehavior());
+        }
+        
         
         /// <summary>
         /// Adapt the agent speed if the player is too far away
         /// </summary>
         /// <returns></returns>
-        protected virtual IEnumerator CheckDistance()
+        protected void CheckDistance()
         {
             if (Vector3.Distance(PlayerController.Instance.transform.position, transform.position) > agentSpeedRadius)
             {
@@ -46,24 +83,27 @@ namespace AI
                 }
                 else
                 {
-                    yield return StartCoroutine(Attack());
+                    actualCountBeforeAttack++;
+                    if (actualCountBeforeAttack >= countBeforeAttack)
+                    {
+                        ChangeState(TrashMobState.AttackingCloseRange);
+                    }
                 }
             }
-            
-            yield return new WaitForSeconds(tickVerification);
-            StartCoroutine(CheckDistance());
         }
-        
         private IEnumerator Attack()
         {
             navMeshAgent.speed = 0;
+            
             yield return new WaitForSeconds(1f);
             transform.LookAt(PlayerController.Instance.transform.position);
-            navMeshAgent.enabled = false;
-            rb.isKinematic = false;
+            IsPhysicNavMesh(false);
             isPerformingAttack = true;
+            
             yield return new WaitForSeconds(2);
             GetPawnPersonnalInformation();
+            ChangeState(TrashMobState.Moving);
+            actualCountBeforeAttack = 0;
         }
 
         public override void DisableAgent()
@@ -76,9 +116,8 @@ namespace AI
         private IEnumerator DisableAgentCorountine()
         {
             yield return new WaitForSeconds(2);
-            navMeshAgent.enabled = true;
-            rb.isKinematic = true;
-            StartCoroutine(CheckDistance());
+            IsPhysicNavMesh(true);
+            StartCoroutine(HandleTicBehavior());
         }
 
         protected void FixedUpdate()
@@ -88,7 +127,6 @@ namespace AI
             {
                 isPerformingAttack = false;
                 Vector3 attackDir = PlayerController.Instance.transform.position - transform.position;
-                
                 rb.AddForce(attackDir.normalized * agentDashSpeed, ForceMode.Impulse);
             }
         }

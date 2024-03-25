@@ -45,8 +45,6 @@ public class VladBullet : BulletBehavior, IExplosion
 
     public void Explosion()
     {
-        Debug.Log("Create explosion");
-        // TODO Create explosion logic
         GameObject Explosion = Pooling.instance.Pop("Explosion");
         Explosion.transform.position = transform.position;
         Explosion.transform.rotation = Quaternion.identity;

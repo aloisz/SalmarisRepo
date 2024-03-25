@@ -41,8 +41,6 @@ public class Explosion : MonoBehaviour
 
         foreach (Collider obj in surroundingObj)
         {
-            Debug.Log(obj, this);
-            
             var enemy = obj.GetComponent<AI_Pawn>();
             if (enemy != null)
             {
