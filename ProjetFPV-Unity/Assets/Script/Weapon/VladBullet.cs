@@ -1,8 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Weapon.Interface;
 
-public class VladBullet : BulletBehavior
+public class VladBullet : BulletBehavior, IExplosion
 {
     public bool isBulletOnFire;
     private Color baseColor = Color.green;
@@ -20,5 +21,36 @@ public class VladBullet : BulletBehavior
     public void IsBulletOnFire(bool isOnFire)
     {
         renderer.material.color = isOnFire ? onFireColor : baseColor;
+    }
+
+
+    #region Collision Logic
+
+    protected override void CollideWithWalkableMask(Collision collision)
+    {
+        bullet.isMoving = false;
+        rb.velocity = Vector3.zero;
+        rb.isKinematic = true;
+        Pooling.instance.DelayedDePop("VladBulletProjectile", gameObject,7);
+    }
+    
+    protected override void CollideWithEnemyMask(Collision collision)
+    {
+        collision.transform.GetComponent<IDamage>().Hit(bullet.damage);
+        Pooling.instance.DelayedDePop("VladBulletProjectile", gameObject,0);
+    }
+
+    #endregion
+    
+
+    public void Explosion()
+    {
+        Debug.Log("Create explosion");
+        // TODO Create explosion logic
+        GameObject Explosion = Pooling.instance.Pop("Explosion");
+        Explosion.transform.position = transform.position;
+        Explosion.transform.rotation = Quaternion.identity;
+        
+        Pooling.instance.DelayedDePop("VladBulletProjectile", gameObject,0);
     }
 }

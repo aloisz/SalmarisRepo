@@ -19,7 +19,7 @@ namespace Weapon
         protected bool isReloading;
         
         protected float lastTimefired;
-        public int actualNumberOfBullet; // Permit to store the secondary mode number of bullet
+        [HideInInspector]public int actualNumberOfBullet; // Permit to store the secondary mode number of bullet
         [HideInInspector] public WeaponMode actualWeaponModeIndex;
         protected bool isChangingActualWeaponModeIndex;
         
@@ -234,6 +234,7 @@ namespace Weapon
         //-------------------------------------------
         #region Debug
 
+        #if UNITY_EDITOR
         private void OnGUI()
         {
             // Set up GUI style for the text
@@ -255,6 +256,7 @@ namespace Weapon
             GUI.Label(rect3, $"fireRate : {so_Weapon.weaponMode[(int)actualWeaponModeIndex].fireRate}", style);
             GUI.Label(rect4, $"weaponModeIndex : {actualWeaponModeIndex}", style);
         }        
+        #endif
 
         #endregion
         

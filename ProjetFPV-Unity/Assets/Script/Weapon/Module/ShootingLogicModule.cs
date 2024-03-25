@@ -182,7 +182,7 @@ public class ShootingLogicModule : WeaponManager, IShootRaycast, IShootSphereCas
     protected virtual void ShootProjectile()
     { 
         //BulletBehavior
-        GameObject bulletProjectileGO = Pooling.instance.Pop("BulletProjectile");
+        GameObject bulletProjectileGO = Pooling.instance.Pop("VladBulletProjectile");
         bulletProjectileGO.transform.position = gunBarrelPos.position;
         bulletProjectileGO.transform.rotation = Quaternion.identity;
         
@@ -191,7 +191,6 @@ public class ShootingLogicModule : WeaponManager, IShootRaycast, IShootSphereCas
         // Logic
         bulletProjectile.EnableMovement(true);  
         bulletProjectile.transform.rotation *= Quaternion.AngleAxis(90, PlayerController.transform.right);
-        //bulletProjectile.transform.LookAt(screenCenter);
         bulletProjectile.AddDamage(so_Weapon.weaponMode[(int)actualWeaponModeIndex].bulletDamage);
         bulletProjectile.AddVelocity(so_Weapon.weaponMode[(int)actualWeaponModeIndex].bulletSpeed);
         bulletProjectile.GetThePlayerDir(GetTheAimDirection());

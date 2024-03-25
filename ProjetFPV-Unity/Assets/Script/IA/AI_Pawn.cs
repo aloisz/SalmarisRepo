@@ -19,6 +19,8 @@ namespace AI
         
         //Component----------------------
         protected NavMeshAgent navMeshAgent;
+        protected AgentLinkMover agentLinkMover;
+        protected Rigidbody rb;
         [SerializeField] protected SphereCollider visionDetector;
         
         protected virtual void Start()
@@ -29,6 +31,11 @@ namespace AI
         protected virtual void GetPawnPersonnalInformation()
         {
             navMeshAgent = GetComponent<NavMeshAgent>();
+            agentLinkMover = GetComponent<AgentLinkMover>();
+            rb = GetComponent<Rigidbody>();
+
+            navMeshAgent.enabled = true;
+            rb.isKinematic = true;
 
             navMeshAgent.speed = so_IA.walkingSpeed;
             navMeshAgent.stoppingDistance = so_IA.stoppingDistance;
@@ -54,13 +61,14 @@ namespace AI
             targetToFollow = null;
         }
 
-        protected virtual void CheckIfIsStillAlive ()
+        private void CheckIfIsStillAlive()
         {
             if (actualPawnHealth <= 0)
             {
-                Destroy(gameObject);
+                DestroyLogic();
             }
         }
+        protected virtual void DestroyLogic(){}
 
         #region Avoidance Module
 
@@ -98,7 +106,12 @@ namespace AI
         }
         
         #endregion
-        
+
+        public void DisableAgent()
+        {
+            navMeshAgent.enabled = false;
+            rb.isKinematic = false;
+        }
         
         public void Hit(float damageInflicted)
         {

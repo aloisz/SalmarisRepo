@@ -25,23 +25,25 @@ public class BulletBehavior : MonoBehaviour, IBulletBehavior
         rb.isKinematic = false;
     }
 
-    protected virtual void OnCollisionEnter(Collision collision)
+    private void OnCollisionEnter(Collision collision)
     {
         if (LayerMask.GetMask(LayerMask.LayerToName(collision.gameObject.layer)) == walkableMask)
         {
-            bullet.isMoving = false;
-            rb.velocity = Vector3.zero;
-            rb.isKinematic = true;
-            Pooling.instance.DelayedDePop("BulletProjectile", gameObject,7);
+            CollideWithWalkableMask(collision);
         }
         
         if (LayerMask.GetMask(LayerMask.LayerToName(collision.gameObject.layer)) == enemyMask)
         {
-            collision.transform.GetComponent<IDamage>().Hit(bullet.damage);
-            Pooling.instance.DelayedDePop("BulletProjectile", gameObject,0);
+            CollideWithEnemyMask(collision);
         }
     }
 
+    // Here put following logic when bullet collide with walkableMask
+    protected virtual void CollideWithWalkableMask(Collision collision){}
+    
+    // Here put following logic when bullet collide with enemyMask
+    protected virtual void CollideWithEnemyMask(Collision collision){}
+    
     public virtual bool EnableMovement(bool logic)
     {
         return bullet.isMoving = logic;
