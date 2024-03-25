@@ -48,7 +48,7 @@ namespace CameraBehavior
             
             
             cameraManager.transitionParent.rotation = Quaternion.Slerp(cameraManager.transitionParent.rotation, cameraManager.playerTransform.rotation * cameraManager.smoothOffset, 
-                Time.deltaTime * cameraManager.so_Camera.rotationOffSetSmooth); // PlayerController.Instance.playerScriptable.smoothCameraRot
+                Time.deltaTime * cameraManager.so_Camera.rotationOffSetSmooth); // cameraManager.so_Camera.rotationOffSetSmooth
         }
         
         internal void SlidingFov()

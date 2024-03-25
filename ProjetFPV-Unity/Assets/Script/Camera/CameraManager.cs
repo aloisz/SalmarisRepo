@@ -15,8 +15,9 @@ namespace CameraBehavior
     {
         [Header("---Scriptable---")] 
         [Expandable]public SO_Camera so_Camera;
-        
-        [Header("---Camera Parameter---")]
+
+        [Header("---Camera Parameter---")] 
+        [SerializeField] internal float globalCameraRot;
         [SerializeField] internal Transform transitionParent;
         [SerializeField] internal Transform playerTransform;
         public Transform weaponTransform;
@@ -131,8 +132,8 @@ namespace CameraBehavior
         private void Idle()
         {
             timer = 0;
-            transitionParent.rotation = Quaternion.Slerp(transitionParent.rotation, playerTransform.rotation, Time.deltaTime * so_Camera.rotationOffSetSmooth);
             smoothOffset = Quaternion.identity;
+            transitionParent.rotation = Quaternion.Slerp(transitionParent.rotation, playerTransform.rotation * smoothOffset , Time.deltaTime * globalCameraRot); 
         }
 
         /// <summary>
@@ -212,7 +213,7 @@ namespace CameraBehavior
                 Time.deltaTime * so_Camera.rotationOffSetSmooth);
             
             transitionParent.rotation = Quaternion.Slerp(transitionParent.rotation, playerTransform.rotation * smoothOffset, 
-                Time.deltaTime * so_Camera.rotationOffSetSmooth); // PlayerController.Instance.playerScriptable.smoothCameraRot
+                Time.deltaTime * globalCameraRot); // PlayerController.Instance.playerScriptable.smoothCameraRot
         }
 
         #endregion
