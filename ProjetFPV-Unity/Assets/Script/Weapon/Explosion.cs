@@ -7,6 +7,8 @@ using UnityEngine;
 
 public class Explosion : MonoBehaviour
 {
+    public float damageInflicted = 20;
+    [Space]
     public float explosionRadius;
     public float explosionForce;
     public GameObject particle;
@@ -16,6 +18,7 @@ public class Explosion : MonoBehaviour
     {
         GetComponent<SphereCollider>().radius = explosionRadius;
         isOn = true;
+        Explode();
     }
 
     private void OnDisable()
@@ -28,7 +31,7 @@ public class Explosion : MonoBehaviour
         if (isOn)
         {
             isOn = false;
-            Explode();
+            //Explode();
         }
     }
 
@@ -44,15 +47,12 @@ public class Explosion : MonoBehaviour
             if (enemy != null)
             {
                 enemy.DisableAgent();
+                enemy.Hit(damageInflicted);
             }
             
             
             var rb = obj.GetComponent<Rigidbody>();
-            if (rb != null)
-            {
-                Vector3 dir = obj.transform.position - transform.position ;
-                rb.AddExplosionForce(explosionForce, transform.position, explosionRadius);
-            }
+            if (rb != null) rb.AddExplosionForce(explosionForce, transform.position, explosionRadius);
         }
         Pooling.instance.DelayedDePop("Explosion", gameObject,2);
     }

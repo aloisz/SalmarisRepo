@@ -5,6 +5,7 @@ using Player;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.AI;
+using Weapon.Interface;
 
 
 namespace AI
@@ -25,15 +26,14 @@ namespace AI
         
         protected virtual void Start()
         {
+            navMeshAgent = GetComponent<NavMeshAgent>();
+            agentLinkMover = GetComponent<AgentLinkMover>();
+            rb = GetComponent<Rigidbody>();
             GetPawnPersonnalInformation();
         }
 
         protected virtual void GetPawnPersonnalInformation()
         {
-            navMeshAgent = GetComponent<NavMeshAgent>();
-            agentLinkMover = GetComponent<AgentLinkMover>();
-            rb = GetComponent<Rigidbody>();
-
             navMeshAgent.enabled = true;
             rb.isKinematic = true;
 
@@ -91,7 +91,7 @@ namespace AI
 
         protected virtual void FollowTarget ()
         {
-            if(!targetToFollow) return;
+            if(!targetToFollow || !navMeshAgent.enabled) return;
             SetTarget(targetToFollow);
         }
         
@@ -107,19 +107,20 @@ namespace AI
         
         #endregion
 
-        public void DisableAgent()
+        public virtual void DisableAgent()
         {
             navMeshAgent.enabled = false;
             rb.isKinematic = false;
         }
+
         
         public void Hit(float damageInflicted)
         {
             actualPawnHealth -= damageInflicted;
         }
+        
 
-
-#if UNITY_EDITOR
+        #if UNITY_EDITOR
         protected virtual void OnDrawGizmos()
         {
             //Vision Module

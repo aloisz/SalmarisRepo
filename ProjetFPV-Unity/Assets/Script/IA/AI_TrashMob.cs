@@ -13,14 +13,19 @@ namespace AI
         [Header("--- AI_TrashMob ---")]
         [SerializeField] protected float agentSpeedRadius = 2;
         [SerializeField] protected float agentSpeedWhenIsToFar = 50;
+        
         [Space]
         [SerializeField] protected float agentDashRadius = 2;
         [SerializeField] protected float agentDashSpeed = 500;
+        private bool isPerformingAttack;
+        
+        [Space]
         [SerializeField][Tooltip("How many time the check is performed")] protected float tickVerification = 0.2f;
         protected override void Start()
         {
             base.Start();
             StartCoroutine(CheckDistance());
+            GameManager.Instance.aiPawnsAvailable.Add(this);
         }
         
         /// <summary>
@@ -48,35 +53,53 @@ namespace AI
             yield return new WaitForSeconds(tickVerification);
             StartCoroutine(CheckDistance());
         }
-
-        private bool isPerformingAttack;
+        
         private IEnumerator Attack()
         {
             navMeshAgent.speed = 0;
             yield return new WaitForSeconds(1f);
+            transform.LookAt(PlayerController.Instance.transform.position);
             navMeshAgent.enabled = false;
             rb.isKinematic = false;
             isPerformingAttack = true;
             yield return new WaitForSeconds(2);
-            navMeshAgent.enabled = true;
-            rb.isKinematic = true;
+            GetPawnPersonnalInformation();
         }
 
-        private void FixedUpdate()
+        public override void DisableAgent()
         {
+            base.DisableAgent();
+            StopAllCoroutines();
+            StartCoroutine(DisableAgentCorountine());
+        }
+        
+        private IEnumerator DisableAgentCorountine()
+        {
+            yield return new WaitForSeconds(2);
+            navMeshAgent.enabled = true;
+            rb.isKinematic = true;
+            StartCoroutine(CheckDistance());
+        }
+
+        protected void FixedUpdate()
+        {
+            rb.AddForce(Vector3.down * 150);
             if (isPerformingAttack)
             {
                 isPerformingAttack = false;
                 Vector3 attackDir = PlayerController.Instance.transform.position - transform.position;
-                rb.AddForce(attackDir * agentDashSpeed);
+                
+                rb.AddForce(attackDir.normalized * agentDashSpeed, ForceMode.Impulse);
             }
         }
 
 
         protected override void DestroyLogic()
         {
+            GameManager.Instance.aiPawnsAvailable.Remove(this);
             Pooling.instance.DelayedDePop("Trashmob", gameObject, 0);
         }
+        
 
         
         // Debug -------------------------
@@ -84,8 +107,9 @@ namespace AI
         protected override void OnDrawGizmos()
         {
             base.OnDrawGizmos();
+            if(!Application.isPlaying) return;
             Handles.Label(transform.position + Vector3.up, $"walkingSpeed {navMeshAgent.speed}");
-            
+            Handles.Label(transform.position + (Vector3.right * 12), $"isPerformingAttack {isPerformingAttack}");
             
             var tr = transform;
             var pos = tr.position;
