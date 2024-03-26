@@ -1,10 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
+using Player;
 using UnityEngine;
 
 public class Missile : BulletBehavior
 {
-
     protected override void Start()
     {
         base.Start();
@@ -25,7 +25,10 @@ public class Missile : BulletBehavior
     
     protected override void FixedUpdate()
     {
-        base.FixedUpdate();
+        if (!EnableMovement(bullet.isMoving)) return;
+        Vector3 bulletDir = PlayerController.Instance.transform.position - transform.position;
+        rb.velocity = (bulletDir) * (bullet.speed * Time.fixedDeltaTime);
+        rb.isKinematic = false;
     }
 
     private void TrackPlayer()

@@ -23,7 +23,7 @@ public class BulletBehavior : MonoBehaviour, IBulletBehavior
     protected virtual void FixedUpdate()
     {
         if (!EnableMovement(bullet.isMoving)) return;
-        rb.velocity = (GetTheBulletDir(bullet.playerDir)) * (bullet.speed * Time.fixedDeltaTime);
+        rb.velocity = (GetTheBulletDir(bullet.bulletDir)) * (bullet.speed * Time.fixedDeltaTime);
         rb.isKinematic = false;
     }
 
@@ -63,14 +63,14 @@ public class BulletBehavior : MonoBehaviour, IBulletBehavior
 
     public virtual Vector3 GetTheBulletDir(Vector3 dir)
     {
-        return bullet.playerDir = dir;
+        return bullet.bulletDir = dir;
     }
 }
 
 [System.Serializable]
 public class Bullet
 {
-    public Vector3 playerDir;
+    public Vector3 bulletDir;
     public bool isMoving = false;
     public float speed;
     public float damage;
