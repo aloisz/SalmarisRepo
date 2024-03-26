@@ -10,15 +10,15 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e3b10aa3250894e4cba4310054138f27, type: 3}
-  m_Name: VladSecondary
+  m_Name: MissilePrimary
   m_EditorClassIdentifier: 
-  <selectiveFireState>k__BackingField: 0
+  <selectiveFireState>k__BackingField: 2
   <munitionTypeState>k__BackingField: 1
   <isBulletInfinite>k__BackingField: 1
-  <numberOfBullet>k__BackingField: 10000
-  <timeToReload>k__BackingField: 0
-  <bulletDamage>k__BackingField: 60
-  <fireRate>k__BackingField: 2
+  <numberOfBullet>k__BackingField: 1
+  <timeToReload>k__BackingField: 1
+  <bulletDamage>k__BackingField: 50
+  <fireRate>k__BackingField: 1
   <burstAmount>k__BackingField: 0
   <burstTime>k__BackingField: 0
   <isRayDistanceNotInfinte>k__BackingField: 0
@@ -33,9 +33,8 @@ MonoBehaviour:
   rocketJumpForceApplied: 0
   rocketJumpDistance: 0
   isProjectileHaveCurve: 0
-  <bullet>k__BackingField: {fileID: 4847300456583557964, guid: 3007a8a46738cfb4c9ff0ae4fb3ab975,
-    type: 3}
-  <bulletSpeed>k__BackingField: 5000
+  <bullet>k__BackingField: {fileID: 0}
+  <bulletSpeed>k__BackingField: 1500
   projectileAnimationCurve:
     serializedVersion: 2
     m_Curve: []
@@ -46,6 +45,6 @@ MonoBehaviour:
   animationCurveDistance: 0
   animationCurveTimeToComplete: 0
   <doExplosion>k__BackingField: 0
-  <explosionRadius>k__BackingField: {x: 0, y: 0}
-  <explosionDamage>k__BackingField: {x: 0, y: 0}
-  <poolingPopKey>k__BackingField: VladBulletProjectile
+  <explosionRadius>k__BackingField: {x: 7, y: 7}
+  <explosionDamage>k__BackingField: {x: 30, y: 30}
+  <poolingPopKey>k__BackingField: Missile

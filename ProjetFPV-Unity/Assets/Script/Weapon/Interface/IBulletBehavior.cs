@@ -8,6 +8,6 @@ namespace Weapon.Interface
         public float AddVelocity(float velocity);
         public float AddDamage(float damage);
 
-        public Vector3 GetThePlayerDir(Vector3 dir);
+        public Vector3 GetTheBulletDir(Vector3 dir);
     }
 }

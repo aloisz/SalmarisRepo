@@ -19,7 +19,7 @@ namespace Weapon
         protected bool isReloading;
         
         protected float lastTimefired;
-        [HideInInspector]public int actualNumberOfBullet; // Permit to store the secondary mode number of bullet
+        [HideInInspector]public int actualNumberOfBullet; 
         [HideInInspector] public WeaponMode actualWeaponModeIndex;
         protected bool isChangingActualWeaponModeIndex;
         
@@ -32,7 +32,6 @@ namespace Weapon
         {
             PlayerController = PlayerController.Instance;
             camera = Camera.main;
-            //raycastModule = GetComponent<RaycastModule>();
             
             WeaponRefreshement();
         }
@@ -47,6 +46,7 @@ namespace Weapon
        
         protected virtual void Update()
         {
+            if(!so_Weapon.isWeaponPossessByPlayer) return;
             GetAllInput();
         }
         
@@ -235,7 +235,7 @@ namespace Weapon
         #region Debug
 
         #if UNITY_EDITOR
-        private void OnGUI()
+        /*private void OnGUI()
         {
             // Set up GUI style for the text
             GUIStyle style = new GUIStyle();
@@ -255,7 +255,7 @@ namespace Weapon
             GUI.Label(rect2, $"timeToReload : {so_Weapon.weaponMode[(int)actualWeaponModeIndex].timeToReload}", style);
             GUI.Label(rect3, $"fireRate : {so_Weapon.weaponMode[(int)actualWeaponModeIndex].fireRate}", style);
             GUI.Label(rect4, $"weaponModeIndex : {actualWeaponModeIndex}", style);
-        }        
+        }        */
         #endif
 
         #endregion

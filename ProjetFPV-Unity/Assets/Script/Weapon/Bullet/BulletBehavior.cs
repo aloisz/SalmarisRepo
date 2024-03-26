@@ -18,14 +18,16 @@ public class BulletBehavior : MonoBehaviour, IBulletBehavior
         rb = GetComponent<Rigidbody>();
     }
 
+    protected virtual void Start(){}
+
     protected virtual void FixedUpdate()
     {
         if (!EnableMovement(bullet.isMoving)) return;
-        rb.velocity = (GetThePlayerDir(bullet.playerDir)) * (bullet.speed * Time.fixedDeltaTime);
+        rb.velocity = (GetTheBulletDir(bullet.playerDir)) * (bullet.speed * Time.fixedDeltaTime);
         rb.isKinematic = false;
     }
 
-    private void OnCollisionEnter(Collision collision)
+    protected virtual void OnCollisionEnter(Collision collision)
     {
         if (LayerMask.GetMask(LayerMask.LayerToName(collision.gameObject.layer)) == walkableMask)
         {
@@ -59,7 +61,7 @@ public class BulletBehavior : MonoBehaviour, IBulletBehavior
         return bullet.damage = damage;
     }
 
-    public virtual Vector3 GetThePlayerDir(Vector3 dir)
+    public virtual Vector3 GetTheBulletDir(Vector3 dir)
     {
         return bullet.playerDir = dir;
     }

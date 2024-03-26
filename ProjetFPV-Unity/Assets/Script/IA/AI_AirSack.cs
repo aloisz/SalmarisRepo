@@ -2,8 +2,12 @@ using System.Collections;
 using System.Collections.Generic;using AI;
 using UnityEngine;
 
-public class AI_AirSack : AI_Pawn 
+public class AI_AirSack : AI_Pawn
 {
+    [SerializeField] protected Transform shootingPos;
+    
+    
+    
     protected override void DestroyLogic()
     {
         //TODO : Implement Pooling
