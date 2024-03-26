@@ -26,7 +26,7 @@ public class Missile : BulletBehavior
     protected override void FixedUpdate()
     {
         if (!EnableMovement(bullet.isMoving)) return;
-        Vector3 bulletDir = PlayerController.Instance.transform.position - transform.position;
+        Vector3 bulletDir = (PlayerController.Instance.transform.position - transform.position).normalized;
         rb.velocity = (bulletDir) * (bullet.speed * Time.fixedDeltaTime);
         rb.isKinematic = false;
     }
