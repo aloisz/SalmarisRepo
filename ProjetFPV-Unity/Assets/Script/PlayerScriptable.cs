@@ -81,8 +81,11 @@ namespace Player
         [BoxGroup("Detection")][Tooltip("Raycast lenght to detect underneath the player's foot.")]
         public float raycastLenghtSlopeDetection = 1f;
         
-        [BoxGroup("Detection")][Tooltip("The BoxCast's offset")]
+        [BoxGroup("Detection")][Tooltip("The BoxCast's Z offset.")]
         public float groundDetectionForwardOffset = 1.2f;
+        
+        [BoxGroup("Detection")][Tooltip("The BoxCast's Y offset.")]
+        public float groundDetectionUpOffset = 1f;
 
         [BoxGroup("Detection")][Tooltip("The minimum slope degree for be considered as a slope.")]
         public float minSlopeDegrees = 25f;

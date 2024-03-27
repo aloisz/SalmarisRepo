@@ -165,18 +165,21 @@ namespace Player
         
         private Vector3 GetOverallMomentumVector()
         {
+            var dividerOnSlopeClimbing = (isSlopeClimbing && isSliding ? 1000f : 1f);
             var accelerating = _rb.velocity.magnitude < playerScriptable.speedMaxToAccelerate && !isOnSlope && !isSliding;
             var vectorMove = DirectionFromCamera(direction).normalized * 
-                             (moveSpeed * speedMultiplierFromDash * (accelerating ? playerScriptable.accelerationMultiplier : 1f));
+                             (moveSpeed * speedMultiplierFromDash * (accelerating ? playerScriptable.accelerationMultiplier : 1f))
+                             / dividerOnSlopeClimbing;
             
             var slopeDirection = new Vector3(raycastSlope.normal.x, 0, raycastSlope.normal.z).normalized;
-            var vectorSlideDown = Vector3.down * (playerScriptable.slidingInSlopeDownForce);
-            var vectorSlideForward = slopeDirection * (actualSlopeAngle / playerScriptable.slidingInSlopeLimiter);
+            var vectorSlideDown = Vector3.down * (playerScriptable.slidingInSlopeDownForce) / dividerOnSlopeClimbing;
+            var vectorSlideForward = (slopeDirection * (actualSlopeAngle / playerScriptable.slidingInSlopeLimiter)) / dividerOnSlopeClimbing;
             var vectorSlide = vectorSlideDown + vectorSlideForward;
             
             if(isSliding && !isOnSlope) _decelerationSlideOnGround += Time.deltaTime * 50f;
             
-            var finalVector = ((isMoving ? vectorMove : Vector3.zero) + (isOnSlope && isSliding ? vectorSlide : Vector3.zero))
+            var finalVector = ((isMoving ? vectorMove : Vector3.zero) + 
+                               (isOnSlope && isSliding && !isSlopeClimbing ? vectorSlide : Vector3.zero))
                               / (isSliding && !isOnSlope ? _decelerationSlideOnGround : 1f);
             
             return finalVector / (isSliding && isMoving && isOnSlope ? 10f : 1f);
@@ -335,6 +338,10 @@ namespace Player
             {
                 _rb.drag = 0.65f;
             }
+            else if (isOnGround && isSliding && isOnSlope && isSlopeClimbing && _rb.velocity.magnitude < 30f)
+            {
+                _rb.drag = 3f;
+            }
             else if (isOnSlope && !isSliding)
             {
                 _rb.drag = playerScriptable.groundDrag;
@@ -370,7 +377,7 @@ namespace Player
         void DetectGround()
         {
             var offset = playerScriptable.groundDetectionForwardOffset;
-            var pos = transform.position + new Vector3(0,0.25f,0);
+            var pos = transform.position + new Vector3(0,playerScriptable.groundDetectionUpOffset,0);
             
             var posCheckRight = ReturnCheckOffsetFromDir(pos, Helper.ReturnDirFromIndex(0), offset);
             var isOnGroundTempRight = Physics.Raycast(posCheckRight, Vector3.down * playerScriptable.groundDetectionLenght, out raycastGroundRight, 
@@ -579,7 +586,7 @@ namespace Player
             Gizmos.DrawRay(raycastSlope.point, raycastSlope.normal * 2.5f);
             
             var offset = playerScriptable.groundDetectionForwardOffset;
-            var pos = transform.position + new Vector3(0,0.25f,0);
+            var pos = transform.position + new Vector3(0,playerScriptable.groundDetectionUpOffset,0);
 
             for (int i = 0; i < 4; i++)
             {
@@ -592,8 +599,6 @@ namespace Player
 
         private void OnGUI()
         {
-            return;
-            
             // Set up GUI style for the text
             GUIStyle style = new GUIStyle
             {
