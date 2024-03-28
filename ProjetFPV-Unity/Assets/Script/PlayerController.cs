@@ -159,13 +159,14 @@ namespace Player
             
             _rb.AddForce(GetOverallMomentumVector(), ForceMode.Impulse);
 
-            if (_rb.velocity.magnitude > 100) _rb.velocity = Vector3.ClampMagnitude(_rb.velocity, 100f);
+            if (_rb.velocity.magnitude > playerScriptable.maxRigidbodyVelocity) 
+                _rb.velocity = Vector3.ClampMagnitude(_rb.velocity, playerScriptable.maxRigidbodyVelocity);
         }
         
         
         private Vector3 GetOverallMomentumVector()
         {
-            var dividerOnSlopeClimbing = (isSlopeClimbing && isSliding ? 1000f : 1f);
+            var dividerOnSlopeClimbing = (isSlopeClimbing && isSliding ? playerScriptable.decelerationMultiplierSlideInSlopeUp : 1f);
             var accelerating = _rb.velocity.magnitude < playerScriptable.speedMaxToAccelerate && !isOnSlope && !isSliding;
             var vectorMove = DirectionFromCamera(direction).normalized * 
                              (moveSpeed * speedMultiplierFromDash * (accelerating ? playerScriptable.accelerationMultiplier : 1f))
@@ -176,13 +177,13 @@ namespace Player
             var vectorSlideForward = (slopeDirection * (actualSlopeAngle / playerScriptable.slidingInSlopeLimiter)) / dividerOnSlopeClimbing;
             var vectorSlide = vectorSlideDown + vectorSlideForward;
             
-            if(isSliding && !isOnSlope) _decelerationSlideOnGround += Time.deltaTime * 50f;
+            if(isSliding && !isOnSlope) _decelerationSlideOnGround += Time.deltaTime * playerScriptable.decelerationMultiplierSlideOnGround;
             
             var finalVector = ((isMoving ? vectorMove : Vector3.zero) + 
                                (isOnSlope && isSliding && !isSlopeClimbing ? vectorSlide : Vector3.zero))
                               / (isSliding && !isOnSlope ? _decelerationSlideOnGround : 1f);
             
-            return finalVector / (isSliding && isMoving && isOnSlope ? 10f : 1f);
+            return finalVector / (isSliding && isMoving && isOnSlope ? playerScriptable.overallMomentumLimiterMoveSlideInSlope : 1f);
         }
         
         private void SetMoveSpeed()
@@ -467,10 +468,12 @@ namespace Player
         private void Dash()
         {
             var dashDirectionConvert = Helper.ConvertTo4Dir(new Vector2(direction.x, direction.z));
-            var dirFromCam = new Vector3(dashDirectionConvert.x, 0, dashDirectionConvert.y);
+            var dirFromCam = new Vector3(Mathf.RoundToInt(dashDirectionConvert.x), 0, Mathf.RoundToInt(dashDirectionConvert.y));
             var dashDirection = DirectionFromCamera(dirFromCam);
+            var dashDirectionNoY = new Vector3(dashDirection.x, 0, dashDirection.z);
                 
-            _rb.AddForce(dashDirection * playerScriptable.dashForce, ForceMode.Impulse);
+            _rb.AddForce((dashDirectionNoY.magnitude < 0.1f ? transform.forward : dashDirectionNoY) * 
+                         playerScriptable.dashForce, ForceMode.Impulse);
 
             canApplyGravity = false;
             _rb.useGravity = false;
@@ -599,6 +602,8 @@ namespace Player
 
         private void OnGUI()
         {
+            return;
+            
             // Set up GUI style for the text
             GUIStyle style = new GUIStyle
             {

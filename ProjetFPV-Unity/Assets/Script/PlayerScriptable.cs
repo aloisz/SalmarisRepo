@@ -54,8 +54,17 @@ namespace Player
         [BoxGroup("Movement")][Tooltip("Rigidbody's velocity force applied down when sliding a slope.")]
         public float slidingInSlopeDownForce = 200f;
         
-        [FormerlySerializedAs("slidingInSlopeForce")] [BoxGroup("Movement")][Tooltip("Rigidbody's velocity force applied toward the slope when sliding it.")]
+        [BoxGroup("Movement")][Tooltip("Rigidbody's velocity force applied toward the slope when sliding it.")]
         public float slidingInSlopeLimiter = 2f;
+        
+        [BoxGroup("Movement")][Tooltip("Rigidbody's velocity limitation while moving and sliding in a slope")]
+        public float overallMomentumLimiterMoveSlideInSlope = 10f;
+        
+        [BoxGroup("Movement")][Tooltip("The deceleration amount of the player's speed when he slide on the ground.")] 
+        public float decelerationMultiplierSlideOnGround = 50f;
+        
+        [BoxGroup("Movement")][Tooltip("The deceleration amount of the player's speed when he is climbing a slope while sliding.")] 
+        public float decelerationMultiplierSlideInSlopeUp = 1000f;
 
         //----------------------------------------------------
         
@@ -72,6 +81,9 @@ namespace Player
         
         [BoxGroup("Physic")][Tooltip("The Rigidbody's drag while the player is in the air.")]
         public float airDrag = 1.8f;
+        
+        [BoxGroup("Physic")][Tooltip("The Rigidbody's max velocity.")] 
+        public float maxRigidbodyVelocity = 100f;
 
         //----------------------------------------------------
         
