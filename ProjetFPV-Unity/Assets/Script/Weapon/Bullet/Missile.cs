@@ -10,24 +10,23 @@ public class Missile : BulletBehavior,IExplosion
     protected virtual void OnDisable()
     {
         base.OnDisable();
-        Debug.Log("hello");
     }
     
     // Here put following logic when bullet collide with walkableMask
     protected override void CollideWithWalkableMask(Collision collision)
     {
+        Explosion();
         lineRenderer.enabled = false;
         Pooling.instance.DePop(bullet.PoolingKeyName, gameObject);
-        Explosion();
     }
     
     // Here put following logic when bullet collide with enemyMask
     protected override void CollideWithEnemyMask(Collision collision)
     {
+        Explosion();
         lineRenderer.enabled = false;
         collision.transform.GetComponent<IDamage>().Hit(bullet.damage);
         Pooling.instance.DePop(bullet.PoolingKeyName, gameObject);
-        Explosion();
     }
     
     protected override void FixedUpdate()
