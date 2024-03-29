@@ -182,7 +182,6 @@ public class ShootingLogicModule : WeaponManager, IShootRaycast, IShootSphereCas
     protected virtual void ShootProjectile()
     { 
         //BulletBehavior
-        Debug.Log("here");
         bulletProjectileGO = Pooling.instance.Pop(so_Weapon.weaponMode[(int)actualWeaponModeIndex].poolingPopKey);
         bulletProjectileGO.transform.position = gunBarrelPos.position;
         bulletProjectileGO.transform.rotation = Quaternion.identity;

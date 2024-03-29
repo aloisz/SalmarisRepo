@@ -40,7 +40,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5927612242175170680}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7a7b16215d8ff8940aa0d3476af5fbec, type: 3}
   m_Name: 
@@ -60,6 +60,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   keyPools:
+  - key: Missile
+    pool:
+      prefab: {fileID: 5646069135490200264, guid: 4f4b193a001b4bc4a8faf53369ac36ec,
+        type: 3}
+      baseCount: 15
+      baseRefreshSpeed: 5
+      refreshSpeed: 0
   - key: Trashmob
     pool:
       prefab: {fileID: 6159587722465297484, guid: 71f951629bed9f0468abebcf5f737845,

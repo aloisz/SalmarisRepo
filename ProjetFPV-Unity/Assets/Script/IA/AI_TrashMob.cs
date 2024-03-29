@@ -19,8 +19,7 @@ namespace AI
         [Space]
         [SerializeField] protected float agentDashRadius = 2;
         [SerializeField] protected float agentDashSpeed = 500;
-        [Tooltip("Each tick count increase, when matching value attack will be performed")]
-        [SerializeField] protected float countBeforeAttack = 10;
+        [Tooltip("Each tick count increase, when matching value attack will be performed")] [SerializeField] protected float countBeforeAttack = 10;
         private int actualCountBeforeAttack = 0;
         private bool isPerformingAttack;
         
@@ -37,7 +36,7 @@ namespace AI
         protected override void Start()
         {
             base.Start();
-            StartCoroutine(HandleTicBehavior());
+            StartCoroutine(HandleTickBehavior());
         }
 
         protected TrashMobState ChangeState(TrashMobState state)
@@ -45,7 +44,7 @@ namespace AI
             return this.trashMobState = state;
         }
         
-        protected virtual IEnumerator HandleTicBehavior()
+        protected virtual IEnumerator HandleTickBehavior()
         {
             switch (trashMobState)
             {
@@ -60,7 +59,7 @@ namespace AI
             }
             
             yield return new WaitForSeconds(tickVerification);
-            StartCoroutine(HandleTicBehavior());
+            StartCoroutine(HandleTickBehavior());
         }
         
         
@@ -116,7 +115,7 @@ namespace AI
         {
             yield return new WaitForSeconds(2);
             IsPhysicNavMesh(true);
-            StartCoroutine(HandleTicBehavior());
+            StartCoroutine(HandleTickBehavior());
         }
 
         protected void FixedUpdate()

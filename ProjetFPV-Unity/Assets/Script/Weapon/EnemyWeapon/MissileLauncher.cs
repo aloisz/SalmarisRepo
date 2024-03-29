@@ -5,13 +5,12 @@ using Weapon;
 
 public class MissileLauncher : HeavyArtillery
 {
-    
     internal Missile bulletProjectile;
     protected override void Start()
     {
         base.Start();
         actualWeaponModeIndex = WeaponMode.Primary;
-        StartCoroutine(Logic());
+        //StartCoroutine(Logic());
     }
 
     private IEnumerator Logic()
@@ -26,7 +25,6 @@ public class MissileLauncher : HeavyArtillery
         base.ShootProjectile();
         bulletProjectile = bulletProjectileGO.GetComponent<Missile>();
         
-        Debug.Log("Shoot");
         // Logic
         bulletProjectile.EnableMovement(true);  
         bulletProjectile.transform.rotation *= Quaternion.AngleAxis(90, PlayerController.transform.right);
