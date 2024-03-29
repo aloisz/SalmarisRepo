@@ -165,6 +165,7 @@ public class Vlad : HeavyArtillery
         bulletProjectile.GetTheBulletDir(GetTheAimDirection());
         
         bulletProjectile.AddVelocity(so_Weapon.weaponMode[(int)actualWeaponModeIndex].bulletSpeed * bulletSpeedMultiplier);
+        bulletProjectile.PoolingKeyName(so_Weapon.weaponMode[(int)actualWeaponModeIndex].poolingPopKey);
         if (isVladOnFire)
         {
             bulletProjectile.IsBulletOnFire(isVladOnFire);

@@ -20,19 +20,20 @@ public class Missile : BulletBehavior
     // Here put following logic when bullet collide with enemyMask
     protected override void CollideWithEnemyMask(Collision collision)
     {
-        
+        collision.transform.GetComponent<IDamage>().Hit(bullet.damage);
+        Pooling.instance.DelayedDePop(bullet.PoolingKeyName, gameObject,0);
     }
     
     protected override void FixedUpdate()
     {
         if (!EnableMovement(bullet.isMoving)) return;
-        Vector3 bulletDir = (PlayerController.Instance.transform.position - transform.position).normalized;
-        rb.velocity = (bulletDir) * (bullet.speed * Time.fixedDeltaTime);
-        rb.isKinematic = false;
+        TrackPlayer();
     }
 
     private void TrackPlayer()
     {
-        
+        Vector3 bulletDir = (PlayerController.Instance.transform.position - transform.position).normalized;
+        rb.velocity = (bulletDir) * (bullet.speed * Time.fixedDeltaTime);
+        rb.isKinematic = false;
     }
 }

@@ -61,6 +61,11 @@ public class BulletBehavior : MonoBehaviour, IBulletBehavior
         return bullet.damage = damage;
     }
 
+    public string PoolingKeyName(string key)
+    {
+        return bullet.PoolingKeyName = key;
+    }
+
     public virtual Vector3 GetTheBulletDir(Vector3 dir)
     {
         return bullet.bulletDir = dir;
@@ -70,6 +75,7 @@ public class BulletBehavior : MonoBehaviour, IBulletBehavior
 [System.Serializable]
 public class Bullet
 {
+    public string PoolingKeyName;
     public Vector3 bulletDir;
     public bool isMoving = false;
     public float speed;
