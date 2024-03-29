@@ -10,14 +10,6 @@ public class MissileLauncher : HeavyArtillery
     {
         base.Start();
         actualWeaponModeIndex = WeaponMode.Primary;
-        //StartCoroutine(Logic());
-    }
-
-    private IEnumerator Logic()
-    {
-        Shoot();
-        yield return null;
-        StartCoroutine(Logic());
     }
     
     protected override void ShootProjectile()
