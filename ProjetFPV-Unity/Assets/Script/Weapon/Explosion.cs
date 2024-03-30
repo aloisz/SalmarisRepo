@@ -13,8 +13,13 @@ public class Explosion : MonoBehaviour
     public float explosionForce;
     public ParticleSystem particle;
 
-    private void Start()
+    private bool hasExploded;
+
+    private void OnTriggerEnter(Collider other)
     {
+        if(hasExploded) return;
+        hasExploded = true;
+        
         GetComponent<SphereCollider>().radius = explosionRadius;
         Explode();
         particle.Play();
@@ -22,8 +27,7 @@ public class Explosion : MonoBehaviour
 
     private void OnEnable()
     {
-        GetComponent<SphereCollider>().radius = explosionRadius;
-        Explode();
+        hasExploded = false;
     }
 
     private void Explode()
@@ -32,6 +36,7 @@ public class Explosion : MonoBehaviour
 
         foreach (Collider obj in surroundingObj)
         {
+            Debug.Log(obj.name);
             var enemy = obj.GetComponent<AI_Pawn>();
             if (enemy != null)
             {
