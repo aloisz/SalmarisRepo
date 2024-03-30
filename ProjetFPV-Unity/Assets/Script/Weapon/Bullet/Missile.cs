@@ -38,6 +38,8 @@ public class Missile : BulletBehavior,IExplosion
     private void TrackPlayer()
     {
         Vector3 bulletDir = (PlayerController.Instance.transform.position - transform.position).normalized;
+        
+        transform.rotation = Quaternion.Slerp (transform.rotation, Quaternion.LookRotation (bulletDir), Time.fixedDeltaTime * 40f);
         rb.velocity = (bulletDir) * (bullet.speed * Time.fixedDeltaTime);
         rb.isKinematic = false;
     }

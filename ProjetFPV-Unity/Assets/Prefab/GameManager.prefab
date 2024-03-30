@@ -60,13 +60,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   keyPools:
-  - key: Missile
-    pool:
-      prefab: {fileID: 5646069135490200264, guid: 4f4b193a001b4bc4a8faf53369ac36ec,
-        type: 3}
-      baseCount: 2
-      baseRefreshSpeed: 5
-      refreshSpeed: 0
   - key: Trashmob
     pool:
       prefab: {fileID: 6159587722465297484, guid: 71f951629bed9f0468abebcf5f737845,
@@ -74,18 +67,11 @@ MonoBehaviour:
       baseCount: 30
       baseRefreshSpeed: 5
       refreshSpeed: 0
-  - key: BulletImpact
-    pool:
-      prefab: {fileID: 5315971860765651078, guid: 2b66011708bf62843adb8880a79bb4b4,
-        type: 3}
-      baseCount: 300
-      baseRefreshSpeed: 5
-      refreshSpeed: 0
   - key: VladBulletProjectile
     pool:
       prefab: {fileID: 7183163888607090828, guid: 3007a8a46738cfb4c9ff0ae4fb3ab975,
         type: 3}
-      baseCount: 300
+      baseCount: 50
       baseRefreshSpeed: 5
       refreshSpeed: 0
   - key: HitScanRay
@@ -95,10 +81,24 @@ MonoBehaviour:
       baseCount: 300
       baseRefreshSpeed: 5
       refreshSpeed: 0
+  - key: BulletImpact
+    pool:
+      prefab: {fileID: 5315971860765651078, guid: 2b66011708bf62843adb8880a79bb4b4,
+        type: 3}
+      baseCount: 300
+      baseRefreshSpeed: 5
+      refreshSpeed: 0
   - key: Explosion
     pool:
       prefab: {fileID: 923631459655984586, guid: c3e596c6fcddbe84589beb93f7cc79e2,
         type: 3}
       baseCount: 15
+      baseRefreshSpeed: 5
+      refreshSpeed: 0
+  - key: Missile
+    pool:
+      prefab: {fileID: 5646069135490200264, guid: 4f4b193a001b4bc4a8faf53369ac36ec,
+        type: 3}
+      baseCount: 10
       baseRefreshSpeed: 5
       refreshSpeed: 0
