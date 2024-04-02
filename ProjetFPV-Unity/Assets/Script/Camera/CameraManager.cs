@@ -18,6 +18,7 @@ namespace CameraBehavior
 
         [Header("---Camera Parameter---")] 
         [SerializeField] internal float globalCameraRot;
+        internal float actualglobalCameraRot;
         [SerializeField] internal Transform transitionParent;
         [SerializeField] internal Transform playerTransform;
         public Transform weaponTransform;
@@ -56,6 +57,8 @@ namespace CameraBehavior
             
             currentFov = so_Camera.fovIdle;
             camera.fieldOfView = currentFov;
+
+            actualglobalCameraRot = globalCameraRot;
         }
         
         private void LateUpdate()
@@ -105,6 +108,7 @@ namespace CameraBehavior
                     break;
                 
                 case PlayerController.PlayerActionStates.Sliding:
+                    actualglobalCameraRot = so_Camera.rotationOffSetSmooth;
                     cameraSliding.Sliding();
                     ReInitialiseCameraPos();
                     break;
@@ -120,6 +124,13 @@ namespace CameraBehavior
                     break;
             }
             cameraJumping.HandlesHighSpeed();
+
+            // Fix the different rotation smoothness
+            if (Math.Abs(actualglobalCameraRot - globalCameraRot) > 0.1f) 
+            {
+                actualglobalCameraRot = Mathf.Lerp(actualglobalCameraRot, globalCameraRot,
+                    Time.deltaTime * so_Camera.rotationOffSetSmooth);
+            }
         }
 
         #endregion
@@ -133,7 +144,7 @@ namespace CameraBehavior
         {
             timer = 0;
             smoothOffset = Quaternion.identity;
-            transitionParent.rotation = Quaternion.Slerp(transitionParent.rotation, playerTransform.rotation * smoothOffset , Time.deltaTime * globalCameraRot); 
+            transitionParent.rotation = Quaternion.Slerp(transitionParent.rotation, playerTransform.rotation * smoothOffset , Time.deltaTime * actualglobalCameraRot); 
         }
 
         /// <summary>
@@ -200,7 +211,7 @@ namespace CameraBehavior
         private void MovingTransitionParent()
         {
             transitionParent.position = Vector3.Lerp(transitionParent.position, playerTransform.position, 
-                Time.deltaTime * so_Camera.positionOffSetSmooth); // PlayerController.Instance.playerScriptable.smoothCameraPos
+                Time.deltaTime * so_Camera.positionOffSetSmooth); 
             
             // Rotation
             float xValue = 0;
@@ -213,7 +224,7 @@ namespace CameraBehavior
                 Time.deltaTime * so_Camera.rotationOffSetSmooth);
             
             transitionParent.rotation = Quaternion.Slerp(transitionParent.rotation, playerTransform.rotation * smoothOffset, 
-                Time.deltaTime * globalCameraRot); // PlayerController.Instance.playerScriptable.smoothCameraRot
+                Time.deltaTime * actualglobalCameraRot); 
         }
 
         #endregion

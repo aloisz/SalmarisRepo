@@ -1935,6 +1935,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: IA_TrashMob
       objectReference: {fileID: 0}
+    - target: {fileID: 6159587722465297484, guid: 71f951629bed9f0468abebcf5f737845,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 7670129111412073086, guid: 71f951629bed9f0468abebcf5f737845,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -8972,18 +8977,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &996766672 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 3155691982581775438, guid: 84d40c77e7b58464992652bedc437abe,
-    type: 3}
-  m_PrefabInstance: {fileID: 1963381338}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1009730592
 GameObject:
   m_ObjectHideFlags: 0
@@ -9189,7 +9182,7 @@ PrefabInstance:
         type: 3}
       propertyPath: staminaCharge
       value: 
-      objectReference: {fileID: 996766672}
+      objectReference: {fileID: 1963381339}
     - target: {fileID: 6655356332372034070, guid: b8b6c0fdf0c4fdc45a7a779e068e839d,
         type: 3}
       propertyPath: surchargeWeapon
@@ -15005,6 +14998,18 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 84d40c77e7b58464992652bedc437abe, type: 3}
+--- !u!114 &1963381339 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2997549319504412285, guid: 84d40c77e7b58464992652bedc437abe,
+    type: 3}
+  m_PrefabInstance: {fileID: 1963381338}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &1980785061 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 8398557288263676713, guid: 84d40c77e7b58464992652bedc437abe,
@@ -20612,11 +20617,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 1889187784810179873, guid: 54a9dca13f5a0a745b13f8ba912b79e5,
-        type: 3}
-      propertyPath: m_Enabled
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 5927612242175170680, guid: 54a9dca13f5a0a745b13f8ba912b79e5,
         type: 3}
       propertyPath: m_Name
@@ -20635,6 +20635,12 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 3698928635149738337, guid: 9294123db3fc3a54b89f62907126f122,
+        type: 3}
+      propertyPath: so_Camera
+      value: 
+      objectReference: {fileID: 11400000, guid: 298e39a8376a0794380ded7f78420c4c,
+        type: 2}
     - target: {fileID: 3698928635149738337, guid: 9294123db3fc3a54b89f62907126f122,
         type: 3}
       propertyPath: playerTransform

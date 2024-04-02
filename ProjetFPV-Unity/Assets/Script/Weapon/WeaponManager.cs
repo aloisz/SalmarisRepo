@@ -19,7 +19,7 @@ namespace Weapon
         protected bool isReloading;
         
         protected float lastTimefired;
-        [HideInInspector]public int actualNumberOfBullet; // Permit to store the secondary mode number of bullet
+        [HideInInspector]public int actualNumberOfBullet; 
         [HideInInspector] public WeaponMode actualWeaponModeIndex;
         protected bool isChangingActualWeaponModeIndex;
         
@@ -28,13 +28,23 @@ namespace Weapon
         [HideInInspector] public Camera camera;
         protected RaycastModule raycastModule;
         
+        public Action OnShoot;
+        
         protected virtual void Start()
         {
             PlayerController = PlayerController.Instance;
             camera = Camera.main;
-            //raycastModule = GetComponent<RaycastModule>();
             
             WeaponRefreshement();
+            OnShoot += Shoot;
+        }
+
+        /// <summary>
+        /// call this action when other pawn want to shoot
+        /// </summary>
+        public void ShootingAction()
+        {
+            OnShoot?.Invoke();
         }
         
         /// <summary>
@@ -47,6 +57,7 @@ namespace Weapon
        
         protected virtual void Update()
         {
+            if(!so_Weapon.isWeaponPossessByPlayer) return;
             GetAllInput();
         }
         
@@ -185,10 +196,7 @@ namespace Weapon
             }
         }
         
-        protected virtual void Raycast()
-        {
-            //raycastModule.ChooseEnum(so_Weapon.weaponMode[(int)actualWeaponModeIndex].raycastType);
-        }
+        protected virtual void Raycast() { }
         
         protected virtual void Projectile() { }
         
@@ -235,7 +243,7 @@ namespace Weapon
         #region Debug
 
         #if UNITY_EDITOR
-        private void OnGUI()
+        /*private void OnGUI()
         {
             // Set up GUI style for the text
             GUIStyle style = new GUIStyle();
@@ -255,7 +263,7 @@ namespace Weapon
             GUI.Label(rect2, $"timeToReload : {so_Weapon.weaponMode[(int)actualWeaponModeIndex].timeToReload}", style);
             GUI.Label(rect3, $"fireRate : {so_Weapon.weaponMode[(int)actualWeaponModeIndex].fireRate}", style);
             GUI.Label(rect4, $"weaponModeIndex : {actualWeaponModeIndex}", style);
-        }        
+        }        */
         #endif
 
         #endregion

@@ -7,7 +7,7 @@ using Weapon.Interface;
 
 public class ShootingLogicModule : WeaponManager, IShootRaycast, IShootSphereCast
 {
-    [SerializeField] private Transform gunBarrelPos;
+    [SerializeField] protected Transform gunBarrelPos;
     
     protected override void Raycast()
     {
@@ -178,25 +178,16 @@ public class ShootingLogicModule : WeaponManager, IShootRaycast, IShootSphereCas
 
     #region LOGIC
 
-    internal VladBullet bulletProjectile;
+    protected GameObject bulletProjectileGO;
     protected virtual void ShootProjectile()
     { 
         //BulletBehavior
-        GameObject bulletProjectileGO = Pooling.instance.Pop("VladBulletProjectile");
+        bulletProjectileGO = Pooling.instance.Pop(so_Weapon.weaponMode[(int)actualWeaponModeIndex].poolingPopKey);
         bulletProjectileGO.transform.position = gunBarrelPos.position;
         bulletProjectileGO.transform.rotation = Quaternion.identity;
-        
-        bulletProjectile = bulletProjectileGO.GetComponent<VladBullet>();
-        
-        // Logic
-        bulletProjectile.EnableMovement(true);  
-        bulletProjectile.transform.rotation *= Quaternion.AngleAxis(90, PlayerController.transform.right);
-        bulletProjectile.AddDamage(so_Weapon.weaponMode[(int)actualWeaponModeIndex].bulletDamage);
-        bulletProjectile.AddVelocity(so_Weapon.weaponMode[(int)actualWeaponModeIndex].bulletSpeed);
-        bulletProjectile.GetThePlayerDir(GetTheAimDirection());
     }
 
-    private Vector3 GetTheAimDirection()
+    protected Vector3 GetTheAimDirection()
     {
         Vector3 mouseWorldPosition = Vector3.zero;
         RaycastHit hit;

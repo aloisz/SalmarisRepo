@@ -11,6 +11,7 @@ public class Vlad : HeavyArtillery
     private bool hasClicked;
 
     private Transform baseTransform;
+    internal VladBullet bulletProjectile;
 
     [Header("Overheating")]
     public float vladOverheatActualValue;
@@ -156,7 +157,15 @@ public class Vlad : HeavyArtillery
     protected override void ShootProjectile()
     {
         base.ShootProjectile();
+        bulletProjectile = bulletProjectileGO.GetComponent<VladBullet>();
+        
+        // Logic
+        bulletProjectile.EnableMovement(true);  
+        bulletProjectile.transform.rotation *= Quaternion.AngleAxis(90, PlayerController.transform.right);
+        bulletProjectile.GetTheBulletDir(GetTheAimDirection());
+        
         bulletProjectile.AddVelocity(so_Weapon.weaponMode[(int)actualWeaponModeIndex].bulletSpeed * bulletSpeedMultiplier);
+        bulletProjectile.PoolingKeyName(so_Weapon.weaponMode[(int)actualWeaponModeIndex].poolingPopKey);
         if (isVladOnFire)
         {
             bulletProjectile.IsBulletOnFire(isVladOnFire);

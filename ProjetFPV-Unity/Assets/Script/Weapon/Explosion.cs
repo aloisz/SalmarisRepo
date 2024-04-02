@@ -11,28 +11,23 @@ public class Explosion : MonoBehaviour
     [Space]
     public float explosionRadius;
     public float explosionForce;
-    public GameObject particle;
-    private bool isOn;
+    public ParticleSystem particle;
 
-    private void Start()
+    private bool hasExploded;
+
+    private void OnTriggerEnter(Collider other)
     {
+        if(hasExploded) return;
+        hasExploded = true;
+        
         GetComponent<SphereCollider>().radius = explosionRadius;
-        isOn = true;
         Explode();
+        particle.Play();
     }
 
-    private void OnDisable()
+    private void OnEnable()
     {
-        isOn = true;
-    }
-
-    private void FixedUpdate()
-    {
-        if (isOn)
-        {
-            isOn = false;
-            //Explode();
-        }
+        hasExploded = false;
     }
 
     private void Explode()

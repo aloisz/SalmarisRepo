@@ -7,7 +7,8 @@ namespace Weapon.Interface
         public bool EnableMovement(bool logic);
         public float AddVelocity(float velocity);
         public float AddDamage(float damage);
+        public string PoolingKeyName(string key);
 
-        public Vector3 GetThePlayerDir(Vector3 dir);
+        public Vector3 GetTheBulletDir(Vector3 dir);
     }
 }

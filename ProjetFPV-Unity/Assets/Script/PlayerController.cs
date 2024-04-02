@@ -159,27 +159,31 @@ namespace Player
             
             _rb.AddForce(GetOverallMomentumVector(), ForceMode.Impulse);
 
-            if (_rb.velocity.magnitude > 100) _rb.velocity = Vector3.ClampMagnitude(_rb.velocity, 100f);
+            if (_rb.velocity.magnitude > playerScriptable.maxRigidbodyVelocity) 
+                _rb.velocity = Vector3.ClampMagnitude(_rb.velocity, playerScriptable.maxRigidbodyVelocity);
         }
         
         
         private Vector3 GetOverallMomentumVector()
         {
+            var dividerOnSlopeClimbing = (isSlopeClimbing && isSliding ? playerScriptable.decelerationMultiplierSlideInSlopeUp : 1f);
             var accelerating = _rb.velocity.magnitude < playerScriptable.speedMaxToAccelerate && !isOnSlope && !isSliding;
             var vectorMove = DirectionFromCamera(direction).normalized * 
-                             (moveSpeed * speedMultiplierFromDash * (accelerating ? playerScriptable.accelerationMultiplier : 1f));
+                             (moveSpeed * speedMultiplierFromDash * (accelerating ? playerScriptable.accelerationMultiplier : 1f))
+                             / dividerOnSlopeClimbing;
             
             var slopeDirection = new Vector3(raycastSlope.normal.x, 0, raycastSlope.normal.z).normalized;
-            var vectorSlideDown = Vector3.down * (playerScriptable.slidingInSlopeDownForce);
-            var vectorSlideForward = slopeDirection * (actualSlopeAngle / playerScriptable.slidingInSlopeLimiter);
+            var vectorSlideDown = Vector3.down * (playerScriptable.slidingInSlopeDownForce) / dividerOnSlopeClimbing;
+            var vectorSlideForward = (slopeDirection * (actualSlopeAngle / playerScriptable.slidingInSlopeLimiter)) / dividerOnSlopeClimbing;
             var vectorSlide = vectorSlideDown + vectorSlideForward;
             
-            if(isSliding && !isOnSlope) _decelerationSlideOnGround += Time.deltaTime * 50f;
+            if(isSliding && !isOnSlope) _decelerationSlideOnGround += Time.deltaTime * playerScriptable.decelerationMultiplierSlideOnGround;
             
-            var finalVector = ((isMoving ? vectorMove : Vector3.zero) + (isOnSlope && isSliding ? vectorSlide : Vector3.zero))
+            var finalVector = ((isMoving ? vectorMove : Vector3.zero) + 
+                               (isOnSlope && isSliding && !isSlopeClimbing ? vectorSlide : Vector3.zero))
                               / (isSliding && !isOnSlope ? _decelerationSlideOnGround : 1f);
             
-            return finalVector / (isSliding && isMoving && isOnSlope ? 10f : 1f);
+            return finalVector / (isSliding && isMoving && isOnSlope ? playerScriptable.overallMomentumLimiterMoveSlideInSlope : 1f);
         }
         
         private void SetMoveSpeed()
@@ -335,6 +339,10 @@ namespace Player
             {
                 _rb.drag = 0.65f;
             }
+            else if (isOnGround && isSliding && isOnSlope && isSlopeClimbing && _rb.velocity.magnitude < 30f)
+            {
+                _rb.drag = 3f;
+            }
             else if (isOnSlope && !isSliding)
             {
                 _rb.drag = playerScriptable.groundDrag;
@@ -370,7 +378,7 @@ namespace Player
         void DetectGround()
         {
             var offset = playerScriptable.groundDetectionForwardOffset;
-            var pos = transform.position + new Vector3(0,0.25f,0);
+            var pos = transform.position + new Vector3(0,playerScriptable.groundDetectionUpOffset,0);
             
             var posCheckRight = ReturnCheckOffsetFromDir(pos, Helper.ReturnDirFromIndex(0), offset);
             var isOnGroundTempRight = Physics.Raycast(posCheckRight, Vector3.down * playerScriptable.groundDetectionLenght, out raycastGroundRight, 
@@ -460,10 +468,12 @@ namespace Player
         private void Dash()
         {
             var dashDirectionConvert = Helper.ConvertTo4Dir(new Vector2(direction.x, direction.z));
-            var dirFromCam = new Vector3(dashDirectionConvert.x, 0, dashDirectionConvert.y);
+            var dirFromCam = new Vector3(Mathf.RoundToInt(dashDirectionConvert.x), 0, Mathf.RoundToInt(dashDirectionConvert.y));
             var dashDirection = DirectionFromCamera(dirFromCam);
+            var dashDirectionNoY = new Vector3(dashDirection.x, 0, dashDirection.z);
                 
-            _rb.AddForce(dashDirection * playerScriptable.dashForce, ForceMode.Impulse);
+            _rb.AddForce((dashDirectionNoY.magnitude < 0.1f ? transform.forward : dashDirectionNoY) * 
+                         playerScriptable.dashForce, ForceMode.Impulse);
 
             canApplyGravity = false;
             _rb.useGravity = false;
@@ -579,7 +589,7 @@ namespace Player
             Gizmos.DrawRay(raycastSlope.point, raycastSlope.normal * 2.5f);
             
             var offset = playerScriptable.groundDetectionForwardOffset;
-            var pos = transform.position + new Vector3(0,0.25f,0);
+            var pos = transform.position + new Vector3(0,playerScriptable.groundDetectionUpOffset,0);
 
             for (int i = 0; i < 4; i++)
             {

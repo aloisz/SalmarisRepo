@@ -102,6 +102,9 @@ namespace Weapon
         [field: SerializeField] internal bool doExplosion{ get; private set; }
         [field: ShowIf("doExplosion")][field: SerializeField] [field: MinMaxSlider(1, 100.0f)] internal Vector2 explosionRadius{ get; private set; }
         [field: ShowIf("doExplosion")][field: SerializeField] [field: MinMaxSlider(1, 100.0f)] internal Vector2 explosionDamage{ get; private set; }
+        
+        [field: Header("-----Pooling-----")] 
+        [field: SerializeField] internal string poolingPopKey{ get; private set; }
         #endregion
     }
     
