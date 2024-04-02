@@ -28,12 +28,23 @@ namespace Weapon
         [HideInInspector] public Camera camera;
         protected RaycastModule raycastModule;
         
+        public Action OnShoot;
+        
         protected virtual void Start()
         {
             PlayerController = PlayerController.Instance;
             camera = Camera.main;
             
             WeaponRefreshement();
+            OnShoot += Shoot;
+        }
+
+        /// <summary>
+        /// call this action when other pawn want to shoot
+        /// </summary>
+        public void ShootingAction()
+        {
+            OnShoot?.Invoke();
         }
         
         /// <summary>
@@ -185,10 +196,7 @@ namespace Weapon
             }
         }
         
-        protected virtual void Raycast()
-        {
-            //raycastModule.ChooseEnum(so_Weapon.weaponMode[(int)actualWeaponModeIndex].raycastType);
-        }
+        protected virtual void Raycast() { }
         
         protected virtual void Projectile() { }
         

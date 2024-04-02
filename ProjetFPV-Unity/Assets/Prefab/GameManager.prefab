@@ -40,7 +40,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5927612242175170680}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7a7b16215d8ff8940aa0d3476af5fbec, type: 3}
   m_Name: 
@@ -67,18 +67,11 @@ MonoBehaviour:
       baseCount: 30
       baseRefreshSpeed: 5
       refreshSpeed: 0
-  - key: BulletImpact
-    pool:
-      prefab: {fileID: 5315971860765651078, guid: 2b66011708bf62843adb8880a79bb4b4,
-        type: 3}
-      baseCount: 300
-      baseRefreshSpeed: 5
-      refreshSpeed: 0
   - key: VladBulletProjectile
     pool:
       prefab: {fileID: 7183163888607090828, guid: 3007a8a46738cfb4c9ff0ae4fb3ab975,
         type: 3}
-      baseCount: 300
+      baseCount: 50
       baseRefreshSpeed: 5
       refreshSpeed: 0
   - key: HitScanRay
@@ -88,10 +81,24 @@ MonoBehaviour:
       baseCount: 300
       baseRefreshSpeed: 5
       refreshSpeed: 0
+  - key: BulletImpact
+    pool:
+      prefab: {fileID: 5315971860765651078, guid: 2b66011708bf62843adb8880a79bb4b4,
+        type: 3}
+      baseCount: 300
+      baseRefreshSpeed: 5
+      refreshSpeed: 0
   - key: Explosion
     pool:
       prefab: {fileID: 923631459655984586, guid: c3e596c6fcddbe84589beb93f7cc79e2,
         type: 3}
-      baseCount: 15
+      baseCount: 20
+      baseRefreshSpeed: 5
+      refreshSpeed: 0
+  - key: Missile
+    pool:
+      prefab: {fileID: 5646069135490200264, guid: 4f4b193a001b4bc4a8faf53369ac36ec,
+        type: 3}
+      baseCount: 20
       baseRefreshSpeed: 5
       refreshSpeed: 0

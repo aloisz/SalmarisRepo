@@ -5,20 +5,11 @@ using Weapon;
 
 public class MissileLauncher : HeavyArtillery
 {
-    
     internal Missile bulletProjectile;
     protected override void Start()
     {
         base.Start();
         actualWeaponModeIndex = WeaponMode.Primary;
-        StartCoroutine(Logic());
-    }
-
-    private IEnumerator Logic()
-    {
-        Shoot();
-        yield return null;
-        StartCoroutine(Logic());
     }
     
     protected override void ShootProjectile()
@@ -26,13 +17,13 @@ public class MissileLauncher : HeavyArtillery
         base.ShootProjectile();
         bulletProjectile = bulletProjectileGO.GetComponent<Missile>();
         
-        Debug.Log("Shoot");
         // Logic
         bulletProjectile.EnableMovement(true);  
         bulletProjectile.transform.rotation *= Quaternion.AngleAxis(90, PlayerController.transform.right);
         bulletProjectile.GetTheBulletDir(GetThePlayerDirection());
         bulletProjectile.AddVelocity(so_Weapon.weaponMode[(int)actualWeaponModeIndex].bulletSpeed);
         bulletProjectile.AddDamage(so_Weapon.weaponMode[(int)actualWeaponModeIndex].bulletDamage);
+        bulletProjectile.PoolingKeyName(so_Weapon.weaponMode[(int)actualWeaponModeIndex].poolingPopKey);
     }
 
     private Vector3 GetThePlayerDirection()

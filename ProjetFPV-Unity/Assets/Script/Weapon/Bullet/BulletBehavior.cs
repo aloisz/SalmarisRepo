@@ -10,12 +10,32 @@ public class BulletBehavior : MonoBehaviour, IBulletBehavior
     public Bullet bullet;
     public LayerMask walkableMask;
     public LayerMask enemyMask;
+    
+    [SerializeField] protected float bulletLifeTime;
     // Components
     protected Rigidbody rb;
+    protected TrailRenderer lineRenderer;
 
     protected virtual void Awake()
     {
         rb = GetComponent<Rigidbody>();
+        lineRenderer = GetComponent<TrailRenderer>();
+    }
+
+    protected virtual void OnEnable()
+    {
+        lineRenderer.enabled = true;
+    }
+
+    protected virtual void OnDisable()
+    {
+        transform.position = Vector3.zero;
+        transform.rotation = Quaternion.identity;
+
+        EnableMovement(false);
+        AddVelocity(0);
+        AddDamage(0);
+        GetTheBulletDir(transform.forward);
     }
 
     protected virtual void Start(){}
@@ -61,6 +81,11 @@ public class BulletBehavior : MonoBehaviour, IBulletBehavior
         return bullet.damage = damage;
     }
 
+    public string PoolingKeyName(string key)
+    {
+        return bullet.PoolingKeyName = key;
+    }
+
     public virtual Vector3 GetTheBulletDir(Vector3 dir)
     {
         return bullet.bulletDir = dir;
@@ -70,6 +95,7 @@ public class BulletBehavior : MonoBehaviour, IBulletBehavior
 [System.Serializable]
 public class Bullet
 {
+    [HideInInspector]public string PoolingKeyName;
     public Vector3 bulletDir;
     public bool isMoving = false;
     public float speed;

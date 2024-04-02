@@ -6,6 +6,7 @@ using UnityEditor;
 using UnityEngine;
 using UnityEngine.AI;
 using Weapon.Interface;
+using Random = UnityEngine.Random;
 
 
 namespace AI
@@ -28,6 +29,7 @@ namespace AI
             navMeshAgent = GetComponent<NavMeshAgent>();
             agentLinkMover = GetComponent<AgentLinkMover>();
             rb = GetComponent<Rigidbody>();
+            
             GetPawnPersonnalInformation();
             GameManager.Instance.aiPawnsAvailable.Add(this);
         }
