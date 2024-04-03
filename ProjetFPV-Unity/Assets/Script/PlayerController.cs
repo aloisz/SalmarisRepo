@@ -30,7 +30,7 @@ namespace Player
         [Header("Values")]
         internal Vector3 direction;
         internal Vector3 directionNotReset;
-
+        
         private float moveSpeed;
         private float _velocity;
         private float _rotationX;
@@ -45,6 +45,8 @@ namespace Player
         //---------------------------------------
 
         [Header("Momentum")] 
+        [HideInInspector]public Vector3 shotgunExternalForce;
+        
         private float dashTimerSpeedAdd;
         private float speedMultiplierFromDash = 1f;
         
@@ -181,7 +183,7 @@ namespace Player
             if(isSliding && !isOnSlope) _decelerationSlideOnGround += Time.deltaTime * playerScriptable.decelerationMultiplierSlideOnGround;
             
             var finalVector = ((isMoving ? vectorMove : Vector3.zero) + 
-                               (isOnSlope && isSliding && !isSlopeClimbing ? vectorSlide : Vector3.zero))
+                               (isOnSlope && isSliding && !isSlopeClimbing ? vectorSlide : Vector3.zero) + shotgunExternalForce)
                               / (isSliding && !isOnSlope ? _decelerationSlideOnGround : 1f);
             
             return finalVector / (isSliding && isMoving && isOnSlope ? playerScriptable.overallMomentumLimiterMoveSlideInSlope : 1f);
@@ -377,7 +379,7 @@ namespace Player
         void DetectGround()
         {
             var offset = playerScriptable.groundDetectionForwardOffset;
-            var pos = transform.position + new Vector3(0,playerScriptable.groundDetectionUpOffset,0);
+            var pos = cameraAttachPosition.position + new Vector3(0,playerScriptable.groundDetectionUpOffset,0);
             
             var posCheckRight = ReturnCheckOffsetFromDir(pos, Helper.ReturnDirFromIndex(0), offset);
             var isOnGroundTempRight = Physics.Raycast(posCheckRight, Vector3.down * playerScriptable.groundDetectionLenght, out raycastGroundRight, 
@@ -589,7 +591,7 @@ namespace Player
             Gizmos.DrawRay(raycastSlope.point, raycastSlope.normal * 2.5f);
             
             var offset = playerScriptable.groundDetectionForwardOffset;
-            var pos = transform.position + new Vector3(0,playerScriptable.groundDetectionUpOffset,0);
+            var pos = cameraAttachPosition.position + new Vector3(0,playerScriptable.groundDetectionUpOffset,0);
 
             for (int i = 0; i < 4; i++)
             {
