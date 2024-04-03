@@ -56,4 +56,10 @@ public static class Helper
         }
         return value;
     }
+
+    /*private static float timer = 0;
+    public static void TimerWait(float tickVerification, )
+    {
+        
+    }*/
 }
