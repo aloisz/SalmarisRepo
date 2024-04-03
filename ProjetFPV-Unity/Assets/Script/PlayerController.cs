@@ -123,6 +123,7 @@ namespace Player
 
             RotateCameraFromInput();
 
+            //Debug
             if (Input.GetKeyDown(KeyCode.Keypad1)) Time.timeScale = 0.1f;
             if (Input.GetKeyDown(KeyCode.Keypad2)) Time.timeScale = 0.5f;
             if (Input.GetKeyDown(KeyCode.Keypad3)) Time.timeScale = 1f;
@@ -228,7 +229,6 @@ namespace Player
                 //Generate two times less stamina when in this airs.
                 PlayerStamina.Instance.GenerateStaminaStep(playerScriptable.staminaPerSecond / 2f);
         }
-
         
         /// <summary>
         /// Manage the coyote jump and timer, and reset it.
@@ -338,10 +338,14 @@ namespace Player
             else if (isOnGround && isSliding && !isOnSlope && !isSlopeClimbing)
             {
                 _rb.drag = 0.65f;
+                if (isOnGround && isSliding && !isOnSlope && _rb.velocity.magnitude < 25f)
+                {
+                    _rb.drag = 10f;
+                }
             }
-            else if (isOnGround && isSliding && isOnSlope && isSlopeClimbing && _rb.velocity.magnitude < 30f)
+            else if (isOnGround && isSliding && isOnSlope && isSlopeClimbing && _rb.velocity.magnitude < 25f)
             {
-                _rb.drag = 3f;
+                _rb.drag = 5f;
             }
             else if (isOnSlope && !isSliding)
             {
@@ -359,11 +363,6 @@ namespace Player
             {
                 _rb.drag = playerScriptable.airDrag;
             }
-            
-            //is on ground and not sliding = 7f;
-            //is on ground and sliding = 1f;
-            //is on slope and not sliding = 0f;
-            //is on slope and sliding = 0f;
         }
         
         #endregion
@@ -446,8 +445,7 @@ namespace Player
             isJumping = true;
             
             var forwardMomentumVector = GetOverallMomentumVector() / 20f;
-            
-            _rb.AddForce(playerScriptable.jumpForce * (Vector3.up), ForceMode.Impulse);
+            _rb.AddForce(playerScriptable.jumpForce * (Vector3.up + new Vector3(forwardMomentumVector.x, 0, forwardMomentumVector.z)), ForceMode.Impulse);
             
             //coyoteTimer = 0f;
         }
@@ -471,7 +469,9 @@ namespace Player
             var dirFromCam = new Vector3(Mathf.RoundToInt(dashDirectionConvert.x), 0, Mathf.RoundToInt(dashDirectionConvert.y));
             var dashDirection = DirectionFromCamera(dirFromCam);
             var dashDirectionNoY = new Vector3(dashDirection.x, 0, dashDirection.z);
-                
+
+            transform.position += new Vector3(0, 0.5f, 0);
+            
             _rb.AddForce((dashDirectionNoY.magnitude < 0.1f ? transform.forward : dashDirectionNoY) * 
                          playerScriptable.dashForce, ForceMode.Impulse);
 
@@ -602,8 +602,6 @@ namespace Player
 
         private void OnGUI()
         {
-            return;
-            
             // Set up GUI style for the text
             GUIStyle style = new GUIStyle
             {
@@ -636,10 +634,7 @@ namespace Player
             
             Rect rect10 = new Rect(10, 520, 200, 50);
             
-            Rect rect11 = new Rect(10, 580, 200, 50);
-            Rect rect12 = new Rect(10, 610, 200, 50);
-            Rect rect13 = new Rect(10, 640, 200, 50);
-            Rect rect14 = new Rect(10, 670, 200, 50);
+            Rect rect11 = new Rect(10, 160, Mathf.Lerp(1,300,_rb.velocity.magnitude / 100f), 10);
 
             // Display the text on the screen
             GUI.Label(rect, $"Direction : {direction}", style);
@@ -647,6 +642,9 @@ namespace Player
             
             GUI.Label(rect2, $"Rigidbody Velocity : {_rb.velocity}", style);
             GUI.Label(rect3, $"Rigidbody Magnitude : {_rb.velocity.magnitude}", style);
+            GUI.DrawTexture(rect11, new Texture2D((int)Mathf.Lerp(1,300,_rb.velocity.magnitude / 100f), 10),
+                ScaleMode.ScaleToFit, true, 0, Color.Lerp(Color.green, Color.red, _rb.velocity.magnitude / 100f), 
+                0, 0);
             
             GUI.Label(rect4, $"Current State : {Convert.ToString(currentActionState)}", style);
             
