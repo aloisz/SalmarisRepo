@@ -19,13 +19,9 @@ namespace AI
         [Space]
         [SerializeField] protected float agentDashRadius = 2;
         [SerializeField] protected float agentDashSpeed = 500;
-        [Tooltip("Each tick count increase, when matching value attack will be performed")]
-        [SerializeField] protected float countBeforeAttack = 10;
+        [Tooltip("Each tick count increase, when matching value attack will be performed")] [SerializeField] protected float countBeforeAttack = 10;
         private int actualCountBeforeAttack = 0;
         private bool isPerformingAttack;
-        
-        [Space]
-        [SerializeField][Tooltip("How many time the check is performed")] protected float tickVerification = 0.2f;
         
         protected enum TrashMobState
         {
@@ -37,7 +33,6 @@ namespace AI
         protected override void Start()
         {
             base.Start();
-            StartCoroutine(HandleTicBehavior());
         }
 
         protected TrashMobState ChangeState(TrashMobState state)
@@ -45,8 +40,9 @@ namespace AI
             return this.trashMobState = state;
         }
         
-        protected virtual IEnumerator HandleTicBehavior()
+        protected override void PawnBehavior()
         {
+            base.PawnBehavior();
             switch (trashMobState)
             {
                 case TrashMobState.Idle:
@@ -55,12 +51,9 @@ namespace AI
                     CheckDistance();
                     break;
                 case TrashMobState.AttackingCloseRange:
-                    yield return StartCoroutine(Attack());
+                    Attack();
                     break;
             }
-            
-            yield return new WaitForSeconds(tickVerification);
-            StartCoroutine(HandleTicBehavior());
         }
         
         
@@ -90,16 +83,16 @@ namespace AI
                 }
             }
         }
-        private IEnumerator Attack()
+        private void Attack()
         {
             navMeshAgent.speed = 0;
             
-            yield return new WaitForSeconds(1f);
-            transform.LookAt(PlayerController.Instance.transform.position);
+            //yield return new WaitForSeconds(1f);
             IsPhysicNavMesh(false);
+            transform.LookAt(PlayerController.Instance.transform.position);
             isPerformingAttack = true;
             
-            yield return new WaitForSeconds(2);
+            //yield return new WaitForSeconds(2);
             GetPawnPersonnalInformation();
             ChangeState(TrashMobState.Moving);
             actualCountBeforeAttack = 0;
@@ -116,7 +109,6 @@ namespace AI
         {
             yield return new WaitForSeconds(2);
             IsPhysicNavMesh(true);
-            StartCoroutine(HandleTicBehavior());
         }
 
         protected void FixedUpdate()

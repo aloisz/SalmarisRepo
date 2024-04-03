@@ -6,6 +6,7 @@ using UnityEditor;
 using UnityEngine;
 using UnityEngine.AI;
 using Weapon.Interface;
+using Random = UnityEngine.Random;
 
 
 namespace AI
@@ -16,6 +17,8 @@ namespace AI
         [SerializeField] protected SO_IA so_IA;
 
         protected float actualPawnHealth;
+        [Header("Tick State")]
+        [SerializeField][Tooltip("How many time the check is performed")] protected float tickVerification = 0.2f;
         
         //Component----------------------
         protected NavMeshAgent navMeshAgent;
@@ -28,6 +31,7 @@ namespace AI
             navMeshAgent = GetComponent<NavMeshAgent>();
             agentLinkMover = GetComponent<AgentLinkMover>();
             rb = GetComponent<Rigidbody>();
+            
             GetPawnPersonnalInformation();
             GameManager.Instance.aiPawnsAvailable.Add(this);
         }
@@ -54,7 +58,23 @@ namespace AI
             CheckIfIsStillAlive();
             //PawnAvoidance();
             FollowTarget();
+            TickHandler();
         }
+
+        private float timer = 0;
+        protected void TickHandler()
+        {
+            if (timer < tickVerification)
+            {
+                timer += Time.deltaTime;
+                if (timer > tickVerification)
+                {
+                    timer = 0;
+                    PawnBehavior();
+                }
+            }
+        }
+        protected virtual void PawnBehavior(){ }
 
         private void OnDisable()
         {

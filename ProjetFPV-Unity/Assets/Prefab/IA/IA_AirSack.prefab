@@ -126,7 +126,7 @@ GameObject:
   - component: {fileID: 1286420112489041020}
   - component: {fileID: 6126381448147569825}
   - component: {fileID: 1457748404378036388}
-  m_Layer: 8
+  m_Layer: 0
   m_Name: VisionDectection
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -273,7 +273,13 @@ MonoBehaviour:
   targetToFollow: {fileID: 0}
   so_IA: {fileID: 11400000, guid: 1b0b5a1df0e8ced449db22825fc509ae, type: 2}
   visionDetector: {fileID: 1457748404378036388}
+  airSackMobState: 0
+  isShooting: 0
   shootingPos: {fileID: 0}
+  agentGetAwayRadius: 20
+  agentSpeedGettingAway: 50
+  agentShootingRadius: 50
+  tickVerification: 0.2
 --- !u!114 &2097527146287915330
 MonoBehaviour:
   m_ObjectHideFlags: 0
