@@ -49,22 +49,23 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   so_Weapon: {fileID: 11400000, guid: 790fd5326eb5aed4291db5110c319c12, type: 2}
+  actualNumberOfBullet: 0
   actualWeaponModeIndex: 0
   camera: {fileID: 0}
   gunBarrelPos: {fileID: 4443524823806079072}
   vladOverheatActualValue: 0
-  vladOverheatMultiplier: 1
-  vladCoolingMultiplier: 0.5
-  vladOverheat: 4
+  vladOverheatMultiplier: 2.25
+  vladCoolingMultiplier: 1.2
+  vladOverheatMin: 4
   vladOverheatMax: 7
   isVladOnFire: 0
-  bulletSpeedMultiplier: 0.5
-  DrawSpeedMultiplier: 2
+  bulletSpeedMultiplier: 1
+  DrawSpeedMultiplier: 5
   DrawSpeedMax: 3
   bulletDamageMultiplier: 1
-  DrawDamageMultiplier: 0.5
-  DrawDamageMax: 1.5
-  DrawDamageMultiplierOverheating: 2
+  DrawDamageMultiplier: 5
+  DrawDamageMax: 1.75
+  DrawDamageMultiplierOverheating: 2.5
 --- !u!114 &6284932083350737987
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -218,6 +219,10 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: eff964e1-bfe1-4e97-ab6c-e98cade1e28f
     m_ActionName: Barbatos/Reload[/Keyboard/r]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 0d47f93a-234d-4f17-a019-bb1f63e886fb
+    m_ActionName: Player/SwapWeapon[/Keyboard/f]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Barbatos
