@@ -51,7 +51,8 @@ namespace AI
                     CheckDistance();
                     break;
                 case TrashMobState.AttackingCloseRange:
-                    Attack();
+                    if(isInAttackCoroutine) return;
+                    StartCoroutine(Attack());
                     break;
             }
         }
@@ -83,19 +84,23 @@ namespace AI
                 }
             }
         }
-        private void Attack()
+
+        private bool isInAttackCoroutine;
+        private IEnumerator Attack()
         {
+            isInAttackCoroutine = true;
             navMeshAgent.speed = 0;
             
-            //yield return new WaitForSeconds(1f);
+            yield return new WaitForSeconds(1f);
             IsPhysicNavMesh(false);
             transform.LookAt(PlayerController.Instance.transform.position);
             isPerformingAttack = true;
             
-            //yield return new WaitForSeconds(2);
+            yield return new WaitForSeconds(2);
             GetPawnPersonnalInformation();
             ChangeState(TrashMobState.Moving);
             actualCountBeforeAttack = 0;
+            isInAttackCoroutine = false;
         }
 
         public override void DisableAgent()
