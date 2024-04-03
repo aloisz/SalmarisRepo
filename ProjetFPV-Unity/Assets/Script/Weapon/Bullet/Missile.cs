@@ -6,7 +6,7 @@ using Weapon.Interface;
 
 public class Missile : BulletBehavior,IExplosion
 {
-
+    [SerializeField] protected float drag;
     protected virtual void OnDisable()
     {
         base.OnDisable();
@@ -39,8 +39,10 @@ public class Missile : BulletBehavior,IExplosion
     {
         Vector3 bulletDir = (PlayerController.Instance.transform.position - transform.position).normalized;
         
+        rb.drag = drag;
         transform.rotation = Quaternion.Slerp (transform.rotation, Quaternion.LookRotation (bulletDir), Time.fixedDeltaTime * 40f);
-        rb.velocity = (bulletDir) * (bullet.speed * Time.fixedDeltaTime);
+        //rb.velocity = (bulletDir) * (bullet.speed * Time.fixedDeltaTime);
+        rb.AddForce((bulletDir) * (bullet.speed * Time.fixedDeltaTime) , ForceMode.Force);
         rb.isKinematic = false;
     }
 

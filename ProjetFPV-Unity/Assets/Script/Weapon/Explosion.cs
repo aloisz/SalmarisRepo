@@ -8,6 +8,7 @@ using UnityEngine;
 public class Explosion : MonoBehaviour
 {
     public float damageInflicted = 20;
+    public LayerMask explosionMask;
     [Space]
     public float explosionRadius;
     public float explosionForce;
@@ -32,7 +33,7 @@ public class Explosion : MonoBehaviour
 
     private void Explode()
     {
-        Collider[] surroundingObj = Physics.OverlapSphere(transform.position, explosionRadius);
+        Collider[] surroundingObj = Physics.OverlapSphere(transform.position, explosionRadius, explosionMask);
 
         foreach (Collider obj in surroundingObj)
         {
