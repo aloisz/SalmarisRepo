@@ -22,9 +22,6 @@ public class AI_AirSack : AI_Pawn
     [SerializeField] protected float agentSpeedGettingAway = 50;
     [SerializeField] protected float agentShootingRadius = 5;
     
-    [Space]
-    [SerializeField][Tooltip("How many time the check is performed")] protected float tickVerification = 0.2f;
-    
     protected enum AirSackMobState
     {
         Idle,
@@ -36,16 +33,16 @@ public class AI_AirSack : AI_Pawn
     {
         base.Start();
         weapon = GetComponent<WeaponManager>();
-        StartCoroutine(HandleTickBehavior());
     }
     
     protected AirSackMobState ChangeState(AirSackMobState state)
     {
         return this.airSackMobState = state;
     }
-        
-    protected virtual IEnumerator HandleTickBehavior()
+
+    protected override void PawnBehavior()
     {
+        base.PawnBehavior();
         switch (airSackMobState)
         {
             case AirSackMobState.Idle:
@@ -60,11 +57,7 @@ public class AI_AirSack : AI_Pawn
                 break;
         }
         CheckDistance();
-            
-        yield return new WaitForSeconds(tickVerification);
-        StartCoroutine(HandleTickBehavior());
     }
-
 
     /// <summary>
     /// Adapt the agent speed if the player is too far away
