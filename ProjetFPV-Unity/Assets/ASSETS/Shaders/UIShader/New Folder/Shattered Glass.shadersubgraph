@@ -23,6 +23,9 @@
         },
         {
             "m_Id": "4071d745ef6542af91d736f1bbbf76e9"
+        },
+        {
+            "m_Id": "bff702d9a5ff494086c995279ebcb174"
         }
     ],
     "m_Keywords": [],
@@ -152,6 +155,9 @@
         },
         {
             "m_Id": "b89f85e8922945738ab3ba7ca70d1da2"
+        },
+        {
+            "m_Id": "a7309e7564e64ff384e7f1bbe011b930"
         }
     ],
     "m_GroupDatas": [
@@ -495,6 +501,20 @@
                     "m_Id": "64fc8616a67c4a9680b359abe92ebb28"
                 },
                 "m_SlotId": 2
+            }
+        },
+        {
+            "m_OutputSlot": {
+                "m_Node": {
+                    "m_Id": "a7309e7564e64ff384e7f1bbe011b930"
+                },
+                "m_SlotId": 0
+            },
+            "m_InputSlot": {
+                "m_Node": {
+                    "m_Id": "64fc8616a67c4a9680b359abe92ebb28"
+                },
+                "m_SlotId": 3
             }
         },
         {
@@ -2264,7 +2284,7 @@
     },
     "m_Name": "Spherize",
     "m_DrawState": {
-        "m_Expanded": false,
+        "m_Expanded": true,
         "m_Position": {
             "serializedVersion": "2",
             "x": -1608.9998779296875,
@@ -2292,7 +2312,7 @@
     ],
     "synonyms": [],
     "m_Precision": 0,
-    "m_PreviewExpanded": false,
+    "m_PreviewExpanded": true,
     "m_DismissedVersion": 0,
     "m_PreviewMode": 0,
     "m_CustomColors": {
@@ -2992,6 +3012,27 @@
 
 {
     "m_SGVersion": 0,
+    "m_Type": "UnityEditor.ShaderGraph.Vector2MaterialSlot",
+    "m_ObjectId": "8dcdf22ad1ad4d97b9eaf77d936cfa45",
+    "m_Id": 0,
+    "m_DisplayName": "ScreenGiggle",
+    "m_SlotType": 1,
+    "m_Hidden": false,
+    "m_ShaderOutputName": "Out",
+    "m_StageCapability": 3,
+    "m_Value": {
+        "x": 0.0,
+        "y": 0.0
+    },
+    "m_DefaultValue": {
+        "x": 0.0,
+        "y": 0.0
+    },
+    "m_Labels": []
+}
+
+{
+    "m_SGVersion": 0,
     "m_Type": "UnityEditor.ShaderGraph.DynamicVectorMaterialSlot",
     "m_ObjectId": "9477a24955b84c91b22067f5fd0296ca",
     "m_Id": 1,
@@ -3250,6 +3291,42 @@
     },
     "m_Property": {
         "m_Id": "1f9a6dfebe644c16af87ad72ebde866d"
+    }
+}
+
+{
+    "m_SGVersion": 0,
+    "m_Type": "UnityEditor.ShaderGraph.PropertyNode",
+    "m_ObjectId": "a7309e7564e64ff384e7f1bbe011b930",
+    "m_Group": {
+        "m_Id": ""
+    },
+    "m_Name": "Property",
+    "m_DrawState": {
+        "m_Expanded": true,
+        "m_Position": {
+            "serializedVersion": "2",
+            "x": -1845.0,
+            "y": 1429.0,
+            "width": 147.0,
+            "height": 34.0
+        }
+    },
+    "m_Slots": [
+        {
+            "m_Id": "8dcdf22ad1ad4d97b9eaf77d936cfa45"
+        }
+    ],
+    "synonyms": [],
+    "m_Precision": 0,
+    "m_PreviewExpanded": true,
+    "m_DismissedVersion": 0,
+    "m_PreviewMode": 0,
+    "m_CustomColors": {
+        "m_SerializableColors": []
+    },
+    "m_Property": {
+        "m_Id": "bff702d9a5ff494086c995279ebcb174"
     }
 }
 
@@ -3693,6 +3770,9 @@
         },
         {
             "m_Id": "4071d745ef6542af91d736f1bbbf76e9"
+        },
+        {
+            "m_Id": "bff702d9a5ff494086c995279ebcb174"
         }
     ]
 }
@@ -3736,6 +3816,34 @@
     "m_PreviewMode": 0,
     "m_CustomColors": {
         "m_SerializableColors": []
+    }
+}
+
+{
+    "m_SGVersion": 1,
+    "m_Type": "UnityEditor.ShaderGraph.Internal.Vector2ShaderProperty",
+    "m_ObjectId": "bff702d9a5ff494086c995279ebcb174",
+    "m_Guid": {
+        "m_GuidSerialized": "7af31e9e-371a-4ebf-bd5a-38b8d82af3b7"
+    },
+    "m_Name": "ScreenGiggle",
+    "m_DefaultRefNameVersion": 1,
+    "m_RefNameGeneratedByDisplayName": "ScreenGiggle",
+    "m_DefaultReferenceName": "_ScreenGiggle",
+    "m_OverrideReferenceName": "",
+    "m_GeneratePropertyBlock": true,
+    "m_UseCustomSlotLabel": false,
+    "m_CustomSlotLabel": "",
+    "m_DismissedVersion": 0,
+    "m_Precision": 0,
+    "overrideHLSLDeclaration": false,
+    "hlslDeclarationOverride": 0,
+    "m_Hidden": false,
+    "m_Value": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0,
+        "w": 0.0
     }
 }
 
