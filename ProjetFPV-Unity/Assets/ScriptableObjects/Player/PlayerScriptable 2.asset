@@ -12,29 +12,34 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0a71b2abe57b72a4da7599e067bad271, type: 3}
   m_Name: PlayerScriptable 2
   m_EditorClassIdentifier: 
-  moveSpeed: 3
-  moveSpeedInAirDivider: 10
+  moveSpeed: 3.2
+  moveSpeedInAirDivider: 5
   moveThreshold: 0.1
-  jumpForce: 35
-  coyoteJumpForce: 40
-  moveAirMultiplier: 0.75
-  dashForce: 50
-  dashDuration: 0.3
+  jumpForce: 33
+  coyoteJumpForce: 45
+  moveAirMultiplier: 1
+  dashForce: 60
+  dashDuration: 0.145
   dashSpeedMultiplier: 1.25
-  dashSpeedMultiplierDuration: 1.5
-  dashSpeedMultiplierResetDuration: 2
+  dashSpeedMultiplierDuration: 1.25
+  dashSpeedMultiplierResetDuration: 1.5
   speedMaxToAccelerate: 12
-  accelerationMultiplier: 2
-  coyoteJump: 0
+  accelerationMultiplier: 1.2
+  coyoteJump: 0.4
   slidingInSlopeDownForce: 2
   slidingInSlopeLimiter: 100
-  staminaPerSecond: 0.01
+  overallMomentumLimiterMoveSlideInSlope: 10
+  decelerationMultiplierSlideOnGround: 50
+  decelerationMultiplierSlideInSlopeUp: 1000
+  staminaPerSecond: 0.005
   gravityMultiplier: 75
   groundDrag: 7
   airDrag: 1.8
-  groundDetectionLenght: 0.42
+  maxRigidbodyVelocity: 100
+  groundDetectionLenght: 2.5
   raycastLenghtSlopeDetection: 1
-  groundDetectionForwardOffset: 0.46
+  groundDetectionForwardOffset: 0.25
+  groundDetectionUpOffset: 0
   minSlopeDegrees: 3
   sensibility: 0.1
   lookLimitY: 90
