@@ -59,6 +59,7 @@ public class Barbatos : Shotgun
             actualWeaponModeIndex = WeaponMode.Secondary;
             //WeaponRefreshement();
         }
+        isFirstBulletGone = false;
         Shoot();
     }
 
