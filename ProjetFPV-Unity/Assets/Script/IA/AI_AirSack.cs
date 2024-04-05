@@ -86,8 +86,6 @@ public class AI_AirSack : AI_Pawn
         }
         
     }
-    
-    
     protected override void DestroyLogic()
     {
         //TODO : Implement Pooling Depop 

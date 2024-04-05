@@ -29,11 +29,6 @@ namespace AI
             Moving,
             AttackingCloseRange
         }
-        
-        protected override void Start()
-        {
-            base.Start();
-        }
 
         protected TrashMobState ChangeState(TrashMobState state)
         {
