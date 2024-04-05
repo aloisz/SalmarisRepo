@@ -14,17 +14,17 @@ public class BulletBehavior : MonoBehaviour, IBulletBehavior
     [SerializeField] protected float bulletLifeTime;
     // Components
     protected Rigidbody rb;
-    protected TrailRenderer lineRenderer;
+    protected TrailRenderer trailRenderer;
 
     protected virtual void Awake()
     {
         rb = GetComponent<Rigidbody>();
-        lineRenderer = GetComponent<TrailRenderer>();
+        trailRenderer = GetComponent<TrailRenderer>();
     }
 
     protected virtual void OnEnable()
     {
-        lineRenderer.enabled = true;
+        trailRenderer.enabled = true;
     }
 
     protected virtual void OnDisable()
@@ -61,10 +61,17 @@ public class BulletBehavior : MonoBehaviour, IBulletBehavior
     }
 
     // Here put following logic when bullet collide with walkableMask
-    protected virtual void CollideWithWalkableMask(Collision collision){}
+    protected virtual void CollideWithWalkableMask(Collision collision)
+    {
+        Pooling.instance.DePop(bullet.PoolingKeyName, gameObject);
+    }
     
     // Here put following logic when bullet collide with enemyMask
-    protected virtual void CollideWithEnemyMask(Collision collision){}
+    protected virtual void CollideWithEnemyMask(Collision collision)
+    {
+        collision.transform.GetComponent<IDamage>().Hit(bullet.damage);
+        Pooling.instance.DePop(bullet.PoolingKeyName, gameObject);
+    }
     
     public virtual bool EnableMovement(bool logic)
     {

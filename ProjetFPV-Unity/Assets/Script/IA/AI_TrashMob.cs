@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using DG.Tweening;
 using Player;
 using UnityEditor;
 using UnityEngine;
@@ -46,8 +47,9 @@ namespace AI
                     CheckDistance();
                     break;
                 case TrashMobState.AttackingCloseRange:
-                    if(isInAttackCoroutine) return;
-                    StartCoroutine(Attack());
+                    CacAttack();
+                    if(isInDashAttackCoroutine) return;
+                    StartCoroutine(DashAttack());
                     break;
             }
         }
@@ -57,7 +59,7 @@ namespace AI
         /// Adapt the agent speed if the player is too far away
         /// </summary>
         /// <returns></returns>
-        protected void CheckDistance()
+        protected virtual void CheckDistance()
         {
             if (Vector3.Distance(PlayerController.Instance.transform.position, transform.position) > agentSpeedRadius)
             {
@@ -80,22 +82,33 @@ namespace AI
             }
         }
 
-        private bool isInAttackCoroutine;
-        private IEnumerator Attack()
+        private bool isInDashAttackCoroutine;
+        private IEnumerator DashAttack()
         {
-            isInAttackCoroutine = true;
+            isInDashAttackCoroutine = true;
             navMeshAgent.speed = 0;
             
             yield return new WaitForSeconds(1f);
             IsPhysicNavMesh(false);
-            transform.LookAt(PlayerController.Instance.transform.position);
             isPerformingAttack = true;
             
             yield return new WaitForSeconds(2);
             GetPawnPersonnalInformation();
             ChangeState(TrashMobState.Moving);
             actualCountBeforeAttack = 0;
-            isInAttackCoroutine = false;
+            isInDashAttackCoroutine = false;
+        }
+
+        RaycastHit hit;
+        bool hasHit = false;
+        private void CacAttack()
+        {
+            hasHit = Physics.BoxCast(transform.position, transform.localScale*0.5f, 
+                transform.forward, out hit, transform.rotation, 30, targetMask);
+            if (hasHit)
+            {
+                Debug.Log("Hit : " + hit.transform.name);
+            }
         }
 
         public override void DisableAgent()
@@ -122,6 +135,12 @@ namespace AI
             }
         }
 
+        protected override void Update()
+        {
+            base.Update();
+            if(isInDashAttackCoroutine) transform.DOLookAt(PlayerController.Instance.transform.position, 0.2f);
+        }
+
 
         protected override void DestroyLogic()
         {
@@ -136,9 +155,11 @@ namespace AI
         protected override void OnDrawGizmos()
         {
             base.OnDrawGizmos();
-            if(!Application.isPlaying) return;
-            Handles.Label(transform.position + Vector3.up, $"walkingSpeed {navMeshAgent.speed}");
-            Handles.Label(transform.position + (Vector3.right * 12), $"isPerformingAttack {isPerformingAttack}");
+            if(Application.isPlaying)
+            {
+                Handles.Label(transform.position + Vector3.up, $"walkingSpeed {navMeshAgent.speed}");
+                Handles.Label(transform.position + (Vector3.right * 12), $"isPerformingAttack {isPerformingAttack}");
+            }
             
             var tr = transform;
             var pos = tr.position;
@@ -150,7 +171,21 @@ namespace AI
             var color2 = new Color32(255, 125, 255, 40);
             Handles.color = color2;
             Handles.DrawSolidDisc(pos, tr.up, agentDashRadius);
+
+            CacAttackGizmo();
         }
-        #endif
+
+        private void CacAttackGizmo()
+        {
+            Gizmos.color = Color.red;
+            Gizmos.DrawRay(transform.position, transform.forward * hit.distance);
+            Gizmos.DrawWireCube(transform.position + transform.forward * hit.distance, transform.localScale*0.5f);
+            
+            if (hasHit)
+            {
+                
+            }
+        }
+        #endif  
     }
 }
