@@ -50,11 +50,13 @@ namespace Player
         private float dashTimerSpeedAdd;
         private float speedMultiplierFromDash = 1f;
         
+        private Vector3 dirFromEdgePoint = Vector3.zero;
+        private float dirFromEdgePointMag = 0f;
+        
         //---------------------------------------
         
         [Header("States")]
         public bool isOnGround;
-        public bool wasOnGroundLastFrame;
         public bool isMoving;
         public bool isSliding;
         public bool isJumping;
@@ -83,6 +85,9 @@ namespace Player
         
         private RaycastHit raycastSlope;
         private RaycastHit raycastSlopeFront;
+        
+        private RaycastHit raycastEdgeDown;
+        private RaycastHit raycastEdgeFromTop;
         
         internal enum PlayerActionStates
         {
@@ -118,8 +123,8 @@ namespace Player
             DetectIdling();
             
             DetectSlope();
-            
             DetectGround();
+            DetectEdges();
             
             //CoyoteJump();
 
@@ -179,11 +184,17 @@ namespace Player
             var vectorSlideDown = Vector3.down * (playerScriptable.slidingInSlopeDownForce) / dividerOnSlopeClimbing;
             var vectorSlideForward = (slopeDirection * (actualSlopeAngle / playerScriptable.slidingInSlopeLimiter)) / dividerOnSlopeClimbing;
             var vectorSlide = vectorSlideDown + vectorSlideForward;
+
+            var vectorJumpFacility = Vector3.up * ((dirFromEdgePointMag * playerScriptable.jumpEdgeImpulseForce / (!isOnGround ? 5f : 1f)) * 
+                                                   (raycastEdgeFromTop.collider ? 
+                                                       Vector3.Distance(transform.position, raycastEdgeFromTop.point) : 1f));
             
             if(isSliding && !isOnSlope) _decelerationSlideOnGround += Time.deltaTime * playerScriptable.decelerationMultiplierSlideOnGround;
             
             var finalVector = ((isMoving ? vectorMove : Vector3.zero) + 
-                               (isOnSlope && isSliding && !isSlopeClimbing ? vectorSlide : Vector3.zero) + shotgunExternalForce)
+                               (isOnSlope && isSliding && !isSlopeClimbing ? vectorSlide : Vector3.zero) +
+                               (actualSlopeAngle < 18f && !isSlopeClimbing && isMoving && direction.z > 0.5f ? vectorJumpFacility : Vector3.zero) 
+                               + shotgunExternalForce)
                               / (isSliding && !isOnSlope ? _decelerationSlideOnGround : 1f);
             
             return finalVector / (isSliding && isMoving && isOnSlope ? playerScriptable.overallMomentumLimiterMoveSlideInSlope : 1f);
@@ -231,15 +242,6 @@ namespace Player
                 //Generate two times less stamina when in this airs.
                 PlayerStamina.Instance.GenerateStaminaStep(playerScriptable.staminaPerSecond / 2f);
         }
-        
-        /// <summary>
-        /// Manage the coyote jump and timer, and reset it.
-        /// </summary>
-        private void CoyoteJump()
-        {
-            //if (!isOnGround) coyoteTimer.DecreaseTimerIfPositive();
-            //else coyoteTimer = playerScriptable.coyoteJump;
-        }
 
         #endregion
         
@@ -265,7 +267,7 @@ namespace Player
         //-------------------- Physic ----------------------
         
         #region Physic
-        
+
         /// <summary>
         /// Managing the gravity by applying a force on the Y velocity axis, and adapt the XZ from the camera direction.
         /// </summary>
@@ -274,43 +276,18 @@ namespace Player
             if (canApplyGravity)
             {
                 var velocity = _rb.velocity;
-                
+
                 var v = velocity;
-                
+
                 v.y -= Time.deltaTime * playerScriptable.gravityMultiplier;
-                
+
                 v.x = velocity.x + (DirectionFromCamera(direction).x * playerScriptable.moveAirMultiplier);
                 v.z = velocity.z + (DirectionFromCamera(direction).z * playerScriptable.moveAirMultiplier);
-                
+
                 _rb.velocity = v;
             }
         }
 
-        /// <summary>
-        /// Detect the slope under the player, check if the player is climbing the slope or falling onto it.
-        /// </summary>
-        private void DetectSlope()
-        {
-            Physics.Raycast(transform.position + new Vector3(0,0.35f,0), Vector3.down, out raycastSlope, playerScriptable.raycastLenghtSlopeDetection,
-                groundLayer);
-            
-            Physics.Raycast(transform.position + new Vector3(0,0.35f,0) + (transform.forward * 2f), Vector3.down, 
-                out raycastSlopeFront, playerScriptable.raycastLenghtSlopeDetection, groundLayer);
-
-            actualSlopeAngle = Vector3.Angle(raycastSlope.normal, Vector3.up);
-
-            if (actualSlopeAngle > playerScriptable.minSlopeDegrees) 
-            {
-                isOnSlope = true;
-                isSlopeClimbing = raycastSlopeFront.point.y > transform.position.y;
-            }
-            else
-            {
-                isOnSlope = false;
-                isSlopeClimbing = false;
-            }
-        }
-        
         /// <summary>
         /// Set the physical material of the player, from it's different states.
         /// </summary>
@@ -355,7 +332,7 @@ namespace Player
             }
             else if (isOnGround && isSliding && !isOnSlope && _rb.velocity.magnitude < 20f)
             {
-                _rb.drag = 10f;
+                _rb.drag = 6f;
             }
             else if (isOnGround && !isSliding)
             {
@@ -409,9 +386,6 @@ namespace Player
             {
                 isOnGround = false;
             }
-            
-            //Update the last frame ground state.
-            wasOnGroundLastFrame = isOnGround;
         }
 
         /// <summary>
@@ -432,6 +406,59 @@ namespace Player
             yield return new WaitForSeconds(0.025f);
             isJumping = false;
         }
+        
+        /// <summary>
+        /// Detect the slope under the player, check if the player is climbing the slope or falling onto it.
+        /// </summary>
+        private void DetectSlope()
+        {
+            Physics.Raycast(transform.position + new Vector3(0,0.35f,0), Vector3.down, out raycastSlope, playerScriptable.raycastLenghtSlopeDetection,
+                groundLayer);
+            
+            Physics.Raycast(transform.position + new Vector3(0,0.35f,0) + (transform.forward * 2f), Vector3.down, 
+                out raycastSlopeFront, playerScriptable.raycastLenghtSlopeDetection, groundLayer);
+
+            actualSlopeAngle = Vector3.Angle(raycastSlope.normal, Vector3.up);
+
+            if (actualSlopeAngle > playerScriptable.minSlopeDegrees) 
+            {
+                isOnSlope = true;
+                isSlopeClimbing = raycastSlopeFront.point.y > transform.position.y;
+            }
+            else
+            {
+                isOnSlope = false;
+                isSlopeClimbing = false;
+            }
+        }
+
+        private void DetectEdges()
+        {
+            //Top Detect Edge Raycast
+            if (Physics.Raycast(transform.position + new Vector3(0, playerScriptable.edgeDetectionTopOffsetY, 0),
+                    transform.forward, 
+                    playerScriptable.edgeDetectionTopLenght, groundLayer))
+            {
+                return;
+            }
+            
+            //Down Detect Edge Raycast
+            Physics.Raycast(transform.position + new Vector3(0, playerScriptable.edgeDetectionDownOffsetY, 0),
+                transform.forward, out raycastEdgeDown,
+                playerScriptable.edgeDetectionDownLenght, groundLayer);
+                
+            //Down From Top Detect Edge Raycast
+            Physics.Raycast(transform.position + new Vector3(0, playerScriptable.edgeDetectionTopOffsetY, 0)
+                                               + transform.forward * playerScriptable.edgeDetectionTopLenght,
+                Vector3.down, out raycastEdgeFromTop,
+                playerScriptable.edgeDetectionEdgeFromTopLenght, groundLayer);
+            
+            dirFromEdgePoint = raycastEdgeFromTop.collider ? 
+                (raycastEdgeFromTop.point - transform.position) : Vector3.zero;
+            
+            dirFromEdgePointMag = raycastEdgeFromTop.collider ?
+                dirFromEdgePoint.normalized.magnitude : 0f;
+        }
 
         #endregion
         
@@ -448,8 +475,6 @@ namespace Player
             
             var forwardMomentumVector = GetOverallMomentumVector() / 20f;
             _rb.AddForce(playerScriptable.jumpForce * (Vector3.up + new Vector3(forwardMomentumVector.x, 0, forwardMomentumVector.z)), ForceMode.Impulse);
-            
-            //coyoteTimer = 0f;
         }
 
         /// <summary>
@@ -587,7 +612,7 @@ namespace Player
                 Vector3.down * playerScriptable.raycastLenghtSlopeDetection);
 
             //Slope Normal
-            Gizmos.color = Color.green;
+            Gizmos.color = Color.yellow;
             Gizmos.DrawRay(raycastSlope.point, raycastSlope.normal * 2.5f);
             
             var offset = playerScriptable.groundDetectionForwardOffset;
@@ -597,13 +622,28 @@ namespace Player
             {
                 var posCheck = ReturnCheckOffsetFromDir(pos, Helper.ReturnDirFromIndex(i), offset);
                 
-                Gizmos.color = Color.blue;
+                Gizmos.color = new Color(1,.5f,0);
                 Gizmos.DrawRay(posCheck, Vector3.down * playerScriptable.groundDetectionLenght);
             }
+            
+            Gizmos.color = Color.red;
+            Gizmos.DrawRay(transform.position + new Vector3(0, playerScriptable.edgeDetectionTopOffsetY, 0), 
+                transform.forward * playerScriptable.edgeDetectionTopLenght);
+            
+            Gizmos.color = Color.green;
+            Gizmos.DrawRay(transform.position + new Vector3(0, playerScriptable.edgeDetectionDownOffsetY, 0), 
+                transform.forward * playerScriptable.edgeDetectionDownLenght);
+            
+            Gizmos.color = Color.blue;
+            Gizmos.DrawRay((transform.position + new Vector3(0, playerScriptable.edgeDetectionTopOffsetY, 0))
+                           + transform.forward * playerScriptable.edgeDetectionTopLenght, 
+                Vector3.down * playerScriptable.edgeDetectionEdgeFromTopLenght);
         }
 
         private void OnGUI()
         {
+            return;
+            
             // Set up GUI style for the text
             GUIStyle style = new GUIStyle
             {
@@ -636,7 +676,8 @@ namespace Player
             
             Rect rect10 = new Rect(10, 520, 200, 50);
             
-            Rect rect11 = new Rect(10, 160, Mathf.Lerp(1,300,_rb.velocity.magnitude / 100f), 10);
+            Rect rect11 = new Rect(10, 580, 200, 50);
+            Rect rect12 = new Rect(10, 610, 200, 50);
 
             // Display the text on the screen
             GUI.Label(rect, $"Direction : {direction}", style);
@@ -644,9 +685,6 @@ namespace Player
             
             GUI.Label(rect2, $"Rigidbody Velocity : {_rb.velocity}", style);
             GUI.Label(rect3, $"Rigidbody Magnitude : {_rb.velocity.magnitude}", style);
-            GUI.DrawTexture(rect11, new Texture2D((int)Mathf.Lerp(1,300,_rb.velocity.magnitude / 100f), 10),
-                ScaleMode.ScaleToFit, true, 0, Color.Lerp(Color.green, Color.red, _rb.velocity.magnitude / 100f), 
-                0, 0);
             
             GUI.Label(rect4, $"Current State : {Convert.ToString(currentActionState)}", style);
             
@@ -661,6 +699,9 @@ namespace Player
             GUI.Label(rect9, $"Current Slope Angle : {actualSlopeAngle}", style);
             
             GUI.Label(rect10, $"Rigidbody Drag : {_rb.drag}", style);
+            
+            GUI.Label(rect11, $"DirFromEdgePoint : {dirFromEdgePoint}", style);
+            GUI.Label(rect12, $"DirFromEdgePointMag : {dirFromEdgePointMag}", style);
         }
 
         GUIStyle BoolStyle(bool value)
