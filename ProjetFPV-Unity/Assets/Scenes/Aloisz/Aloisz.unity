@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.11097027, g: 1.107759, b: 0.85255146, a: 1}
+  m_IndirectSpecularColor: {r: 0.11088995, g: 1.1081313, b: 0.8525423, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -1938,17 +1938,22 @@ PrefabInstance:
     - target: {fileID: 6159587722465297484, guid: 71f951629bed9f0468abebcf5f737845,
         type: 3}
       propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7272881338494786430, guid: 71f951629bed9f0468abebcf5f737845,
+        type: 3}
+      propertyPath: trashMobState
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7670129111412073086, guid: 71f951629bed9f0468abebcf5f737845,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -5.56
+      value: -3.69
       objectReference: {fileID: 0}
     - target: {fileID: 7670129111412073086, guid: 71f951629bed9f0468abebcf5f737845,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 10.1
+      value: 4.96
       objectReference: {fileID: 0}
     - target: {fileID: 7670129111412073086, guid: 71f951629bed9f0468abebcf5f737845,
         type: 3}
@@ -2264,7 +2269,7 @@ MonoBehaviour:
   m_OverrideVoxelSize: 0
   m_VoxelSize: 0.16666667
   m_MinRegionArea: 2
-  m_NavMeshData: {fileID: 23800000, guid: 7a2e9f6ab8c2612409016ee3941c030e, type: 2}
+  m_NavMeshData: {fileID: 23800000, guid: 410e50451ef48404e86c3465793097d1, type: 2}
   m_BuildHeightMesh: 0
 --- !u!4 &626537511
 Transform:
@@ -9136,6 +9141,11 @@ PrefabInstance:
     - target: {fileID: 5313092729534710420, guid: b8b6c0fdf0c4fdc45a7a779e068e839d,
         type: 3}
       propertyPath: weaponIndex
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5313092729534710420, guid: b8b6c0fdf0c4fdc45a7a779e068e839d,
+        type: 3}
+      propertyPath: isOnMainWeapon
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5313092729534710420, guid: b8b6c0fdf0c4fdc45a7a779e068e839d,
@@ -20557,7 +20567,7 @@ PrefabInstance:
     - target: {fileID: 7502665594481904492, guid: 8065eb87f568da04999f49596c158ce1,
         type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

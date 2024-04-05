@@ -8,6 +8,7 @@ using UnityEngine;
 public class Explosion : MonoBehaviour
 {
     public float damageInflicted = 20;
+    [SerializeField] private AnimationCurve damageRepartition;
     public LayerMask explosionMask;
     [Space]
     public float explosionRadius;
@@ -20,6 +21,9 @@ public class Explosion : MonoBehaviour
     {
         if(hasExploded) return;
         hasExploded = true;
+
+        damageRepartition.AddKey(0, damageInflicted);
+        damageRepartition.AddKey(explosionRadius, damageInflicted / explosionRadius);
         
         GetComponent<SphereCollider>().radius = explosionRadius;
         Explode();
@@ -41,9 +45,8 @@ public class Explosion : MonoBehaviour
             if (enemy != null)
             {
                 enemy.DisableAgent();
-                enemy.Hit(damageInflicted);
+                enemy.Hit(damageRepartition.Evaluate(Vector3.Distance(transform.position ,obj.transform.position)));
             }
-            
             
             var rb = obj.GetComponent<Rigidbody>();
             if (rb != null) rb.AddExplosionForce(explosionForce, transform.position, explosionRadius);
