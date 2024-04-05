@@ -21,9 +21,6 @@ namespace Player
         [BoxGroup("Movement")][Tooltip("The player's jump impulsion force.")]
         public float jumpForce = 20f;
         
-        [BoxGroup("Movement")][Tooltip("The player's coyote jump impulsion force.")]
-        public float coyoteJumpForce = 20f;
-        
         [BoxGroup("Movement")][Tooltip("The player's movement air multiplier.")]
         public float moveAirMultiplier = 0.1f;
         
@@ -48,9 +45,6 @@ namespace Player
         [BoxGroup("Movement")][Tooltip("Rigidbody's velocity acceleration under the speedMaxToAccelerate value.")]
         public float accelerationMultiplier = 1.2f;
         
-        [BoxGroup("Movement")][Tooltip("How much time the player can still jump while in the air.")]
-        public float coyoteJump = 0.35f;
-        
         [BoxGroup("Movement")][Tooltip("Rigidbody's velocity force applied down when sliding a slope.")]
         public float slidingInSlopeDownForce = 200f;
         
@@ -65,6 +59,9 @@ namespace Player
         
         [BoxGroup("Movement")][Tooltip("The deceleration amount of the player's speed when he is climbing a slope while sliding.")] 
         public float decelerationMultiplierSlideInSlopeUp = 1000f;
+        
+        [BoxGroup("Movement")][Tooltip("")]
+        public float jumpEdgeImpulseForce = 15f;
 
         //----------------------------------------------------
         
@@ -101,6 +98,21 @@ namespace Player
 
         [BoxGroup("Detection")][Tooltip("The minimum slope degree for be considered as a slope.")]
         public float minSlopeDegrees = 25f;
+        
+        [BoxGroup("Detection")][Tooltip("")]
+        public float edgeDetectionDownLenght = 1f;
+        
+        [BoxGroup("Detection")][Tooltip("")]
+        public float edgeDetectionDownOffsetY = 0f;
+        
+        [BoxGroup("Detection")][Tooltip("")]
+        public float edgeDetectionTopLenght = 1f;
+        
+        [BoxGroup("Detection")][Tooltip("")]
+        public float edgeDetectionTopOffsetY = 0f;
+        
+        [BoxGroup("Detection")][Tooltip("")]
+        public float edgeDetectionEdgeFromTopLenght = 1f;
 
         //----------------------------------------------------
         
