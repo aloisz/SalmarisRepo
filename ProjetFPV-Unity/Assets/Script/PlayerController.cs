@@ -187,13 +187,13 @@ namespace Player
 
             var vectorJumpFacility = Vector3.up * ((dirFromEdgePointMag * playerScriptable.jumpEdgeImpulseForce / (!isOnGround ? 5f : 1f)) * 
                                                    (raycastEdgeFromTop.collider ? 
-                                                       Vector3.Distance(transform.position, raycastEdgeFromTop.point) : 1f));
+                                                       Vector3.Distance(transform.position, raycastEdgeFromTop.point) / 2f : 1f));
             
             if(isSliding && !isOnSlope) _decelerationSlideOnGround += Time.deltaTime * playerScriptable.decelerationMultiplierSlideOnGround;
             
             var finalVector = ((isMoving ? vectorMove : Vector3.zero) + 
                                (isOnSlope && isSliding && !isSlopeClimbing ? vectorSlide : Vector3.zero) +
-                               (actualSlopeAngle < 18f && !isSlopeClimbing && isMoving && direction.z > 0.5f ? vectorJumpFacility : Vector3.zero) 
+                               (!isSlopeClimbing && isMoving && direction.z > 0.5f && (isOnGround || _rb.velocity.y > 10f) ? vectorJumpFacility : Vector3.zero) 
                                + shotgunExternalForce)
                               / (isSliding && !isOnSlope ? _decelerationSlideOnGround : 1f);
             
@@ -319,12 +319,12 @@ namespace Player
                 _rb.drag = 0.65f;
                 if (isOnGround && isSliding && !isOnSlope && _rb.velocity.magnitude < 25f)
                 {
-                    _rb.drag = 10f;
+                    _rb.drag = 5f;
                 }
             }
             else if (isOnGround && isSliding && isOnSlope && isSlopeClimbing && _rb.velocity.magnitude < 25f)
             {
-                _rb.drag = 5f;
+                _rb.drag = 10f;
             }
             else if (isOnSlope && !isSliding)
             {
@@ -434,22 +434,26 @@ namespace Player
 
         private void DetectEdges()
         {
+            var transform1 = transform;
+            var position = transform1.position;
+            var forward = transform1.forward;
+            
             //Top Detect Edge Raycast
-            if (Physics.Raycast(transform.position + new Vector3(0, playerScriptable.edgeDetectionTopOffsetY, 0),
-                    transform.forward, 
+            if (Physics.Raycast(position + new Vector3(0, playerScriptable.edgeDetectionTopOffsetY, 0),
+                    forward, 
                     playerScriptable.edgeDetectionTopLenght, groundLayer))
             {
                 return;
             }
             
             //Down Detect Edge Raycast
-            Physics.Raycast(transform.position + new Vector3(0, playerScriptable.edgeDetectionDownOffsetY, 0),
-                transform.forward, out raycastEdgeDown,
+            Physics.Raycast(position + new Vector3(0, playerScriptable.edgeDetectionDownOffsetY, 0),
+                forward, out raycastEdgeDown,
                 playerScriptable.edgeDetectionDownLenght, groundLayer);
                 
             //Down From Top Detect Edge Raycast
-            Physics.Raycast(transform.position + new Vector3(0, playerScriptable.edgeDetectionTopOffsetY, 0)
-                                               + transform.forward * playerScriptable.edgeDetectionTopLenght,
+            Physics.Raycast(position + new Vector3(0, playerScriptable.edgeDetectionTopOffsetY, 0)
+                                     + forward * playerScriptable.edgeDetectionTopLenght,
                 Vector3.down, out raycastEdgeFromTop,
                 playerScriptable.edgeDetectionEdgeFromTopLenght, groundLayer);
             
@@ -642,7 +646,7 @@ namespace Player
 
         private void OnGUI()
         {
-            return;
+            //return;
             
             // Set up GUI style for the text
             GUIStyle style = new GUIStyle
@@ -700,8 +704,7 @@ namespace Player
             
             GUI.Label(rect10, $"Rigidbody Drag : {_rb.drag}", style);
             
-            GUI.Label(rect11, $"DirFromEdgePoint : {dirFromEdgePoint}", style);
-            GUI.Label(rect12, $"DirFromEdgePointMag : {dirFromEdgePointMag}", style);
+            GUI.Label(rect11, $"Is Slope Climbing : {isSlopeClimbing}", BoolStyle(isSlopeClimbing));
         }
 
         GUIStyle BoolStyle(bool value)
@@ -722,7 +725,7 @@ namespace Player
         //-------------------- Unused ----------------------
         
         #region Unused
-        
+        //?
         #endregion
     }
 }
