@@ -37,21 +37,6 @@ public class Barbatos : Shotgun
             canFire = true;
         }
         
-        /*if (barbatosInput.isReceivingSecondary)
-        {
-            if (actualWeaponModeIndex != WeaponMode.Secondary)
-            {
-                actualWeaponModeIndex = WeaponMode.Secondary;
-                //WeaponRefreshement();
-            }
-            Shoot();
-            Debug.Log("Secondary");
-        }
-        else
-        {
-            isShooting = false;
-            canFire = true;
-        }*/
         if (barbatosInput.isReceivingSecondary) Secondary();
         else chargingActualValue = 0;
         
@@ -69,7 +54,6 @@ public class Barbatos : Shotgun
         
         if(!IsSecondaryCharged()) return;
         isFirstBulletGone = false;
-        Shoot();
     }
 
     public bool IsSecondaryCharged()
