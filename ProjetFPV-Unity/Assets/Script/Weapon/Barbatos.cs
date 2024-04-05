@@ -8,6 +8,11 @@ using Object = UnityEngine.Object;
 public class Barbatos : Shotgun
 {
     private BarbatosInput barbatosInput;
+    
+    [Header("Charging Weapon")]
+    [SerializeField] private float chargingMaxValue;
+    [SerializeField] private float chargingMultiplier;
+    private float chargingActualValue;
 
     protected override void Start()
     {
@@ -47,6 +52,8 @@ public class Barbatos : Shotgun
             isShooting = false;
             canFire = true;
         }*/
+        if (barbatosInput.isReceivingSecondary) Secondary();
+        else chargingActualValue = 0;
         
             
         if (barbatosInput.isReceivingReload) Reload();
@@ -59,7 +66,24 @@ public class Barbatos : Shotgun
             actualWeaponModeIndex = WeaponMode.Secondary;
             //WeaponRefreshement();
         }
+        
+        if(!IsSecondaryCharged()) return;
+        isFirstBulletGone = false;
         Shoot();
+    }
+
+    public bool IsSecondaryCharged()
+    {
+        bool isCharged = false;
+        if (chargingActualValue < chargingMaxValue)
+        {
+            chargingActualValue += Time.deltaTime * chargingMultiplier;
+            if (chargingActualValue >= chargingMaxValue)
+            {
+                isCharged =  true;
+            }
+        }
+        return isCharged;
     }
 
 

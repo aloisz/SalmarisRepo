@@ -7,6 +7,7 @@ using Weapon;
 public class Shotgun : ShootingLogicModule
 {
     private bool isRocketJumping;
+    protected bool isFirstBulletGone;
     private Vector3 hitPoint;
     
     protected override void RaycastEnum()
@@ -18,6 +19,8 @@ public class Shotgun : ShootingLogicModule
     
     public void RaycastSingleHitScanRocketJump(float maxDistance)
     {
+        if(isFirstBulletGone) return;
+        isFirstBulletGone = true;
         RaycastHit hit;
         if (Physics.Raycast(camera.transform.position, camera.transform.forward, out hit, maxDistance, so_Weapon.hitLayer))
         {
