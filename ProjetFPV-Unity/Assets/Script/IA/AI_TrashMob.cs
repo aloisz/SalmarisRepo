@@ -1,10 +1,13 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Timers;
+using CameraBehavior;
 using DG.Tweening;
 using Player;
 using UnityEditor;
 using UnityEngine;
+using Timer = UnityTimer.Timer;
 
 
 namespace AI
@@ -31,6 +34,29 @@ namespace AI
             AttackingCloseRange
         }
 
+        protected virtual void Start()
+        {
+            base.Start();
+        }
+        
+        protected override void Update()
+        {
+            base.Update();
+            if(trashMobState == TrashMobState.AttackingCloseRange) 
+                transform.DOLookAt(PlayerController.Instance.transform.position + Vector3.up, 0.2f, AxisConstraint.Y);
+        }
+        
+        protected void FixedUpdate()
+        {
+            rb.AddForce(Vector3.down * 150);
+            if (isPerformingAttack)
+            {
+                isPerformingAttack = false;
+                Vector3 attackDir = PlayerController.Instance.transform.position - transform.position;
+                rb.AddForce(attackDir.normalized * agentDashSpeed, ForceMode.Impulse);
+            }
+        }
+
         protected TrashMobState ChangeState(TrashMobState state)
         {
             return this.trashMobState = state;
@@ -44,14 +70,14 @@ namespace AI
                 case TrashMobState.Idle:
                     break;
                 case TrashMobState.Moving:
-                    CheckDistance();
                     break;
                 case TrashMobState.AttackingCloseRange:
                     CacAttack();
-                    if(isInDashAttackCoroutine) return;
-                    StartCoroutine(DashAttack());
+                    /*if(isInDashAttackCoroutine) return;
+                    StartCoroutine(DashAttack());*/
                     break;
             }
+            CheckDistance();
         }
         
         
@@ -64,12 +90,14 @@ namespace AI
             if (Vector3.Distance(PlayerController.Instance.transform.position, transform.position) > agentSpeedRadius)
             {
                 navMeshAgent.speed = agentSpeedWhenIsToFar;
+                ChangeState(TrashMobState.Moving);
             }
             else
             {
                 if (Vector3.Distance(PlayerController.Instance.transform.position, transform.position) > agentDashRadius)
                 {
                     navMeshAgent.speed = so_IA.walkingSpeed;
+                    ChangeState(TrashMobState.Moving);
                 }
                 else
                 {
@@ -101,10 +129,13 @@ namespace AI
 
         RaycastHit hit;
         bool hasHit = false;
+        private float timerCacAttack;
         private void CacAttack()
         {
+            Debug.DrawRay(transform.position, transform.forward * 2, Color.green, .1f);
+            
             hasHit = Physics.BoxCast(transform.position, transform.localScale*0.5f, 
-                transform.forward, out hit, transform.rotation, 30, targetMask);
+                transform.forward, out hit, transform.rotation, 2, targetMask);
             if (hasHit)
             {
                 Debug.Log("Hit : " + hit.transform.name);
@@ -122,23 +153,6 @@ namespace AI
         {
             yield return new WaitForSeconds(2);
             IsPhysicNavMesh(true);
-        }
-
-        protected void FixedUpdate()
-        {
-            rb.AddForce(Vector3.down * 150);
-            if (isPerformingAttack)
-            {
-                isPerformingAttack = false;
-                Vector3 attackDir = PlayerController.Instance.transform.position - transform.position;
-                rb.AddForce(attackDir.normalized * agentDashSpeed, ForceMode.Impulse);
-            }
-        }
-
-        protected override void Update()
-        {
-            base.Update();
-            if(isInDashAttackCoroutine) transform.DOLookAt(PlayerController.Instance.transform.position, 0.2f);
         }
 
 
@@ -177,13 +191,12 @@ namespace AI
 
         private void CacAttackGizmo()
         {
-            Gizmos.color = Color.red;
-            Gizmos.DrawRay(transform.position, transform.forward * hit.distance);
-            Gizmos.DrawWireCube(transform.position + transform.forward * hit.distance, transform.localScale*0.5f);
             
             if (hasHit)
             {
-                
+                Gizmos.color = Color.red;
+                Gizmos.DrawRay(transform.position, transform.forward * hit.distance);
+                Gizmos.DrawWireCube(transform.position + transform.forward * hit.distance, transform.localScale*0.5f);
             }
         }
         #endif  
