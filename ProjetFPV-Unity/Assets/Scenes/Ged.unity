@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.11096938, g: 1.1075947, b: 0.8525286, a: 1}
+  m_IndirectSpecularColor: {r: 0, g: 0, b: 0, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -9627,6 +9627,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   targetToFollow: {fileID: 0}
   so_IA: {fileID: 0}
+  tickVerification: 0.2
   visionDetector: {fileID: 0}
   trashMobState: 0
   agentSpeedRadius: 2
@@ -9634,7 +9635,6 @@ MonoBehaviour:
   agentDashRadius: 2
   agentDashSpeed: 500
   countBeforeAttack: 10
-  tickVerification: 0.2
 --- !u!1 &505232849 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 4aa3f077e844b0646951e40a1ddba60e,
@@ -13582,7 +13582,7 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: 4aa3f077e844b0646951e40a1ddba60e,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: -285.26746
+      value: -285.51
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 4aa3f077e844b0646951e40a1ddba60e,
         type: 3}
@@ -15150,16 +15150,16 @@ RectTransform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1036883185}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0.0000095144}
   m_LocalScale: {x: 0.7587775, y: 0.58819526, z: 0.7224388}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 9032887033219091150}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 1}
-  m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: 0, y: -17}
-  m_SizeDelta: {x: 650, y: 246}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 0}
+  m_AnchoredPosition: {x: -0.0031738281, y: 499.0004}
+  m_SizeDelta: {x: 610.4, y: 1696.72}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1036883187
 MonoBehaviour:
@@ -15173,15 +15173,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 0.7176471}
+  m_Material: {fileID: 2100000, guid: f37f5ee76bccf1b489ec940b0f33e89f, type: 2}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: c4d7b31ee1dbc664389e59d02a44be79, type: 3}
+  m_Sprite: {fileID: 0}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -36385,6 +36385,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   targetToFollow: {fileID: 0}
   so_IA: {fileID: 0}
+  tickVerification: 0.2
   visionDetector: {fileID: 0}
   trashMobState: 0
   agentSpeedRadius: 2
@@ -36392,7 +36393,6 @@ MonoBehaviour:
   agentDashRadius: 2
   agentDashSpeed: 500
   countBeforeAttack: 10
-  tickVerification: 0.2
 --- !u!4 &1725257681
 Transform:
   m_ObjectHideFlags: 0
@@ -49741,6 +49741,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   targetToFollow: {fileID: 0}
   so_IA: {fileID: 0}
+  tickVerification: 0.2
   visionDetector: {fileID: 0}
   trashMobState: 0
   agentSpeedRadius: 2
@@ -49748,7 +49749,6 @@ MonoBehaviour:
   agentDashRadius: 2
   agentDashSpeed: 500
   countBeforeAttack: 10
-  tickVerification: 0.2
 --- !u!4 &2098660486
 Transform:
   m_ObjectHideFlags: 0
@@ -50726,7 +50726,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: -1.901}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -8.799988, y: -28.1}
+  m_AnchoredPosition: {x: -8.799988, y: -28.099998}
   m_SizeDelta: {x: 470.9182, y: 149.7308}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1062593346442180141
@@ -50997,7 +50997,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: -3}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -303.75247, y: 27.44046}
+  m_AnchoredPosition: {x: -303.75244, y: 27.44046}
   m_SizeDelta: {x: 273.0947, y: 207.2306}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1253742103605203165
@@ -51243,9 +51243,9 @@ Canvas:
   m_GameObject: {fileID: 6559808036568827908}
   m_Enabled: 1
   serializedVersion: 3
-  m_RenderMode: 0
-  m_Camera: {fileID: 0}
-  m_PlaneDistance: 100
+  m_RenderMode: 1
+  m_Camera: {fileID: 1219454692348425983}
+  m_PlaneDistance: 0.1
   m_PixelPerfect: 0
   m_ReceivesEvents: 1
   m_OverrideSorting: 0
@@ -51323,6 +51323,7 @@ MonoBehaviour:
   cameraAttachPosition: {fileID: 612950091729217555}
   capsuleCollider: {fileID: 3057406663829622357}
   _rb: {fileID: 0}
+  shotgunExternalForce: {x: 0, y: 0, z: 0}
   isOnGround: 0
   wasOnGroundLastFrame: 0
   isMoving: 0
@@ -52680,7 +52681,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -93.6, y: 33.6}
+  m_AnchoredPosition: {x: -93.600006, y: 33.6}
   m_SizeDelta: {x: 228.1014, y: 68.5433}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!224 &6710330539801035917
