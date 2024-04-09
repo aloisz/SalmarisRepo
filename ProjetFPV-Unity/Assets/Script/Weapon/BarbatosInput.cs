@@ -24,11 +24,8 @@ public class BarbatosInput : MonoBehaviour
     
     public void Secondary(InputAction.CallbackContext ctx)
     {
-        //isReceivingSecondary = ctx.performed;
-        if (ctx.started)
-        {
-            barbatos.Secondary();
-        }
+        isReceivingSecondary = ctx.performed;
+        if(ctx.canceled) barbatos.ShootingAction();
     }
     
     public void Reload(InputAction.CallbackContext ctx)

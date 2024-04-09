@@ -16,7 +16,7 @@ public class Missile : BulletBehavior,IExplosion
     protected override void CollideWithWalkableMask(Collision collision)
     {
         Explosion();
-        lineRenderer.enabled = false;
+        trailRenderer.enabled = false;
         Pooling.instance.DePop(bullet.PoolingKeyName, gameObject);
     }
     
@@ -24,7 +24,7 @@ public class Missile : BulletBehavior,IExplosion
     protected override void CollideWithEnemyMask(Collision collision)
     {
         Explosion();
-        lineRenderer.enabled = false;
+        trailRenderer.enabled = false;
         collision.transform.GetComponent<IDamage>().Hit(bullet.damage);
         Pooling.instance.DePop(bullet.PoolingKeyName, gameObject);
     }

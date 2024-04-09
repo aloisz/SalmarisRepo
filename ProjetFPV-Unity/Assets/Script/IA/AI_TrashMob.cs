@@ -1,9 +1,13 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Timers;
+using CameraBehavior;
+using DG.Tweening;
 using Player;
 using UnityEditor;
 using UnityEngine;
+using Timer = UnityTimer.Timer;
 
 
 namespace AI
@@ -29,10 +33,28 @@ namespace AI
             Moving,
             AttackingCloseRange
         }
-        
-        protected override void Start()
+
+        protected virtual void Start()
         {
             base.Start();
+        }
+        
+        protected override void Update()
+        {
+            base.Update();
+            if(trashMobState == TrashMobState.AttackingCloseRange) 
+                transform.DOLookAt(PlayerController.Instance.transform.position + Vector3.up, 0.2f, AxisConstraint.Y);
+        }
+        
+        protected void FixedUpdate()
+        {
+            rb.AddForce(Vector3.down * 150);
+            if (isPerformingAttack)
+            {
+                isPerformingAttack = false;
+                Vector3 attackDir = PlayerController.Instance.transform.position - transform.position;
+                rb.AddForce(attackDir.normalized * agentDashSpeed, ForceMode.Impulse);
+            }
         }
 
         protected TrashMobState ChangeState(TrashMobState state)
@@ -48,13 +70,14 @@ namespace AI
                 case TrashMobState.Idle:
                     break;
                 case TrashMobState.Moving:
-                    CheckDistance();
                     break;
                 case TrashMobState.AttackingCloseRange:
-                    if(isInAttackCoroutine) return;
-                    StartCoroutine(Attack());
+                    CacAttack();
+                    /*if(isInDashAttackCoroutine) return;
+                    StartCoroutine(DashAttack());*/
                     break;
             }
+            CheckDistance();
         }
         
         
@@ -62,17 +85,19 @@ namespace AI
         /// Adapt the agent speed if the player is too far away
         /// </summary>
         /// <returns></returns>
-        protected void CheckDistance()
+        protected virtual void CheckDistance()
         {
             if (Vector3.Distance(PlayerController.Instance.transform.position, transform.position) > agentSpeedRadius)
             {
                 navMeshAgent.speed = agentSpeedWhenIsToFar;
+                ChangeState(TrashMobState.Moving);
             }
             else
             {
                 if (Vector3.Distance(PlayerController.Instance.transform.position, transform.position) > agentDashRadius)
                 {
                     navMeshAgent.speed = so_IA.walkingSpeed;
+                    ChangeState(TrashMobState.Moving);
                 }
                 else
                 {
@@ -85,22 +110,36 @@ namespace AI
             }
         }
 
-        private bool isInAttackCoroutine;
-        private IEnumerator Attack()
+        private bool isInDashAttackCoroutine;
+        private IEnumerator DashAttack()
         {
-            isInAttackCoroutine = true;
+            isInDashAttackCoroutine = true;
             navMeshAgent.speed = 0;
             
             yield return new WaitForSeconds(1f);
             IsPhysicNavMesh(false);
-            transform.LookAt(PlayerController.Instance.transform.position);
             isPerformingAttack = true;
             
             yield return new WaitForSeconds(2);
             GetPawnPersonnalInformation();
             ChangeState(TrashMobState.Moving);
             actualCountBeforeAttack = 0;
-            isInAttackCoroutine = false;
+            isInDashAttackCoroutine = false;
+        }
+
+        RaycastHit hit;
+        bool hasHit = false;
+        private float timerCacAttack;
+        private void CacAttack()
+        {
+            Debug.DrawRay(transform.position, transform.forward * 2, Color.green, .1f);
+            
+            hasHit = Physics.BoxCast(transform.position, transform.localScale*0.5f, 
+                transform.forward, out hit, transform.rotation, 2, targetMask);
+            if (hasHit)
+            {
+                Debug.Log("Hit : " + hit.transform.name);
+            }
         }
 
         public override void DisableAgent()
@@ -114,17 +153,6 @@ namespace AI
         {
             yield return new WaitForSeconds(2);
             IsPhysicNavMesh(true);
-        }
-
-        protected void FixedUpdate()
-        {
-            rb.AddForce(Vector3.down * 150);
-            if (isPerformingAttack)
-            {
-                isPerformingAttack = false;
-                Vector3 attackDir = PlayerController.Instance.transform.position - transform.position;
-                rb.AddForce(attackDir.normalized * agentDashSpeed, ForceMode.Impulse);
-            }
         }
 
 
@@ -141,9 +169,11 @@ namespace AI
         protected override void OnDrawGizmos()
         {
             base.OnDrawGizmos();
-            if(!Application.isPlaying) return;
-            Handles.Label(transform.position + Vector3.up, $"walkingSpeed {navMeshAgent.speed}");
-            Handles.Label(transform.position + (Vector3.right * 12), $"isPerformingAttack {isPerformingAttack}");
+            if(Application.isPlaying)
+            {
+                Handles.Label(transform.position + Vector3.up, $"walkingSpeed {navMeshAgent.speed}");
+                Handles.Label(transform.position + (Vector3.right * 12), $"isPerformingAttack {isPerformingAttack}");
+            }
             
             var tr = transform;
             var pos = tr.position;
@@ -155,7 +185,20 @@ namespace AI
             var color2 = new Color32(255, 125, 255, 40);
             Handles.color = color2;
             Handles.DrawSolidDisc(pos, tr.up, agentDashRadius);
+
+            CacAttackGizmo();
         }
-        #endif
+
+        private void CacAttackGizmo()
+        {
+            
+            if (hasHit)
+            {
+                Gizmos.color = Color.red;
+                Gizmos.DrawRay(transform.position, transform.forward * hit.distance);
+                Gizmos.DrawWireCube(transform.position + transform.forward * hit.distance, transform.localScale*0.5f);
+            }
+        }
+        #endif  
     }
 }

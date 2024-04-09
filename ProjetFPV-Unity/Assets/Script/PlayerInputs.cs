@@ -21,11 +21,12 @@ public class PlayerInputs : GenericSingletonClass<PlayerInputs>
     
     //WeaponSwap
     public List<WeaponManager> weapons;
-    public bool isOnMainWeapon = true;
+    public bool isOnMainWeapon = false;
 
     private void Start()
     {
         GetWeaponByIndex(GetIndexByBoolean(isOnMainWeapon));
+        isOnMainWeapon = !isOnMainWeapon;
     }
 
 

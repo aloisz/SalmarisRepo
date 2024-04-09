@@ -17,6 +17,7 @@ namespace AI
         [SerializeField] protected SO_IA so_IA;
 
         protected float actualPawnHealth;
+        [SerializeField] protected LayerMask targetMask;
         [Header("Tick State")]
         [SerializeField][Tooltip("How many time the check is performed")] protected float tickVerification = 0.2f;
         
@@ -57,7 +58,6 @@ namespace AI
         {
             CheckIfIsStillAlive();
             //PawnAvoidance();
-            FollowTarget();
             TickHandler();
         }
 
@@ -70,6 +70,7 @@ namespace AI
                 if (timer > tickVerification)
                 {
                     timer = 0;
+                    FollowTarget();
                     PawnBehavior();
                 }
             }
