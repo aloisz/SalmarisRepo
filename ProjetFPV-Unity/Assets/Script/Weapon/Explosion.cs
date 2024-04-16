@@ -27,6 +27,14 @@ public class Explosion : MonoBehaviour
     
     private bool hasExploded = false;
 
+    private void Start()
+    {
+        sphereColliderRadius = GetComponent<SphereCollider>();
+        baseExplosionForce = explosionForce;
+        baseExplosionRadius = explosionRadius;
+        sphereColliderRadius.radius = explosionRadius;
+    }
+
     private void OnEnable()
     {
         
@@ -35,7 +43,6 @@ public class Explosion : MonoBehaviour
     private void OnDisable()
     {
         if(!hasExploded) return;
-        sphereColliderRadius = GetComponent<SphereCollider>();
         hasExploded = false;
         transform.position = Vector3.zero;
         transform.rotation = Quaternion.identity;
@@ -52,7 +59,8 @@ public class Explosion : MonoBehaviour
     {
         if(hasExploded) return;
         hasExploded = true;
-        
+        //sphereColliderRadius.isTrigger = true;
+            
         damageRepartition.AddKey(0, damageInflicted);
         damageRepartition.AddKey(explosionRadius, damageInflicted / explosionRadius);
         
@@ -67,6 +75,7 @@ public class Explosion : MonoBehaviour
 
         foreach (Collider obj in surroundingObj)
         {
+            Debug.Log(obj);
             var enemy = obj.GetComponent<AI_Pawn>();
             if (enemy != null)
             {
@@ -76,6 +85,7 @@ public class Explosion : MonoBehaviour
             
             var rb = obj.GetComponent<Rigidbody>();
             if (rb != null) rb.AddExplosionForce(explosionForce, transform.position, explosionRadius);
+            canRocketJump = true;
         }
         Pooling.instance.DelayedDePop("Explosion", gameObject,2);
     }

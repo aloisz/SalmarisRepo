@@ -79,6 +79,8 @@ public class Barbatos : Shotgun
         bulletProjectile.PoolingKeyName(so_Weapon.weaponMode[(int)actualWeaponModeIndex].poolingPopKey);
         
         bulletProjectile.DragModification(dragApply);
+        bulletProjectile.RocketJumpForceApplied(so_Weapon.weaponMode[(int)actualWeaponModeIndex].rocketJumpForceApplied);
+
     }
 
     /*private bool IsSecondaryCharged()
@@ -103,8 +105,7 @@ public class Barbatos : Shotgun
             Reload();
         }
     }
-
-    private Explosion explosion;
+    
     public override void InstantiateBulletImpact(RaycastHit hit)
     {
         base.InstantiateBulletImpact(hit);
@@ -118,9 +119,6 @@ public class Barbatos : Shotgun
         {
             GameObject explosion = Pooling.instance.Pop("ExplosionImpact");
             explosion.transform.position = hit.point;
-            this.explosion = explosion.GetComponent<Explosion>();
-            this.explosion.SetRocketForce(so_Weapon.weaponMode[(int)actualWeaponModeIndex].rocketJumpForceApplied);
-            this.explosion.SetRocketJump(true);
         }
     }
     

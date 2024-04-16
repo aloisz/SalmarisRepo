@@ -6,6 +6,7 @@ using UnityEngine;
 public class BarbatwoBullet : BulletBehavior
 {
     protected float drag;
+    private float rocketJumpForceApplied;
     protected virtual void OnDisable()
     {
         base.OnDisable();
@@ -48,15 +49,25 @@ public class BarbatwoBullet : BulletBehavior
         rb.AddForce((GetTheBulletDir(bullet.bulletDir)) * (bullet.speed * Time.fixedDeltaTime) , ForceMode.Impulse);
     }
 
+    private Explosion explosion;
     private void Explosion()
     {
         GameObject Explosion = Pooling.instance.Pop("Explosion");
         Explosion.transform.position = transform.position;
         Explosion.transform.rotation = Quaternion.identity;
+        
+        this.explosion = Explosion.GetComponent<Explosion>();
+        this.explosion.SetRocketJump(true);
+        this.explosion.SetRocketForce(rocketJumpForceApplied);
     }
 
     public void DragModification(float value)
     {
         drag = value;
+    }
+    
+    public void RocketJumpForceApplied(float value)
+    {
+        rocketJumpForceApplied = value;
     }
 }
