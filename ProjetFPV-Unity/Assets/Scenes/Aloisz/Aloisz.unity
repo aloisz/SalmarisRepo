@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.12795949, g: 1.0754188, b: 0.8463782, a: 1}
+  m_IndirectSpecularColor: {r: 0.12833111, g: 1.0749453, b: 0.84628725, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -587,6 +587,12 @@ MonoBehaviour:
   m_SelectedFaces: 
   m_SelectedEdges: []
   m_SelectedVertices: 
+--- !u!1 &247627970 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 359912182890571611, guid: b8b6c0fdf0c4fdc45a7a779e068e839d,
+    type: 3}
+  m_PrefabInstance: {fileID: 1023333980}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &262910358
 GameObject:
   m_ObjectHideFlags: 0
@@ -9257,7 +9263,11 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 359912182890571611, guid: b8b6c0fdf0c4fdc45a7a779e068e839d,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1934458873}
   m_SourcePrefab: {fileID: 100100000, guid: b8b6c0fdf0c4fdc45a7a779e068e839d, type: 3}
 --- !u!1 &1031200703
 GameObject:
@@ -14847,12 +14857,33 @@ MonoBehaviour:
     type: 3}
   m_PrefabInstance: {fileID: 1023333980}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
+  m_GameObject: {fileID: 247627970}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 6a40896cca62a6a47b83464afbcb8d32, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!65 &1934458873
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 247627970}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.1, y: 0.1, z: 0.1}
+  m_Center: {x: 0, y: 1, z: 0}
 --- !u!114 &1935388789 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 7655408316094904467, guid: 84d40c77e7b58464992652bedc437abe,

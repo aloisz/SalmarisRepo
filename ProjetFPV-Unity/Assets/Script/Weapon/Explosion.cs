@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using AI;
 using Player;
+using Unity.VisualScripting;
 using UnityEditor;
 using UnityEngine;
 
@@ -34,12 +35,7 @@ public class Explosion : MonoBehaviour
         baseExplosionRadius = explosionRadius;
         sphereColliderRadius.radius = explosionRadius;
     }
-
-    private void OnEnable()
-    {
-        
-    }
-
+    
     private void OnDisable()
     {
         if(!hasExploded) return;
@@ -47,11 +43,9 @@ public class Explosion : MonoBehaviour
         transform.position = Vector3.zero;
         transform.rotation = Quaternion.identity;
         
-        explosionRadius = baseExplosionRadius;
-        sphereColliderRadius.radius = explosionRadius;
-        explosionForce = baseExplosionForce;
-
-        SetRocketForce(0);
+        SetRadius(baseExplosionForce);
+        SetForce(baseExplosionForce);
+        
         SetRocketJump(false);
     }
     
@@ -59,7 +53,6 @@ public class Explosion : MonoBehaviour
     {
         if(hasExploded) return;
         hasExploded = true;
-        //sphereColliderRadius.isTrigger = true;
             
         damageRepartition.AddKey(0, damageInflicted);
         damageRepartition.AddKey(explosionRadius, damageInflicted / explosionRadius);
@@ -75,7 +68,6 @@ public class Explosion : MonoBehaviour
 
         foreach (Collider obj in surroundingObj)
         {
-            Debug.Log(obj);
             var enemy = obj.GetComponent<AI_Pawn>();
             if (enemy != null)
             {
@@ -84,8 +76,14 @@ public class Explosion : MonoBehaviour
             }
             
             var rb = obj.GetComponent<Rigidbody>();
-            if (rb != null) rb.AddExplosionForce(explosionForce, transform.position, explosionRadius);
-            canRocketJump = true;
+            if (rb == null) continue;
+            
+            if (rb.transform.gameObject.layer == 7) // if is player then add rocketJump value
+            {
+                Vector3 shotgunImpulseVector = ((PlayerController.Instance.transform.position + Vector3.up) - transform.position).normalized * rocketJumpForceApplied;
+                PlayerController.Instance.shotgunExternalForce = shotgunImpulseVector;
+            }
+            else rb.AddExplosionForce(explosionForce, transform.position, explosionRadius);
         }
         Pooling.instance.DelayedDePop("Explosion", gameObject,2);
     }
