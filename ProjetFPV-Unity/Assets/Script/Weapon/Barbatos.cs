@@ -8,11 +8,16 @@ using Object = UnityEngine.Object;
 public class Barbatos : Shotgun
 {
     private BarbatosInput barbatosInput;
+
+
+    [Header("Projectile")] 
+    [SerializeField] private float dragApply;
+    [SerializeField] private float gravityApplied;
     
-    [Header("Charging Weapon")]
+    /*[Header("Charging Weapon")]
     [SerializeField] private float chargingMaxValue;
     [SerializeField] private float chargingMultiplier;
-    private float chargingActualValue;
+    private float chargingActualValue;*/
 
     protected override void Start()
     {
@@ -38,7 +43,7 @@ public class Barbatos : Shotgun
         }
         
         if (barbatosInput.isReceivingSecondary) Secondary();
-        else chargingActualValue = 0;
+        //else chargingActualValue = 0;
         
             
         if (barbatosInput.isReceivingReload) Reload();
@@ -51,12 +56,32 @@ public class Barbatos : Shotgun
             actualWeaponModeIndex = WeaponMode.Secondary;
             //WeaponRefreshement();
         }
+        Shoot();
         
-        if(!IsSecondaryCharged()) return;
-        isFirstBulletGone = false;
+        /*if(!IsSecondaryCharged()) return;
+        isFirstBulletGone = false;*/
+    }
+    
+    internal BarbatwoBullet bulletProjectile;
+    protected override void ShootProjectile()
+    {
+        base.ShootProjectile();
+        bulletProjectile = bulletProjectileGO.GetComponent<BarbatwoBullet>();
+        
+        // Logic
+        bulletProjectile.EnableMovement(true);  
+        bulletProjectile.transform.rotation *= Quaternion.AngleAxis(90, PlayerController.transform.right);
+        bulletProjectile.GetTheBulletDir(GetTheAimDirection());
+        bulletProjectile.UseGravity(true);
+        bulletProjectile.GravityApplied(gravityApplied);
+        bulletProjectile.AddVelocity(so_Weapon.weaponMode[(int)actualWeaponModeIndex].bulletSpeed + PlayerController.direction.magnitude);
+        bulletProjectile.AddDamage(so_Weapon.weaponMode[(int)actualWeaponModeIndex].bulletDamage);
+        bulletProjectile.PoolingKeyName(so_Weapon.weaponMode[(int)actualWeaponModeIndex].poolingPopKey);
+        
+        bulletProjectile.DragModification(dragApply);
     }
 
-    public bool IsSecondaryCharged()
+    /*private bool IsSecondaryCharged()
     {
         bool isCharged = false;
         if (chargingActualValue < chargingMaxValue)
@@ -68,7 +93,7 @@ public class Barbatos : Shotgun
             }
         }
         return isCharged;
-    }
+    }*/
 
 
     public override void SwapWeapon()
@@ -78,7 +103,8 @@ public class Barbatos : Shotgun
             Reload();
         }
     }
-    
+
+    private Explosion explosion;
     public override void InstantiateBulletImpact(RaycastHit hit)
     {
         base.InstantiateBulletImpact(hit);
@@ -92,6 +118,9 @@ public class Barbatos : Shotgun
         {
             GameObject explosion = Pooling.instance.Pop("ExplosionImpact");
             explosion.transform.position = hit.point;
+            this.explosion = explosion.GetComponent<Explosion>();
+            this.explosion.SetRocketForce(so_Weapon.weaponMode[(int)actualWeaponModeIndex].rocketJumpForceApplied);
+            this.explosion.SetRocketJump(true);
         }
     }
     

@@ -73,6 +73,9 @@ namespace AI
             }
         }
 
+#if UNITY_EDITOR
+        
+
         protected override void OnDrawGizmos()
         {
             base.OnDrawGizmos();
@@ -83,5 +86,6 @@ namespace AI
             Handles.color = color;
             Handles.DrawSolidDisc(pos, tr.up, agentShootingRadius);
         }
+#endif
     }
 }

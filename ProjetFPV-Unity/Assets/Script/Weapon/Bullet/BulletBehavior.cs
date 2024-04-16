@@ -31,7 +31,9 @@ public class BulletBehavior : MonoBehaviour, IBulletBehavior
     {
         transform.position = Vector3.zero;
         transform.rotation = Quaternion.identity;
-
+        
+        UseGravity(false);
+        GravityApplied(0);
         EnableMovement(false);
         AddVelocity(0);
         AddDamage(0);
@@ -97,6 +99,24 @@ public class BulletBehavior : MonoBehaviour, IBulletBehavior
     {
         return bullet.bulletDir = dir;
     }
+
+    public bool UseGravity(bool condition)
+    {
+        if (condition) return rb.useGravity = true;
+        else return rb.useGravity = false;
+    }
+
+    public float GravityApplied(float value)
+    {
+        if (!rb.useGravity)
+        {
+            return 0;
+        }
+        else
+        {
+            return bullet.gravityApplied = value;
+        }
+    }
 }
 
 [System.Serializable]
@@ -107,6 +127,7 @@ public class Bullet
     public bool isMoving = false;
     public float speed;
     public float damage;
+    public float gravityApplied;
 }
     
 

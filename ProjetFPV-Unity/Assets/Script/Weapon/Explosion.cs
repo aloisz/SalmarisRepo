@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using AI;
+using Player;
 using UnityEditor;
 using UnityEngine;
 
@@ -11,29 +12,54 @@ public class Explosion : MonoBehaviour
     [SerializeField] private AnimationCurve damageRepartition;
     public LayerMask explosionMask;
     [Space]
+    
     public float explosionRadius;
     public float explosionForce;
     public ParticleSystem particle;
 
-    private bool hasExploded;
+    [Header("RocketJump")] private bool canRocketJump;
+    private float rocketJumpForceApplied;
 
+    private SphereCollider sphereColliderRadius;
+
+    private float baseExplosionRadius;
+    private float baseExplosionForce;
+    
+    private bool hasExploded = false;
+
+    private void OnEnable()
+    {
+        
+    }
+
+    private void OnDisable()
+    {
+        if(!hasExploded) return;
+        sphereColliderRadius = GetComponent<SphereCollider>();
+        hasExploded = false;
+        transform.position = Vector3.zero;
+        transform.rotation = Quaternion.identity;
+        
+        explosionRadius = baseExplosionRadius;
+        sphereColliderRadius.radius = explosionRadius;
+        explosionForce = baseExplosionForce;
+
+        SetRocketForce(0);
+        SetRocketJump(false);
+    }
+    
     private void OnTriggerEnter(Collider other)
     {
         if(hasExploded) return;
         hasExploded = true;
-
+        
         damageRepartition.AddKey(0, damageInflicted);
         damageRepartition.AddKey(explosionRadius, damageInflicted / explosionRadius);
         
-        GetComponent<SphereCollider>().radius = explosionRadius;
         Explode();
         particle.Play();
     }
 
-    private void OnEnable()
-    {
-        hasExploded = false;
-    }
 
     private void Explode()
     {
@@ -53,6 +79,38 @@ public class Explosion : MonoBehaviour
         }
         Pooling.instance.DelayedDePop("Explosion", gameObject,2);
     }
+
+
+    public void SetRadius(float value)
+    {
+        explosionRadius = value;
+        sphereColliderRadius.radius = value;
+    }
+
+    public void SetForce(float value)
+    {
+        explosionForce = value;
+    }
+
+    public float SetRocketForce(float value)
+    {
+        return rocketJumpForceApplied = value;
+    }
+    
+    public bool SetRocketJump(bool value)
+    {
+        return canRocketJump = value;
+    }
+    
+    private void FixedUpdate()
+    {
+        if(!canRocketJump) return;
+        canRocketJump = false;
+        
+        Vector3 shotgunImpulseVector = ((PlayerController.Instance.transform.position + Vector3.up) - transform.position).normalized * rocketJumpForceApplied;
+        PlayerController.Instance.shotgunExternalForce = canRocketJump ? shotgunImpulseVector : Vector3.zero;
+    }
+    
 
     #if UNITY_EDITOR
     private void OnDrawGizmos()

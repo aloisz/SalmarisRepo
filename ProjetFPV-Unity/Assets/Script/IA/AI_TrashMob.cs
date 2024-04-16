@@ -7,7 +7,6 @@ using DG.Tweening;
 using Player;
 using UnityEditor;
 using UnityEngine;
-//using Timer = UnityTimer.Timer;
 
 
 namespace AI
@@ -48,7 +47,7 @@ namespace AI
         
         protected void FixedUpdate()
         {
-            rb.AddForce(Vector3.down * 150);
+            rb.AddForce(Vector3.down * 150); // Gravity apply to the agent
             if (isPerformingAttack)
             {
                 isPerformingAttack = false;
@@ -72,9 +71,9 @@ namespace AI
                 case TrashMobState.Moving:
                     break;
                 case TrashMobState.AttackingCloseRange:
-                    CacAttack();
-                    /*if(isInDashAttackCoroutine) return;
-                    StartCoroutine(DashAttack());*/
+                    //CacAttack();
+                    if(isInDashAttackCoroutine) return;
+                    StartCoroutine(DashAttack());
                     break;
             }
             CheckDistance();
