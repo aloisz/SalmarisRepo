@@ -272,14 +272,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   targetToFollow: {fileID: 0}
   so_IA: {fileID: 11400000, guid: 1b0b5a1df0e8ced449db22825fc509ae, type: 2}
+  targetMask:
+    serializedVersion: 2
+    m_Bits: 128
+  tickVerification: 0.2
   visionDetector: {fileID: 1457748404378036388}
   airSackMobState: 0
-  isShooting: 0
   shootingPos: {fileID: 0}
   agentGetAwayRadius: 20
   agentSpeedGettingAway: 50
   agentShootingRadius: 50
-  tickVerification: 0.2
 --- !u!114 &2097527146287915330
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -365,5 +367,5 @@ Rigidbody:
   m_UseGravity: 1
   m_IsKinematic: 1
   m_Interpolate: 1
-  m_Constraints: 112
+  m_Constraints: 126
   m_CollisionDetection: 2

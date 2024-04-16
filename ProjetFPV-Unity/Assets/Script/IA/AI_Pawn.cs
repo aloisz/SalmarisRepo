@@ -54,11 +54,24 @@ namespace AI
             visionDetector.radius = so_IA.visionDetectorRadius;
         }
 
+        protected virtual void ResetAgent()
+        {
+            transform.position = Vector3.zero;
+            transform.rotation = Quaternion.identity;
+            
+            GetPawnPersonnalInformation();
+        }
+
         protected virtual void Update()
         {
             CheckIfIsStillAlive();
             //PawnAvoidance();
             TickHandler();
+        }
+
+        protected virtual void FixedUpdate()
+        {
+            rb.AddForce(Vector3.down * so_IA.gravityApplied); // Gravity apply to the agent
         }
 
         private float timer = 0;
@@ -131,8 +144,15 @@ namespace AI
         public virtual void DisableAgent()
         {
             IsPhysicNavMesh(false);
+            StartCoroutine(DisableAgentCorountine());
         }
 
+        private IEnumerator DisableAgentCorountine()
+        {
+            yield return new WaitForSeconds(so_IA.knockoutTime);
+            IsPhysicNavMesh(true);
+        }
+        
         /// <summary>
         /// Handles physics betweren Nav Mesh and Rigidbody
         /// </summary>

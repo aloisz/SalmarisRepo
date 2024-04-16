@@ -45,9 +45,9 @@ namespace AI
                 transform.DOLookAt(PlayerController.Instance.transform.position + Vector3.up, 0.2f, AxisConstraint.Y);
         }
         
-        protected void FixedUpdate()
+        protected override void FixedUpdate()
         {
-            rb.AddForce(Vector3.down * 150); // Gravity apply to the agent
+            base.FixedUpdate();
             if (isPerformingAttack)
             {
                 isPerformingAttack = false;
@@ -145,20 +145,13 @@ namespace AI
         {
             base.DisableAgent();
             StopAllCoroutines();
-            StartCoroutine(DisableAgentCorountine());
         }
         
-        private IEnumerator DisableAgentCorountine()
-        {
-            yield return new WaitForSeconds(2);
-            IsPhysicNavMesh(true);
-        }
-
-
+        
         protected override void DestroyLogic()
         {
             GameManager.Instance.aiPawnsAvailable.Remove(this);
-            Pooling.instance.DelayedDePop("Trashmob", gameObject, 0);
+            Pooling.instance.DePop(so_IA.poolingName, gameObject);
         }
         
 

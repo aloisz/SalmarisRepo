@@ -86,10 +86,18 @@ public class AI_AirSack : AI_Pawn
         }
         
     }
+    
+    
+    public override void DisableAgent()
+    {
+        base.DisableAgent();
+        StopAllCoroutines();
+    }
+    
     protected override void DestroyLogic()
     {
         //TODO : Implement Pooling Depop 
-        Destroy(gameObject);
+        Pooling.instance.DePop(so_IA.poolingName, gameObject);
     }
     
     
