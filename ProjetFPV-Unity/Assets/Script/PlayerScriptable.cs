@@ -65,6 +65,9 @@ namespace Player
         
         [BoxGroup("Movement")][Tooltip("")]
         public float jumpEdgeImpulseForce = 15f;
+        
+        [BoxGroup("Movement")][Tooltip("")]
+        public AnimationCurve slideBoostCurve;
 
         //----------------------------------------------------
         
