@@ -21,6 +21,9 @@ namespace Player
         [BoxGroup("Movement")][Tooltip("The player's jump impulsion force.")]
         public float jumpForce = 20f;
         
+        [BoxGroup("Movement")][Tooltip("The player's secondary jump impulsion force based on the Y velocity")]
+        public float secondaryJumpMultiplierFromYVel = 20f;
+        
         [BoxGroup("Movement")][Tooltip("The player's movement air multiplier.")]
         public float moveAirMultiplier = 0.1f;
         

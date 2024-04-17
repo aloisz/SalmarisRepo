@@ -53,6 +53,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   canMove: 1
+  canDoubleJump: 1
   playerScriptable: {fileID: 11400000, guid: b64488bd6eec9cb4cba32d12244e0f8a, type: 2}
   cameraAttachPosition: {fileID: 0}
   capsuleCollider: {fileID: 3057406663904845015}
@@ -88,8 +89,6 @@ MonoBehaviour:
   rotateValue: {x: 0, y: 0}
   weapons:
   - {fileID: 0}
-  - {fileID: 0}
-  isOnMainWeapon: 1
 --- !u!114 &1253742103546626655
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -331,7 +330,6 @@ MonoBehaviour:
   stamina: {fileID: 0}
   weaponName: {fileID: 0}
   staminaCharge: {fileID: 0}
-  surchargeWeapon: {fileID: 0}
 --- !u!65 &8394932507012710498
 BoxCollider:
   m_ObjectHideFlags: 0
