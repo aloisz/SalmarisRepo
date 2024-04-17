@@ -42,7 +42,6 @@ public class Missile : BulletBehavior,IExplosion
         
         rb.drag = drag;
         transform.rotation = Quaternion.Slerp (transform.rotation, Quaternion.LookRotation (bulletDir), Time.fixedDeltaTime * 40f);
-        //rb.velocity = (bulletDir) * (bullet.speed * Time.fixedDeltaTime);
         rb.AddForce((bulletDir) * (bullet.speed * Time.fixedDeltaTime) , ForceMode.Force);
         rb.isKinematic = false;
     }
@@ -60,5 +59,16 @@ public class Missile : BulletBehavior,IExplosion
         Explosion.transform.rotation = Quaternion.identity;
         explosion = Explosion.GetComponent<Explosion>();
         explosion.SetWhoIsTarget(whoIsTarget);
+    }
+
+    public void HitScanExplosion(LayerMask newTarget)
+    {
+        GameObject Explosion = Pooling.instance.Pop("Explosion");
+        Explosion.transform.position = transform.position;
+        Explosion.transform.rotation = Quaternion.identity;
+        explosion = Explosion.GetComponent<Explosion>();
+        explosion.SetWhoIsTarget(newTarget);
+        
+        Pooling.instance.DelayedDePop(bullet.PoolingKeyName, gameObject, 0.05f); // DePop Missile
     }
 }
