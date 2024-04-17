@@ -28,7 +28,7 @@ public class Explosion : MonoBehaviour
     
     private bool hasExploded = false;
 
-    private void Start()
+    private void Awake()
     {
         sphereColliderRadius = GetComponent<SphereCollider>();
         baseExplosionForce = explosionForce;
@@ -38,13 +38,12 @@ public class Explosion : MonoBehaviour
     
     private void OnDisable()
     {
-        if(!hasExploded) return;
         hasExploded = false;
         transform.position = Vector3.zero;
         transform.rotation = Quaternion.identity;
         
-        SetRadius(baseExplosionForce);
-        SetForce(baseExplosionForce);
+        SetRadius(explosionRadius);
+        SetForce(explosionForce);
         
         SetRocketJump(false);
     }
@@ -85,10 +84,15 @@ public class Explosion : MonoBehaviour
             }
             else rb.AddExplosionForce(explosionForce, transform.position, explosionRadius);
         }
-        Pooling.instance.DelayedDePop("Explosion", gameObject,2);
+        Pooling.instance.DelayedDePop("Explosion", gameObject, 2);
     }
 
 
+    public void SetWhoIsTarget(LayerMask value)
+    {
+        explosionMask = value;
+    }
+    
     public void SetRadius(float value)
     {
         explosionRadius = value;

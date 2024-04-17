@@ -91,7 +91,6 @@ public class AI_AirSack : AI_Pawn
     public override void DisableAgent()
     {
         base.DisableAgent();
-        StopAllCoroutines();
     }
     
     protected override void DestroyLogic()
@@ -110,9 +109,10 @@ public class AI_AirSack : AI_Pawn
         if(!Application.isPlaying) return;
         Handles.Label(transform.position + new Vector3(0,1,0), $"airSackMobState : {airSackMobState}");
         Handles.Label(transform.position + new Vector3(0,0,0), $"is shooting : {isShooting}");
+        Handles.Label(transform.position + new Vector3(0,2,0), $"Actual Health : {actualPawnHealth}");
             
         var tr = transform;
-        var pos = tr.position;
+        var pos = tr.position;  
         
         // display a color disc 
         var color = new Color32(0, 125, 255, 10);

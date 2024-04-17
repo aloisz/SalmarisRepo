@@ -5,6 +5,7 @@ using UnityEngine;
 
 public class BarbatwoBullet : BulletBehavior
 {
+    protected LayerMask whoIsTheTarget;
     protected float drag;
     private float rocketJumpForceApplied;
     protected virtual void OnDisable()
@@ -59,6 +60,12 @@ public class BarbatwoBullet : BulletBehavior
         this.explosion = Explosion.GetComponent<Explosion>();
         this.explosion.SetRocketJump(true);
         this.explosion.SetRocketForce(rocketJumpForceApplied);
+        this.explosion.SetWhoIsTarget(whoIsTheTarget);
+    }
+
+    public void WhoIsTheTarget(LayerMask value)
+    {
+        whoIsTheTarget = value;
     }
 
     public void DragModification(float value)

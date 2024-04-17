@@ -6,6 +6,7 @@ using Weapon.Interface;
 
 public class Missile : BulletBehavior,IExplosion
 {
+    protected LayerMask whoIsTarget;
     [SerializeField] protected float drag;
     protected virtual void OnDisable()
     {
@@ -45,11 +46,19 @@ public class Missile : BulletBehavior,IExplosion
         rb.AddForce((bulletDir) * (bullet.speed * Time.fixedDeltaTime) , ForceMode.Force);
         rb.isKinematic = false;
     }
-
+    
+    public void WhoIsTheTarget(LayerMask value)
+    {
+        whoIsTarget = value;
+    }
+    
+    private Explosion explosion;
     public void Explosion()
     {
         GameObject Explosion = Pooling.instance.Pop("Explosion");
         Explosion.transform.position = transform.position;
         Explosion.transform.rotation = Quaternion.identity;
+        explosion = Explosion.GetComponent<Explosion>();
+        explosion.SetWhoIsTarget(whoIsTarget);
     }
 }

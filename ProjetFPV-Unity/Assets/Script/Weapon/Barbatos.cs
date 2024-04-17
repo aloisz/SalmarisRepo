@@ -11,6 +11,7 @@ public class Barbatos : Shotgun
 
 
     [Header("Projectile")] 
+    [SerializeField] private LayerMask whoIsTheTarget;
     [SerializeField] private float dragApply;
     [SerializeField] private float gravityApplied;
     
@@ -80,7 +81,7 @@ public class Barbatos : Shotgun
         
         bulletProjectile.DragModification(dragApply);
         bulletProjectile.RocketJumpForceApplied(so_Weapon.weaponMode[(int)actualWeaponModeIndex].rocketJumpForceApplied);
-
+        bulletProjectile.WhoIsTheTarget(whoIsTheTarget);
     }
 
     /*private bool IsSecondaryCharged()
