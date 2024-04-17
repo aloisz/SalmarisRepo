@@ -69,8 +69,8 @@ public class Barbatos : Shotgun
 
     protected override void HitScanLogic(RaycastHit hit)
     {
-        if(isFirstBulletGone) return;
         base.HitScanLogic(hit);
+        if(isFirstBulletGone) return;
         if (hit.transform.TryGetComponent<IExplosion>(out IExplosion explosion))
         {
             explosion.HitScanExplosion(whoIsTheTarget);
