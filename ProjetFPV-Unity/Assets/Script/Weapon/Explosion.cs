@@ -79,12 +79,17 @@ public class Explosion : MonoBehaviour
             var rb = obj.GetComponent<Rigidbody>();
             if (rb == null) continue;
             
-            if (obj.transform.gameObject.layer == 7) // if is player then add rocketJump value
+            if (obj.transform.gameObject.layer == PlayerMask) // if is player then add rocketJump value
             {
+                Debug.Log("Player");
                 Vector3 shotgunImpulseVector = ((PlayerController.Instance.transform.position + Vector3.up) - transform.position).normalized * rocketJumpForceApplied;
                 PlayerController.Instance.shotgunExternalForce = shotgunImpulseVector;
             }
-            else rb.AddExplosionForce(explosionForce, transform.position, explosionRadius);
+            else
+            {
+                Debug.Log("Other");
+                rb.AddExplosionForce(explosionForce, transform.position, explosionRadius);
+            }
         }
         Pooling.instance.DelayedDePop("Explosion", gameObject, 2);
     }

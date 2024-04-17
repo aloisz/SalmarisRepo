@@ -76,7 +76,8 @@ namespace CameraBehavior
         private void MovingCameraManager()
         {
             transform.position = Vector3.Lerp(transform.position, playerTransform.position, 
-                Time.deltaTime * so_Camera.positionOffSetSmooth);
+                Time.deltaTime * (so_Camera.positionOffSetSmooth - 
+                                  (cameraJumping.jumpingImpact.Evaluate(PlayerController.Instance._rb.velocity.magnitude) * 5)));
         }
 
         /// <summary>

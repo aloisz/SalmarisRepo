@@ -9,7 +9,7 @@ namespace CameraBehavior
     public class CameraJumping : MonoBehaviour
     {
         private CameraManager cameraManager;
-        [SerializeField] private AnimationCurve jumpingImpact;
+        [SerializeField] internal AnimationCurve jumpingImpact;
 
         private void Awake()
         {
