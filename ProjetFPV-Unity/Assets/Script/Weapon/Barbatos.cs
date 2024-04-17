@@ -15,11 +15,6 @@ public class Barbatos : Shotgun
     [SerializeField] private LayerMask whoIsTheTarget;
     [SerializeField] private float dragApply;
     [SerializeField] private float gravityApplied;
-    
-    /*[Header("Charging Weapon")]
-    [SerializeField] private float chargingMaxValue;
-    [SerializeField] private float chargingMultiplier;
-    private float chargingActualValue;*/
 
     protected override void Start()
     {
@@ -34,9 +29,7 @@ public class Barbatos : Shotgun
             if (actualWeaponModeIndex != WeaponMode.Primary)
             {
                 actualWeaponModeIndex = WeaponMode.Primary;
-                //WeaponRefreshement();
             }
-
             isFirstBulletGone = false;
             Shoot();
         }
@@ -45,11 +38,9 @@ public class Barbatos : Shotgun
             isShooting = false;
             canFire = true;
         }
-        
+
         if (barbatosInput.isReceivingSecondary) Secondary();
-        //else chargingActualValue = 0;
         
-            
         if (barbatosInput.isReceivingReload) Reload();
     }
 
@@ -58,12 +49,8 @@ public class Barbatos : Shotgun
         if (actualWeaponModeIndex != WeaponMode.Secondary)
         {
             actualWeaponModeIndex = WeaponMode.Secondary;
-            //WeaponRefreshement();
         }
         Shoot();
-        
-        /*if(!IsSecondaryCharged()) return;
-        isFirstBulletGone = false;*/
     }
 
 

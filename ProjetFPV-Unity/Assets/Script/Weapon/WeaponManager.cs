@@ -179,7 +179,7 @@ namespace Weapon
                 WichTypeMunitionIsGettingShot();
             }
         }
-
+    
         /// <summary>
         /// Conduct the munition type to the correct path
         /// </summary>
