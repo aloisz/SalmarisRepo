@@ -79,7 +79,7 @@ public class Explosion : MonoBehaviour
             var rb = obj.GetComponent<Rigidbody>();
             if (rb == null) continue;
             
-            if (rb.transform.gameObject.layer == PlayerMask) // if is player then add rocketJump value
+            if (obj.transform.gameObject.layer == 7) // if is player then add rocketJump value
             {
                 Vector3 shotgunImpulseVector = ((PlayerController.Instance.transform.position + Vector3.up) - transform.position).normalized * rocketJumpForceApplied;
                 PlayerController.Instance.shotgunExternalForce = shotgunImpulseVector;
