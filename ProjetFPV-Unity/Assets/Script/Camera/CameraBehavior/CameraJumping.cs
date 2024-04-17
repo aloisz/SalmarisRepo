@@ -9,6 +9,7 @@ namespace CameraBehavior
     public class CameraJumping : MonoBehaviour
     {
         private CameraManager cameraManager;
+        [SerializeField] private AnimationCurve jumpingImpact;
 
         private void Awake()
         {
@@ -50,14 +51,15 @@ namespace CameraBehavior
                 timer += Time.deltaTime * cameraManager.so_Camera.JumpingBobbingSpeed;
                 
                 cameraManager.smoothOffset = Quaternion.Slerp(cameraManager.smoothOffset, 
-                    Quaternion.Euler(
-                        0, 
+                    Quaternion.Euler(0, 
                         cameraManager.so_Camera.rotationOffSet.y,
-                        cameraManager.so_Camera.rotationOffSet.z * (Mathf.Cos(timer) * (cameraManager.so_Camera.cameraJumpingBobbingAmount * multiplicator))), 
+                        cameraManager.so_Camera.rotationOffSet.z * (Mathf.Cos(timer) * (cameraManager.so_Camera.cameraJumpingBobbingAmount * jumpingImpact.Evaluate(PlayerController.Instance._rb.velocity.magnitude)))), 
                     
                     Time.deltaTime * cameraManager.so_Camera.rotationOffSetSmooth);
                 
-                cameraManager.transitionParent.rotation = Quaternion.Slerp(cameraManager.transitionParent.rotation, cameraManager.playerTransform.rotation * cameraManager.smoothOffset, 
+                
+                cameraManager.transitionParent.rotation = Quaternion.Slerp(cameraManager.transitionParent.rotation, 
+                    cameraManager.playerTransform.rotation * cameraManager.smoothOffset,
                     Time.deltaTime * cameraManager.so_Camera.rotationOffSetSmooth); // PlayerController.Instance.playerScriptable.smoothCameraRot
             }
         }
