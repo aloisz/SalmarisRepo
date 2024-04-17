@@ -63,8 +63,6 @@ public class ShootingLogicModule : WeaponManager, IShootRaycast, IShootSphereCas
     private LineRenderer lineRenderer;
     protected virtual void InitialiseLineRenderer(RaycastHit hit)
     {
-        /*LineRenderer lineRenderer = Instantiate(GameManager.Instance.rayLineRenderer,
-            camera.transform.position, Quaternion.identity, GameManager.Instance.transform);*/
         GameObject lineRendererGO = Pooling.instance.Pop("HitScanRay");
         lineRenderer = lineRendererGO.GetComponent<LineRenderer>();
         

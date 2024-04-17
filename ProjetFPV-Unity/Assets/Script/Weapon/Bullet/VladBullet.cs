@@ -51,4 +51,9 @@ public class VladBullet : BulletBehavior, IExplosion
         
         Pooling.instance.DePop(bullet.PoolingKeyName, gameObject);
     }
+
+    public void HitScanExplosion(LayerMask newTarget)
+    {
+        throw new System.NotImplementedException();
+    }
 }

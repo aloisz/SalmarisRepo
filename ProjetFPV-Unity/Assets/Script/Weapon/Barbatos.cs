@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Weapon;
+using Weapon.Interface;
 using Object = UnityEngine.Object;
 
 public class Barbatos : Shotgun
@@ -35,6 +36,8 @@ public class Barbatos : Shotgun
                 actualWeaponModeIndex = WeaponMode.Primary;
                 //WeaponRefreshement();
             }
+
+            isFirstBulletGone = false;
             Shoot();
         }
         else
@@ -62,6 +65,19 @@ public class Barbatos : Shotgun
         /*if(!IsSecondaryCharged()) return;
         isFirstBulletGone = false;*/
     }
+
+
+    protected override void HitScanLogic(RaycastHit hit)
+    {
+        if(isFirstBulletGone) return;
+        base.HitScanLogic(hit);
+        if (hit.transform.TryGetComponent<IExplosion>(out IExplosion explosion))
+        {
+            explosion.HitScanExplosion(whoIsTheTarget);
+        }
+        isFirstBulletGone = true;
+    }
+    
     
     internal BarbatwoBullet bulletProjectile;
     protected override void ShootProjectile()
@@ -83,20 +99,6 @@ public class Barbatos : Shotgun
         bulletProjectile.RocketJumpForceApplied(so_Weapon.weaponMode[(int)actualWeaponModeIndex].rocketJumpForceApplied);
         bulletProjectile.WhoIsTheTarget(whoIsTheTarget);
     }
-
-    /*private bool IsSecondaryCharged()
-    {
-        bool isCharged = false;
-        if (chargingActualValue < chargingMaxValue)
-        {
-            chargingActualValue += Time.deltaTime * chargingMultiplier;
-            if (chargingActualValue >= chargingMaxValue)
-            {
-                isCharged =  true;
-            }
-        }
-        return isCharged;
-    }*/
 
 
     public override void SwapWeapon()
