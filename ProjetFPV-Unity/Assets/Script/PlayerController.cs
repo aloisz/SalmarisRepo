@@ -15,6 +15,7 @@ namespace Player
     {
         [Header("Overall Behavior")]
         public bool canMove = true;
+        public bool canDoubleJump = true;
         
         //---------------------------------------
         
@@ -39,6 +40,8 @@ namespace Player
         private float idleTimer;
 
         private float actualSlopeAngle;
+
+        private int amountOfJumps;
         
         private const float _gravity = -9.81f;
         
@@ -72,6 +75,15 @@ namespace Player
         
         private bool isAccelerating;
         private bool isDecelerating;
+        
+        internal enum PlayerActionStates
+        {
+            Idle,
+            Moving,
+            Sliding,
+            Jumping,
+            Dashing,
+        }
 
         //---------------------------------------
 
@@ -88,15 +100,6 @@ namespace Player
         
         private RaycastHit raycastEdgeDown;
         private RaycastHit raycastEdgeFromTop;
-        
-        internal enum PlayerActionStates
-        {
-            Idle,
-            Moving,
-            Sliding,
-            Jumping,
-            Dashing,
-        }
         
         //---------------------------------------
 
@@ -125,8 +128,6 @@ namespace Player
             DetectSlope();
             DetectGround();
             DetectEdges();
-            
-            //CoyoteJump();
 
             RotateCameraFromInput();
 
@@ -171,7 +172,10 @@ namespace Player
                 _rb.velocity = Vector3.ClampMagnitude(_rb.velocity, playerScriptable.maxRigidbodyVelocity);
         }
         
-        
+        /// <summary>
+        /// Return the overall momentum physical vector from all the forces applied to player.
+        /// </summary>
+        /// <returns></returns>
         private Vector3 GetOverallMomentumVector()
         {
             var dividerOnSlopeClimbing = (isSlopeClimbing && isSliding ? playerScriptable.decelerationMultiplierSlideInSlopeUp : 1f);
@@ -193,7 +197,7 @@ namespace Player
             
             var finalVector = ((isMoving ? vectorMove : Vector3.zero) + 
                                (isOnSlope && isSliding && !isSlopeClimbing ? vectorSlide : Vector3.zero) +
-                               (!isSlopeClimbing && isMoving && direction.z > 0.5f && (isOnGround || _rb.velocity.y > 10f) ? vectorJumpFacility : Vector3.zero) 
+                               (!isOnSlope && isMoving && direction.z > 0.5f && (isOnGround || _rb.velocity.y > 10f) ? vectorJumpFacility : Vector3.zero) 
                                + shotgunExternalForce)
                               / (isSliding && !isOnSlope ? _decelerationSlideOnGround : 1f);
             
@@ -403,8 +407,11 @@ namespace Player
         IEnumerator OnLand()
         {
             canApplyGravity = false;
+            
             yield return new WaitForSeconds(0.025f);
+            
             isJumping = false;
+            amountOfJumps = 0;
         }
         
         /// <summary>
@@ -476,9 +483,27 @@ namespace Player
         private void Jump()
         {
             isJumping = true;
+
+            if (canDoubleJump)
+            {
+                if (isOnGround)
+                {
+                    amountOfJumps++;
+                }
+                else
+                {
+                    amountOfJumps = 2;
+                }
+            }
+            else
+                amountOfJumps = 1;
             
             var forwardMomentumVector = GetOverallMomentumVector() / 20f;
-            _rb.AddForce(playerScriptable.jumpForce * (Vector3.up + new Vector3(forwardMomentumVector.x, 0, forwardMomentumVector.z)), ForceMode.Impulse);
+            _rb.AddForce((amountOfJumps < 2 ? 
+                playerScriptable.jumpForce : 
+                playerScriptable.jumpForce * Mathf.Lerp(0.75f, playerScriptable.secondaryJumpMultiplierFromYVel, 
+                    Mathf.Abs(_rb.velocity.y / playerScriptable.maxRigidbodyVelocity))) 
+                * (Vector3.up + new Vector3(forwardMomentumVector.x, 0, forwardMomentumVector.z)), ForceMode.Impulse);
         }
 
         /// <summary>
@@ -540,7 +565,7 @@ namespace Player
         void PlayerStateMachine()
         {
             canDash = PlayerInputs.Instance.isReceivingDashInputs && !isDashing && PlayerStamina.Instance.HasEnoughStamina(1);
-            canJump = isOnGround && !isJumping;
+            canJump = canDoubleJump ? amountOfJumps < 2 : (isOnGround && !isJumping);
             
             isSliding = PlayerInputs.Instance.isReceivingSlideInputs && isOnGround;
             isMoving = direction.magnitude > playerScriptable.moveThreshold;

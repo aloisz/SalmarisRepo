@@ -21,14 +21,6 @@ public class PlayerInputs : GenericSingletonClass<PlayerInputs>
     
     //WeaponSwap
     public List<WeaponManager> weapons;
-    public bool isOnMainWeapon = false;
-
-    private void Start()
-    {
-        GetWeaponByIndex(GetIndexByBoolean(isOnMainWeapon));
-        isOnMainWeapon = !isOnMainWeapon;
-    }
-
 
     /// <summary>
     /// Get the moving inputs.
@@ -77,29 +69,4 @@ public class PlayerInputs : GenericSingletonClass<PlayerInputs>
     {
         rotateValue = ctx.ReadValue<Vector2>();
     }
-
-    /// <summary>
-    /// SwapWeapon
-    /// </summary>
-    public void SwapWeapon(InputAction.CallbackContext ctx)
-    {
-        if (ctx.started)
-        {
-            GetWeaponByIndex(GetIndexByBoolean(isOnMainWeapon));
-            isOnMainWeapon = !isOnMainWeapon;
-            
-            foreach (var weapon in weapons)
-            {
-                weapon.SwapWeapon();
-            }
-        }
-    }
-
-    void GetWeaponByIndex(int index)
-    {
-        weapons[index].transform.gameObject.SetActive(true);
-        weapons[(index == 0 ? 1 : 0)].transform.gameObject.SetActive(false);
-    }
-    
-    public int GetIndexByBoolean(bool b) => Convert.ToInt32(b);
 }
