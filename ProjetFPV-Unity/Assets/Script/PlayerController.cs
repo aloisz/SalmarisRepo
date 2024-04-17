@@ -48,13 +48,17 @@ namespace Player
         //---------------------------------------
 
         [Header("Momentum")] 
-        [HideInInspector]public Vector3 shotgunExternalForce;
+        [HideInInspector] public Vector3 shotgunExternalForce;
         
         private float dashTimerSpeedAdd;
         private float speedMultiplierFromDash = 1f;
+        private float slideAccelerateTimer;
         
         private Vector3 dirFromEdgePoint = Vector3.zero;
         private float dirFromEdgePointMag = 0f;
+        
+        private float _decelerationSlideOnGround;
+        private float slideBoost;
         
         //---------------------------------------
         
@@ -118,6 +122,7 @@ namespace Player
 
             ManageDashDuration();
             ManageSpeedMultiplierFromDash();
+            ManageSlideBoost();
             
             SetMoveSpeed();
 
@@ -151,8 +156,6 @@ namespace Player
         //-------------------- Movements ----------------------
 
         #region Movements
-
-        private float _decelerationSlideOnGround;
         
         /// <summary>
         /// Move the player in the current direction value, based on scriptable parameters.
@@ -193,13 +196,18 @@ namespace Player
                                                    (raycastEdgeFromTop.collider ? 
                                                        Vector3.Distance(transform.position, raycastEdgeFromTop.point) / 2f : 1f));
             
-            if(isSliding && !isOnSlope) _decelerationSlideOnGround += Time.deltaTime * playerScriptable.decelerationMultiplierSlideOnGround;
+            //if(isSliding && !isOnSlope) _decelerationSlideOnGround += Time.deltaTime * playerScriptable.decelerationMultiplierSlideOnGround;
             
             var finalVector = ((isMoving ? vectorMove : Vector3.zero) + 
                                (isOnSlope && isSliding && !isSlopeClimbing ? vectorSlide : Vector3.zero) +
                                (!isOnSlope && isMoving && direction.z > 0.5f && (isOnGround || _rb.velocity.y > 10f) ? vectorJumpFacility : Vector3.zero) 
-                               + shotgunExternalForce)
-                              / (isSliding && !isOnSlope ? _decelerationSlideOnGround : 1f);
+                               + shotgunExternalForce);
+
+            var slideBoostValue = (isSliding ? slideBoost : 1f);
+            var tempFinalVectorX = finalVector.x * slideBoostValue;
+            var tempFinalVectorZ = finalVector.z * slideBoostValue;
+
+            finalVector = new Vector3(tempFinalVectorX, finalVector.y, tempFinalVectorZ);
             
             return finalVector / (isSliding && isMoving && isOnSlope ? playerScriptable.overallMomentumLimiterMoveSlideInSlope : 1f);
         }
@@ -232,6 +240,19 @@ namespace Player
             speedMultiplierFromDash = dashTimerSpeedAdd > 0 ? 
                 Mathf.Lerp(speedMultiplierFromDash, playerScriptable.dashSpeedMultiplier, Time.deltaTime) : 
                 Mathf.Lerp(speedMultiplierFromDash, 1f, Time.deltaTime / playerScriptable.dashSpeedMultiplierResetDuration);
+        }
+
+        private void ManageSlideBoost()
+        {
+            if (!isSliding)
+            {
+                slideAccelerateTimer = 0f;
+            }
+            else
+            {
+                slideAccelerateTimer += Time.deltaTime;
+                slideBoost = playerScriptable.slideBoostCurve.Evaluate(slideAccelerateTimer);
+            }
         }
         
         /// <summary>
@@ -321,7 +342,7 @@ namespace Player
             else if (isOnGround && isSliding && !isOnSlope && !isSlopeClimbing)
             {
                 _rb.drag = 0.65f;
-                if (isOnGround && isSliding && !isOnSlope && _rb.velocity.magnitude < 25f)
+                if (isOnGround && isSliding && !isOnSlope && _rb.velocity.magnitude < 45f)
                 {
                     _rb.drag = 5f;
                 }
@@ -706,7 +727,8 @@ namespace Player
             Rect rect10 = new Rect(10, 520, 200, 50);
             
             Rect rect11 = new Rect(10, 580, 200, 50);
-            Rect rect12 = new Rect(10, 610, 200, 50);
+            
+            Rect rect12 = new Rect(10, 630, 200, 50);
 
             // Display the text on the screen
             GUI.Label(rect, $"Direction : {direction}", style);
@@ -730,6 +752,8 @@ namespace Player
             GUI.Label(rect10, $"Rigidbody Drag : {_rb.drag}", style);
             
             GUI.Label(rect11, $"Is Slope Climbing : {isSlopeClimbing}", BoolStyle(isSlopeClimbing));
+            
+            GUI.Label(rect12, $"Slide Boost : {slideBoost}", style);
         }
 
         GUIStyle BoolStyle(bool value)

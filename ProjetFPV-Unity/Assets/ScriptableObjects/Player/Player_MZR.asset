@@ -31,6 +31,30 @@ MonoBehaviour:
   decelerationMultiplierSlideOnGround: 55
   decelerationMultiplierSlideInSlopeUp: 1000
   jumpEdgeImpulseForce: 5
+  slideBoostCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 2.5
+      inSlope: -0.0066812756
+      outSlope: -16.944824
+      tangentMode: 1
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.02586207
+    - serializedVersion: 3
+      time: 0.45
+      value: 0.1
+      inSlope: 0.000010616636
+      outSlope: 0.000010616636
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.13669956
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
   staminaPerSecond: 0.01
   gravityMultiplier: 65
   groundDrag: 7

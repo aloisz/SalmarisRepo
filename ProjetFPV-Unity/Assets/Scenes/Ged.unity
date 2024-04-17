@@ -98,7 +98,8 @@ LightmapSettings:
     m_TrainingDataDestination: TrainingData
     m_LightProbeSampleCountMultiplier: 4
   m_LightingDataAsset: {fileID: 0}
-  m_LightingSettings: {fileID: 0}
+  m_LightingSettings: {fileID: 4890085278179872738, guid: ea233e50ef59c0046aec949566ec3ef8,
+    type: 2}
 --- !u!196 &4
 NavMeshSettings:
   serializedVersion: 2
@@ -9627,6 +9628,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   targetToFollow: {fileID: 0}
   so_IA: {fileID: 0}
+  targetMask:
+    serializedVersion: 2
+    m_Bits: 0
   tickVerification: 0.2
   visionDetector: {fileID: 0}
   trashMobState: 0
@@ -36527,6 +36531,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   targetToFollow: {fileID: 0}
   so_IA: {fileID: 0}
+  targetMask:
+    serializedVersion: 2
+    m_Bits: 0
   tickVerification: 0.2
   visionDetector: {fileID: 0}
   trashMobState: 0
@@ -49883,6 +49890,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   targetToFollow: {fileID: 0}
   so_IA: {fileID: 0}
+  targetMask:
+    serializedVersion: 2
+    m_Bits: 0
   tickVerification: 0.2
   visionDetector: {fileID: 0}
   trashMobState: 0
@@ -51461,13 +51471,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   canMove: 1
+  canDoubleJump: 1
   playerScriptable: {fileID: 11400000, guid: b64488bd6eec9cb4cba32d12244e0f8a, type: 2}
   cameraAttachPosition: {fileID: 612950091729217555}
   capsuleCollider: {fileID: 3057406663829622357}
   _rb: {fileID: 0}
   shotgunExternalForce: {x: 0, y: 0, z: 0}
   isOnGround: 0
-  wasOnGroundLastFrame: 0
   isMoving: 0
   isSliding: 0
   isJumping: 0
@@ -52535,7 +52545,6 @@ MonoBehaviour:
   weapons:
   - {fileID: 0}
   - {fileID: 0}
-  isOnMainWeapon: 1
 --- !u!114 &5328561996096558866
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -52807,7 +52816,6 @@ MonoBehaviour:
   stamina: {fileID: 0}
   weaponName: {fileID: 0}
   staminaCharge: {fileID: 0}
-  surchargeWeapon: {fileID: 0}
 --- !u!224 &6700281979026366623
 RectTransform:
   m_ObjectHideFlags: 0
