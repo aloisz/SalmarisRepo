@@ -69,22 +69,22 @@ public class Explosion : MonoBehaviour
 
         foreach (Collider obj in surroundingObj)
         {
-            var enemy = obj.GetComponent<AI_Pawn>();
-            if (enemy != null)
+            if (obj.GetComponent<AI_Pawn>() != null)
             {
+                var enemy = obj.GetComponent<AI_Pawn>();
                 enemy.DisableAgent();
                 enemy.Hit(damageRepartition.Evaluate(Vector3.Distance(transform.position ,obj.transform.position)));
             }
             
-            if (obj.transform.gameObject.tag == "Player") // if is player then add rocketJump value
+            if (obj.transform.gameObject.CompareTag("Player")) // if is player then add rocketJump value
             {
                 Vector3 shotgunImpulseVector = ((PlayerController.Instance.transform.position + Vector3.up) - transform.position).normalized * rocketJumpForceApplied;
                 PlayerController.Instance.shotgunExternalForce = shotgunImpulseVector;
             }
             else
             {
+                if (obj.GetComponent<Rigidbody>() == null) continue;
                 var rb = obj.GetComponent<Rigidbody>();
-                if (rb == null) continue;
                 rb.AddExplosionForce(explosionForce, transform.position, explosionRadius);
             }
         }
