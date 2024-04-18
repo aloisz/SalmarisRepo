@@ -9,139 +9,159 @@ namespace Player
     [CreateAssetMenu(menuName = "Player Scriptable/PlayerScriptable", fileName = "new Player Scriptable")]
     public class PlayerScriptable : ScriptableObject
     {
-        [BoxGroup("Movement")][Tooltip("The player's movement speed.")] 
+        [Header("Movement")]
+        [Tooltip("The player's movement speed.")] 
         public float moveSpeed = 1;
         
-        [BoxGroup("Movement")][Tooltip("The player's movement speed will be divided by X in the air.")] 
+        [Tooltip("The player's movement speed will be divided by X in the air.")] 
         public float moveSpeedInAirDivider = 1;
         
-        [BoxGroup("Movement")][Tooltip("The min speed magnitude where the player is considered moving.")] 
+        [Tooltip("The min speed magnitude where the player is considered moving.")] 
         public float moveThreshold = 0.1f;
         
-        [BoxGroup("Movement")][Tooltip("The player's jump impulsion force.")]
+        [Tooltip("The player's jump impulsion force.")]
         public float jumpForce = 20f;
         
-        [BoxGroup("Movement")][Tooltip("The player's secondary jump impulsion force based on the Y velocity")]
+        [Tooltip("The player's secondary jump impulsion force based on the Y velocity")]
         public float secondaryJumpMultiplierFromYVel = 20f;
         
-        [BoxGroup("Movement")][Tooltip("The player's movement air multiplier.")]
+        [Tooltip("The player's movement air multiplier.")]
         public float moveAirMultiplier = 0.1f;
         
-        [BoxGroup("Movement")][Tooltip("The player's dash impulsion force.")]
+        [Tooltip("The player's dash impulsion force.")]
         public float dashForce = 5f;
         
-        [BoxGroup("Movement")][Tooltip("The player's dash duration, time before the player start to fall again.")]
+        [Tooltip("The player's dash duration, time before the player start to fall again.")]
         public float dashDuration = 0.5f;
         
-        [BoxGroup("Movement")][Tooltip("The player's dash speed multiplier. Example : 150% = 1.5")]
+        [Tooltip("The player's dash duration between each dash.")]
+        public float dashLagDuration = 0.5f;
+        
+        [Tooltip("The player's dash speed multiplier. Example : 150% = 1.5")]
         public float dashSpeedMultiplier = 1.5f;
         
-        [BoxGroup("Movement")][Tooltip("The player's dash speed multiplier duration.")]
+        [Tooltip("The player's dash speed multiplier duration.")]
         public float dashSpeedMultiplierDuration = 1.5f;
         
-        [BoxGroup("Movement")][Tooltip("The player's dash speed multiplier reset time, the time for the value to reset.")]
+        [Tooltip("The player's dash speed multiplier reset time, the time for the value to reset.")]
         public float dashSpeedMultiplierResetDuration = 2f;
         
-        [BoxGroup("Movement")][Tooltip("Under this speed magnitude value, the rigidbody velocity will be boosted.")]
+        [Tooltip("Under this speed magnitude value, the rigidbody velocity will be boosted.")]
         public float speedMaxToAccelerate = 12f;
         
-        [BoxGroup("Movement")][Tooltip("Rigidbody's velocity acceleration under the speedMaxToAccelerate value.")]
+        [Tooltip("Rigidbody's velocity acceleration under the speedMaxToAccelerate value.")]
         public float accelerationMultiplier = 1.2f;
         
-        [BoxGroup("Movement")][Tooltip("Rigidbody's velocity force applied down when sliding a slope.")]
+        [Tooltip("Rigidbody's velocity force applied down when sliding a slope.")]
         public float slidingInSlopeDownForce = 200f;
         
-        [BoxGroup("Movement")][Tooltip("Rigidbody's velocity force applied toward the slope when sliding it.")]
+        [Tooltip("Rigidbody's velocity force applied toward the slope when sliding it.")]
         public float slidingInSlopeLimiter = 2f;
         
-        [BoxGroup("Movement")][Tooltip("Rigidbody's velocity limitation while moving and sliding in a slope")]
+        [Tooltip("Rigidbody's velocity limitation while moving and sliding in a slope")]
         public float overallMomentumLimiterMoveSlideInSlope = 10f;
         
-        [BoxGroup("Movement")][Tooltip("The deceleration amount of the player's speed when he slide on the ground.")] 
+        [Tooltip("The deceleration amount of the player's speed when he slide on the ground.")] 
         public float decelerationMultiplierSlideOnGround = 50f;
         
-        [BoxGroup("Movement")][Tooltip("The deceleration amount of the player's speed when he is climbing a slope while sliding.")] 
+        [Tooltip("The deceleration amount of the player's speed when he is climbing a slope while sliding.")] 
         public float decelerationMultiplierSlideInSlopeUp = 1000f;
         
-        [BoxGroup("Movement")][Tooltip("")]
+        [Tooltip("")]
         public float jumpEdgeImpulseForce = 15f;
         
-        [BoxGroup("Movement")][Tooltip("")]
+        [Tooltip("")]
         public AnimationCurve slideBoostCurve;
 
         //----------------------------------------------------
         
-        [BoxGroup("Stamina")][Tooltip("The stamina's value generated per second, from 0 to 1.")]
+        [Header("Stamina")]
+        [Tooltip("The stamina's value generated per second, from 0 to 1.")]
         public float staminaPerSecond = 0.005f;
 
         //----------------------------------------------------
         
-        [BoxGroup("Physic")][Tooltip("The gravity's multiplier while in the air.")]
+        [Header("Physics")]
+        [Tooltip("The gravity's multiplier while in the air.")]
         public float gravityMultiplier = 1;
         
-        [BoxGroup("Physic")][Tooltip("The Rigidbody's drag while the player is on ground.")]
+        [Tooltip("The Rigidbody's drag while the player is on ground.")]
         public float groundDrag = 7;
         
-        [BoxGroup("Physic")][Tooltip("The Rigidbody's drag while the player is in the air.")]
+        [Tooltip("The Rigidbody's drag while the player is in the air.")]
         public float airDrag = 1.8f;
         
-        [BoxGroup("Physic")][Tooltip("The Rigidbody's max velocity.")] 
+        [Tooltip("The Rigidbody's max velocity.")] 
         public float maxRigidbodyVelocity = 100f;
 
         //----------------------------------------------------
         
-        [BoxGroup("Detection")][Tooltip("The BoxCast's dimension to detect ground from the player.")]
+        [Header("Detections")]
+        [Tooltip("The BoxCast's dimension to detect ground from the player.")]
         public float groundDetectionLenght = 1f;
         
-        [BoxGroup("Detection")][Tooltip("Raycast lenght to detect underneath the player's foot.")]
+        [Tooltip("Raycast lenght to detect underneath the player's foot.")]
         public float raycastLenghtSlopeDetection = 1f;
         
-        [BoxGroup("Detection")][Tooltip("The BoxCast's Z offset.")]
+        [Tooltip("The BoxCast's Z offset.")]
         public float groundDetectionForwardOffset = 1.2f;
         
-        [BoxGroup("Detection")][Tooltip("The BoxCast's Y offset.")]
+        [Tooltip("The BoxCast's Y offset.")]
         public float groundDetectionUpOffset = 1f;
 
-        [BoxGroup("Detection")][Tooltip("The minimum slope degree for be considered as a slope.")]
+        [Tooltip("The minimum slope degree for be considered as a slope.")]
         public float minSlopeDegrees = 25f;
         
-        [BoxGroup("Detection")][Tooltip("")]
+        [Tooltip("")]
         public float edgeDetectionDownLenght = 1f;
         
-        [BoxGroup("Detection")][Tooltip("")]
+        [Tooltip("")]
         public float edgeDetectionDownOffsetY = 0f;
         
-        [BoxGroup("Detection")][Tooltip("")]
+        [Tooltip("")]
         public float edgeDetectionTopLenght = 1f;
         
-        [BoxGroup("Detection")][Tooltip("")]
+        [Tooltip("")]
         public float edgeDetectionTopOffsetY = 0f;
         
-        [BoxGroup("Detection")][Tooltip("")]
+        [Tooltip("")]
         public float edgeDetectionEdgeFromTopLenght = 1f;
 
         //----------------------------------------------------
         
-        [BoxGroup("Look")][Tooltip("The mouse's sensibility.")]
+        [Header("Look")]
+        [Tooltip("The mouse's sensibility.")]
         public float sensibility = 1f;
         
-        [BoxGroup("Look")][Tooltip("The mouse's look axis Y limit.")]
+        [Tooltip("The mouse's look axis Y limit.")]
         public float lookLimitY = 180f;
         
         //----------------------------------------------------
         
-        [BoxGroup("Physical Material")][Tooltip("The friction material to apply when you're idling.")]
+        [Header("Physical Material")]
+        [Tooltip("The friction material to apply when you're idling.")]
         public PhysicMaterial frictionMaterial;
         
-        [BoxGroup("Physical Material")][Tooltip("The friction material to apply when you're hitting a wall.")]
+        [Tooltip("The friction material to apply when you're hitting a wall.")]
         public PhysicMaterial wallMaterial;
         
-        [BoxGroup("Physical Material")][Tooltip("The friction material to apply when you're moving")]
+        [Tooltip("The friction material to apply when you're moving")]
         public PhysicMaterial movingMaterial;
         
         //-----------------------------------------------------
         
-        [BoxGroup("States")][Tooltip("The time before the player is considered idling.")]
+        [Header("States")]
+        [Tooltip("The time before the player is considered idling.")]
         public float timeBeforeDetectedIdle = 1f;
+        
+        //-----------------------------------------------------
+        
+        [Header("Health")]
+        [Tooltip("")]
+        public float maxPlayerHealth = 1f;
+        
+        [Tooltip("")]
+        public float maxPlayerShield = 1f;
+        
     }
 }

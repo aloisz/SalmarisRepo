@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0a71b2abe57b72a4da7599e067bad271, type: 3}
   m_Name: Player_Guillaume
   m_EditorClassIdentifier: 
-  moveSpeed: 3.2
+  moveSpeed: 3
   moveSpeedInAirDivider: 10
   moveThreshold: 0.1
   jumpForce: 35
@@ -30,7 +30,7 @@ MonoBehaviour:
   overallMomentumLimiterMoveSlideInSlope: 10
   decelerationMultiplierSlideOnGround: 50
   decelerationMultiplierSlideInSlopeUp: 1000
-  jumpEdgeImpulseForce: 15
+  jumpEdgeImpulseForce: 4.5
   slideBoostCurve:
     serializedVersion: 2
     m_Curve:
@@ -38,11 +38,11 @@ MonoBehaviour:
       time: 0
       value: 2.5
       inSlope: -0.0066812756
-      outSlope: -16.944824
+      outSlope: -15.488213
       tangentMode: 1
       weightedMode: 0
       inWeight: 0.33333334
-      outWeight: 0.02586207
+      outWeight: 0.038177337
     - serializedVersion: 3
       time: 0.45
       value: 0.1
@@ -60,8 +60,8 @@ MonoBehaviour:
   groundDrag: 7
   airDrag: 1.8
   maxRigidbodyVelocity: 100
-  groundDetectionLenght: 2.5
-  raycastLenghtSlopeDetection: 1
+  groundDetectionLenght: 2.8
+  raycastLenghtSlopeDetection: 2
   groundDetectionForwardOffset: 0.25
   groundDetectionUpOffset: 0
   minSlopeDegrees: 3
@@ -76,3 +76,5 @@ MonoBehaviour:
   wallMaterial: {fileID: 13400000, guid: 394c912cc7e142549ba3f2b085deeae4, type: 2}
   movingMaterial: {fileID: 13400000, guid: 394c912cc7e142549ba3f2b085deeae4, type: 2}
   timeBeforeDetectedIdle: 0.06
+  maxPlayerHealth: 100
+  maxPlayerShield: 100
