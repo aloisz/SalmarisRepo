@@ -34,6 +34,9 @@ namespace Player
         [Tooltip("The player's dash duration, time before the player start to fall again.")]
         public float dashDuration = 0.5f;
         
+        [Tooltip("The player's dash duration between each dash.")]
+        public float dashLagDuration = 0.5f;
+        
         [Tooltip("The player's dash speed multiplier. Example : 150% = 1.5")]
         public float dashSpeedMultiplier = 1.5f;
         

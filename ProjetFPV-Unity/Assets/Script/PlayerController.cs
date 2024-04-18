@@ -38,6 +38,7 @@ namespace Player
         private float _rotationX;
         
         private float _dashTimer;
+        private float _timerBeforeReDash;
         private float _idleTimer;
 
         private float _actualSlopeAngle;
@@ -220,6 +221,8 @@ namespace Player
         private void ManageDashDuration()
         {
             _dashTimer.DecreaseTimerIfPositive();
+            _timerBeforeReDash.DecreaseTimerIfPositive();
+            
             if (_dashTimer <= 0f)
             {
                 _canApplyGravity = true;
@@ -555,6 +558,8 @@ namespace Player
             _rb.useGravity = false;
             
             _dashTimer = playerScriptable.dashDuration;
+            _timerBeforeReDash = playerScriptable.dashDuration + playerScriptable.dashLagDuration;
+            
             _dashTimerSpeedAdd = playerScriptable.dashSpeedMultiplierDuration;
 
             isDashing = true;
@@ -585,7 +590,7 @@ namespace Player
         void PlayerStateMachine()
         {
             _canDash = PlayerInputs.Instance.isReceivingDashInputs && !isDashing && 
-                       PlayerStamina.Instance.HasEnoughStamina(1);
+                       PlayerStamina.Instance.HasEnoughStamina(1) && _timerBeforeReDash < 0.1f;
             _canJump = canDoubleJump ? _amountOfJumps < 2 : (isOnGround && !isJumping);
             
             isSliding = PlayerInputs.Instance.isReceivingSlideInputs && isOnGround;
