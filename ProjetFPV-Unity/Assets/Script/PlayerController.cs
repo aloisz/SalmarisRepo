@@ -341,7 +341,7 @@ namespace Player
             else if (isOnGround && isSliding && !isOnSlope && !isSlopeClimbing)
             {
                 _rb.drag = 0.65f;
-                if (isOnGround && isSliding && !isOnSlope && _rb.velocity.magnitude < 25f)
+                if (isOnGround && isSliding && !isOnSlope)
                 {
                     _rb.drag = 5f;
                 }
