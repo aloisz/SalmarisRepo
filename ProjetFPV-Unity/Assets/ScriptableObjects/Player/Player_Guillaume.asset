@@ -10,9 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 0a71b2abe57b72a4da7599e067bad271, type: 3}
-  m_Name: PlayerScriptable 1
+  m_Name: Player_Guillaume
   m_EditorClassIdentifier: 
-  moveSpeed: 3.2
+  moveSpeed: 3
   moveSpeedInAirDivider: 10
   moveThreshold: 0.1
   jumpForce: 35
@@ -30,10 +30,46 @@ MonoBehaviour:
   overallMomentumLimiterMoveSlideInSlope: 10
   decelerationMultiplierSlideOnGround: 50
   decelerationMultiplierSlideInSlopeUp: 1000
-  jumpEdgeImpulseForce: 15
+  jumpEdgeImpulseForce: 4.5
   slideBoostCurve:
     serializedVersion: 2
-    m_Curve: []
+    m_Curve:
+    - serializedVersion: 3
+      time: -0.001876831
+      value: 2.5
+      inSlope: -0.0066812756
+      outSlope: -16.944824
+      tangentMode: 1
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.02586207
+    - serializedVersion: 3
+      time: 0.008092124
+      value: 2.334996
+      inSlope: -16.161789
+      outSlope: -16.161789
+      tangentMode: 1
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 0.2965053
+      value: 0.59655356
+      inSlope: -0.29536328
+      outSlope: -0.06787563
+      tangentMode: 1
+      weightedMode: 0
+      inWeight: 0.5783263
+      outWeight: 0.6327731
+    - serializedVersion: 3
+      time: 0.45265502
+      value: 0.5698631
+      inSlope: 0.000010616636
+      outSlope: 0.000010616636
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.13669956
+      outWeight: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
@@ -42,7 +78,7 @@ MonoBehaviour:
   groundDrag: 7
   airDrag: 1.8
   maxRigidbodyVelocity: 100
-  groundDetectionLenght: 2.5
+  groundDetectionLenght: 2.8
   raycastLenghtSlopeDetection: 1
   groundDetectionForwardOffset: 0.25
   groundDetectionUpOffset: 0

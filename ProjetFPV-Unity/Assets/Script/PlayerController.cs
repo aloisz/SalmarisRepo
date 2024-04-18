@@ -16,6 +16,7 @@ namespace Player
         [Header("Overall Behavior")]
         public bool canMove = true;
         public bool canDoubleJump = true;
+        public bool DEBUG;
         
         //---------------------------------------
         
@@ -32,33 +33,31 @@ namespace Player
         internal Vector3 direction;
         internal Vector3 directionNotReset;
         
-        private float moveSpeed;
+        private float _moveSpeed;
         private float _velocity;
         private float _rotationX;
         
-        private float dashTimer;
-        private float idleTimer;
+        private float _dashTimer;
+        private float _idleTimer;
 
-        private float actualSlopeAngle;
+        private float _actualSlopeAngle;
 
-        private int amountOfJumps;
-        
-        private const float _gravity = -9.81f;
+        private int _amountOfJumps;
         
         //---------------------------------------
 
         [Header("Momentum")] 
-        [HideInInspector] public Vector3 shotgunExternalForce;
+        public Vector3 shotgunExternalForce;
         
-        private float dashTimerSpeedAdd;
-        private float speedMultiplierFromDash = 1f;
-        private float slideAccelerateTimer;
+        private float _dashTimerSpeedAdd;
+        private float _speedMultiplierFromDash = 1f;
+        private float _slideAccelerateTimer;
         
-        private Vector3 dirFromEdgePoint = Vector3.zero;
-        private float dirFromEdgePointMag = 0f;
+        private Vector3 _dirFromEdgePoint = Vector3.zero;
+        private float _dirFromEdgePointMag = 0f;
         
-        private float _decelerationSlideOnGround;
-        private float slideBoost;
+        //private float _decelerationSlideOnGround;
+        private float _slideBoost;
         
         //---------------------------------------
         
@@ -73,12 +72,12 @@ namespace Player
 
         internal PlayerActionStates currentActionState;
         
-        private bool canJump;
-        private bool canDash;
-        private bool canApplyGravity = true;
+        private bool _canJump;
+        private bool _canDash;
+        private bool _canApplyGravity = true;
         
-        private bool isAccelerating;
-        private bool isDecelerating;
+        private bool _isAccelerating;
+        private bool _isDecelerating;
         
         internal enum PlayerActionStates
         {
@@ -94,16 +93,16 @@ namespace Player
         [Header("Detection")] 
         [SerializeField] private LayerMask groundLayer;
 
-        private RaycastHit raycastGroundRight;
-        private RaycastHit raycastGroundLeft;
-        private RaycastHit raycastGroundForward;
-        private RaycastHit raycastGroundBack;
+        private RaycastHit _raycastGroundRight;
+        private RaycastHit _raycastGroundLeft;
+        private RaycastHit _raycastGroundForward;
+        private RaycastHit _raycastGroundBack;
         
-        private RaycastHit raycastSlope;
-        private RaycastHit raycastSlopeFront;
+        private RaycastHit _raycastSlope;
+        private RaycastHit _raycastSlopeFront;
         
-        private RaycastHit raycastEdgeDown;
-        private RaycastHit raycastEdgeFromTop;
+        private RaycastHit _raycastEdgeDown;
+        private RaycastHit _raycastEdgeFromTop;
         
         //---------------------------------------
 
@@ -184,17 +183,17 @@ namespace Player
             var dividerOnSlopeClimbing = (isSlopeClimbing && isSliding ? playerScriptable.decelerationMultiplierSlideInSlopeUp : 1f);
             var accelerating = _rb.velocity.magnitude < playerScriptable.speedMaxToAccelerate && !isOnSlope && !isSliding;
             var vectorMove = DirectionFromCamera(direction).normalized * 
-                             (moveSpeed * speedMultiplierFromDash * (accelerating ? playerScriptable.accelerationMultiplier : 1f))
+                             (_moveSpeed * _speedMultiplierFromDash * (accelerating ? playerScriptable.accelerationMultiplier : 1f))
                              / dividerOnSlopeClimbing;
             
-            var slopeDirection = new Vector3(raycastSlope.normal.x, 0, raycastSlope.normal.z).normalized;
+            var slopeDirection = new Vector3(_raycastSlope.normal.x, 0, _raycastSlope.normal.z).normalized;
             var vectorSlideDown = Vector3.down * (playerScriptable.slidingInSlopeDownForce) / dividerOnSlopeClimbing;
-            var vectorSlideForward = (slopeDirection * (actualSlopeAngle / playerScriptable.slidingInSlopeLimiter)) / dividerOnSlopeClimbing;
+            var vectorSlideForward = (slopeDirection * (_actualSlopeAngle / playerScriptable.slidingInSlopeLimiter)) / dividerOnSlopeClimbing;
             var vectorSlide = vectorSlideDown + vectorSlideForward;
 
-            var vectorJumpFacility = Vector3.up * ((dirFromEdgePointMag * playerScriptable.jumpEdgeImpulseForce / (!isOnGround ? 5f : 1f)) * 
-                                                   (raycastEdgeFromTop.collider ? 
-                                                       Vector3.Distance(transform.position, raycastEdgeFromTop.point) / 2f : 1f));
+            var vectorJumpFacility = Vector3.up * ((_dirFromEdgePointMag * playerScriptable.jumpEdgeImpulseForce / (!isOnGround ? 5f : 1f)) * 
+                                                   (_raycastEdgeFromTop.collider ? 
+                                                       Vector3.Distance(transform.position, _raycastEdgeFromTop.point) / 2f : 1f));
             
             //if(isSliding && !isOnSlope) _decelerationSlideOnGround += Time.deltaTime * playerScriptable.decelerationMultiplierSlideOnGround;
             
@@ -203,7 +202,7 @@ namespace Player
                                (!isOnSlope && isMoving && direction.z > 0.5f && (isOnGround || _rb.velocity.y > 10f) ? vectorJumpFacility : Vector3.zero) 
                                + shotgunExternalForce);
 
-            var slideBoostValue = (isSliding ? slideBoost : 1f);
+            var slideBoostValue = (isSliding ? _slideBoost : 1f);
             var tempFinalVectorX = finalVector.x * slideBoostValue;
             var tempFinalVectorZ = finalVector.z * slideBoostValue;
 
@@ -214,16 +213,16 @@ namespace Player
         
         private void SetMoveSpeed()
         {
-            moveSpeed = isOnGround ? playerScriptable.moveSpeed : 
+            _moveSpeed = isOnGround ? playerScriptable.moveSpeed : 
                 playerScriptable.moveSpeed / playerScriptable.moveSpeedInAirDivider;
         }
         
         private void ManageDashDuration()
         {
-            dashTimer.DecreaseTimerIfPositive();
-            if (dashTimer <= 0f)
+            _dashTimer.DecreaseTimerIfPositive();
+            if (_dashTimer <= 0f)
             {
-                canApplyGravity = true;
+                _canApplyGravity = true;
                 _rb.useGravity = true;
                 isDashing = false;
             }
@@ -232,26 +231,26 @@ namespace Player
         private void ManageSpeedMultiplierFromDash()
         {
             //Decrease the duration while the value is positive.
-            dashTimerSpeedAdd.DecreaseTimerIfPositive();
+            _dashTimerSpeedAdd.DecreaseTimerIfPositive();
             
             //Set the speed multiplier from dash to the added % value if the timer isn't finished.
             // Lerp the speed to the multiplier in 1s.
             // Lerp the speed to the basic value in Xs.
-            speedMultiplierFromDash = dashTimerSpeedAdd > 0 ? 
-                Mathf.Lerp(speedMultiplierFromDash, playerScriptable.dashSpeedMultiplier, Time.deltaTime) : 
-                Mathf.Lerp(speedMultiplierFromDash, 1f, Time.deltaTime / playerScriptable.dashSpeedMultiplierResetDuration);
+            _speedMultiplierFromDash = _dashTimerSpeedAdd > 0 ? 
+                Mathf.Lerp(_speedMultiplierFromDash, playerScriptable.dashSpeedMultiplier, Time.deltaTime) : 
+                Mathf.Lerp(_speedMultiplierFromDash, 1f, Time.deltaTime / playerScriptable.dashSpeedMultiplierResetDuration);
         }
 
         private void ManageSlideBoost()
         {
             if (!isSliding)
             {
-                slideAccelerateTimer = 0f;
+                _slideAccelerateTimer = 0f;
             }
             else
             {
-                slideAccelerateTimer += Time.deltaTime;
-                slideBoost = playerScriptable.slideBoostCurve.Evaluate(slideAccelerateTimer);
+                _slideAccelerateTimer += Time.deltaTime;
+                _slideBoost = playerScriptable.slideBoostCurve.Evaluate(_slideAccelerateTimer);
             }
         }
         
@@ -298,7 +297,7 @@ namespace Player
         /// </summary>
         private void ManageGravity()
         {
-            if (canApplyGravity)
+            if (_canApplyGravity)
             {
                 var velocity = _rb.velocity;
 
@@ -342,14 +341,14 @@ namespace Player
             else if (isOnGround && isSliding && !isOnSlope && !isSlopeClimbing)
             {
                 _rb.drag = 0.65f;
-                if (isOnGround && isSliding && !isOnSlope && _rb.velocity.magnitude < 45f)
+                if (isOnGround && isSliding && !isOnSlope)
                 {
                     _rb.drag = 5f;
                 }
             }
             else if (isOnGround && isSliding && isOnSlope && isSlopeClimbing && _rb.velocity.magnitude < 25f)
             {
-                _rb.drag = 10f;
+                _rb.drag = 0f;
             }
             else if (isOnSlope && !isSliding)
             {
@@ -384,19 +383,19 @@ namespace Player
             var pos = cameraAttachPosition.position + new Vector3(0,playerScriptable.groundDetectionUpOffset,0);
             
             var posCheckRight = ReturnCheckOffsetFromDir(pos, Helper.ReturnDirFromIndex(0), offset);
-            var isOnGroundTempRight = Physics.Raycast(posCheckRight, Vector3.down * playerScriptable.groundDetectionLenght, out raycastGroundRight, 
+            var isOnGroundTempRight = Physics.Raycast(posCheckRight, Vector3.down * playerScriptable.groundDetectionLenght, out _raycastGroundRight, 
                 playerScriptable.groundDetectionLenght, groundLayer);
             
             var posCheckLeft = ReturnCheckOffsetFromDir(pos, Helper.ReturnDirFromIndex(1), offset);
-            var isOnGroundTempLeft = Physics.Raycast(posCheckLeft, Vector3.down * playerScriptable.groundDetectionLenght, out raycastGroundLeft, 
+            var isOnGroundTempLeft = Physics.Raycast(posCheckLeft, Vector3.down * playerScriptable.groundDetectionLenght, out _raycastGroundLeft, 
                 playerScriptable.groundDetectionLenght, groundLayer);
             
             var posCheckForward = ReturnCheckOffsetFromDir(pos, Helper.ReturnDirFromIndex(2), offset);
-            var isOnGroundTempForward = Physics.Raycast(posCheckForward, Vector3.down * playerScriptable.groundDetectionLenght, out raycastGroundForward, 
+            var isOnGroundTempForward = Physics.Raycast(posCheckForward, Vector3.down * playerScriptable.groundDetectionLenght, out _raycastGroundForward, 
                 playerScriptable.groundDetectionLenght, groundLayer);
             
             var posCheckBack = ReturnCheckOffsetFromDir(pos, Helper.ReturnDirFromIndex(3), offset);
-            var isOnGroundTempBack = Physics.Raycast(posCheckBack, Vector3.down * playerScriptable.groundDetectionLenght, out raycastGroundBack, 
+            var isOnGroundTempBack = Physics.Raycast(posCheckBack, Vector3.down * playerScriptable.groundDetectionLenght, out _raycastGroundBack, 
                 playerScriptable.groundDetectionLenght, groundLayer);
 
             if (isOnGroundTempRight || isOnGroundTempLeft || isOnGroundTempForward || isOnGroundTempBack)
@@ -427,12 +426,12 @@ namespace Player
         /// </summary>
         IEnumerator OnLand()
         {
-            canApplyGravity = false;
+            _canApplyGravity = false;
             
             yield return new WaitForSeconds(0.025f);
             
             isJumping = false;
-            amountOfJumps = 0;
+            _amountOfJumps = 0;
         }
         
         /// <summary>
@@ -440,18 +439,18 @@ namespace Player
         /// </summary>
         private void DetectSlope()
         {
-            Physics.Raycast(transform.position + new Vector3(0,0.35f,0), Vector3.down, out raycastSlope, playerScriptable.raycastLenghtSlopeDetection,
+            Physics.Raycast(transform.position + new Vector3(0,0.75f,0), Vector3.down, out _raycastSlope, playerScriptable.raycastLenghtSlopeDetection,
                 groundLayer);
             
-            Physics.Raycast(transform.position + new Vector3(0,0.35f,0) + (transform.forward * 2f), Vector3.down, 
-                out raycastSlopeFront, playerScriptable.raycastLenghtSlopeDetection, groundLayer);
+            Physics.Raycast(transform.position + new Vector3(0,0.75f,0) + (transform.forward * 2f), Vector3.down, 
+                out _raycastSlopeFront, playerScriptable.raycastLenghtSlopeDetection, groundLayer);
 
-            actualSlopeAngle = Vector3.Angle(raycastSlope.normal, Vector3.up);
+            _actualSlopeAngle = Vector3.Angle(_raycastSlope.normal, Vector3.up);
 
-            if (actualSlopeAngle > playerScriptable.minSlopeDegrees) 
+            if (_actualSlopeAngle > playerScriptable.minSlopeDegrees) 
             {
                 isOnSlope = true;
-                isSlopeClimbing = raycastSlopeFront.point.y > transform.position.y;
+                isSlopeClimbing = _raycastSlopeFront.point.y > _raycastSlope.point.y;
             }
             else
             {
@@ -476,20 +475,20 @@ namespace Player
             
             //Down Detect Edge Raycast
             Physics.Raycast(position + new Vector3(0, playerScriptable.edgeDetectionDownOffsetY, 0),
-                forward, out raycastEdgeDown,
+                forward, out _raycastEdgeDown,
                 playerScriptable.edgeDetectionDownLenght, groundLayer);
                 
             //Down From Top Detect Edge Raycast
             Physics.Raycast(position + new Vector3(0, playerScriptable.edgeDetectionTopOffsetY, 0)
                                      + forward * playerScriptable.edgeDetectionTopLenght,
-                Vector3.down, out raycastEdgeFromTop,
+                Vector3.down, out _raycastEdgeFromTop,
                 playerScriptable.edgeDetectionEdgeFromTopLenght, groundLayer);
             
-            dirFromEdgePoint = raycastEdgeFromTop.collider ? 
-                (raycastEdgeFromTop.point - transform.position) : Vector3.zero;
+            _dirFromEdgePoint = _raycastEdgeFromTop.collider ? 
+                (_raycastEdgeFromTop.point - transform.position) : Vector3.zero;
             
-            dirFromEdgePointMag = raycastEdgeFromTop.collider ?
-                dirFromEdgePoint.normalized.magnitude : 0f;
+            _dirFromEdgePointMag = _raycastEdgeFromTop.collider ?
+                _dirFromEdgePoint.normalized.magnitude : 0f;
         }
 
         #endregion
@@ -509,18 +508,18 @@ namespace Player
             {
                 if (isOnGround)
                 {
-                    amountOfJumps++;
+                    _amountOfJumps++;
                 }
                 else
                 {
-                    amountOfJumps = 2;
+                    _amountOfJumps = 2;
                 }
             }
             else
-                amountOfJumps = 1;
+                _amountOfJumps = 1;
             
             var forwardMomentumVector = GetOverallMomentumVector() / 20f;
-            _rb.AddForce((amountOfJumps < 2 ? 
+            _rb.AddForce((_amountOfJumps < 2 ? 
                 playerScriptable.jumpForce : 
                 playerScriptable.jumpForce * Mathf.Lerp(0.75f, playerScriptable.secondaryJumpMultiplierFromYVel, 
                     Mathf.Abs(_rb.velocity.y / playerScriptable.maxRigidbodyVelocity))) 
@@ -552,11 +551,11 @@ namespace Player
             _rb.AddForce((dashDirectionNoY.magnitude < 0.1f ? transform.forward : dashDirectionNoY) * 
                          playerScriptable.dashForce, ForceMode.Impulse);
 
-            canApplyGravity = false;
+            _canApplyGravity = false;
             _rb.useGravity = false;
             
-            dashTimer = playerScriptable.dashDuration;
-            dashTimerSpeedAdd = playerScriptable.dashSpeedMultiplierDuration;
+            _dashTimer = playerScriptable.dashDuration;
+            _dashTimerSpeedAdd = playerScriptable.dashSpeedMultiplierDuration;
 
             isDashing = true;
 
@@ -565,7 +564,7 @@ namespace Player
 
         private void VerifyDashExecution()
         {
-            if (canDash)
+            if (_canDash)
             {
                 PlayerStamina.Instance.ConsumeStaminaStep(1);
                 Dash();
@@ -574,7 +573,7 @@ namespace Player
 
         public void VerifyJumpExecution()
         {
-            if(canJump) Jump();
+            if(_canJump) Jump();
             PlayerInputs.Instance.onJump -= VerifyJumpExecution;
         }
         
@@ -585,8 +584,8 @@ namespace Player
         #region StateMachine
         void PlayerStateMachine()
         {
-            canDash = PlayerInputs.Instance.isReceivingDashInputs && !isDashing && PlayerStamina.Instance.HasEnoughStamina(1);
-            canJump = canDoubleJump ? amountOfJumps < 2 : (isOnGround && !isJumping);
+            _canDash = PlayerInputs.Instance.isReceivingDashInputs && !isDashing && PlayerStamina.Instance.HasEnoughStamina(1);
+            _canJump = canDoubleJump ? _amountOfJumps < 2 : (isOnGround && !isJumping);
             
             isSliding = PlayerInputs.Instance.isReceivingSlideInputs && isOnGround;
             isMoving = direction.magnitude > playerScriptable.moveThreshold;
@@ -599,7 +598,7 @@ namespace Player
                 
             else if(isDashing) currentActionState = PlayerActionStates.Dashing;
 
-            else if (idleTimer <= 0f) currentActionState = PlayerActionStates.Idle;
+            else if (_idleTimer <= 0f) currentActionState = PlayerActionStates.Idle;
 
             else currentActionState = PlayerActionStates.Moving;
 
@@ -607,7 +606,7 @@ namespace Player
             {
                 case PlayerActionStates.Idle: OnIdle();
                     break;
-                case PlayerActionStates.Moving: _decelerationSlideOnGround = 1f;
+                case PlayerActionStates.Moving: //_decelerationSlideOnGround = 1f;
                     break;
                 case PlayerActionStates.Sliding:
                     break;
@@ -624,23 +623,23 @@ namespace Player
 
         private void DetectIdling()
         {
-            if (isMoving && isOnGround) idleTimer = playerScriptable.timeBeforeDetectedIdle;
-            else idleTimer.DecreaseTimerIfPositive();
+            if (isMoving && isOnGround) _idleTimer = playerScriptable.timeBeforeDetectedIdle;
+            else _idleTimer.DecreaseTimerIfPositive();
         }
 
         private void OnIdle()
         {
             //Reset the current dash duration. Make this cancel the dash.
-            dashTimer = 0f;
+            _dashTimer = 0f;
             
             //Reset the timer of the speed dash bonus.
-            dashTimerSpeedAdd = 0f;
+            _dashTimerSpeedAdd = 0f;
             
             //Reset the speed bonus from dash.
-            speedMultiplierFromDash = 1f;
+            _speedMultiplierFromDash = 1f;
             
             //Reset the deceleration for the slide on ground.
-            _decelerationSlideOnGround = 1f;
+            //_decelerationSlideOnGround = 1f;
         }
         
         #endregion
@@ -654,16 +653,16 @@ namespace Player
 
             //Slope Detection
             Gizmos.color = Color.magenta;
-            Gizmos.DrawRay(position + new Vector3(0, 0.35f, 0),
+            Gizmos.DrawRay(position + new Vector3(0, 0.75f, 0),
                 Vector3.down * playerScriptable.raycastLenghtSlopeDetection);
             
             Gizmos.color = Color.cyan;
-            Gizmos.DrawRay(transform.position + new Vector3(0,0.35f,0) + (transform.forward * 2f),
+            Gizmos.DrawRay(transform.position + new Vector3(0,0.75f,0) + (transform.forward * 2f),
                 Vector3.down * playerScriptable.raycastLenghtSlopeDetection);
 
             //Slope Normal
             Gizmos.color = Color.yellow;
-            Gizmos.DrawRay(raycastSlope.point, raycastSlope.normal * 2.5f);
+            Gizmos.DrawRay(_raycastSlope.point, _raycastSlope.normal * 2.5f);
             
             var offset = playerScriptable.groundDetectionForwardOffset;
             var pos = cameraAttachPosition.position + new Vector3(0,playerScriptable.groundDetectionUpOffset,0);
@@ -692,6 +691,8 @@ namespace Player
 
         private void OnGUI()
         {
+            if (!DEBUG) return;
+            
             //return;
             
             // Set up GUI style for the text
@@ -745,15 +746,15 @@ namespace Player
             
             GUI.Label(rect7, $"Is On Slope ? : {isOnSlope}", BoolStyle(isOnSlope));
 
-            var text = raycastSlope.collider ? new Vector3(raycastSlope.normal.x, 0, raycastSlope.normal.z).normalized : Vector3.zero;
+            var text = _raycastSlope.collider ? new Vector3(_raycastSlope.normal.x, 0, _raycastSlope.normal.z).normalized : Vector3.zero;
             GUI.Label(rect8, $"Current Slope Direction : {text}", style);
-            GUI.Label(rect9, $"Current Slope Angle : {actualSlopeAngle}", style);
+            GUI.Label(rect9, $"Current Slope Angle : {_actualSlopeAngle}", style);
             
             GUI.Label(rect10, $"Rigidbody Drag : {_rb.drag}", style);
             
             GUI.Label(rect11, $"Is Slope Climbing : {isSlopeClimbing}", BoolStyle(isSlopeClimbing));
             
-            GUI.Label(rect12, $"Slide Boost : {slideBoost}", style);
+            GUI.Label(rect12, $"Shotgun force : {shotgunExternalForce}", style);
         }
 
         GUIStyle BoolStyle(bool value)
