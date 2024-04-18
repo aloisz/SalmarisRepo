@@ -76,18 +76,15 @@ public class Explosion : MonoBehaviour
                 enemy.Hit(damageRepartition.Evaluate(Vector3.Distance(transform.position ,obj.transform.position)));
             }
             
-            var rb = obj.GetComponent<Rigidbody>();
-            if (rb == null) continue;
-            
-            if (obj.transform.gameObject.layer == PlayerMask) // if is player then add rocketJump value
+            if (obj.transform.gameObject.tag == "Player") // if is player then add rocketJump value
             {
-                Debug.Log("Player");
                 Vector3 shotgunImpulseVector = ((PlayerController.Instance.transform.position + Vector3.up) - transform.position).normalized * rocketJumpForceApplied;
                 PlayerController.Instance.shotgunExternalForce = shotgunImpulseVector;
             }
             else
             {
-                Debug.Log("Other");
+                var rb = obj.GetComponent<Rigidbody>();
+                if (rb == null) continue;
                 rb.AddExplosionForce(explosionForce, transform.position, explosionRadius);
             }
         }
@@ -121,14 +118,14 @@ public class Explosion : MonoBehaviour
         return canRocketJump = value;
     }
     
-    private void FixedUpdate()
+    /*private void FixedUpdate()
     {
         if(!canRocketJump) return;
         canRocketJump = false;
         
         Vector3 shotgunImpulseVector = ((PlayerController.Instance.transform.position + Vector3.up) - transform.position).normalized * rocketJumpForceApplied;
         PlayerController.Instance.shotgunExternalForce = canRocketJump ? shotgunImpulseVector : Vector3.zero;
-    }
+    }*/
     
 
     #if UNITY_EDITOR
