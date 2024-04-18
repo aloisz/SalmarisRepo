@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using NaughtyAttributes;
 using Player;
 using UnityEditor;
 using UnityEngine;
@@ -15,16 +16,20 @@ namespace AI
     {
         [SerializeField] private Transform targetToFollow;
         [SerializeField] protected SO_IA so_IA;
-
-        protected float actualPawnHealth;
+        
         [SerializeField] protected LayerMask targetMask;
-        [Header("Tick State")]
+        
+        [Space]
+        [ProgressBar("Health", 500, EColor.Red)] [SerializeField] protected float actualPawnHealth;
+        
+        [Header("Tick")]
         [SerializeField][Tooltip("How many time the check is performed")] protected float tickVerification = 0.2f;
         
         //Component----------------------
         protected NavMeshAgent navMeshAgent;
         protected AgentLinkMover agentLinkMover;
         protected Rigidbody rb;
+        [Header("Vision Module")]
         [SerializeField] protected SphereCollider visionDetector;
         
         protected virtual void Start()

@@ -246,6 +246,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   targetToFollow: {fileID: 0}
   so_IA: {fileID: 11400000, guid: 2d30b6a2cff272b4b90ad063b75d6b44, type: 2}
+  targetMask:
+    serializedVersion: 2
+    m_Bits: 128
+  actualPawnHealth: 0
   tickVerification: 0.2
   visionDetector: {fileID: 146247463210128156}
   trashMobState: 1
@@ -254,7 +258,7 @@ MonoBehaviour:
   agentDashRadius: 8
   agentDashSpeed: 500
   countBeforeAttack: 10
-  agentShootingRadius: 40
+  agentShootingRadius: 50
 --- !u!114 &8926880860528202724
 MonoBehaviour:
   m_ObjectHideFlags: 0
