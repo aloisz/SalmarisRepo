@@ -38,6 +38,7 @@ namespace Player
         private float _rotationX;
         
         private float _dashTimer;
+        private float _timerBeforeReDash;
         private float _idleTimer;
 
         private float _actualSlopeAngle;
@@ -220,6 +221,8 @@ namespace Player
         private void ManageDashDuration()
         {
             _dashTimer.DecreaseTimerIfPositive();
+            _timerBeforeReDash.DecreaseTimerIfPositive();
+            
             if (_dashTimer <= 0f)
             {
                 _canApplyGravity = true;
@@ -341,7 +344,7 @@ namespace Player
             else if (isOnGround && isSliding && !isOnSlope && !isSlopeClimbing)
             {
                 _rb.drag = 0.65f;
-                if (isOnGround && isSliding && !isOnSlope && _rb.velocity.magnitude < 25f)
+                if (isOnGround && isSliding && !isOnSlope)
                 {
                     _rb.drag = 5f;
                 }
@@ -525,7 +528,7 @@ namespace Player
                     Mathf.Abs(_rb.velocity.y / playerScriptable.maxRigidbodyVelocity))) 
                 * (Vector3.up + new Vector3(forwardMomentumVector.x, 0, forwardMomentumVector.z)), ForceMode.Impulse);
         }
-
+        
         /// <summary>
         /// Make the camera rotate from where the player look.
         /// </summary>
@@ -555,6 +558,8 @@ namespace Player
             _rb.useGravity = false;
             
             _dashTimer = playerScriptable.dashDuration;
+            _timerBeforeReDash = playerScriptable.dashDuration + playerScriptable.dashLagDuration;
+            
             _dashTimerSpeedAdd = playerScriptable.dashSpeedMultiplierDuration;
 
             isDashing = true;
@@ -584,7 +589,8 @@ namespace Player
         #region StateMachine
         void PlayerStateMachine()
         {
-            _canDash = PlayerInputs.Instance.isReceivingDashInputs && !isDashing && PlayerStamina.Instance.HasEnoughStamina(1);
+            _canDash = PlayerInputs.Instance.isReceivingDashInputs && !isDashing && 
+                       PlayerStamina.Instance.HasEnoughStamina(1) && _timerBeforeReDash < 0.1f;
             _canJump = canDoubleJump ? _amountOfJumps < 2 : (isOnGround && !isJumping);
             
             isSliding = PlayerInputs.Instance.isReceivingSlideInputs && isOnGround;

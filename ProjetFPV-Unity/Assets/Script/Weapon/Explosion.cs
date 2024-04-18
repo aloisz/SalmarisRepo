@@ -44,8 +44,8 @@ public class Explosion : MonoBehaviour
         transform.position = Vector3.zero;
         transform.rotation = Quaternion.identity;
         
-        SetRadius(explosionRadius);
-        SetForce(explosionForce);
+        SetRadius(baseExplosionRadius);
+        SetForce(baseExplosionForce);
         
         SetRocketJump(false);
     }
