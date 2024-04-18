@@ -525,7 +525,7 @@ namespace Player
                     Mathf.Abs(_rb.velocity.y / playerScriptable.maxRigidbodyVelocity))) 
                 * (Vector3.up + new Vector3(forwardMomentumVector.x, 0, forwardMomentumVector.z)), ForceMode.Impulse);
         }
-
+        
         /// <summary>
         /// Make the camera rotate from where the player look.
         /// </summary>
@@ -584,7 +584,8 @@ namespace Player
         #region StateMachine
         void PlayerStateMachine()
         {
-            _canDash = PlayerInputs.Instance.isReceivingDashInputs && !isDashing && PlayerStamina.Instance.HasEnoughStamina(1);
+            _canDash = PlayerInputs.Instance.isReceivingDashInputs && !isDashing && 
+                       PlayerStamina.Instance.HasEnoughStamina(1);
             _canJump = canDoubleJump ? _amountOfJumps < 2 : (isOnGround && !isJumping);
             
             isSliding = PlayerInputs.Instance.isReceivingSlideInputs && isOnGround;
