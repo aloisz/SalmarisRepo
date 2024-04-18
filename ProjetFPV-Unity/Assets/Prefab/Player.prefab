@@ -118,8 +118,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerScriptable: {fileID: 11400000, guid: b64488bd6eec9cb4cba32d12244e0f8a, type: 2}
-  health: 0
-  shield: 0
+  explosionRadius: 10
+  explosionForce: 150
+  explosionMask:
+    serializedVersion: 2
+    m_Bits: 256
   maxHealth: 0
   maxShield: 0
 --- !u!114 &6655356332372034070
