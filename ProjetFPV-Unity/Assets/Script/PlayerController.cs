@@ -23,8 +23,8 @@ namespace Player
         [Header("Components")]
         [SerializeField] internal PlayerScriptable playerScriptable;
         [SerializeField] private Transform cameraAttachPosition;
-        [SerializeField] private Collider capsuleCollider;
-        
+        [SerializeField] private Collider capsuleCollider, capsuleColliderSlide;
+
         [HideInInspector] public Rigidbody _rb;
         
         //---------------------------------------
@@ -134,6 +134,8 @@ namespace Player
             DetectGround();
             DetectEdges();
 
+            ManageSlideColliders();
+
             RotateCameraFromInput();
 
             //Debug
@@ -212,12 +214,18 @@ namespace Player
             return finalVector / (isSliding && isMoving && isOnSlope ? playerScriptable.overallMomentumLimiterMoveSlideInSlope : 1f);
         }
         
+        /// <summary>
+        /// Define the player's speed based on grounded state.
+        /// </summary>
         private void SetMoveSpeed()
         {
             _moveSpeed = isOnGround ? playerScriptable.moveSpeed : 
                 playerScriptable.moveSpeed / playerScriptable.moveSpeedInAirDivider;
         }
         
+        /// <summary>
+        /// Manage the dash duration and the delay between each dashes.
+        /// </summary>
         private void ManageDashDuration()
         {
             _dashTimer.DecreaseTimerIfPositive();
@@ -231,6 +239,9 @@ namespace Player
             }
         }
         
+        /// <summary>
+        /// Setup the speed bonus gained by using a dash, during a certain duration.
+        /// </summary>
         private void ManageSpeedMultiplierFromDash()
         {
             //Decrease the duration while the value is positive.
@@ -244,6 +255,10 @@ namespace Player
                 Mathf.Lerp(_speedMultiplierFromDash, 1f, Time.deltaTime / playerScriptable.dashSpeedMultiplierResetDuration);
         }
 
+        /// <summary>
+        /// Setup the speed boost when the player start sliding, also decelerate him if he is still sliding on the ground.
+        /// It's using an animation curve to manage the boost and the de-boost.
+        /// </summary>
         private void ManageSlideBoost()
         {
             if (!isSliding)
@@ -275,6 +290,12 @@ namespace Player
         //-------------------- Camera ----------------------
         
         #region Camera
+        
+        /// <summary>
+        /// Get the forward vector based on the camera forward direction.
+        /// </summary>
+        /// <param name="dir">The input direction to convert to.</param>
+        /// <returns></returns>
         public Vector3 DirectionFromCamera(Vector3 dir)
         {
             Vector3 camForward = cameraAttachPosition.forward;
@@ -329,6 +350,12 @@ namespace Player
             if (capsuleCollider.sharedMaterial != chosenMat)
             {
                 capsuleCollider.material = chosenMat;
+            }
+            
+            //if the slide capsule hasn't the material yet, apply it.
+            if (capsuleColliderSlide.sharedMaterial != chosenMat)
+            {
+                capsuleColliderSlide.material = chosenMat;
             }
         }
         
@@ -462,6 +489,10 @@ namespace Player
             }
         }
 
+        /// <summary>
+        /// Function that detect the next edge toward the player,
+        /// the height and how much the player need to jump to past it.
+        /// </summary>
         private void DetectEdges()
         {
             var transform1 = transform;
@@ -492,6 +523,30 @@ namespace Player
             
             _dirFromEdgePointMag = _raycastEdgeFromTop.collider ?
                 _dirFromEdgePoint.normalized.magnitude : 0f;
+        }
+        
+        /// <summary>
+        /// Manage if slide collider should be active or not,
+        /// depending on the slide state of the player.
+        /// </summary>
+        private void ManageSlideColliders()
+        {
+            if (isSliding)
+            {
+                if (!capsuleColliderSlide.enabled)
+                {
+                    capsuleColliderSlide.enabled = true;
+                    capsuleCollider.enabled = false;
+                }
+            }
+            else
+            {
+                if (!capsuleCollider.enabled)
+                {
+                    capsuleCollider.enabled = true;
+                    capsuleColliderSlide.enabled = false;
+                }
+            }
         }
 
         #endregion
@@ -542,6 +597,9 @@ namespace Player
             transform.rotation *= Quaternion.Euler(0, rot.x * playerScriptable.sensibility, 0);
         }
 
+        /// <summary>
+        /// Make the player dash.
+        /// </summary>
         private void Dash()
         {
             var dashDirectionConvert = Helper.ConvertTo4Dir(new Vector2(direction.x, direction.z));
@@ -567,6 +625,9 @@ namespace Player
             _rb.velocity = Vector3.zero;
         }
 
+        /// <summary>
+        /// Verify if the player can dash.
+        /// </summary>
         private void VerifyDashExecution()
         {
             if (_canDash)
@@ -576,12 +637,15 @@ namespace Player
             }
         }
 
+        /// <summary>
+        /// Verify if the player can jump.
+        /// </summary>
         public void VerifyJumpExecution()
         {
             if(_canJump) Jump();
             PlayerInputs.Instance.onJump -= VerifyJumpExecution;
         }
-        
+
         #endregion
         
         //-------------------- State Machine ----------------------
