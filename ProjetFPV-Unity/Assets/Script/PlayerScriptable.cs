@@ -113,7 +113,7 @@ namespace Player
         public float edgeDetectionLenght = 1f;
         
         [Tooltip("")]
-        public float edgeDetectionDownOffsetY = 0f;
+        public float edgeDetectionBottomOffsetY = 0f;
 
         [Tooltip("")]
         public float edgeDetectionTopOffsetY = 0f;
@@ -130,6 +130,9 @@ namespace Player
         [Tooltip("Min and Max value where the player will be pushed when climbing an edge. " +
                  "More the edge is high, more the value will be near Max, less it is, more the value will be enar Min.")]
         public Vector2 minMaxJumpFacility = Vector2.zero;
+        
+        [Tooltip("")]
+        public bool enableAutoJumpEdge = true;
 
         //----------------------------------------------------
         

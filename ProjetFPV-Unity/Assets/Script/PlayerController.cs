@@ -131,7 +131,7 @@ namespace Player
             
             DetectSlope();
             DetectGround();
-            DetectEdges();
+            if (playerScriptable.enableAutoJumpEdge) DetectEdges();
 
             ManageSlideColliders();
 
@@ -516,7 +516,7 @@ namespace Player
             }
 
             //Down Detect Edge Raycast (GREEN)
-            Physics.Raycast(position + new Vector3(0, playerScriptable.edgeDetectionDownOffsetY, 0),
+            Physics.Raycast(position + new Vector3(0, playerScriptable.edgeDetectionBottomOffsetY, 0),
                 forward, out _raycastEdgeDown,
                 playerScriptable.edgeDetectionLenght, groundLayer);
 
@@ -785,6 +785,8 @@ namespace Player
             
             #endregion
 
+            if (!playerScriptable.enableAutoJumpEdge) return;
+
             #region EdgeDetectionTop
             
             Gizmos.color = Color.red;
@@ -804,7 +806,7 @@ namespace Player
             #region EdgeDetectionDown
             
             Gizmos.color = Color.green;
-            Gizmos.DrawRay(transform.position + new Vector3(0, playerScriptable.edgeDetectionDownOffsetY, 0), 
+            Gizmos.DrawRay(transform.position + new Vector3(0, playerScriptable.edgeDetectionBottomOffsetY, 0), 
                 transform.forward * playerScriptable.edgeDetectionLenght);
 
             #endregion
