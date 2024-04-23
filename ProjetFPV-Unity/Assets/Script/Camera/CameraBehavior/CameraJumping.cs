@@ -53,7 +53,8 @@ namespace CameraBehavior
                 cameraManager.smoothOffset = Quaternion.Slerp(cameraManager.smoothOffset, 
                     Quaternion.Euler(0, 
                         cameraManager.so_Camera.rotationOffSet.y,
-                        cameraManager.so_Camera.rotationOffSet.z * (Mathf.Cos(timer) * (cameraManager.so_Camera.cameraJumpingBobbingAmount * jumpingImpact.Evaluate(PlayerController.Instance._rb.velocity.magnitude)))), 
+                        cameraManager.so_Camera.rotationOffSet.z * (Mathf.Cos(timer) * 
+                                                                    (cameraManager.so_Camera.cameraJumpingBobbingAmount * jumpingImpact.Evaluate((Mathf.Abs(PlayerController.Instance._rb.velocity.y)))))), 
                     
                     Time.deltaTime * cameraManager.so_Camera.rotationOffSetSmooth);
                 
