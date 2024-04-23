@@ -65,9 +65,15 @@ namespace CameraBehavior
         {
             MovingCameraManager();
             CameraStateManagamement();
+            
         }
 
-        
+        public void Update()
+        {
+            ObstacleAvoidance();
+        }
+
+
         #region Global Management
 
         /// <summary>
@@ -75,9 +81,17 @@ namespace CameraBehavior
         /// </summary>
         private void MovingCameraManager()
         {
-            transform.position = Vector3.Lerp(transform.position, playerTransform.position, 
-                Time.deltaTime * (so_Camera.positionOffSetSmooth - 
-                                  (cameraJumping.jumpingImpact.Evaluate(PlayerController.Instance._rb.velocity.magnitude) * 5)));
+            if (!mustAvoid)
+            {
+                transform.position = Vector3.Lerp(transform.position, playerTransform.position, 
+                    Time.deltaTime * (so_Camera.positionOffSetSmooth - 
+                                      (cameraJumping.jumpingImpact.Evaluate(PlayerController.Instance._rb.velocity.magnitude) * 5)));
+            }
+            else
+            {
+                LogicWhenAvoid();
+            }
+            
         }
 
         /// <summary>
@@ -226,6 +240,45 @@ namespace CameraBehavior
             
             transitionParent.rotation = Quaternion.Slerp(transitionParent.rotation, playerTransform.rotation * smoothOffset, 
                 Time.deltaTime * actualglobalCameraRot); 
+        }
+
+        #endregion
+
+        #region ObstacleAvoidance
+
+        [Header("ObstacleAvoidance")] 
+        [SerializeField] internal float maxRayDistance;
+        [SerializeField] internal LayerMask obstacleLayer;
+        private bool mustAvoid;
+        [SerializeField] internal float timeToReset;
+        [SerializeField] internal float interpolationTime;
+        private float timeSpent;
+
+        private void ObstacleAvoidance()
+        {
+            Debug.DrawRay(transitionParent.position + Vector3.up, transitionParent.forward * maxRayDistance, Color.green);
+            
+            if(mustAvoid) return;
+            RaycastHit hit;
+            if (Physics.Raycast(transitionParent.position, transitionParent.forward, out hit, maxRayDistance,
+                    obstacleLayer))
+            {
+                if ( (obstacleLayer & (1 << hit.transform.gameObject.layer)) != 0) // Check the layer 
+                {
+                    mustAvoid = true;
+                }
+            }
+        }
+
+        private void LogicWhenAvoid()
+        {
+            transform.position = Vector3.Lerp(transform.position, playerTransform.position, 
+                Time.deltaTime * interpolationTime);
+            timeSpent += Time.deltaTime;
+                
+            if (!(timeSpent > timeToReset)) return;
+            mustAvoid = false;
+            timeSpent = 0;
         }
 
         #endregion
