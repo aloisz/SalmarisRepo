@@ -60,10 +60,7 @@ namespace Player
         
         [Tooltip("Rigidbody's velocity limitation while moving and sliding in a slope")]
         public float overallMomentumLimiterMoveSlideInSlope = 10f;
-        
-        [Tooltip("The deceleration amount of the player's speed when he slide on the ground.")] 
-        public float decelerationMultiplierSlideOnGround = 50f;
-        
+
         [Tooltip("The deceleration amount of the player's speed when he is climbing a slope while sliding.")] 
         public float decelerationMultiplierSlideInSlopeUp = 1000f;
         
@@ -113,19 +110,26 @@ namespace Player
         public float minSlopeDegrees = 25f;
         
         [Tooltip("")]
-        public float edgeDetectionDownLenght = 1f;
+        public float edgeDetectionLenght = 1f;
         
         [Tooltip("")]
         public float edgeDetectionDownOffsetY = 0f;
-        
-        [Tooltip("")]
-        public float edgeDetectionTopLenght = 1f;
-        
+
         [Tooltip("")]
         public float edgeDetectionTopOffsetY = 0f;
         
         [Tooltip("")]
-        public float edgeDetectionEdgeFromTopLenght = 1f;
+        public float edgeDetectionHeight = 1f;
+        
+        [Tooltip("")]
+        public float edgeDetectionOffsetLenght = 0.2f;
+        
+        [Tooltip("")]
+        public float maxHeightToJumpFacility = 5f;
+        
+        [Tooltip("Min and Max value where the player will be pushed when climbing an edge. " +
+                 "More the edge is high, more the value will be near Max, less it is, more the value will be enar Min.")]
+        public Vector2 minMaxJumpFacility = Vector2.zero;
 
         //----------------------------------------------------
         

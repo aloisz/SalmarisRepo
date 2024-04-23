@@ -20,6 +20,7 @@ MonoBehaviour:
   moveAirMultiplier: 0.75
   dashForce: 60
   dashDuration: 0.145
+  dashLagDuration: 0.5
   dashSpeedMultiplier: 1.25
   dashSpeedMultiplierDuration: 1.25
   dashSpeedMultiplierResetDuration: 1.5
@@ -28,9 +29,8 @@ MonoBehaviour:
   slidingInSlopeDownForce: 2
   slidingInSlopeLimiter: 100
   overallMomentumLimiterMoveSlideInSlope: 10
-  decelerationMultiplierSlideOnGround: 50
   decelerationMultiplierSlideInSlopeUp: 1000
-  jumpEdgeImpulseForce: 4.5
+  jumpEdgeImpulseForce: 700
   slideBoostCurve:
     serializedVersion: 2
     m_Curve:
@@ -38,11 +38,20 @@ MonoBehaviour:
       time: 0
       value: 2.5
       inSlope: -0.0066812756
-      outSlope: -15.488213
+      outSlope: -49.755764
       tangentMode: 1
       weightedMode: 0
       inWeight: 0.33333334
-      outWeight: 0.038177337
+      outWeight: 0.060356483
+    - serializedVersion: 3
+      time: 0.13070376
+      value: 0.2890663
+      inSlope: -3.2922266
+      outSlope: -1.8904601
+      tangentMode: 1
+      weightedMode: 0
+      inWeight: 0.21621704
+      outWeight: 0.16865352
     - serializedVersion: 3
       time: 0.45
       value: 0.1
@@ -65,11 +74,13 @@ MonoBehaviour:
   groundDetectionForwardOffset: 0.25
   groundDetectionUpOffset: 0
   minSlopeDegrees: 3
-  edgeDetectionDownLenght: 5
+  edgeDetectionLenght: 6
   edgeDetectionDownOffsetY: 0.2
-  edgeDetectionTopLenght: 5
-  edgeDetectionTopOffsetY: 2.5
-  edgeDetectionEdgeFromTopLenght: 1.6
+  edgeDetectionTopOffsetY: 5
+  edgeDetectionHeight: 4.6
+  edgeDetectionOffsetLenght: 0.25
+  maxHeightToJumpFacility: 20
+  minMaxJumpFacility: {x: 1.8, y: 10}
   sensibility: 0.1
   lookLimitY: 90
   frictionMaterial: {fileID: 13400000, guid: 66462d3f498916c45b06fcf1b1aa7596, type: 2}

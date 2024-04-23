@@ -53,11 +53,10 @@ namespace Player
         private float _dashTimerSpeedAdd;
         private float _speedMultiplierFromDash = 1f;
         private float _slideAccelerateTimer;
+
+        private bool hasAlreadyAppliedJumpFacility;
+        private float _jumpFacilityForce = 0f;
         
-        private Vector3 _dirFromEdgePoint = Vector3.zero;
-        private float _dirFromEdgePointMag = 0f;
-        
-        //private float _decelerationSlideOnGround;
         private float _slideBoost;
         
         //---------------------------------------
@@ -194,16 +193,9 @@ namespace Player
             var vectorSlideForward = (slopeDirection * (_actualSlopeAngle / playerScriptable.slidingInSlopeLimiter)) / dividerOnSlopeClimbing;
             var vectorSlide = vectorSlideDown + vectorSlideForward;
 
-            var vectorJumpFacility = Vector3.up * ((_dirFromEdgePointMag * playerScriptable.jumpEdgeImpulseForce / (!isOnGround ? 5f : 1f)) * 
-                                                   (_raycastEdgeFromTop.collider ? 
-                                                       Vector3.Distance(transform.position, _raycastEdgeFromTop.point) / 2f : 1f));
-            
-            //if(isSliding && !isOnSlope) _decelerationSlideOnGround += Time.deltaTime * playerScriptable.decelerationMultiplierSlideOnGround;
-            
-            var finalVector = ((isMoving ? vectorMove : Vector3.zero) + 
-                               (isOnSlope && isSliding && !isSlopeClimbing ? vectorSlide : Vector3.zero) +
-                               (!isOnSlope && isMoving && direction.z > 0.5f && (isOnGround || _rb.velocity.y > 10f) ? vectorJumpFacility : Vector3.zero) 
-                               + shotgunExternalForce);
+            var finalVector = (isMoving ? vectorMove : Vector3.zero) + 
+                              (isOnSlope && isSliding && !isSlopeClimbing ? vectorSlide : Vector3.zero)
+                              + shotgunExternalForce;
 
             var slideBoostValue = (isSliding ? _slideBoost : 1f);
             var tempFinalVectorX = finalVector.x * slideBoostValue;
@@ -397,6 +389,8 @@ namespace Player
                 _rb.drag = playerScriptable.airDrag;
             }
         }
+
+        private Vector2 GetDirectionXZ(Vector3 vel) => new Vector2(vel.x, vel.z);
         
         #endregion
         
@@ -457,7 +451,9 @@ namespace Player
         IEnumerator OnLand()
         {
             _canApplyGravity = false;
-            
+
+            _jumpFacilityForce = 0f;
+
             yield return new WaitForSeconds(0.025f);
             
             isJumping = false;
@@ -500,29 +496,65 @@ namespace Player
             var forward = transform1.forward;
             
             //Top Detect Edge Raycast
-            if (Physics.Raycast(position + new Vector3(0, playerScriptable.edgeDetectionTopOffsetY, 0),
-                    forward, 
-                    playerScriptable.edgeDetectionTopLenght, groundLayer))
+            if (_raycastEdgeDown.collider)
             {
-                return;
+                if (Physics.Raycast(position + new Vector3(0, playerScriptable.edgeDetectionTopOffsetY, 0), 
+                        forward, 
+                        Vector3.Distance(transform.position, _raycastEdgeDown.point) + playerScriptable.edgeDetectionOffsetLenght, groundLayer))
+                {
+                    return;
+                }
             }
-            
-            //Down Detect Edge Raycast
+            else
+            {
+                if (Physics.Raycast(position + new Vector3(0, playerScriptable.edgeDetectionTopOffsetY, 0),
+                        forward,
+                        playerScriptable.edgeDetectionLenght + playerScriptable.edgeDetectionOffsetLenght, groundLayer))
+                {
+                    return;
+                }
+            }
+
+            //Down Detect Edge Raycast (GREEN)
             Physics.Raycast(position + new Vector3(0, playerScriptable.edgeDetectionDownOffsetY, 0),
                 forward, out _raycastEdgeDown,
-                playerScriptable.edgeDetectionDownLenght, groundLayer);
+                playerScriptable.edgeDetectionLenght, groundLayer);
+
+            //Down From Top Detect Edge Raycast (BLUE)
+            if (_raycastEdgeDown.collider)
+            {
+                Physics.Raycast(position + new Vector3(0, playerScriptable.edgeDetectionTopOffsetY, 0)
+                                         + forward * (Vector3.Distance(transform.position, _raycastEdgeDown.point)
+                                                      + playerScriptable.edgeDetectionOffsetLenght),
+                    Vector3.down, out _raycastEdgeFromTop,
+                    playerScriptable.edgeDetectionHeight, groundLayer);
+            }
+            else
+            {
+                Physics.Raycast(position + new Vector3(0, playerScriptable.edgeDetectionTopOffsetY, 0)
+                                         + forward * (playerScriptable.edgeDetectionLenght +
+                                                      playerScriptable.edgeDetectionOffsetLenght),
+                    Vector3.down, out _raycastEdgeFromTop,
+                    playerScriptable.edgeDetectionHeight, groundLayer);
+            }
+
+
+            if (_raycastEdgeFromTop.collider && _raycastEdgeDown.collider)
+            {
+                _jumpFacilityForce = Mathf.Lerp(playerScriptable.minMaxJumpFacility.x, playerScriptable.minMaxJumpFacility.y, 
+                    Vector3.Distance(_raycastEdgeFromTop.point, _raycastEdgeDown.point) / playerScriptable.maxHeightToJumpFacility);
+
+                if(/*isOnSlope || */!isMoving || direction.z < 0.5f
+                   || (!isOnGround && _rb.velocity.y < 10f) || 
+                   GetDirectionXZ(_rb.velocity).magnitude < 20f) return;
                 
-            //Down From Top Detect Edge Raycast
-            Physics.Raycast(position + new Vector3(0, playerScriptable.edgeDetectionTopOffsetY, 0)
-                                     + forward * playerScriptable.edgeDetectionTopLenght,
-                Vector3.down, out _raycastEdgeFromTop,
-                playerScriptable.edgeDetectionEdgeFromTopLenght, groundLayer);
-            
-            _dirFromEdgePoint = _raycastEdgeFromTop.collider ? 
-                (_raycastEdgeFromTop.point - transform.position) : Vector3.zero;
-            
-            _dirFromEdgePointMag = _raycastEdgeFromTop.collider ?
-                _dirFromEdgePoint.normalized.magnitude : 0f;
+                if (!isJumping && _jumpFacilityForce > playerScriptable.maxHeightToJumpFacility) return;
+                
+                var jumpFacility = Vector3.up * (_jumpFacilityForce * playerScriptable.jumpEdgeImpulseForce);
+                
+                _rb.velocity = Vector3.zero;
+                _rb.AddForce(jumpFacility + GetOverallMomentumVector());
+            }
         }
         
         /// <summary>
@@ -721,6 +753,8 @@ namespace Player
         {
             var position = transform.position;
 
+            #region Slopes
+            
             //Slope Detection
             Gizmos.color = Color.magenta;
             Gizmos.DrawRay(position + new Vector3(0, 0.75f, 0),
@@ -734,6 +768,10 @@ namespace Player
             Gizmos.color = Color.yellow;
             Gizmos.DrawRay(_raycastSlope.point, _raycastSlope.normal * 2.5f);
             
+            #endregion
+            
+            #region GroundCheck
+            
             var offset = playerScriptable.groundDetectionForwardOffset;
             var pos = cameraAttachPosition.position + new Vector3(0,playerScriptable.groundDetectionUpOffset,0);
 
@@ -745,18 +783,49 @@ namespace Player
                 Gizmos.DrawRay(posCheck, Vector3.down * playerScriptable.groundDetectionLenght);
             }
             
+            #endregion
+
+            #region EdgeDetectionTop
+            
             Gizmos.color = Color.red;
-            Gizmos.DrawRay(transform.position + new Vector3(0, playerScriptable.edgeDetectionTopOffsetY, 0), 
-                transform.forward * playerScriptable.edgeDetectionTopLenght);
+            if(_raycastEdgeDown.collider)
+            {
+                Gizmos.DrawRay(transform.position + new Vector3(0, playerScriptable.edgeDetectionTopOffsetY, 0), 
+                transform.forward * (Vector3.Distance(transform.position, _raycastEdgeDown.point) + playerScriptable.edgeDetectionOffsetLenght));
+            }
+            else
+            {
+                Gizmos.DrawRay(transform.position + new Vector3(0, playerScriptable.edgeDetectionTopOffsetY, 0), 
+                    transform.forward * (playerScriptable.edgeDetectionLenght + playerScriptable.edgeDetectionOffsetLenght));
+            }
+            
+            #endregion
+            
+            #region EdgeDetectionDown
             
             Gizmos.color = Color.green;
             Gizmos.DrawRay(transform.position + new Vector3(0, playerScriptable.edgeDetectionDownOffsetY, 0), 
-                transform.forward * playerScriptable.edgeDetectionDownLenght);
+                transform.forward * playerScriptable.edgeDetectionLenght);
+
+            #endregion
+            
+            #region EdgeDetectionDownTop
             
             Gizmos.color = Color.blue;
-            Gizmos.DrawRay((transform.position + new Vector3(0, playerScriptable.edgeDetectionTopOffsetY, 0))
-                           + transform.forward * playerScriptable.edgeDetectionTopLenght, 
-                Vector3.down * playerScriptable.edgeDetectionEdgeFromTopLenght);
+            if (_raycastEdgeDown.collider)
+            {
+                Gizmos.DrawRay((transform.position + new Vector3(0, playerScriptable.edgeDetectionTopOffsetY, 0))
+                               + transform.forward * (Vector3.Distance(transform.position, _raycastEdgeDown.point) + playerScriptable.edgeDetectionOffsetLenght), 
+                    Vector3.down * playerScriptable.edgeDetectionHeight);
+            }
+            else
+            {
+                Gizmos.DrawRay((transform.position + new Vector3(0, playerScriptable.edgeDetectionTopOffsetY, 0))
+                               + transform.forward * (playerScriptable.edgeDetectionLenght + playerScriptable.edgeDetectionOffsetLenght), 
+                    Vector3.down * playerScriptable.edgeDetectionHeight);
+            }
+            
+            #endregion
         }
 
         private void OnGUI()
