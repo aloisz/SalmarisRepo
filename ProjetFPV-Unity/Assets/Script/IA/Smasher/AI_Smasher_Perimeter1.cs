@@ -65,6 +65,10 @@ public class AI_Smasher_Perimeter1 : MonoBehaviour
     private void PreparingDash()
     {
         timeElapsedInPerimeter += Time.deltaTime * 1;
+
+        if (Vector3.Distance(PlayerController.Instance.transform.position, transform.position) >
+            aiSmasher.perimeters[2].distToEnemy) isPreparingDash = false;
+        
         if (timeElapsedInPerimeter > timeWaitBeforeDash)
         {
             isPreparingDash = false;
