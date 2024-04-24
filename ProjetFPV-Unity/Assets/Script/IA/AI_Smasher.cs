@@ -5,37 +5,23 @@ using AI;
 using Player;
 using UnityEditor;
 using UnityEngine;
-using NaughtyAttributes;
 
 public class AI_Smasher : AI_Pawn
 {
     [Header("----- AI_Smasher -----")] 
     [SerializeField] protected SmasherMobState smasherMobState;
     
-    [Header("--- Perimeter ---")] [SerializeField]
-    protected List<Perimeters> perimeters;
+    [Header("--- Perimeter ---")] 
+    public List<Perimeters> perimeters;
 
-    [Space]
-    // Cac Attack
-    [Foldout("Cac Attack")]
-    [Header("--- TransformPos ---")] 
-    [SerializeField] protected Transform cacAttackPos;
-    [Foldout("Cac Attack")][SerializeField] protected Transform impulse;
-    
-    [Foldout("Cac Attack")]
-    [Header("CacAttack Properties")] 
-    [SerializeField] [Range(0,20)] protected float cacAttackSphereRadius;
-   
-    [Foldout("Cac Attack")]
-    [ReadOnly] [SerializeField] protected bool isCacAttacking = false;
+    [Header("Component")] 
+    [SerializeField] protected AI_Smasher_Perimeter0 _aiSmasherPerimeter0;
+    [SerializeField] protected AI_Smasher_Perimeter1 _aiSmasherPerimeter1;
 
-    [Foldout("Cac Attack")] [SerializeField]
-    protected float countDownCacMultiplier;
+    [Header("Debugging")] 
+    [SerializeField] private bool enableDebugging;
     
-    [Foldout("Cac Attack")]
-    [SerializeField] protected LayerMask cacAttackLayer;
-    
-    protected enum SmasherMobState
+    public enum SmasherMobState
     {
         Perimeter_0,
         Perimeter_1,
@@ -43,7 +29,7 @@ public class AI_Smasher : AI_Pawn
         Perimeter_3
     }
     
-    protected SmasherMobState ChangeState(SmasherMobState state)
+    public SmasherMobState ChangeState(SmasherMobState state)
     {
         return this.smasherMobState = state;
     }
@@ -54,9 +40,10 @@ public class AI_Smasher : AI_Pawn
         switch (smasherMobState)
         {
             case SmasherMobState.Perimeter_0:
-                CacManagement();
+                _aiSmasherPerimeter0.HandlePerimeter0();
                 break;
             case SmasherMobState.Perimeter_1:
+                _aiSmasherPerimeter1.HandlePerimeter1();
                 break;
             case SmasherMobState.Perimeter_2:
                 break;
@@ -68,46 +55,8 @@ public class AI_Smasher : AI_Pawn
         CheckDistance();
     }
 
-
-
-    #region Attack
-
-    private float timeElapsedForCacAttack = 0;
-    private void CacManagement()
-    {
-        timeElapsedForCacAttack += Time.deltaTime * countDownCacMultiplier;
-        if (timeElapsedForCacAttack > perimeters[0].timeSpentInPerimeter)
-        {
-            timeElapsedForCacAttack = 0;
-            CacAttack();
-        }
-        else isCacAttacking = false;
-    }
     
-    private void CacAttack()
-    {
-        isCacAttacking = true;
-        Collider[] colliders = Physics.OverlapSphere(cacAttackPos.position, cacAttackSphereRadius, cacAttackLayer);
-
-        foreach (var obj in colliders)
-        {
-            if (obj.transform.CompareTag("Player"))
-            {
-                ApplyDamage(50);
-
-                var dir = (obj.transform.position - impulse.position).normalized;
-                ApplyKnockBack(1500, dir);
-            }
-        }
-    }
-    #endregion
-    
-    private void ApplyDamage(float damage)
-    {
-        
-    }
-
-    private void ApplyKnockBack(float strenght, Vector3 dir)
+    public void ApplyKnockBack(float strenght, Vector3 dir)
     {
         PlayerController.Instance._rb.AddForce(dir * strenght);
     }
@@ -139,6 +88,7 @@ public class AI_Smasher : AI_Pawn
     #if UNITY_EDITOR
     protected override void OnDrawGizmos()
     {
+        if(!enableDebugging) return;
         base.OnDrawGizmos();
         var tr = transform;
         var pos = tr.position;
@@ -147,8 +97,7 @@ public class AI_Smasher : AI_Pawn
         Handles.DrawLine(pos, pos + transform.forward * 10, 2);
         
         DebugDistance(tr, pos);
-        DebugCacAttack();
-        
+
         if(Application.isPlaying)
         {
             GUIStyle style = new GUIStyle();
@@ -181,15 +130,6 @@ public class AI_Smasher : AI_Pawn
             Handles.color = color;
             Handles.DrawSolidDisc(pos, tr.up, perimeters[i].distToEnemy);
         }
-    }
-
-    private void DebugCacAttack()
-    {
-        if(!isCacAttacking) return;
-        Handles.color = Color.yellow;
-        Handles.DrawWireArc(cacAttackPos.position, transform.up, transform.right, 360, cacAttackSphereRadius, 3);
-        Handles.DrawWireArc(cacAttackPos.position, transform.right, transform.up, 360, cacAttackSphereRadius, 3);
-        Handles.DrawWireArc(cacAttackPos.position, transform.forward, transform.right, 360, cacAttackSphereRadius, 3);
     }
     #endif
 }

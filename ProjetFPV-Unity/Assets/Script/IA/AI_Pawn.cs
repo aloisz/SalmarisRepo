@@ -17,7 +17,7 @@ namespace AI
         [SerializeField] private Transform targetToFollow;
         [SerializeField] protected SO_IA so_IA;
         
-        [SerializeField] protected LayerMask targetMask;
+        public LayerMask targetMask;
         
         [Space]
         [ProgressBar("Health", 500, EColor.Red)] [SerializeField] protected float actualPawnHealth;
@@ -28,7 +28,7 @@ namespace AI
         //Component----------------------
         protected NavMeshAgent navMeshAgent;
         protected AgentLinkMover agentLinkMover;
-        protected Rigidbody rb;
+        [HideInInspector] public Rigidbody rb;
         [Header("Vision Module")]
         [SerializeField] protected SphereCollider visionDetector;
         
@@ -163,7 +163,7 @@ namespace AI
         /// </summary>
         /// <param name="condition">if true navmesh true, rb kinematic enable
         /// if false navmesg disable, rb kinematic disable </param>
-        protected void IsPhysicNavMesh(bool condition)
+        public void IsPhysicNavMesh(bool condition)
         {
             if (condition)
             {
