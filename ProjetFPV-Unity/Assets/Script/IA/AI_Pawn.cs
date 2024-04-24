@@ -17,18 +17,19 @@ namespace AI
         [SerializeField] private Transform targetToFollow;
         [SerializeField] protected SO_IA so_IA;
         
-        [SerializeField] protected LayerMask targetMask;
-        
+        public LayerMask targetMask;
         [Space]
         [ProgressBar("Health", 500, EColor.Red)] [SerializeField] protected float actualPawnHealth;
-        
         [Header("Tick")]
         [SerializeField][Tooltip("How many time the check is performed")] protected float tickVerification = 0.2f;
+
+        [Header("Director")]
+        public float enemyWeight;
         
         //Component----------------------
-        protected NavMeshAgent navMeshAgent;
+        internal NavMeshAgent navMeshAgent;
         protected AgentLinkMover agentLinkMover;
-        protected Rigidbody rb;
+        [HideInInspector] public Rigidbody rb;
         [Header("Vision Module")]
         [SerializeField] protected SphereCollider visionDetector;
         
@@ -42,7 +43,7 @@ namespace AI
             GameManager.Instance.aiPawnsAvailable.Add(this);
         }
 
-        protected virtual void GetPawnPersonnalInformation()
+        public virtual void GetPawnPersonnalInformation()
         {
             navMeshAgent.enabled = true;
             rb.isKinematic = true;
@@ -163,7 +164,7 @@ namespace AI
         /// </summary>
         /// <param name="condition">if true navmesh true, rb kinematic enable
         /// if false navmesg disable, rb kinematic disable </param>
-        protected void IsPhysicNavMesh(bool condition)
+        public void IsPhysicNavMesh(bool condition)
         {
             if (condition)
             {
