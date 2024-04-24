@@ -26,7 +26,7 @@ namespace AI
         [SerializeField][Tooltip("How many time the check is performed")] protected float tickVerification = 0.2f;
         
         //Component----------------------
-        protected NavMeshAgent navMeshAgent;
+        internal NavMeshAgent navMeshAgent;
         protected AgentLinkMover agentLinkMover;
         [HideInInspector] public Rigidbody rb;
         [Header("Vision Module")]
@@ -42,7 +42,7 @@ namespace AI
             GameManager.Instance.aiPawnsAvailable.Add(this);
         }
 
-        protected virtual void GetPawnPersonnalInformation()
+        public virtual void GetPawnPersonnalInformation()
         {
             navMeshAgent.enabled = true;
             rb.isKinematic = true;

@@ -8,7 +8,10 @@ using UnityEditor;
 using UnityEditor.Searcher;
 using UnityEngine;
 
-public class AI_Smasher_Perimeter1 : MonoBehaviour
+
+namespace AI
+{
+    public class AI_Smasher_Perimeter1 : MonoBehaviour
 {
     [Header("--- Component ---")] 
     [SerializeField] protected AI_Smasher aiSmasher;
@@ -64,11 +67,12 @@ public class AI_Smasher_Perimeter1 : MonoBehaviour
     private float timeToPrepareDash = 0;
     private void PreparingDash()
     {
-        timeElapsedInPerimeter += Time.deltaTime * 1;
+        aiSmasher.navMeshAgent.speed = 0;
 
         if (Vector3.Distance(PlayerController.Instance.transform.position, transform.position) >
             aiSmasher.perimeters[2].distToEnemy) isPreparingDash = false;
         
+        timeElapsedInPerimeter += Time.deltaTime * 1;
         if (timeElapsedInPerimeter > timeWaitBeforeDash)
         {
             isPreparingDash = false;
@@ -111,6 +115,7 @@ public class AI_Smasher_Perimeter1 : MonoBehaviour
     {
         yield return null;
         isAttacking = false;
+        aiSmasher.GetPawnPersonnalInformation();
     }
     #endregion
 
@@ -142,3 +147,6 @@ public class AI_Smasher_Perimeter1 : MonoBehaviour
     }
 #endif
 }
+
+}
+
