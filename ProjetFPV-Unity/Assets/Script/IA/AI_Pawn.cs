@@ -106,6 +106,7 @@ namespace AI
             if (actualPawnHealth <= 0)
             {
                 DestroyLogic();
+                if(Director.Instance) Director.Instance.TryAddingValueFromLastKilledEnemy(enemyWeight);
             }
         }
         protected virtual void DestroyLogic(){}

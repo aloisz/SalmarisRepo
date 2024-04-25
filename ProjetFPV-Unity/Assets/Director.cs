@@ -22,7 +22,14 @@ public class Director : GenericSingletonClass<Director>
     public List<ArenaTrigger> arenas = new List<ArenaTrigger>();
 
     private List<AI_Pawn> _spawnedEnemies = new List<AI_Pawn>();
+    
     private int _currentRemainingEnemies;
+    private float _timerToCheckPlayerPerformance;
+    private float _lastKilledEnemiesValue;
+
+    private bool _isInAArena;
+    private bool _isInAWave;
+    private bool _hasFinishSpawningEnemies;
 
     //---------------------------------------
     
@@ -35,26 +42,25 @@ public class Director : GenericSingletonClass<Director>
 
     IEnumerator StartNewWave()
     {
-        if(currentWaveIndex < GetActualArenaData().arenaWaves.Length) currentWaveIndex++;
+        ResetVariables();
+
+        if (currentWaveIndex < GetActualArenaData().arenaWaves.Length - 1) currentWaveIndex++;
+        else yield break;
+        
         dynamicNextWaveValue = GetActualWave().nextWaveValue;
         
         if (GetActualWave().enemiesToSpawn.Length <= 0)
             throw new Exception($"{GetActualWave()} doesn't have any enemy to spawn.");
-        
-        playerPerformance = 0f;
-        currentWaveIntensity = 0;
-        dynamicNextWaveValue = 0f;
 
         yield return new WaitForSeconds(GetActualWave().delayBeforeSpawn);
 
         StartCoroutine(nameof(SpawnEnemies));
-        StartCoroutine(nameof(CalculateWaveIntensity));
-        StartCoroutine(nameof(CalculatePlayerPerformance));
     }
 
     private IEnumerator SpawnEnemies()
     {
         int i = 0;
+        _hasFinishSpawningEnemies = false;
         foreach (EnemyToSpawn e in GetActualWave().enemiesToSpawn)
         {
             GameObject mob = Pooling.instance.Pop(Enum.GetName(typeof(EnemyToSpawn.EnemyKeys), e.enemyKey));
@@ -65,66 +71,61 @@ public class Director : GenericSingletonClass<Director>
 
             i++;
         }
+        _hasFinishSpawningEnemies = true;
     }
 
-    private void EndWave()
+    private void CalculateWaveIntensityAndRemainingEnemies()
     {
-        /*_spawnedEnemies.Clear();
-        playerPerformance = 0f;
-
-        if (GetActualArenaData().arenaWaves.Length == currentWaveIndex + 1) return;
-
-        currentWaveIndex++;
-        
-        StartCoroutine(nameof(StartNewWave));*/
-    }
-
-    private IEnumerator CalculatePlayerPerformance()
-    {
-        Debug.Log("Player Perf Calculation");
-        
-        //Loop on every spawned enemies to get their health.
-        foreach (AI_Pawn ai in _spawnedEnemies) 
-            if (ai.actualPawnHealth <= 0) AddPlayerPerformance(ai.enemyWeight);
-        
-        //Compare the actual player performance and the current wave's reference performance.
-        if(playerPerformance > GetActualWave().performanceReference) 
-            AddNextWaveValue(GetActualWave().nextWaveValueAddedValue);
-        
-        yield return new WaitForSeconds(playerPerformanceComparisonDelay);
-        
-        StartCoroutine(nameof(CalculatePlayerPerformance));
-    }
-
-    private void AddPlayerPerformance(float amount) => playerPerformance += amount;
-
-    private IEnumerator CalculateWaveIntensity()
-    {
-        Debug.Log("Wave Intensity Calculation");
-        if (currentWaveIntensity <= dynamicNextWaveValue)
-        {
-            //EndWave();
-        }
+        currentWaveIntensity = 0;
+        _currentRemainingEnemies = 0;
         
         foreach (AI_Pawn ai in _spawnedEnemies)
         {
-            currentWaveIntensity += ai.enemyWeight;
+            if (ai.actualPawnHealth > 0)
+            {
+                currentWaveIntensity += ai.enemyWeight;
+                _currentRemainingEnemies += 1;
+            }
         }
-        
-        yield return new WaitForSeconds(0.05f);
-        StartCoroutine(nameof(CalculateWaveIntensity));
     }
 
-    private void AddNextWaveValue(float amount) => dynamicNextWaveValue += amount;
-
-    private void CheckEnemyCount()
+    private void CompareIntensityAndNextWaveValue()
     {
-        var i = 0;
-        foreach (AI_Pawn e in _spawnedEnemies)
+        if (currentWaveIntensity <= dynamicNextWaveValue && _hasFinishSpawningEnemies)
         {
-            if (e.actualPawnHealth > 0) i++;
+            StartCoroutine(nameof(StartNewWave));
         }
-        _currentRemainingEnemies = i;
+    }
+
+    private void ComparePlayerPerfAndReferencePerf()
+    {
+        if (playerPerformance > GetActualWave().performanceReference)
+        {
+            dynamicNextWaveValue += GetActualWave().nextWaveValueAddedValue;
+        }
+    }
+
+    private void CalculatePlayerPerformance()
+    {
+        playerPerformance = _lastKilledEnemiesValue;
+    }
+
+    private void TimerCalculationPerformancePlayer()
+    {
+        _timerToCheckPlayerPerformance.DecreaseTimerIfPositive();
+        
+        if (_timerToCheckPlayerPerformance <= 0)
+        {
+            _timerToCheckPlayerPerformance = playerPerformanceComparisonDelay;
+            
+            ComparePlayerPerfAndReferencePerf();
+            _lastKilledEnemiesValue = 0;
+        }
+    }
+
+    public void TryAddingValueFromLastKilledEnemy(float value)
+    {
+        _lastKilledEnemiesValue += value;
     }
 
     private ArenaData GetActualArenaData()
@@ -141,6 +142,30 @@ public class Director : GenericSingletonClass<Director>
 
     private void Update()
     {
-        CheckEnemyCount();
+        _isInAArena = currentArenaIndex >= 0;
+        _isInAWave = currentWaveIndex >= 0;
+
+        if (!_isInAArena || !_isInAWave)
+        {
+            if (_spawnedEnemies.Count > 0) _spawnedEnemies.Clear();
+            return;
+        }
+
+        CalculateWaveIntensityAndRemainingEnemies();
+
+        CompareIntensityAndNextWaveValue();
+        
+        TimerCalculationPerformancePlayer();
+        CalculatePlayerPerformance();
+    }
+
+    private void ResetVariables()
+    {
+        playerPerformance = 0f;
+        currentWaveIntensity = 0;
+        dynamicNextWaveValue = 0f;
+        _lastKilledEnemiesValue = 0f;
+        
+        _currentRemainingEnemies = 0;
     }
 }
