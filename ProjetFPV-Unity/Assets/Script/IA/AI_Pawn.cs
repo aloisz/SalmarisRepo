@@ -19,7 +19,7 @@ namespace AI
         
         public LayerMask targetMask;
         [Space]
-        [ProgressBar("Health", 500, EColor.Red)] [SerializeField] protected float actualPawnHealth;
+        [ProgressBar("Health", 500, EColor.Red)] public float actualPawnHealth;
         [Header("Tick")]
         [SerializeField][Tooltip("How many time the check is performed")] protected float tickVerification = 0.2f;
 
