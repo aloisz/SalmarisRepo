@@ -1,5 +1,7 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 
 public static class Helper
@@ -55,5 +57,12 @@ public static class Helper
             case 3: value = -t.forward; break;
         }
         return value;
+    }
+    
+    public static void SetupIconFromEnemyType(GameObject obj, EnemyToSpawn.EnemyKeys enemyType)
+    {
+        var iconContent = EditorGUIUtility.IconContent
+            ($"Assets/Editor/{Enum.GetName(typeof(EnemyToSpawn.EnemyKeys), enemyType)}.png");
+        EditorGUIUtility.SetIconForObject(obj, (Texture2D) iconContent.image);
     }
 }

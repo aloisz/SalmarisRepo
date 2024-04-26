@@ -72,7 +72,7 @@ namespace AI
                     break;
                 case TrashMobState.AttackingCloseRange:
                     //CacAttack();
-                    if(isInDashAttackCoroutine) return;
+                    if(isInDashAttackCoroutine || !gameObject.activeSelf) return;
                     StartCoroutine(DashAttack());
                     break;
             }
