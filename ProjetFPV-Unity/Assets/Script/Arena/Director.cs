@@ -27,28 +27,55 @@ public class Director : GenericSingletonClass<Director>
     private float _timerToCheckPlayerPerformance;
     private float _lastKilledEnemiesValue;
 
+    private bool _currentArenaFinished;
+
     private bool _isInAArena;
     private bool _isInAWave;
     private bool _hasFinishSpawningEnemies;
 
     //---------------------------------------
     
+    /// <summary>
+    /// Function to start notify the Director that the player is inside an Arena.
+    /// </summary>
+    /// <param name="arenaID">The Arena ID to start wave of.</param>
     public void EnteringNewArena(int arenaID)
     {
+        //if the arena is still running, dont activate the next Arena.
+        if (!_currentArenaFinished) return;
+        
+        //when entering in the arena, notify the director if the new arena ID.
         currentArenaIndex = arenaID;
         
+        //start a new wave.
         StartCoroutine(nameof(StartNewWave));
     }
 
+    /// <summary>
+    /// Routine to start a new wave.
+    /// </summary>
+    /// <returns></returns>
+    /// <exception cref="Exception"></exception>
     IEnumerator StartNewWave()
     {
+        //reset all variables.
         ResetVariables();
 
+        //check if a wave is remaining to start, if so, increment the current wave index for go to the next one.
         if (currentWaveIndex < GetActualArenaData().arenaWaves.Length - 1) currentWaveIndex++;
-        else yield break;
+        //else, notify the director that the arena is clear for let the player start another arena (in a different trigger).
+        else
+        {
+            NotifyArenaCompleted();
+            yield break;
+        }
+
+        _currentArenaFinished = false;
         
+        //set the (dynamic)NextWaveValue to the NextWaveValue reference in the wave data.
         dynamicNextWaveValue = GetActualWave().nextWaveValue;
         
+        //if the wave doesn't contain any mob to spawn...
         if (GetActualWave().enemiesToSpawn.Length <= 0)
             throw new Exception($"{GetActualWave()} doesn't have any enemy to spawn.");
 
@@ -57,6 +84,10 @@ public class Director : GenericSingletonClass<Director>
         StartCoroutine(nameof(SpawnEnemies));
     }
 
+    /// <summary>
+    /// Routine that handles the mob spawning.
+    /// </summary>
+    /// <returns></returns>
     private IEnumerator SpawnEnemies()
     {
         int i = 0;
@@ -74,8 +105,12 @@ public class Director : GenericSingletonClass<Director>
         _hasFinishSpawningEnemies = true;
     }
 
+    /// <summary>
+    /// Calculate the wave intensity based on the current remaining enemies. Calculate it too.
+    /// </summary>
     private void CalculateWaveIntensityAndRemainingEnemies()
     {
+        //reset both of variables to keep them at the good number (because of the +=)
         currentWaveIntensity = 0;
         _currentRemainingEnemies = 0;
         
@@ -83,12 +118,17 @@ public class Director : GenericSingletonClass<Director>
         {
             if (ai.actualPawnHealth > 0)
             {
+                //add every mob's weight to the starting wave intensity.
                 currentWaveIntensity += ai.enemyWeight;
                 _currentRemainingEnemies += 1;
             }
         }
     }
 
+    /// <summary>
+    /// Compare the intensity of the wave, and the dynamicNextWaveValue for notify if the player is performing too much.
+    /// If the dynamicNextWaveValue go too high too fast, the currentWaveIntensity will be inferior, so start the new wave.
+    /// </summary>
     private void CompareIntensityAndNextWaveValue()
     {
         if (currentWaveIntensity <= dynamicNextWaveValue && _hasFinishSpawningEnemies)
@@ -97,6 +137,11 @@ public class Director : GenericSingletonClass<Director>
         }
     }
 
+    /// <summary>
+    /// Compare the player's performance with the actual wave's performance reference.
+    /// If the player's performance is higher at the comparison moment, then increment the dynamicNextWaveValue from the
+    /// current wave's incrementation variable.
+    /// </summary>
     private void ComparePlayerPerfAndReferencePerf()
     {
         if (playerPerformance > GetActualWave().performanceReference)
@@ -105,11 +150,18 @@ public class Director : GenericSingletonClass<Director>
         }
     }
 
+    /// <summary>
+    /// Calculate the player's performance, based on the last killed enemies, in timerToCheckPlayerPerformance seconds.
+    /// </summary>
     private void CalculatePlayerPerformance()
     {
         playerPerformance = _lastKilledEnemiesValue;
     }
 
+    /// <summary>
+    /// Timer that handle the verification of the player's performance, if the timer runs out, start comparing the player's perf with
+    /// the current wave reference one. Reset the timer and the last killed enemies.
+    /// </summary>
     private void TimerCalculationPerformancePlayer()
     {
         _timerToCheckPlayerPerformance.DecreaseTimerIfPositive();
@@ -123,6 +175,10 @@ public class Director : GenericSingletonClass<Director>
         }
     }
 
+    /// <summary>
+    /// Function called when an enemy is dead. It will try to add the weight to the last killed enemy.
+    /// </summary>
+    /// <param name="value">Enemy's weight.</param>
     public void TryAddingValueFromLastKilledEnemy(float value)
     {
         _lastKilledEnemiesValue += value;
@@ -138,6 +194,11 @@ public class Director : GenericSingletonClass<Director>
     {
         if (currentWaveIndex < 0) return null;
         return GetActualArenaData().arenaWaves[currentWaveIndex]; 
+    }
+
+    private void NotifyArenaCompleted()
+    {
+        _currentArenaFinished = true;
     }
 
     private void Update()
@@ -159,6 +220,9 @@ public class Director : GenericSingletonClass<Director>
         CalculatePlayerPerformance();
     }
 
+    /// <summary>
+    /// Reset all the necessary script variables.
+    /// </summary>
     private void ResetVariables()
     {
         playerPerformance = 0f;
