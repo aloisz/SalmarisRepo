@@ -833,9 +833,7 @@ namespace Player
         private void OnGUI()
         {
             if (!DEBUG) return;
-            
-            //return;
-            
+
             // Set up GUI style for the text
             GUIStyle style = new GUIStyle
             {

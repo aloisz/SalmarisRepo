@@ -62,7 +62,7 @@ public static class Helper
     public static void SetupIconFromEnemyType(GameObject obj, EnemyToSpawn.EnemyKeys enemyType)
     {
         var iconContent = EditorGUIUtility.IconContent
-            ($"Assets/Editor/{Enum.GetName(typeof(EnemyToSpawn.EnemyKeys), enemyType)}.png");
+            ($"Assets/Editor/Icons/{Enum.GetName(typeof(EnemyToSpawn.EnemyKeys), enemyType)}.png");
         EditorGUIUtility.SetIconForObject(obj, (Texture2D) iconContent.image);
     }
 }
