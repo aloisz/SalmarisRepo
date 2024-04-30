@@ -34,6 +34,7 @@ public class Director : GenericSingletonClass<Director>
     private bool _isInAArena;
     private bool _isInAWave;
     private bool _hasFinishSpawningEnemies;
+    private bool _hasStartedWave;
 
     //---------------------------------------
     
@@ -70,6 +71,7 @@ public class Director : GenericSingletonClass<Director>
         else yield break;
 
         _currentArenaFinished = false;
+        _hasStartedWave = true;
 
         //set the (dynamic)NextWaveValue to the NextWaveValue reference in the wave data.
         dynamicNextWaveValue = GetActualWave().nextWaveValue;
@@ -91,17 +93,26 @@ public class Director : GenericSingletonClass<Director>
     {
         int i = 0;
         _hasFinishSpawningEnemies = false;
+        
         foreach (EnemyToSpawn e in GetActualWave().enemiesToSpawn)
         {
             GameObject mob = Pooling.instance.Pop(Enum.GetName(typeof(EnemyToSpawn.EnemyKeys), e.enemyKey));
+            AI_Pawn p = mob.GetComponent<AI_Pawn>();
+            p.EnableNavMesh(false);
+            
             mob.transform.position = e.worldPosition;
-            _spawnedEnemies.Add(mob.GetComponent<AI_Pawn>());
+            
+            _spawnedEnemies.Add(p);
 
             yield return new WaitForSeconds(GetActualWave().delayBetweenEachEnemySpawn);
+            
+            p.EnableNavMesh(true);
 
             i++;
         }
+        
         _hasFinishSpawningEnemies = true;
+        _hasStartedWave = false;
     }
 
     /// <summary>
@@ -135,7 +146,7 @@ public class Director : GenericSingletonClass<Director>
     /// </summary>
     private void CompareIntensityAndNextWaveValue()
     {
-        if (currentWaveIntensity <= dynamicNextWaveValue && _hasFinishSpawningEnemies)
+        if (currentWaveIntensity < dynamicNextWaveValue && _hasFinishSpawningEnemies && !_hasStartedWave)
         {
             StartCoroutine(nameof(StartNewWave));
         }
@@ -203,7 +214,11 @@ public class Director : GenericSingletonClass<Director>
     private void NotifyArenaCompleted()
     {
         _currentArenaFinished = true;
-        //currentWaveIndex = -1;
+        _hasStartedWave = false;
+        currentWaveIndex = -1;
+        
+        if(GetActualArenaData().shouldSpawnShopAtTheEnd) 
+            UpgradeModule.Instance.InitModule(GetActualArenaData().shopOrbitalPosition);
     }
 
     private void Update()
@@ -218,11 +233,11 @@ public class Director : GenericSingletonClass<Director>
         }
 
         CalculateWaveIntensityAndRemainingEnemies();
-
-        CompareIntensityAndNextWaveValue();
         
         TimerCalculationPerformancePlayer();
         CalculatePlayerPerformance();
+        
+        CompareIntensityAndNextWaveValue();
     }
 
     /// <summary>

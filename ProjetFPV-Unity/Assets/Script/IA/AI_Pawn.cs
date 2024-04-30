@@ -183,7 +183,11 @@ namespace AI
         {
             actualPawnHealth -= damageInflicted;
         }
-        
+
+        public void EnableNavMesh(bool enabled)
+        {
+            if(navMeshAgent)navMeshAgent.enabled = enabled;
+        }
 
         #if UNITY_EDITOR
         protected virtual void OnDrawGizmos()
