@@ -61,17 +61,18 @@ MonoBehaviour:
     m_Bits: 128
   actualPawnHealth: 0
   tickVerification: 0.01
+  enemyWeight: 0
   rb: {fileID: 0}
   visionDetector: {fileID: 4132512464626147265}
   smasherMobState: 0
   perimeters:
   - distToEnemy: 10
     timeSpentInPerimeter: 1
-  - distToEnemy: 20
+  - distToEnemy: 32.1
     timeSpentInPerimeter: 1.7
-  - distToEnemy: 30
+  - distToEnemy: 46.8
     timeSpentInPerimeter: 3
-  - distToEnemy: 40
+  - distToEnemy: 56
     timeSpentInPerimeter: 3
   _aiSmasherPerimeter0: {fileID: 1868991181003602365}
   _aiSmasherPerimeter1: {fileID: 7818639718720373283}
@@ -95,7 +96,7 @@ MonoBehaviour:
   isCacAttacking: 0
   countDownCacMultiplier: 2
   damageAppliedPerimeter0: 60
-  knockBackStrenght: 1500
+  knockBackStrenght: 2500
 --- !u!114 &7818639718720373283
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -116,13 +117,13 @@ MonoBehaviour:
   timeWaitBeforeDash: 2
   countDownCacMultiplier: 1
   damageApplied: 80
-  knockBackStrenght: 1500
+  knockBackStrenght: 5500
   timeToDash:
     serializedVersion: 2
     m_Curve:
     - serializedVersion: 3
       time: 0
-      value: 1.2
+      value: 1.1976082
       inSlope: 0
       outSlope: 0
       tangentMode: 0
@@ -130,13 +131,13 @@ MonoBehaviour:
       inWeight: 0
       outWeight: 0
     - serializedVersion: 3
-      time: 20
-      value: 0.18514557
-      inSlope: -0.017238261
-      outSlope: -0.017238261
+      time: 50.302307
+      value: -0.0050704926
+      inSlope: -0.025130935
+      outSlope: -0.025130935
       tangentMode: 0
       weightedMode: 0
-      inWeight: 0.104136944
+      inWeight: 0.09542903
       outWeight: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
