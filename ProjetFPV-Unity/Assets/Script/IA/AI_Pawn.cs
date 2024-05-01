@@ -17,9 +17,11 @@ namespace AI
         [SerializeField] private Transform targetToFollow;
         [SerializeField] protected SO_IA so_IA;
         
+        [Header("Pawn Properties")]
         public LayerMask targetMask;
-        [Space]
-        [ProgressBar("Health", 500, EColor.Red)] public float actualPawnHealth;
+        [Space] [ProgressBar("Health", 500, EColor.Red)] public float actualPawnHealth;
+        [SerializeField] internal PawnState pawnState;
+        
         [Header("Tick")]
         [SerializeField][Tooltip("How many time the check is performed")] protected float tickVerification = 0.2f;
 
@@ -88,7 +90,9 @@ namespace AI
                 timer += Time.deltaTime;
                 if (timer > tickVerification)
                 {
-                    timer = 0;
+                    timer = 0; 
+                    
+                    if(pawnState == PawnState.Disable) return;
                     FollowTarget();
                     PawnBehavior();
                 }
@@ -150,13 +154,20 @@ namespace AI
 
         public virtual void DisableAgent()
         {
+            ChangeState(PawnState.Disable);
             IsPhysicNavMesh(false);
             StartCoroutine(DisableAgentCorountine());
+        }
+
+        internal void ChangeState(PawnState newState)
+        {
+            pawnState = newState;
         }
 
         private IEnumerator DisableAgentCorountine()
         {
             yield return new WaitForSeconds(so_IA.knockoutTime);
+            ChangeState(PawnState.Enable);
             IsPhysicNavMesh(true);
         }
         
@@ -200,5 +211,14 @@ namespace AI
         }
         #endif
     }
+    
+    
+    internal enum PawnState
+    {
+        Enable,
+        Disable
+    }
 }
+
+
 
