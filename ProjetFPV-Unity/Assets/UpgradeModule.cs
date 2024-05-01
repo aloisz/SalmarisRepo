@@ -5,6 +5,7 @@ using DG.Tweening;
 using NaughtyAttributes;
 using UnityEditor;
 using UnityEngine;
+using Weapon;
 
 public class UpgradeModule : GenericSingletonClass<UpgradeModule>
 {
@@ -20,17 +21,27 @@ public class UpgradeModule : GenericSingletonClass<UpgradeModule>
     [SerializeField] private LayerMask groundMask;
     [SerializeField] private float anticipationRaycastLenght;
     
+    [SerializeField] private Canvas upgradeMenu;
+    [SerializeField] private Transform upgradeOffersTransform;
+    [SerializeField] private int upgradeOffersAmount;
+    [SerializeField] UpgradeButton upgradeButtonReference;
+
+    [SerializeField] private List<SO_WeaponMode> debugList = new List<SO_WeaponMode>();
+    
     private RaycastHit _hitGroundLanding;
     private Vector3 orbitPosition;
     private Vector3 _baseScale;
+    private List<SO_WeaponMode> _currentAvailableUpgrades = new List<SO_WeaponMode>();
 
     private void Start()
     {
         _baseScale = transform.localScale;
         transform.localScale = Vector3.zero;
+        
+        InitModule(new Vector3(-38.7400017f,5.15999985f,18.1000004f), debugList);
     }
 
-    public void InitModule(Vector3 position)
+    public void InitModule(Vector3 position, List<SO_WeaponMode> modes)
     {
         orbitPosition = position;
 
@@ -45,10 +56,13 @@ public class UpgradeModule : GenericSingletonClass<UpgradeModule>
             throw new Exception("Cannot land the module because it can't found the ground.");
         
         t.DOMove(_hitGroundLanding.point + new Vector3(0, offsetLandingY, 0), 
-            landingDuration).SetEase(landingCurve).OnComplete(LeftModule);
+            landingDuration).SetEase(landingCurve);//.OnComplete(LeftModule);
         t.DOScale(_baseScale, landingDuration).SetEase(landingCurve);
         t.DORotate(new Vector3(0, 360f * fullRotateAmount, 0), landingDuration, 
             RotateMode.FastBeyond360).SetEase(landingCurve);
+
+        _currentAvailableUpgrades = modes;
+        GenerateUpgradeOffers();
     }
 
     public void LeftModule()
@@ -65,6 +79,35 @@ public class UpgradeModule : GenericSingletonClass<UpgradeModule>
     {
         Physics.Raycast(transform.position, Vector3.down, 
             out _hitGroundLanding, anticipationRaycastLenght, groundMask);
+    }
+
+    public void InitMenu()
+    {
+        upgradeMenu.enabled = true;
+        Cursor.visible = true;
+        Cursor.lockState = CursorLockMode.Confined;
+        
+        PlayerInputs.Instance.EnablePlayerInputs(false);
+    }
+    
+    private void GenerateUpgradeOffers()
+    {
+        for (int i = 0; i < upgradeOffersAmount; i++)
+        {
+            var newObject = Instantiate(upgradeButtonReference, upgradeOffersTransform);
+            
+            Helper.RandomInList(out var obj, _currentAvailableUpgrades);
+            newObject.InitUpgradeButton(obj);
+        }
+    }
+
+    public void QuitMenu()
+    {
+        upgradeMenu.enabled = false;
+        Cursor.visible = false;
+        Cursor.lockState = CursorLockMode.Locked;
+        
+        PlayerInputs.Instance.EnablePlayerInputs(true);
     }
 
     private void OnDrawGizmos()

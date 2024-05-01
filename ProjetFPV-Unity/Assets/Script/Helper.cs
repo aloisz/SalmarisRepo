@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public static class Helper
 {
@@ -64,5 +65,26 @@ public static class Helper
         var iconContent = EditorGUIUtility.IconContent
             ($"Assets/Editor/Icons/{Enum.GetName(typeof(EnemyToSpawn.EnemyKeys), enemyType)}.png");
         EditorGUIUtility.SetIconForObject(obj, (Texture2D) iconContent.image);
+    }
+    
+    public static void GetInterfaces<T>(out List<T> resultList, GameObject objectToSearch) where T: class 
+    {
+        MonoBehaviour[] list = objectToSearch.GetComponents<MonoBehaviour>();
+        
+        resultList = new List<T>();
+        
+        foreach(MonoBehaviour mb in list)
+        {
+            if(mb is T)
+            {
+                //found one
+                resultList.Add((T)((System.Object)mb));
+            }
+        }
+    }
+
+    public static void RandomInList<T>(out T randomObject, List<T> referenceList) where T : class
+    {
+        randomObject = referenceList[Random.Range(0, referenceList.Count)];
     }
 }

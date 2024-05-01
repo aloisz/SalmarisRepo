@@ -16,6 +16,7 @@ namespace Weapon
         [field: Tooltip("Which fire mode is selected")]
         [field: SerializeField] internal WeaponMode weaponModeIndex { get; private set; }
         [field: SerializeField] internal List<SO_WeaponMode> weaponMode;
+
     }
     
     public enum WeaponMode

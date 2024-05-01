@@ -13,6 +13,12 @@ namespace Weapon
         [field: Header("-----Weapon Specs-----")] 
         [field: SerializeField] internal SelectiveFireType selectiveFireState{ get; private set; }
         [field: SerializeField] internal MunitionType munitionTypeState{ get; private set; }
+
+        [field: Header("-----Weapon Shop Specs-----")]
+        public string modeName = "Weapon";
+        public int modeCostToBuy = 1;
+        public Sprite modeIcon;
+        public string modeDescription = "Description";
         
         [field: Space]
         [field: Header("-----Base Modification-----")] 

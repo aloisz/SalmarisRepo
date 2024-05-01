@@ -21,6 +21,7 @@ public class AI_Smasher : AI_Pawn
     [Header("Debugging")] 
     [SerializeField] private bool enableDebugging;
     
+    
     public enum SmasherMobState
     {
         Perimeter_0,
