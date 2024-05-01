@@ -29,7 +29,9 @@ namespace AI
         [SerializeField] protected float damageApplied;
         [SerializeField] protected float knockBackStrenght;
 
-        [Space] [SerializeField] private float timeBeforeJumping;
+        [Header("Dash")] 
+        [SerializeField] private LayerMask dashLayer;
+        [SerializeField] private float timeBeforeJumping;
         [SerializeField] protected AnimationCurve timeToDash;
         
         
@@ -87,6 +89,16 @@ namespace AI
                 timeElapsedInPerimeter = 0;
 
                 StartCoroutine(BeginDash(timeBeforeJumping));
+            }
+        }
+
+        private void CanDash()
+        {  
+            RaycastHit hit;
+            if (Physics.Raycast(transform.position, PlayerController.Instance.transform.position + Vector3.up, out hit,
+                    1000, dashLayer))
+            {
+                
             }
         }
 
@@ -157,7 +169,10 @@ namespace AI
         #if UNITY_EDITOR
         private void OnDrawGizmos()
         {
-            if(!enableDebugging) return;
+            if(!enableDebugging || !Application.isPlaying) return;
+            Handles.color = Color.red;
+            Handles.DrawLine(transform.position, PlayerController.Instance.transform.position + Vector3.up, 2);
+            
             DebugAttack();
         }
         
