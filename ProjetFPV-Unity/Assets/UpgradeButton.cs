@@ -38,6 +38,11 @@ public class UpgradeButton : MonoBehaviour
 
     private void UpgradeWeapon(int modeIndex, SO_WeaponMode mode)
     {
+        if (PlayerMoney.Instance.Money < mode.modeCostToBuy) return;
+        
+        PlayerMoney.Instance.DecrementMoney(mode.modeCostToBuy);
         WeaponState.Instance.barbatos.so_Weapon.weaponMode[modeIndex] = mode;
+        
+        UpgradeModule.Instance.QuitMenu();
     }
 }
