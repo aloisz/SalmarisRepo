@@ -26,8 +26,6 @@ public class UpgradeModule : GenericSingletonClass<UpgradeModule>
     [SerializeField] private int upgradeOffersAmount;
     [SerializeField] UpgradeButton upgradeButtonReference;
 
-    [SerializeField] private List<SO_WeaponMode> debugList = new List<SO_WeaponMode>();
-    
     private RaycastHit _hitGroundLanding;
     private Vector3 orbitPosition;
     private Vector3 _baseScale;
@@ -37,11 +35,9 @@ public class UpgradeModule : GenericSingletonClass<UpgradeModule>
     {
         _baseScale = transform.localScale;
         transform.localScale = Vector3.zero;
-        
-        InitModule(new Vector3(-38.7400017f,5.15999985f,18.1000004f), debugList);
     }
 
-    public void InitModule(Vector3 position, List<SO_WeaponMode> modes)
+    public void InitModule(Vector3 position, List<SO_WeaponMode> list)
     {
         orbitPosition = position;
 
@@ -61,7 +57,7 @@ public class UpgradeModule : GenericSingletonClass<UpgradeModule>
         t.DORotate(new Vector3(0, 360f * fullRotateAmount, 0), landingDuration, 
             RotateMode.FastBeyond360).SetEase(landingCurve);
 
-        _currentAvailableUpgrades = modes;
+        _currentAvailableUpgrades = list;
         GenerateUpgradeOffers();
     }
 
@@ -88,6 +84,9 @@ public class UpgradeModule : GenericSingletonClass<UpgradeModule>
         Cursor.lockState = CursorLockMode.Confined;
         
         PlayerInputs.Instance.EnablePlayerInputs(false);
+        
+        upgradeMenu.transform.GetChild(0).localScale = Vector3.zero;
+        upgradeMenu.transform.GetChild(0).DOScale(Vector3.one / 1.2f, 0.25f);
     }
     
     private void GenerateUpgradeOffers()
@@ -103,11 +102,17 @@ public class UpgradeModule : GenericSingletonClass<UpgradeModule>
 
     public void QuitMenu()
     {
-        upgradeMenu.enabled = false;
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Locked;
         
         PlayerInputs.Instance.EnablePlayerInputs(true);
+        
+        LeftModule();
+        
+        upgradeMenu.transform.GetChild(0).DOScale(Vector3.zero, 0.25f).OnComplete(() =>
+        {
+            upgradeMenu.enabled = false;
+        });
     }
 
     private void OnDrawGizmos()

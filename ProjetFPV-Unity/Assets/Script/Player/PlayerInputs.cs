@@ -19,6 +19,7 @@ public class PlayerInputs : GenericSingletonClass<PlayerInputs>
     public Vector2 rotateValue;
 
     [SerializeField] private PlayerInput globalInputs;
+    public PlayerInput weaponInputs;
 
     /// <summary>
     /// Get the moving inputs.
@@ -75,10 +76,14 @@ public class PlayerInputs : GenericSingletonClass<PlayerInputs>
     {
         isReceivingInteractInputs = ctx;
     }
-    
+
     /// <summary>
     /// Define is either or not the inputs are activated.
     /// </summary>
     /// <param name="isEnabled">Activate the input ?</param>
-    public void EnablePlayerInputs(bool isEnabled) => globalInputs.enabled = isEnabled;
+    public void EnablePlayerInputs(bool isEnabled)
+    {
+        globalInputs.enabled = isEnabled;
+        weaponInputs.enabled = isEnabled;
+    }
 }

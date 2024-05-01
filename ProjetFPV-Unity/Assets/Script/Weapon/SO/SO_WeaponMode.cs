@@ -16,9 +16,16 @@ namespace Weapon
 
         [field: Header("-----Weapon Shop Specs-----")]
         public string modeName = "Weapon";
+        public ShootingModeIndex modeIndex = 0;
         public int modeCostToBuy = 1;
         public Sprite modeIcon;
         public string modeDescription = "Description";
+
+        public enum ShootingModeIndex
+        {
+            Primary,
+            Secondary
+        }
         
         [field: Space]
         [field: Header("-----Base Modification-----")] 

@@ -25,6 +25,8 @@ namespace CameraBehavior
         public void LateUpdate()
         {
             if (!cameraManager.doCameraFeel)return;
+
+            if (!PlayerInputs.Instance.weaponInputs.enabled) return;
             
             float mouseX = Input.GetAxisRaw("Mouse X") * cameraManager.so_Camera.weaponSwaymultiplier;
             float mouseY = Input.GetAxisRaw("Mouse Y") * cameraManager.so_Camera.weaponSwaymultiplier;
