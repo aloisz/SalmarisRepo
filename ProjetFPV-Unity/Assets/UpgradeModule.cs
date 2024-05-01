@@ -38,10 +38,10 @@ public class UpgradeModule : GenericSingletonClass<UpgradeModule>
         _baseScale = transform.localScale;
         transform.localScale = Vector3.zero;
         
-        InitModule(new Vector3(-38.7400017f,5.15999985f,18.1000004f), debugList);
+        InitModule(new Vector3(-38.7400017f,5.15999985f,18.1000004f));
     }
 
-    public void InitModule(Vector3 position, List<SO_WeaponMode> modes)
+    public void InitModule(Vector3 position)
     {
         orbitPosition = position;
 
@@ -61,7 +61,7 @@ public class UpgradeModule : GenericSingletonClass<UpgradeModule>
         t.DORotate(new Vector3(0, 360f * fullRotateAmount, 0), landingDuration, 
             RotateMode.FastBeyond360).SetEase(landingCurve);
 
-        _currentAvailableUpgrades = modes;
+        _currentAvailableUpgrades = debugList;
         GenerateUpgradeOffers();
     }
 
