@@ -218,7 +218,7 @@ public class Director : GenericSingletonClass<Director>
         currentWaveIndex = -1;
         
         if(GetActualArenaData().shouldSpawnShopAtTheEnd) 
-            UpgradeModule.Instance.InitModule(GetActualArenaData().shopOrbitalPosition);
+            UpgradeModule.Instance.InitModule(GetActualArenaData().shopOrbitalPosition, GetActualArenaData().possibleUpgrades);
     }
 
     private void Update()

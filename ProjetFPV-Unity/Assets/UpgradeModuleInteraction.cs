@@ -1,18 +1,23 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
 
-public class UpgradeModuleInteraction : MonoBehaviour
+public class UpgradeModuleInteraction : MonoBehaviour, IInteract
 {
-    // Start is called before the first frame update
-    void Start()
+    private bool _isInInteraction;
+    private UpgradeModule _upgradeModule;
+
+    private void Awake()
     {
-        
+        _upgradeModule = GetComponent<UpgradeModule>();
     }
 
-    // Update is called once per frame
-    void Update()
+    public void Interact()
     {
+        if (_isInInteraction) return;
         
+        _upgradeModule.InitMenu();
     }
 }
