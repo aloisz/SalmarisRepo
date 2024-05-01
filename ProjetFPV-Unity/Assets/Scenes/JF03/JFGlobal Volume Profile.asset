@@ -42,8 +42,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   active: 1
   mode:
-    m_OverrideState: 0
-    m_Value: 0
+    m_OverrideState: 1
+    m_Value: 1
   evMin:
     m_OverrideState: 0
     m_Value: 0
@@ -54,7 +54,7 @@ MonoBehaviour:
     m_OverrideState: 0
     m_Value: 0
   compensationCurveParameter:
-    m_OverrideState: 0
+    m_OverrideState: 1
     m_Value:
       <length>k__BackingField: 2
       m_Loop: 0
@@ -64,8 +64,8 @@ MonoBehaviour:
         serializedVersion: 2
         m_Curve:
         - serializedVersion: 3
-          time: 0
-          value: 0
+          time: 0.44267315
+          value: -0.367911
           inSlope: 0
           outSlope: 0
           tangentMode: 0
@@ -74,7 +74,7 @@ MonoBehaviour:
           outWeight: 0
         - serializedVersion: 3
           time: 1
-          value: 0
+          value: 1.2452784
           inSlope: 0
           outSlope: 0
           tangentMode: 0
@@ -85,7 +85,7 @@ MonoBehaviour:
         m_PostInfinity: 2
         m_RotationOrder: 4
   adaptationMode:
-    m_OverrideState: 0
+    m_OverrideState: 1
     m_Value: 0
   darkToLightSpeed:
     m_OverrideState: 0
@@ -328,10 +328,10 @@ MonoBehaviour:
     m_Value: 1
   threshold:
     m_OverrideState: 1
-    m_Value: 0.57
+    m_Value: 4.48
   intensity:
     m_OverrideState: 1
-    m_Value: 0.59
+    m_Value: 1.12
   scatter:
     m_OverrideState: 0
     m_Value: 0.7
@@ -380,6 +380,7 @@ MonoBehaviour:
   - {fileID: 2795310004718548050}
   - {fileID: 4581039601176694855}
   - {fileID: -6415426095159161347}
+  - {fileID: 363613843683709488}
 --- !u!114 &256404139568158557
 MonoBehaviour:
   m_ObjectHideFlags: 3
@@ -420,6 +421,52 @@ MonoBehaviour:
   maxNits:
     m_OverrideState: 0
     m_Value: 1000
+--- !u!114 &363613843683709488
+MonoBehaviour:
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: af0c9bc5a1911b14db85e866ea3016e3, type: 3}
+  m_Name: LightScatteringPostProcess
+  m_EditorClassIdentifier: 
+  active: 1
+  numberOfSamples:
+    m_OverrideState: 0
+    m_Value: 16
+  fogDensity:
+    m_OverrideState: 1
+    m_Value: 10
+  maxRayDistance:
+    m_OverrideState: 0
+    m_Value: 0.131
+  tint:
+    m_OverrideState: 0
+    m_Value: {r: 1, g: 1, b: 1, a: 1}
+  softenScreenEdges:
+    m_OverrideState: 0
+    m_Value: 0
+  animateSamplingOffset:
+    m_OverrideState: 0
+    m_Value: 0
+  lightMustBeOnScreen:
+    m_OverrideState: 0
+    m_Value: 0
+  falloffBasis:
+    m_OverrideState: 0
+    m_Value: 0
+  occlusionAssumption:
+    m_OverrideState: 0
+    m_Value: 0
+  occlusionOverDistanceAmount:
+    m_OverrideState: 0
+    m_Value: 1
+  falloffIntensity:
+    m_OverrideState: 1
+    m_Value: 6.97
 --- !u!114 &2795310004718548050
 MonoBehaviour:
   m_ObjectHideFlags: 3
