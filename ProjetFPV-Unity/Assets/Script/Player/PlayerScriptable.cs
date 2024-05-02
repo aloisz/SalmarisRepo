@@ -55,8 +55,11 @@ namespace Player
         [Tooltip("Rigidbody's velocity force applied down when sliding a slope.")]
         public float slidingInSlopeDownForce = 200f;
         
-        [Tooltip("Rigidbody's velocity force applied toward the slope when sliding it.")]
-        public float slidingInSlopeLimiter = 2f;
+        [Tooltip("Dividing the actual slope angle for make it less strong in the physical equation.")]
+        public float slopeAngleDivider = 2f;
+        
+        [Tooltip("The divider for the speed gain in slopes.")]
+        public float slopeSpeedDivider = 10f;
         
         [Tooltip("Rigidbody's velocity limitation while moving and sliding in a slope")]
         public float overallMomentumLimiterMoveSlideInSlope = 10f;

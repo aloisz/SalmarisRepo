@@ -10,6 +10,8 @@ using UnityEngine.Serialization;
 
 public class Director : GenericSingletonClass<Director>
 {
+    [SerializeField] private bool DEBUG;
+    
     public float currentWaveIntensity;
     public float playerPerformance;
     public float dynamicNextWaveValue;
@@ -27,11 +29,12 @@ public class Director : GenericSingletonClass<Director>
     private float _timerToCheckPlayerPerformance;
     private float _lastKilledEnemiesValue;
 
-    private bool _currentArenaFinished;
+    private bool _currentArenaFinished = true;
 
     private bool _isInAArena;
     private bool _isInAWave;
     private bool _hasFinishSpawningEnemies;
+    private bool _hasStartedWave;
 
     //---------------------------------------
     
@@ -41,9 +44,10 @@ public class Director : GenericSingletonClass<Director>
     /// <param name="arenaID">The Arena ID to start wave of.</param>
     public void EnteringNewArena(int arenaID)
     {
-        //if the arena is still running, dont activate the next Arena.
-        if (!_currentArenaFinished) return;
-        
+        if (!_currentArenaFinished || arenaID <= currentArenaIndex) return;
+
+        _currentRemainingEnemies = 0;
+
         //when entering in the arena, notify the director if the new arena ID.
         currentArenaIndex = arenaID;
         
@@ -60,18 +64,15 @@ public class Director : GenericSingletonClass<Director>
     {
         //reset all variables.
         ResetVariables();
-
+        
         //check if a wave is remaining to start, if so, increment the current wave index for go to the next one.
-        if (currentWaveIndex < GetActualArenaData().arenaWaves.Length - 1) currentWaveIndex++;
+        if (CanGoToNextWave()) currentWaveIndex++;
         //else, notify the director that the arena is clear for let the player start another arena (in a different trigger).
-        else
-        {
-            NotifyArenaCompleted();
-            yield break;
-        }
+        else yield break;
 
         _currentArenaFinished = false;
-        
+        _hasStartedWave = true;
+
         //set the (dynamic)NextWaveValue to the NextWaveValue reference in the wave data.
         dynamicNextWaveValue = GetActualWave().nextWaveValue;
         
@@ -92,17 +93,26 @@ public class Director : GenericSingletonClass<Director>
     {
         int i = 0;
         _hasFinishSpawningEnemies = false;
+        
         foreach (EnemyToSpawn e in GetActualWave().enemiesToSpawn)
         {
             GameObject mob = Pooling.instance.Pop(Enum.GetName(typeof(EnemyToSpawn.EnemyKeys), e.enemyKey));
+            AI_Pawn p = mob.GetComponent<AI_Pawn>();
+            p.EnableNavMesh(false);
+            
             mob.transform.position = e.worldPosition;
-            _spawnedEnemies.Add(mob.GetComponent<AI_Pawn>());
+            
+            _spawnedEnemies.Add(p);
 
             yield return new WaitForSeconds(GetActualWave().delayBetweenEachEnemySpawn);
+            
+            p.EnableNavMesh(true);
 
             i++;
         }
+        
         _hasFinishSpawningEnemies = true;
+        _hasStartedWave = false;
     }
 
     /// <summary>
@@ -123,6 +133,11 @@ public class Director : GenericSingletonClass<Director>
                 _currentRemainingEnemies += 1;
             }
         }
+
+        if (_currentRemainingEnemies <= 0 && !CanGoToNextWave() && !_currentArenaFinished)
+        {
+            NotifyArenaCompleted();
+        }
     }
 
     /// <summary>
@@ -131,7 +146,7 @@ public class Director : GenericSingletonClass<Director>
     /// </summary>
     private void CompareIntensityAndNextWaveValue()
     {
-        if (currentWaveIntensity <= dynamicNextWaveValue && _hasFinishSpawningEnemies)
+        if (currentWaveIntensity < dynamicNextWaveValue && _hasFinishSpawningEnemies && !_hasStartedWave)
         {
             StartCoroutine(nameof(StartNewWave));
         }
@@ -199,11 +214,16 @@ public class Director : GenericSingletonClass<Director>
     private void NotifyArenaCompleted()
     {
         _currentArenaFinished = true;
+        _hasStartedWave = false;
+        currentWaveIndex = -1;
+        
+        if(GetActualArenaData().shouldSpawnShopAtTheEnd) 
+            UpgradeModule.Instance.InitModule(GetActualArenaData().shopOrbitalPosition, GetActualArenaData().possibleUpgrades);
     }
 
     private void Update()
     {
-        _isInAArena = currentArenaIndex >= 0;
+        _isInAArena = !_currentArenaFinished && _isInAWave;
         _isInAWave = currentWaveIndex >= 0;
 
         if (!_isInAArena || !_isInAWave)
@@ -213,11 +233,11 @@ public class Director : GenericSingletonClass<Director>
         }
 
         CalculateWaveIntensityAndRemainingEnemies();
-
-        CompareIntensityAndNextWaveValue();
         
         TimerCalculationPerformancePlayer();
         CalculatePlayerPerformance();
+        
+        CompareIntensityAndNextWaveValue();
     }
 
     /// <summary>
@@ -229,7 +249,90 @@ public class Director : GenericSingletonClass<Director>
         currentWaveIntensity = 0;
         dynamicNextWaveValue = 0f;
         _lastKilledEnemiesValue = 0f;
+    }
+
+    private bool CanGoToNextWave() => currentWaveIndex < GetActualArenaData().arenaWaves.Length - 1;
+
+    private void OnGUI()
+    {
+        if (!DEBUG) return;
+
+        // Set up GUI style for the text
+        GUIStyle style = new GUIStyle
+        {
+            fontSize = 18,
+            normal =
+            {
+                textColor = Color.white
+            }
+        };
+
+        // Set the position and size of the text
+        // 50 each part
+        // 30 each elements
+        Rect playerPerf = new Rect(10, 10, 200, 50);
+        Rect playerPerfDelayCompar = new Rect(10, 40, 200, 50);
         
-        _currentRemainingEnemies = 0;
+        Rect arenaIndex = new Rect(10, 90, 200, 50);
+        Rect waveIndex = new Rect(10, 120, 200, 50);
+        Rect waveIntensity = new Rect(10, 150, 200, 50);
+        
+        Rect dynamicNextWValue = new Rect(10, 200, 200, 50);
+        
+        Rect remainEnemies = new Rect(10, 250, 200, 50);
+        
+        Rect lastKilled = new Rect(10, 300, 200, 50);
+        
+        Rect isInArena = new Rect(10, 350, 200, 50);
+        Rect isInWave = new Rect(10, 380, 200, 50);
+        
+        Rect finishedSpawn = new Rect(10, 430, 200, 50);
+        
+        Rect arenaFinished = new Rect(10, 480, 200, 50);
+        
+        Rect currentWavePerf = new Rect(10, 530, 200, 50);
+        Rect currentWaveNextWValue = new Rect(10, 560, 200, 50);
+        Rect currentWaveEnemyCount = new Rect(10, 590, 200, 50);
+
+        // Display the text on the screen
+        GUI.Label(playerPerf, $"Player Performance : {playerPerformance}", style);
+        GUI.Label(playerPerfDelayCompar, $"Player Performance Delay Compar. : {playerPerformanceComparisonDelay}", style);
+        
+        GUI.Label(arenaIndex, $"Current Arena Index : {currentArenaIndex}", style);
+        GUI.Label(waveIndex, $"Current Wave Index : {currentWaveIndex}", style);
+        GUI.Label(waveIntensity, $"Current Wave Intensity : {currentWaveIntensity}", style);
+        
+        GUI.Label(dynamicNextWValue, $"Dynamic NextWaveValue : {dynamicNextWaveValue}", style);
+        
+        GUI.Label(remainEnemies, $"Remaining Enemies : {_currentRemainingEnemies}", style);
+        
+        GUI.Label(lastKilled, $"Last Killed Enemies Value : {_lastKilledEnemiesValue}", style);
+        
+        GUI.Label(isInArena, $"Is In Arena ? : {_isInAArena}", BoolStyle(_isInAArena));
+        GUI.Label(isInWave, $"Is In Wave ? : {_isInAWave}", BoolStyle(_isInAWave));
+        
+        GUI.Label(finishedSpawn, $"Has Finished Spawned Enemies ? : {_hasFinishSpawningEnemies}", BoolStyle(_hasFinishSpawningEnemies));
+        
+        GUI.Label(arenaFinished, $"Current Arena Finished ? : {_currentArenaFinished}", BoolStyle(_currentArenaFinished));
+
+        if (GetActualWave() is not null)
+        {
+            GUI.Label(currentWavePerf, $"Current Wave Perf. Ref. : {GetActualWave().performanceReference}", style);
+            GUI.Label(currentWaveNextWValue, $"Current Wave NextWaveValue : {GetActualWave().nextWaveValue}", style);
+            GUI.Label(currentWaveEnemyCount, $"Current Wave Enemies Amount: {GetActualWave().enemiesToSpawn.Length}", style);
+        }
+    }
+    
+    GUIStyle BoolStyle(bool value)
+    {
+        var style = new GUIStyle
+        {
+            fontSize = 24,
+            normal =
+            {
+                textColor = value ? Color.green : Color.red
+            }
+        };
+        return style;
     }
 }

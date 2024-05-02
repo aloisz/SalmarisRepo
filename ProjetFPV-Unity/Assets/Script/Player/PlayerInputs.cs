@@ -4,8 +4,6 @@ using System.Collections.Generic;
 using Player;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using UnityEngine.Serialization;
-using Weapon;
 
 public class PlayerInputs : GenericSingletonClass<PlayerInputs>
 {
@@ -13,14 +11,15 @@ public class PlayerInputs : GenericSingletonClass<PlayerInputs>
     public bool isReceivingDashInputs;
     public bool isReceivingJumpInputs;
     public bool isReceivingSlideInputs;
+    public InputAction.CallbackContext isReceivingInteractInputs;
 
     public Action onJump;
 
     public Vector2 moveValue;
     public Vector2 rotateValue;
-    
-    //WeaponSwap
-    public List<WeaponManager> weapons;
+
+    [SerializeField] private PlayerInput globalInputs;
+    public PlayerInput weaponInputs;
 
     /// <summary>
     /// Get the moving inputs.
@@ -68,5 +67,23 @@ public class PlayerInputs : GenericSingletonClass<PlayerInputs>
     public void LookInputs(InputAction.CallbackContext ctx)
     {
         rotateValue = ctx.ReadValue<Vector2>();
+    }
+    
+    /// <summary>
+    /// Get the interact input.
+    /// </summary>
+    public void InteractInputs(InputAction.CallbackContext ctx)
+    {
+        isReceivingInteractInputs = ctx;
+    }
+
+    /// <summary>
+    /// Define is either or not the inputs are activated.
+    /// </summary>
+    /// <param name="isEnabled">Activate the input ?</param>
+    public void EnablePlayerInputs(bool isEnabled)
+    {
+        globalInputs.enabled = isEnabled;
+        weaponInputs.enabled = isEnabled;
     }
 }

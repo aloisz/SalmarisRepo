@@ -183,6 +183,7 @@ namespace Player
         private Vector3 GetOverallMomentumVector()
         {
             var dividerOnSlopeClimbing = (isSlopeClimbing && isSliding ? playerScriptable.decelerationMultiplierSlideInSlopeUp : 1f);
+            var dividerOnSlope = (!isSlopeClimbing && isSliding ? playerScriptable.slopeSpeedDivider : 1f);
             var accelerating = _rb.velocity.magnitude < playerScriptable.speedMaxToAccelerate && !isOnSlope && !isSliding;
             var vectorMove = DirectionFromCamera(direction).normalized * 
                              (_moveSpeed * _speedMultiplierFromDash * (accelerating ? playerScriptable.accelerationMultiplier : 1f))
@@ -190,8 +191,8 @@ namespace Player
             
             var slopeDirection = new Vector3(_raycastSlope.normal.x, 0, _raycastSlope.normal.z).normalized;
             var vectorSlideDown = Vector3.down * (playerScriptable.slidingInSlopeDownForce) / dividerOnSlopeClimbing;
-            var vectorSlideForward = (slopeDirection * (_actualSlopeAngle / playerScriptable.slidingInSlopeLimiter)) / dividerOnSlopeClimbing;
-            var vectorSlide = vectorSlideDown + vectorSlideForward;
+            var vectorSlideForward = (slopeDirection * (_actualSlopeAngle / playerScriptable.slopeAngleDivider)) / dividerOnSlopeClimbing;
+            var vectorSlide = vectorSlideDown + vectorSlideForward / dividerOnSlope;
 
             var finalVector = (isMoving ? vectorMove : Vector3.zero) + 
                               (isOnSlope && isSliding && !isSlopeClimbing ? vectorSlide : Vector3.zero)
@@ -833,9 +834,7 @@ namespace Player
         private void OnGUI()
         {
             if (!DEBUG) return;
-            
-            //return;
-            
+
             // Set up GUI style for the text
             GUIStyle style = new GUIStyle
             {

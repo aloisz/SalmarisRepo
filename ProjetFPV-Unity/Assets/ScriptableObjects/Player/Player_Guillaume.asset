@@ -20,14 +20,15 @@ MonoBehaviour:
   moveAirMultiplier: 0.75
   dashForce: 60
   dashDuration: 0.145
-  dashLagDuration: 0.5
+  dashLagDuration: 0.15
   dashSpeedMultiplier: 1.25
   dashSpeedMultiplierDuration: 1.25
   dashSpeedMultiplierResetDuration: 1.5
   speedMaxToAccelerate: 12
   accelerationMultiplier: 2
   slidingInSlopeDownForce: 2
-  slidingInSlopeLimiter: 100
+  slopeAngleDivider: 2
+  slopeSpeedDivider: 10
   overallMomentumLimiterMoveSlideInSlope: 10
   decelerationMultiplierSlideInSlopeUp: 1000
   jumpEdgeImpulseForce: 700

@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 8857200771577457520}
   - component: {fileID: 6646551948826305234}
   - component: {fileID: 3402184119103076185}
+  - component: {fileID: 7424977343819611208}
   - component: {fileID: 5117023111138849358}
   m_Layer: 0
   m_Name: Barbatos
@@ -50,9 +51,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   so_Weapon: {fileID: 11400000, guid: 99c406b72bf34f94ea1c5216e863cf61, type: 2}
+  actualNumberOfBullet: 0
   actualWeaponModeIndex: 0
   camera: {fileID: 0}
   gunBarrelPos: {fileID: 9076305256274289973}
+  whoIsTheTarget:
+    serializedVersion: 2
+    m_Bits: 0
+  dragApply: 0
+  gravityApplied: 0
 --- !u!114 &3402184119103076185
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -68,6 +75,18 @@ MonoBehaviour:
   isReceivingPrimary: 0
   isReceivingSecondary: 0
   isReceivingReload: 0
+--- !u!114 &7424977343819611208
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1092594336127834468}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b3daab64bd3507845bf6df024a95d8a1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &5117023111138849358
 MonoBehaviour:
   m_ObjectHideFlags: 0

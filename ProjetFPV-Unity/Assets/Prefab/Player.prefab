@@ -14,6 +14,8 @@ GameObject:
   - component: {fileID: 1253742103546626655}
   - component: {fileID: 131450132378336176}
   - component: {fileID: 6655356332372034070}
+  - component: {fileID: 3384089798135616920}
+  - component: {fileID: 460264770731970922}
   - component: {fileID: 4329080655008607625}
   - component: {fileID: 4285045805137103391}
   - component: {fileID: 8394932507012710498}
@@ -90,8 +92,8 @@ MonoBehaviour:
   isReceivingSlideInputs: 0
   moveValue: {x: 0, y: 0}
   rotateValue: {x: 0, y: 0}
-  weapons:
-  - {fileID: 0}
+  globalInputs: {fileID: 4329080655008607625}
+  weaponInputs: {fileID: 0}
 --- !u!114 &1253742103546626655
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -138,13 +140,31 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c52d7c9653bb8a2498c07d5a1f1696a5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ammo: {fileID: 0}
-  ammoMax: {fileID: 0}
-  stamina: {fileID: 0}
-  weaponName: {fileID: 0}
-  staminaCharge: {fileID: 0}
-  healthBar: {fileID: 0}
-  shieldBar: {fileID: 0}
+--- !u!114 &3384089798135616920
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 359912182890571611}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 225d79bbfab9d4048a26a1b381dc9efd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  interactionRadius: 10
+--- !u!114 &460264770731970922
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 359912182890571611}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4549aa3eebf58f248bf52112213313f8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &4329080655008607625
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -311,7 +331,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 5313092729534710420}
         m_TargetAssemblyTypeName: PlayerInputs, Assembly-CSharp
-        m_MethodName: SwapWeapon
+        m_MethodName: InteractInputs
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -321,8 +341,8 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-    m_ActionId: 0d47f93a-234d-4f17-a019-bb1f63e886fb
-    m_ActionName: Player/SwapWeapon[/Keyboard/f]
+    m_ActionId: e89c27cd-453e-4f60-8a25-3ef428d28ab9
+    m_ActionName: Player/Interact
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Player

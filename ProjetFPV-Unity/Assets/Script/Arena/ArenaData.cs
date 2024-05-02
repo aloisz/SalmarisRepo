@@ -1,12 +1,21 @@
 using System;
+using System.Collections.Generic;
 using AI;
+using NaughtyAttributes;
 using UnityEngine;
 using UnityEngine.Serialization;
+using Weapon;
 
 [CreateAssetMenu(menuName = "Arena Data/ArenaData", fileName = "new ArenaData")]
 public class ArenaData : ScriptableObject
 {
     public ArenaWave[] arenaWaves;
+    public bool shouldSpawnShopAtTheEnd;
+    
+    [InfoBox("Orbital Position is the position where the module will be in the sky. Example, you want it to land at 0,0,0, so just put 300 in Y value.")]
+    public Vector3 shopOrbitalPosition;
+
+    public List<SO_WeaponMode> possibleUpgrades = new List<SO_WeaponMode>();
 }
 
 [Serializable]

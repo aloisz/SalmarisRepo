@@ -27,6 +27,21 @@ MonoBehaviour:
     dstTextureObject: {fileID: 0}
     overrideGraphicsFormat: 0
     graphicsFormat: 4
+--- !u!114 &-3225837037591007374
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 73bb0c28b25f48d4ea2f38b3e2010651, type: 3}
+  m_Name: AutoExposureRenderFeature
+  m_EditorClassIdentifier: 
+  m_Active: 1
+  settings:
+    renderPassEvent: 450
 --- !u!114 &-1878332245247344467
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -85,6 +100,21 @@ MonoBehaviour:
       normalBlend: 0
   m_CopyDepthPS: {fileID: 4800000, guid: d6dae50ee9e1bfa4db75f19f99355220, type: 3}
   m_DBufferClear: {fileID: 4800000, guid: f056d8bd2a1c7e44e9729144b4c70395, type: 3}
+--- !u!114 &-29634331011254962
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cf55d7f5ccca49c40b80bbf154889a58, type: 3}
+  m_Name: LightScatteringRenderFeature
+  m_EditorClassIdentifier: 
+  m_Active: 1
+  settings:
+    renderPassEvent: 550
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -105,7 +135,9 @@ MonoBehaviour:
   - {fileID: -1878332245247344467}
   - {fileID: -4461028058195839461}
   - {fileID: -137860494353392114}
-  m_RendererFeatureMap: adc0de57c6d2eee51bb62fda9d3e17c20e9e815d9c3816fe
+  - {fileID: -3225837037591007374}
+  - {fileID: -29634331011254962}
+  m_RendererFeatureMap: adc0de57c6d2eee51bb62fda9d3e17c20e9e815d9c3816fe72ef16374e863bd34ef5eaa2bbb796ff
   m_UseNativeRenderPass: 0
   postProcessData: {fileID: 11400000, guid: 41439944d30ece34e96484bdb6645b55, type: 2}
   xrSystemData: {fileID: 11400000, guid: 60e1133243b97e347b653163a8c01b64, type: 2}

@@ -9,8 +9,7 @@ using Object = UnityEngine.Object;
 public class Barbatos : Shotgun
 {
     private BarbatosInput barbatosInput;
-
-
+    
     [Header("Projectile")] 
     [SerializeField] private LayerMask whoIsTheTarget;
     [SerializeField] private float dragApply;

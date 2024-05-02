@@ -10,7 +10,7 @@ public class EditorArenaObjects : Editor
         // Create a new game object
         GameObject newObject = new GameObject();
 
-        var iconContent = EditorGUIUtility.IconContent("Assets/Editor/Wave.png");
+        var iconContent = EditorGUIUtility.IconContent("Assets/Editor/Icons/Wave.png");
         EditorGUIUtility.SetIconForObject(newObject, (Texture2D) iconContent.image);
         
         // Register the creation of the object so it gets properly positioned in the scene
@@ -28,7 +28,7 @@ public class EditorArenaObjects : Editor
         // Create a new game object
         GameObject newObject = new GameObject();
 
-        var iconContent = EditorGUIUtility.IconContent("Assets/Editor/Enemy.png");
+        var iconContent = EditorGUIUtility.IconContent("Assets/Editor/icons/Enemy.png");
         EditorGUIUtility.SetIconForObject(newObject, (Texture2D) iconContent.image);
 
         newObject.AddComponent<MobArenaDisplay>();

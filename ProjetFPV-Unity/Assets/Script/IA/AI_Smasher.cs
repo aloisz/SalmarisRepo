@@ -21,6 +21,7 @@ public class AI_Smasher : AI_Pawn
     [Header("Debugging")] 
     [SerializeField] private bool enableDebugging;
     
+    
     public enum SmasherMobState
     {
         Perimeter_0,
@@ -55,10 +56,23 @@ public class AI_Smasher : AI_Pawn
         CheckDistance();
     }
 
-    
+    private bool canHit = false;
+    private float strenght;
+    private Vector3 direction;
     public void ApplyKnockBack(float strenght, Vector3 dir)
     {
-        PlayerController.Instance._rb.AddForce(dir * strenght);
+        canHit = true;
+        this.strenght = strenght;
+        this.direction = dir;
+    }
+
+    protected override void FixedUpdate()
+    {
+        base.FixedUpdate();
+        
+        if (!canHit) return;
+        canHit = false;
+        PlayerController.Instance._rb.AddForce(direction * strenght);
     }
     
     /// <summary>
