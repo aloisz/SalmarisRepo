@@ -52,7 +52,7 @@ public class UpgradeModule : GenericSingletonClass<UpgradeModule>
             throw new Exception("Cannot land the module because it can't found the ground.");
         
         t.DOMove(_hitGroundLanding.point + new Vector3(0, offsetLandingY, 0), 
-            landingDuration).SetEase(landingCurve);//.OnComplete(LeftModule);
+            landingDuration).SetEase(landingCurve);
         t.DOScale(_baseScale, landingDuration).SetEase(landingCurve);
         t.DORotate(new Vector3(0, 360f * fullRotateAmount, 0), landingDuration, 
             RotateMode.FastBeyond360).SetEase(landingCurve);
@@ -84,9 +84,6 @@ public class UpgradeModule : GenericSingletonClass<UpgradeModule>
         Cursor.lockState = CursorLockMode.Confined;
         
         PlayerInputs.Instance.EnablePlayerInputs(false);
-        
-        upgradeMenu.transform.GetChild(0).localScale = Vector3.zero;
-        upgradeMenu.transform.GetChild(0).DOScale(Vector3.one / 1.2f, 0.25f);
     }
     
     private void GenerateUpgradeOffers()
@@ -102,17 +99,13 @@ public class UpgradeModule : GenericSingletonClass<UpgradeModule>
 
     public void QuitMenu()
     {
+        upgradeMenu.enabled = false;
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Locked;
         
         PlayerInputs.Instance.EnablePlayerInputs(true);
         
         LeftModule();
-        
-        upgradeMenu.transform.GetChild(0).DOScale(Vector3.zero, 0.25f).OnComplete(() =>
-        {
-            upgradeMenu.enabled = false;
-        });
     }
 
     private void OnDrawGizmos()
