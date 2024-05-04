@@ -23,6 +23,8 @@ public class Director : GenericSingletonClass<Director>
     public int currentArenaIndex;
     public int currentWaveIndex;
 
+    public int playerOverPerfomAmount;
+
     //--------------------------------------------------------
     
     private List<AI_Pawn> _spawnedEnemies = new List<AI_Pawn>();
@@ -182,6 +184,7 @@ public class Director : GenericSingletonClass<Director>
         if (_playerPerformance > GetActualWave().performanceReference)
         {
             _dynamicNextWaveValue += GetActualWave().nextWaveValueAddedValue;
+            playerOverPerfomAmount++;
         }
     }
 
@@ -236,6 +239,8 @@ public class Director : GenericSingletonClass<Director>
         _currentArenaFinished = true;
         _hasStartedWave = false;
         currentWaveIndex = -1;
+
+        playerOverPerfomAmount = 0;
         
         totalIntensityValue = ReturnTotalIntensityArenaValue();
         totalIntensityValueLevel += totalIntensityValue;

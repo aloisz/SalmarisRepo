@@ -24,11 +24,14 @@ public class ScoringSystem : GenericSingletonClass<ScoringSystem>
     {
         GameManager.Instance.globalScore = CalculateEndLevelScore();
         PlayerMoney.Instance.Money += GameManager.Instance.globalScore;
+        
+        Debug.Log(CalculateEndLevelScore());
     }
 
     private void ScoreEndArena()
     {
         PlayerMoney.Instance.Money += CalculateEndArenaScore();
+        Debug.Log(CalculateEndArenaScore());
     }
 
     private int CalculateEndLevelScore()
@@ -44,8 +47,11 @@ public class ScoringSystem : GenericSingletonClass<ScoringSystem>
     {
         var totalInt = Director.Instance.totalIntensityValue;
         var deaths = GetDeathScore();
+        var overPerf = Director.Instance.playerOverPerfomAmount;
 
-        return totalInt + deaths + arbitraryValueDebug;
+        var value = totalInt + deaths + arbitraryValueDebug;
+        
+        return (int)(totalInt + deaths + ((value * 0.05f) * overPerf) + arbitraryValueDebug);
     }
 
     private void Update()
