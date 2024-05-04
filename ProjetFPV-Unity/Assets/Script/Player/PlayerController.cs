@@ -18,6 +18,8 @@ namespace Player
         public bool canDoubleJump = true;
         public bool DEBUG;
         
+        public Action onDeath;
+        
         //---------------------------------------
         
         [Header("Components")]
@@ -744,7 +746,9 @@ namespace Player
             //Reset the deceleration for the slide on ground.
             //_decelerationSlideOnGround = 1f;
         }
-        
+
+        private void Death() => onDeath.Invoke();
+
         #endregion
 
         //-------------------- Debug ----------------------

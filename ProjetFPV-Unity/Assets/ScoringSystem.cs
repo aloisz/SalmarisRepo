@@ -6,25 +6,69 @@ using UnityEngine;
 
 public class ScoringSystem : GenericSingletonClass<ScoringSystem>
 {
-    public int globalIntensityValue = 0;
-    public int timeScore;
+    [SerializeField] int arbitraryValueDebug;
 
-    public List<TimeInterval> timeIntervals = new List<TimeInterval>();
-    public List<DeathPenalties> deathPenalties = new List<DeathPenalties>();
+    [SerializeField] List<TimeInterval> timeIntervals = new List<TimeInterval>();
+    [SerializeField] List<DeathPenalties> deathPenalties = new List<DeathPenalties>();
+    
+    private int _timeScore;
+    private int _deathBonus;
 
     private void Start()
     {
         GameManager.Instance.OnLevelCompleted += ScoreEndLevel;
+        Director.Instance.onArenaFinished += ScoreEndArena;
     }
 
-    public void ScoreEndLevel()
+    private void ScoreEndLevel()
     {
-        
+        GameManager.Instance.globalScore = CalculateEndLevelScore();
+        PlayerMoney.Instance.Money += GameManager.Instance.globalScore;
     }
 
-    public void ScoreEndArena()
+    private void ScoreEndArena()
     {
-        
+        PlayerMoney.Instance.Money += CalculateEndArenaScore();
+    }
+
+    private int CalculateEndLevelScore()
+    {
+        var totalInt = Director.Instance.totalIntensityValueLevel;
+        var tScore = _timeScore;
+        var deaths = GetDeathScore();
+
+        return totalInt + tScore + deaths + arbitraryValueDebug;
+    }
+    
+    private int CalculateEndArenaScore()
+    {
+        var totalInt = Director.Instance.totalIntensityValue;
+        var deaths = GetDeathScore();
+
+        return totalInt + deaths + arbitraryValueDebug;
+    }
+
+    private void Update()
+    {
+        CheckScoreFromTime();
+    }
+
+    private void CheckScoreFromTime()
+    {
+        foreach (TimeInterval ti in timeIntervals)
+        {
+            if (Director.Instance.levelTimer < ti.timeInSeconds)
+            {
+                _timeScore = ti.bonus;
+                break;
+            }
+        }
+    }
+
+    private int GetDeathScore()
+    {
+        _deathBonus = Director.Instance.numberOfDeath;
+        return _deathBonus;
     }
 }
 
@@ -33,7 +77,7 @@ public class TimeInterval
 {
     public float timeInSeconds;
     [InfoBox("Put negative value for a malus. A positive one of a bonus.")]
-    public float bonus;
+    public int bonus;
 }
 
 [Serializable]
@@ -41,5 +85,5 @@ public class DeathPenalties
 {
     public int amountOfDeath;
     [InfoBox("Put negative value for a malus. A positive one of a bonus.")]
-    public float bonus;
+    public int bonus;
 }
