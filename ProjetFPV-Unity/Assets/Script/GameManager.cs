@@ -15,6 +15,11 @@ public class GameManager : GenericSingletonClass<GameManager>
 
     public int globalScore;
 
+    private void Start()
+    {
+        Announcements.Instance.GenerateAnnouncement("Coucou toi qui joue");
+    }
+
     public void LevelFinished()
     {
         OnLevelCompleted?.Invoke();
