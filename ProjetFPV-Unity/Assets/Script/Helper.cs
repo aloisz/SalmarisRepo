@@ -60,12 +60,14 @@ public static class Helper
         return value;
     }
     
+    #if UNITY_EDITOR
     public static void SetupIconFromEnemyType(GameObject obj, EnemyToSpawn.EnemyKeys enemyType)
     {
         var iconContent = EditorGUIUtility.IconContent
             ($"Assets/Editor/Icons/{Enum.GetName(typeof(EnemyToSpawn.EnemyKeys), enemyType)}.png");
         EditorGUIUtility.SetIconForObject(obj, (Texture2D) iconContent.image);
     }
+    #endif
     
     public static void GetInterfaces<T>(out List<T> resultList, GameObject objectToSearch) where T: class 
     {

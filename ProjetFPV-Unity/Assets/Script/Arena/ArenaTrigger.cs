@@ -69,7 +69,9 @@ public class ArenaTrigger : MonoBehaviour
                 e.worldPosition = t.GetChild(i).position;
                 t.GetChild(i).gameObject.name = $"{Enum.GetName(typeof(EnemyToSpawn.EnemyKeys), e.enemyKey)}_{i}";
                 
+                #if UNITY_EDITOR
                 Helper.SetupIconFromEnemyType(t.GetChild(i).gameObject, e.enemyKey);
+                #endif
 
                 i++;
             }
@@ -101,6 +103,8 @@ public class ArenaTrigger : MonoBehaviour
             }
         };
         
+        #if UNITY_EDITOR
         Handles.Label(transform.position + new Vector3(0,_box.size.y / 2f,0), $"Arena N°{arenaID}", style);
+        #endif
     }
 }
