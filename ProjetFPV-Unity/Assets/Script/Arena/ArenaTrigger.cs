@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using NaughtyAttributes;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 [RequireComponent(typeof(BoxCollider))]
 [ExecuteAlways]
@@ -10,7 +11,8 @@ public class ArenaTrigger : MonoBehaviour
 {
     public int arenaID;
     [Expandable] public ArenaData arenaData;
-
+    
+    public List<EnemyPositionData> enemiesPositions = new List<EnemyPositionData>();
     [SerializeField] private List<Transform> waves = new List<Transform>();
     
     private BoxCollider _box;
@@ -43,7 +45,9 @@ public class ArenaTrigger : MonoBehaviour
     public void SetupWaveEnemiesPosition()
     {
         if (waves.Count < transform.childCount) throw new Exception($"No enough Wave's Transform added to the list of {this}");
-
+        
+        enemiesPositions.Clear();
+        
         int j = 0;
         foreach (Transform t in waves)
         {
@@ -59,14 +63,25 @@ public class ArenaTrigger : MonoBehaviour
                 return;
             }
             var arenaWaves = arenaData.arenaWaves;
+            
 
+            //Setup the enemy positions list
+            var x = new List<Vector3>();
+            for (var k = 0; k < 10; k++) x.Add(Vector3.zero);
+            enemiesPositions.Add(new EnemyPositionData()
+            {
+                positions = x
+            });
+            
             int i = 0;
             foreach (var e in arenaWaves[j].enemiesToSpawn)
             {
                 if (t.childCount == 0)
                     throw new Exception($"No child found in the {t} Wave's Transform, in {this}");
                     
-                e.worldPosition = t.GetChild(i).position;
+                //e.worldPosition = t.GetChild(i).position;
+                enemiesPositions[j].positions[i] = t.GetChild(i).position;
+                
                 t.GetChild(i).gameObject.name = $"{Enum.GetName(typeof(EnemyToSpawn.EnemyKeys), e.enemyKey)}_{i}";
                 
                 #if UNITY_EDITOR
@@ -107,4 +122,10 @@ public class ArenaTrigger : MonoBehaviour
         Handles.Label(transform.position + new Vector3(0,_box.size.y / 2f,0), $"Arena N°{arenaID}", style);
         #endif
     }
+}
+
+[Serializable]
+public class EnemyPositionData
+{
+    public List<Vector3> positions;
 }
