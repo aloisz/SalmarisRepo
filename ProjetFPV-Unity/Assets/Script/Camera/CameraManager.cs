@@ -294,11 +294,11 @@ namespace CameraBehavior
 
         private void CalculateFrustum()
         {
-            cameraFrustum = GeometryUtility.CalculateFrustumPlanes(camera);
+            /*cameraFrustum = GeometryUtility.CalculateFrustumPlanes(camera);
             if(GeometryUtility.TestPlanesAABB(cameraFrustum, bounds)
             {
                 
-            }
+            }*/
         }
         
     }
