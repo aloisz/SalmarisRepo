@@ -13,17 +13,16 @@ public class AsyncManager : MonoBehaviour
     [Header("Menu Screens")]
     [SerializeField] private GameObject loadingScreen;
     [SerializeField] private GameObject menuToQuit;
-    [SerializeField] private SceneAsset sceneToTravel;
-    
+
     [Header("Slider")]
     [SerializeField] private Image loadingSlider;
 
-    public void LoadLevelButton()
+    public void LoadLevelButton(string sceneToTravel)
     {
         menuToQuit.SetActive(false);
         loadingScreen.SetActive(true);
 
-        StartCoroutine(LoadLevelAsync(sceneToTravel.name));
+        StartCoroutine(LoadLevelAsync(sceneToTravel));
     }
 
     IEnumerator LoadLevelAsync(string levelToLoad)
