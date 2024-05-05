@@ -32,6 +32,9 @@ namespace CameraBehavior
         
         internal float currentFov;  
         internal Quaternion smoothOffset;
+
+        private Plane[] cameraFrustum;
+        private Bounds bounds;
         
         // Get All Camera Component
         private CameraSliding cameraSliding;
@@ -59,6 +62,8 @@ namespace CameraBehavior
             camera.fieldOfView = currentFov;
 
             actualglobalCameraRot = globalCameraRot;
+
+            bounds = GetComponent<Collider>().bounds;
         }
         
         private void LateUpdate()
@@ -114,12 +119,14 @@ namespace CameraBehavior
                     IdleFov();
                     ReInitialiseCameraPos();
                     isCommingBackFromEffect = true;
+                    cameraSliding.ResetTimer();
                     break;
                 
                 case PlayerController.PlayerActionStates.Moving:
                     HeadBobing();
                     MovingFov();
                     MovingTransitionParent();
+                    cameraSliding.ResetTimer();
                     break;
                 
                 case PlayerController.PlayerActionStates.Sliding:
@@ -131,11 +138,13 @@ namespace CameraBehavior
                 case PlayerController.PlayerActionStates.Jumping:
                     cameraJumping.Jumping();
                     ReInitialiseCameraPos();
+                    cameraSliding.ResetTimer();
                     break;
                 
                 case PlayerController.PlayerActionStates.Dashing:
                     cameraDash.Dash();
                     ReInitialiseCameraPos();
+                    cameraSliding.ResetTimer();
                     break;
             }
             cameraJumping.HandlesHighSpeed();
@@ -186,7 +195,6 @@ namespace CameraBehavior
                 transitionParent.position = Vector3.Lerp(transitionParent.position, playerTransform.position, 
                     Time.deltaTime * so_Camera.positionOffSetSmooth);
             }
-            
         }
 
         #endregion
@@ -282,6 +290,16 @@ namespace CameraBehavior
         }
 
         #endregion
+
+
+        private void CalculateFrustum()
+        {
+            cameraFrustum = GeometryUtility.CalculateFrustumPlanes(camera);
+            if(GeometryUtility.TestPlanesAABB(cameraFrustum, bounds)
+            {
+                
+            }
+        }
         
     }
 }

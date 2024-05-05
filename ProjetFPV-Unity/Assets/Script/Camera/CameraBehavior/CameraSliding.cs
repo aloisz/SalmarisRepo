@@ -6,7 +6,7 @@ namespace CameraBehavior
 {
     public class CameraSliding : MonoBehaviour
     {
-        
+        [SerializeField] private AnimationCurve slindingCurve;
         private CameraManager cameraManager;
 
         private void Awake()
@@ -21,11 +21,31 @@ namespace CameraBehavior
             SlidingFov();
         }
 
+        internal void ResetTimer()
+        {
+            timeElapsed = 0;
+        }
+
+        internal float timeElapsed;
         private void Position()
         {
             // Position
-            cameraManager.transitionParent.position = Vector3.Lerp(cameraManager.transitionParent.position, cameraManager.slindingPos.position, 
-                Time.deltaTime * cameraManager.so_Camera.positionOffSetSmooth);
+            timeElapsed += Time.deltaTime * 1; 
+
+            var transitionParentPos = cameraManager.transitionParent.position;
+            var cameraManagerSlidingPos = cameraManager.slindingPos.position;
+            
+            var heightTime = slindingCurve.Evaluate(timeElapsed);
+            Debug.Log($"timeElapsed {timeElapsed} + heightTime {heightTime}");
+
+            var heightX = Mathf.Lerp(transitionParentPos.x, cameraManagerSlidingPos.x, heightTime); 
+            var heightY = Mathf.Lerp(transitionParentPos.y, cameraManagerSlidingPos.y, heightTime); 
+            var heightZ = Mathf.Lerp(transitionParentPos.z, cameraManagerSlidingPos.z, heightTime); 
+            
+            cameraManager.transitionParent.position =  new Vector3(heightX, heightY, heightZ);
+            
+            /*Vector3.Lerp(cameraManager.transitionParent.position, cameraManager.slindingPos.position, 
+                Time.deltaTime * cameraManager.so_Camera.positionOffSetSmooth)*/
         }
 
         private void Rotation()
@@ -51,7 +71,7 @@ namespace CameraBehavior
                 Time.deltaTime * cameraManager.so_Camera.rotationOffSetSmooth); // cameraManager.so_Camera.rotationOffSetSmooth
         }
         
-        internal void SlidingFov()
+        private void SlidingFov()
         {
             if (Math.Abs(cameraManager.currentFov - cameraManager.so_Camera.fovSliding) > 0.1f)
             {
