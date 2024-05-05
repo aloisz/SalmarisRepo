@@ -63,7 +63,7 @@ namespace CameraBehavior
 
             actualglobalCameraRot = globalCameraRot;
 
-            bounds = GetComponent<Collider>().bounds;
+            //bounds = GetComponent<Collider>().bounds;
         }
         
         private void LateUpdate()
