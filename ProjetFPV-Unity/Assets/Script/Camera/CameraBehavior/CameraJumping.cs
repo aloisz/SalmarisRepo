@@ -10,7 +10,7 @@ namespace CameraBehavior
     {
         private CameraManager cameraManager;
         [SerializeField] internal AnimationCurve jumpingImpact;
-
+        [SerializeField] internal AnimationCurve jumpingImpactHandSwing;
         private void Awake()
         {
             cameraManager = GetComponent<CameraManager>();
@@ -49,20 +49,25 @@ namespace CameraBehavior
             if (!PlayerController.Instance.isOnGround)
             {
                 timer += Time.deltaTime * cameraManager.so_Camera.JumpingBobbingSpeed;
-                
-                cameraManager.smoothOffset = Quaternion.Slerp(cameraManager.smoothOffset, 
-                    Quaternion.Euler(0, 
-                        cameraManager.so_Camera.rotationOffSet.y,
-                        cameraManager.so_Camera.rotationOffSet.z * (Mathf.Cos(timer) * 
-                                                                    (cameraManager.so_Camera.cameraJumpingBobbingAmount * jumpingImpact.Evaluate((Mathf.Abs(PlayerController.Instance._rb.velocity.y)))))), 
-                    
-                    Time.deltaTime * cameraManager.so_Camera.rotationOffSetSmooth);
-                
-                
-                cameraManager.transitionParent.rotation = Quaternion.Slerp(cameraManager.transitionParent.rotation, 
+
+                cameraManager.smoothOffset =
+                    Quaternion.Slerp(cameraManager.smoothOffset, Quaternion.Euler(0, cameraManager.so_Camera.rotationOffSet.y,
+                            cameraManager.so_Camera.rotationOffSet.z * (Mathf.Cos(timer) * (cameraManager.so_Camera.cameraJumpingBobbingAmount *
+                                                 jumpingImpact.Evaluate((Mathf.Abs(PlayerController.Instance._rb.velocity.y)))))),
+
+                        Time.deltaTime * cameraManager.so_Camera.rotationOffSetSmooth);
+
+
+                cameraManager.transitionParent.rotation = Quaternion.Slerp(cameraManager.transitionParent.rotation,
                     cameraManager.playerTransform.rotation * cameraManager.smoothOffset,
-                    Time.deltaTime * cameraManager.so_Camera.rotationOffSetSmooth); // PlayerController.Instance.playerScriptable.smoothCameraRot
+                    Time.deltaTime *
+                    cameraManager.so_Camera
+                        .rotationOffSetSmooth); // PlayerController.Instance.playerScriptable.smoothCameraRot
+
+                // weapon smooth
+                cameraManager.handSwing.JumpingOffSetY = jumpingImpactHandSwing.Evaluate(PlayerController.Instance._rb.velocity.y);
             }
+            else cameraManager.handSwing.JumpingOffSetY = 0f; // weapon smooth
         }
 
 

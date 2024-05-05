@@ -37,10 +37,10 @@ namespace CameraBehavior
         private Bounds bounds;
         
         // Get All Camera Component
-        private CameraSliding cameraSliding;
+        internal CameraSliding cameraSliding;
         private CameraJumping cameraJumping;
         private CameraDash cameraDash;
-        private HandSwing handSwing;
+        internal HandSwing handSwing;
 
         private bool isCommingBackFromEffect;
         
@@ -55,6 +55,7 @@ namespace CameraBehavior
             cameraDash = GetComponent<CameraDash>();
             camera = GetComponentInChildren<Camera>();
             cameraTransform = camera.GetComponent<Transform>();
+            handSwing = GetComponentInChildren<HandSwing>();
 
             Instance = this;
             

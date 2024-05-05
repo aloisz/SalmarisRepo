@@ -1,7 +1,9 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Mathematics;
 using UnityEngine;
+using Weapon;
 using Random = UnityEngine.Random;
 
 namespace CameraBehavior
@@ -10,12 +12,13 @@ namespace CameraBehavior
     {
         private CameraManager cameraManager;
         private Vector3 basePos;
+        internal float JumpingOffSetY;
         
         // Gun
         private float lastfired;
-        [SerializeField] private float FireRate = 10;
+        [SerializeField] private WeaponManager weapon;
         
-
+        
         private void Awake()
         {
             cameraManager = GetComponentInParent<CameraManager>();
@@ -28,7 +31,7 @@ namespace CameraBehavior
 
             if (!PlayerInputs.Instance.weaponInputs.enabled) return;
             
-            float mouseX = Input.GetAxisRaw("Mouse X") * cameraManager.so_Camera.weaponSwaymultiplier;
+            float mouseX = Input.GetAxisRaw("Mouse X") * -cameraManager.so_Camera.weaponSwaymultiplier;
             float mouseY = Input.GetAxisRaw("Mouse Y") * cameraManager.so_Camera.weaponSwaymultiplier;
             
             // Calculate the rotation
@@ -36,15 +39,20 @@ namespace CameraBehavior
             Quaternion rotationY = Quaternion.AngleAxis(mouseX, Vector3.up);
 
             Quaternion targetRotation = rotationX * rotationY;
+
+            // weapon rotation 
+            transform.localRotation = cameraManager.cameraSliding.timeElapsed > 0 ? 
+                Quaternion.Slerp(transform.localRotation, targetRotation * Quaternion.AngleAxis(40, Vector3.forward), cameraManager.so_Camera.weaponSwaySmooth * Time.deltaTime ) : 
+                Quaternion.Slerp(transform.localRotation, targetRotation, cameraManager.so_Camera.weaponSwaySmooth * Time.deltaTime );
             
-            transform.localRotation = Quaternion.Slerp(transform.localRotation, targetRotation, cameraManager.so_Camera.weaponSwaySmooth * Time.deltaTime );
-            transform.localPosition = Vector3.Lerp(transform.localPosition, basePos, cameraManager.so_Camera.weaponSwaySmooth * Time.deltaTime);
+            // weapon position
+            transform.localPosition = Vector3.Lerp(transform.localPosition, basePos + new Vector3(0,JumpingOffSetY,0), cameraManager.so_Camera.weaponSwaySmooth * Time.deltaTime);
             
             if (Input.GetKey(KeyCode.Mouse0))
             {
-                if (Time.time - lastfired > 1 / FireRate)
+                if (Time.time - lastfired > 1 / weapon.so_Weapon.weaponMode[(int)weapon.actualWeaponModeIndex].fireRate)
                 {
-                    //Shoot();
+                    Shoot();
                 }
             }
         }
