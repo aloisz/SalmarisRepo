@@ -17,7 +17,7 @@ public class GameManager : GenericSingletonClass<GameManager>
 
     private void Start()
     {
-        Announcements.Instance.GenerateAnnouncement("Coucou toi qui joue");
+        
     }
 
     public void LevelFinished()
