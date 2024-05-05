@@ -68,7 +68,7 @@ namespace CameraBehavior
                 Quaternion.Slerp(transform.localRotation, shootingRot, cameraManager.so_Camera.rotationOffSetSmooth * Time.deltaTime);
             
             transform.localPosition = 
-                Vector3.Lerp(transform.localPosition, transform.localPosition + new Vector3(0,0,-0.1f), cameraManager.so_Camera.positionOffSetSmooth * Time.deltaTime );
+                Vector3.Lerp(transform.localPosition, transform.localPosition + new Vector3(0,0,-0.1f), Time.time - lastfired );//cameraManager.so_Camera.positionOffSetSmooth * Time.deltaTime
 
         }   
     }
