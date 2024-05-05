@@ -74,7 +74,7 @@ public class Director : GenericSingletonClass<Director>
         currentArenaIndex = arenaID;
         
         //start a new wave.
-        StartCoroutine(nameof(StartNewWave));
+        if(CanGoToNextWave()) StartCoroutine(nameof(StartNewWave));
     }
 
     /// <summary>
@@ -87,10 +87,7 @@ public class Director : GenericSingletonClass<Director>
         //reset all variables.
         ResetWaveVariables();
         
-        //check if a wave is remaining to start, if so, increment the current wave index for go to the next one.
-        if (CanGoToNextWave()) currentWaveIndex++;
-        //else, notify the director that the arena is clear for let the player start another arena (in a different trigger).
-        else yield break;
+        currentWaveIndex++;
 
         _currentArenaFinished = false;
         _hasStartedWave = true;
@@ -155,11 +152,6 @@ public class Director : GenericSingletonClass<Director>
                 _currentRemainingEnemies += 1;
             }
         }
-
-        if (_currentRemainingEnemies <= 0 && !CanGoToNextWave() && !_currentArenaFinished)
-        {
-            NotifyArenaCompleted();
-        }
     }
 
     /// <summary>
@@ -170,7 +162,7 @@ public class Director : GenericSingletonClass<Director>
     {
         if (_currentWaveIntensity < _dynamicNextWaveValue && _hasFinishSpawningEnemies && !_hasStartedWave)
         {
-            StartCoroutine(nameof(StartNewWave));
+            if(CanGoToNextWave()) StartCoroutine(nameof(StartNewWave));
         }
     }
 
@@ -247,6 +239,8 @@ public class Director : GenericSingletonClass<Director>
         
         onArenaFinished.Invoke();
         
+        Debug.Log("Arena Finished");
+        
         if(GetActualArenaData().shouldSpawnShopAtTheEnd) 
             UpgradeModule.Instance.InitModule(GetActualArenaData().shopOrbitalPosition, GetActualArenaData().possibleUpgrades);
         
@@ -277,13 +271,20 @@ public class Director : GenericSingletonClass<Director>
             if (_spawnedEnemies.Count > 0) _spawnedEnemies.Clear();
             return;
         }
-
-        CalculateWaveIntensityAndRemainingEnemies();
         
-        TimerCalculationPerformancePlayer();
-        CalculatePlayerPerformance();
+        if (_currentRemainingEnemies <= 0 && !CanGoToNextWave() && !_currentArenaFinished)
+        {
+            NotifyArenaCompleted();
+        }
+        else
+        {
+            CalculateWaveIntensityAndRemainingEnemies();
         
-        CompareIntensityAndNextWaveValue();
+            TimerCalculationPerformancePlayer();
+            CalculatePlayerPerformance();
+        
+            CompareIntensityAndNextWaveValue();
+        }
     }
 
     /// <summary>
@@ -297,7 +298,7 @@ public class Director : GenericSingletonClass<Director>
         _lastKilledEnemiesValue = 0f;
     }
 
-    private bool CanGoToNextWave() => currentWaveIndex < GetActualArenaData().arenaWaves.Length - 1;
+    private bool CanGoToNextWave() => currentWaveIndex != GetActualArenaData().arenaWaves.Length - 1;
 
     private void OnGUI()
     {
@@ -353,10 +354,13 @@ public class Director : GenericSingletonClass<Director>
         GUI.Label(remainEnemies, $"Remaining Enemies : {_currentRemainingEnemies}", style);
         
         GUI.Label(lastKilled, $"Last Killed Enemies Value : {_lastKilledEnemiesValue}", style);
-        
-        GUI.Label(isInArena, $"Is In Arena ? : {_isInAArena}", BoolStyle(_isInAArena));
-        GUI.Label(isInWave, $"Is In Wave ? : {_isInAWave}", BoolStyle(_isInAWave));
-        
+
+        if (GetActualArenaData())
+        {
+            GUI.Label(isInArena, $"Can Go Next Wave ? : {CanGoToNextWave()}", BoolStyle(CanGoToNextWave()));
+            GUI.Label(isInWave, $"Arena Waves Amount : {GetActualArenaData().arenaWaves.Length}", style);
+        }
+
         GUI.Label(finishedSpawn, $"Has Finished Spawned Enemies ? : {_hasFinishSpawningEnemies}", BoolStyle(_hasFinishSpawningEnemies));
         
         GUI.Label(arenaFinished, $"Current Arena Finished ? : {_currentArenaFinished}", BoolStyle(_currentArenaFinished));

@@ -13,6 +13,9 @@ public class PlayerInteraction : MonoBehaviour
         CheckInteraction();
     }
 
+    /// <summary>
+    /// 
+    /// </summary>
     void CheckInteraction()
     {
         if (PlayerInputs.Instance.isReceivingInteractInputs.performed)

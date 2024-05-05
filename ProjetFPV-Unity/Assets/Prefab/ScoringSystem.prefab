@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &5325803094627552744
+--- !u!1 &5092228098572212931
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,50 +8,54 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 8837885950582107662}
-  - component: {fileID: 7555274470901413412}
+  - component: {fileID: 1077529469469930148}
+  - component: {fileID: 8188289554487707586}
   m_Layer: 0
-  m_Name: Director
+  m_Name: ScoringSystem
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &8837885950582107662
+--- !u!4 &1077529469469930148
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5325803094627552744}
+  m_GameObject: {fileID: 5092228098572212931}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: -108.60957, y: 5.8087616, z: -49.024475}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &7555274470901413412
+--- !u!114 &8188289554487707586
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5325803094627552744}
+  m_GameObject: {fileID: 5092228098572212931}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f6775a366d02f20438f4be655d0e7458, type: 3}
+  m_Script: {fileID: 11500000, guid: f49e814e778c2174da7a2ca93affaefa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  levelTimer: 0
-  DEBUG: 0
-  playerPerformanceComparisonDelay: 4
-  arenas:
-  - {fileID: 0}
-  totalIntensityValue: 0
-  totalIntensityValueLevel: 0
-  numberOfDeath: 0
-  currentArenaIndex: -1
-  currentWaveIndex: -1
-  playerOverPerfomAmount: 0
+  arbitraryValueDebug: 0
+  timeIntervals:
+  - timeInSeconds: 10
+    bonus: 100
+  - timeInSeconds: 20
+    bonus: 200
+  - timeInSeconds: 30
+    bonus: 300
+  - timeInSeconds: 40
+    bonus: 400
+  deathPenalties:
+  - amountOfDeath: 1
+    bonus: -10
+  - amountOfDeath: 5
+    bonus: -100

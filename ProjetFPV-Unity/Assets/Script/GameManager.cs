@@ -15,6 +15,11 @@ public class GameManager : GenericSingletonClass<GameManager>
 
     public int globalScore;
 
+    private void Start()
+    {
+        
+    }
+
     public void LevelFinished()
     {
         OnLevelCompleted?.Invoke();
