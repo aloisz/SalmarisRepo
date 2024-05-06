@@ -111,6 +111,7 @@ public class HUD : GenericSingletonClass<HUD>
             //rect.localRotation *= Quaternion.Euler(new Vector3(0,0,45));
             rect.DOLocalRotateQuaternion(Quaternion.Euler(new Vector3(0, 0, rect.localRotation.eulerAngles.z - 90)), 
                 1 / wepSecondary.fireRate * 0.25f).SetEase(crosshairBombAnimation);
+            rect.DOScale(Vector3.one * 3f, 1 / wepSecondary.fireRate * 0.25f).SetEase(crosshairBombAnimation);
             
             crosshairBombDropdown.material.SetFloat("_Alpha", 0f);
             crosshairBombDropdown.material.DOFloat(1f,"_Alpha", 1 / wepSecondary.fireRate * 0.1f);
