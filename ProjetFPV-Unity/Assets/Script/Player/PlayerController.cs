@@ -394,7 +394,7 @@ namespace Player
             }
         }
 
-        private Vector2 GetDirectionXZ(Vector3 vel) => new Vector2(vel.x, vel.z);
+        internal Vector2 GetDirectionXZ(Vector3 vel) => new Vector2(vel.x, vel.z);
         
         #endregion
         

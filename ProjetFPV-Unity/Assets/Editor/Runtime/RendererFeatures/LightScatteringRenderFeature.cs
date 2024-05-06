@@ -25,10 +25,10 @@ namespace OccaSoftware.LSPP.Runtime
             private const string mergeRtId = "_Merge_LSPP";
             private const string bufferPoolId = "LightScatteringPP";
 
-            private const string lightScatterMaterialPath = "OccaSoftware/LSPP/LightScatter";
-            private const string occluderMaterialPath = "OccaSoftware/LSPP/Occluders";
-            private const string mergeMaterialPath = "OccaSoftware/LSPP/Merge";
-            private const string blitMaterialPath = "OccaSoftware/LSPP/Blit";
+            private const string lightScatterMaterialPath = "Assets/Light Scattering/Resources/LightScatter.shader";
+            private const string occluderMaterialPath = "Assets/Light Scattering/Resources/Occluders";
+            private const string mergeMaterialPath = "Assets/Light Scattering/Resources/Merge";
+            private const string blitMaterialPath = "Assets/Light Scattering/Resources/Blit";
 
             private LightScatteringPostProcess lspp;
 
