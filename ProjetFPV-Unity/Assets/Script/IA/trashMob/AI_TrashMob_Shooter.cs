@@ -11,6 +11,7 @@ namespace AI
     public class AI_TrashMob_Shooter : AI_TrashMob
     {
         [Header("--- Shooter ---")] 
+        [SerializeField] protected bool isPawnStatic;
         [SerializeField] protected float agentShootingRadius = 2;
         
         protected WeaponManager weapon;
@@ -35,6 +36,7 @@ namespace AI
                     HandlShooting();
                     break;
                 case var value when value > agentShootingRadius:
+                    if(isPawnStatic)return;
                     ChangeState(TrashMobState.Moving);
                     break;
             }
@@ -51,6 +53,7 @@ namespace AI
                     IsPhysicNavMesh(false);
                     break;
                 case TrashMobState.Moving:
+                    if(isPawnStatic)return;
                     isShooting = false;
                     IsPhysicNavMesh(true);
                     break;

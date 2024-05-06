@@ -199,7 +199,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7670129111412073086}
   - component: {fileID: 2086369195885276854}
-  - component: {fileID: 8926880860528202724}
+  - component: {fileID: 4886167193287351728}
   - component: {fileID: 8506461778801699736}
   - component: {fileID: 2789770422107626833}
   - component: {fileID: 1287084627326769800}
@@ -207,7 +207,7 @@ GameObject:
   - component: {fileID: 978088160069668588}
   - component: {fileID: 3138227253059653242}
   m_Layer: 8
-  m_Name: IA_TrashMob_Shooter
+  m_Name: IA_TrashMob_Shooter 1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -245,7 +245,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   targetToFollow: {fileID: 0}
-  so_IA: {fileID: 11400000, guid: 2d30b6a2cff272b4b90ad063b75d6b44, type: 2}
+  so_IA: {fileID: 11400000, guid: b695b60cd6794354faf6fb75593f5ed0, type: 2}
   targetMask:
     serializedVersion: 2
     m_Bits: 128
@@ -264,7 +264,7 @@ MonoBehaviour:
   isPawnStatic: 0
   agentShootingRadius: 35
   timeBeforeShooting: 1
---- !u!114 &8926880860528202724
+--- !u!114 &4886167193287351728
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -273,16 +273,41 @@ MonoBehaviour:
   m_GameObject: {fileID: 6159587722465297484}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0844e6e7145549c897fd46eaab53b842, type: 3}
+  m_Script: {fileID: 11500000, guid: ccab4ff369c786743ba878684ff96ec3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  so_Weapon: {fileID: 11400000, guid: 492c2bd7293213145b1967db817fb1a3, type: 2}
+  so_Weapon: {fileID: 11400000, guid: 38c58d33818a4084aa92e4db3d18d228, type: 2}
   canFire: 1
   isShooting: 0
   actualNumberOfBullet: 0
   actualWeaponModeIndex: 0
   camera: {fileID: 0}
   gunBarrelPos: {fileID: 2579781514014401438}
+  timeToArrive:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1.1976082
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 50.302307
+      value: -0.0050704926
+      inSlope: -0.025130935
+      outSlope: -0.025130935
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.09542903
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  throwPower: 5
 --- !u!114 &8506461778801699736
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -358,7 +383,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 4dcf49c9343af7845be8eedeb2510396, type: 2}
+  - {fileID: 2100000, guid: f164edd12ea0f4d4e8d68802aa4b5550, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
