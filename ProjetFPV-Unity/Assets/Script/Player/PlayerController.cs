@@ -596,8 +596,6 @@ namespace Player
         /// </summary>
         private void Jump()
         {
-            isJumping = true;
-
             if (canDoubleJump)
             {
                 if (isOnGround)
@@ -608,9 +606,13 @@ namespace Player
                 {
                     _amountOfJumps = 2;
                 }
+                isJumping = true;
             }
-            else
+            else if(!isDashing)
+            {
                 _amountOfJumps = 1;
+                isJumping = true;
+            }
             
             var forwardMomentumVector = GetOverallMomentumVector() / 20f;
             _rb.AddForce((_amountOfJumps < 2 ? 

@@ -6,10 +6,8 @@ using Player;
 using UnityEngine;
 using UnityEngine.Serialization;
 
-public class PlayerHealth : GenericSingletonClass<PlayerHealth>
+public class PlayerHealth : GenericSingletonClass<PlayerHealth>, IDamage
 {
-    [SerializeField] private PlayerScriptable playerScriptable;
-
     [SerializeField] private float explosionRadius, explosionForce;
     [SerializeField] private LayerMask explosionMask;
     
@@ -36,7 +34,7 @@ public class PlayerHealth : GenericSingletonClass<PlayerHealth>
     void Start()
     {
         InitValues();
-        StartCoroutine(Hit());
+        //StartCoroutine(Hit());
     }
 
     IEnumerator Hit()
@@ -48,8 +46,8 @@ public class PlayerHealth : GenericSingletonClass<PlayerHealth>
 
     private void InitValues()
     {
-        maxHealth = playerScriptable.maxPlayerHealth;
-        maxShield = playerScriptable.maxPlayerShield;
+        maxHealth = PlayerController.Instance.playerScriptable.maxPlayerHealth;
+        maxShield = PlayerController.Instance.playerScriptable.maxPlayerShield;
 
         Health = maxHealth;
         Shield = maxShield;
@@ -107,5 +105,10 @@ public class PlayerHealth : GenericSingletonClass<PlayerHealth>
                 rb.AddForce(direction * explosionForce, ForceMode.Impulse);
             }
         }
+    }
+
+    public void Hit(float damageInflicted)
+    {
+        ApplyDamage(damageInflicted);
     }
 }
