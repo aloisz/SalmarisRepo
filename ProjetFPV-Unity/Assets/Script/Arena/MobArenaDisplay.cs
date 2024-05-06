@@ -14,6 +14,7 @@ public class MobArenaDisplay : MonoBehaviour
             alignment = TextAnchor.MiddleCenter,
             fontSize = 12
         };
+        
         #if UNITY_EDITOR
         Handles.Label(transform.position + new Vector3(0,1,0), 
             $"{gameObject.name}\n{transform.parent.name}", style);

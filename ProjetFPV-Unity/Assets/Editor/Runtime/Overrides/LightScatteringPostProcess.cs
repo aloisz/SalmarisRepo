@@ -6,7 +6,7 @@ using UnityEngine.Rendering.Universal;
 
 namespace OccaSoftware.LSPP.Runtime
 {
-    [Serializable, VolumeComponentMenu("OccaSoftware/Light Scattering")]
+    [Serializable, VolumeComponentMenu("Assets/Light Scattering")]
     public sealed class LightScatteringPostProcess : VolumeComponent, IPostProcessComponent
     {
         [Header("Performance Settings")]
