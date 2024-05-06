@@ -28,10 +28,10 @@ namespace OccaSoftware.AutoExposure.Runtime
       private Material blitScreen = null;
 
       private const string calculateExposurePath =
-        "OccaSoftware/AutoExposure/FragmentCalculateExposure";
-      private const string applyExposurePath = "OccaSoftware/AutoExposure/FragmentApply";
-      private const string blitDataPath = "OccaSoftware/AutoExposure/FragmentBlitData";
-      private const string blitScreenPath = "OccaSoftware/AutoExposure/BlitScreen";
+        "Assets/AutoExposure/Resources/FragmentCalculateExposure";
+      private const string applyExposurePath = "Assets/AutoExposure/Resources/FragmentApply";
+      private const string blitDataPath = "Assets/AutoExposure/Resources/FragmentBlitData";
+      private const string blitScreenPath = "Assets/AutoExposure/Resources/BlitScreen";
 
       private Dictionary<Camera, RenderTexture> cameraTextureMapping =
         new Dictionary<Camera, RenderTexture>();

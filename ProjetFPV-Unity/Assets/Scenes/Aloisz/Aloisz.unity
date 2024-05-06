@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.12850578, g: 1.0751313, b: 0.8464279, a: 1}
+  m_IndirectSpecularColor: {r: 0.12795016, g: 1.0754082, b: 0.8463728, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -11318,7 +11318,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1432737616
 Transform:
   m_ObjectHideFlags: 0
@@ -11333,8 +11333,8 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1052561715}
-  - {fileID: 863589870}
   - {fileID: 1239947142}
+  - {fileID: 863589870}
   - {fileID: 2094092982}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -11903,11 +11903,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: IA_TrashMob
-      objectReference: {fileID: 0}
-    - target: {fileID: 6159587722465297484, guid: 71f951629bed9f0468abebcf5f737845,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7670129111412073086, guid: 71f951629bed9f0468abebcf5f737845,
         type: 3}
@@ -19547,15 +19542,15 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1432737616}
     m_Modifications:
+    - target: {fileID: 2086369195885276854, guid: c4ecdd8042bb2c747880db30353ffec0,
+        type: 3}
+      propertyPath: agentShootingRadius
+      value: 35
+      objectReference: {fileID: 0}
     - target: {fileID: 6159587722465297484, guid: c4ecdd8042bb2c747880db30353ffec0,
         type: 3}
       propertyPath: m_Name
       value: IA_TrashMob_Shooter
-      objectReference: {fileID: 0}
-    - target: {fileID: 6159587722465297484, guid: c4ecdd8042bb2c747880db30353ffec0,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7670129111412073086, guid: c4ecdd8042bb2c747880db30353ffec0,
         type: 3}
@@ -19975,11 +19970,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 7818639718720373283, guid: 8e86df65c55f7a3409b4f94c39f2611f,
-        type: 3}
-      propertyPath: dashLayer.m_Bits
-      value: 128
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -20063,13 +20053,33 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 3698928635149738337, guid: 9294123db3fc3a54b89f62907126f122,
         type: 3}
+      propertyPath: globalCameraRot
+      value: 30
+      objectReference: {fileID: 0}
+    - target: {fileID: 3698928635149738337, guid: 9294123db3fc3a54b89f62907126f122,
+        type: 3}
       propertyPath: playerTransform
       value: 
       objectReference: {fileID: 1023333981}
+    - target: {fileID: 4730761813960348661, guid: 9294123db3fc3a54b89f62907126f122,
+        type: 3}
+      propertyPath: recoil
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4730761813960348661, guid: 9294123db3fc3a54b89f62907126f122,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8108733499738347442, guid: 9294123db3fc3a54b89f62907126f122,
         type: 3}
       propertyPath: m_Name
       value: CameraParent
+      objectReference: {fileID: 0}
+    - target: {fileID: 8108733499738347442, guid: 9294123db3fc3a54b89f62907126f122,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8561856535418673292, guid: 9294123db3fc3a54b89f62907126f122,
         type: 3}

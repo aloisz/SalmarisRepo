@@ -14,6 +14,7 @@ public class UpgradeModuleInteraction : MonoBehaviour, IInteract
         _upgradeModule = GetComponent<UpgradeModule>();
     }
 
+    
     public void Interact()
     {
         if (_isInInteraction) return;

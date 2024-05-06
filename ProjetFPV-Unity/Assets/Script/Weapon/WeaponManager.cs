@@ -14,9 +14,9 @@ namespace Weapon
         [Expandable]
         public SO_Weapon so_Weapon;
         
-        protected bool canFire = true;
-        protected bool isShooting;
-        protected bool isReloading;
+        [SerializeField]protected bool canFire = true;
+        [SerializeField]internal bool isShooting;
+        internal bool isReloading;
         
         protected float lastTimefired;
         [HideInInspector]public int actualNumberOfBullet; 
@@ -29,6 +29,7 @@ namespace Weapon
         protected RaycastModule raycastModule;
         
         public Action OnShoot;
+        public Action OnHudShoot;
         
         protected virtual void Start()
         {
@@ -45,6 +46,11 @@ namespace Weapon
         public void ShootingAction()
         {
             OnShoot?.Invoke();
+        }
+
+        public void HudShootingAction()
+        {
+            OnHudShoot?.Invoke();
         }
         
         /// <summary>
@@ -100,7 +106,7 @@ namespace Weapon
 
         protected virtual void Shoot()
         {
-            if (actualNumberOfBullet <= 0 || isReloading || !canFire) return; 
+            if (actualNumberOfBullet <= 0 || isReloading || !canFire) return;
             switch (so_Weapon.weaponMode[(int)actualWeaponModeIndex].selectiveFireState)
             {
                 case SelectiveFireType.Single:
@@ -124,6 +130,7 @@ namespace Weapon
         {
             isShooting = true;
             lastTimefired = Time.time;
+            HudShootingAction();
             if(!so_Weapon.weaponMode[(int)actualWeaponModeIndex].isBulletInfinite) actualNumberOfBullet--;
             if(actualNumberOfBullet == 0) Reload();
         }

@@ -250,15 +250,19 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 128
   actualPawnHealth: 0
+  pawnState: 0
   tickVerification: 0.2
+  enemyWeight: 0
+  rb: {fileID: 0}
   visionDetector: {fileID: 146247463210128156}
   trashMobState: 1
   agentSpeedRadius: 30
   agentSpeedWhenIsToFar: 50
   agentDashRadius: 8
   agentDashSpeed: 500
-  countBeforeAttack: 10
-  agentShootingRadius: 50
+  countBeforeAttack: 2
+  agentShootingRadius: 25
+  timeBeforeShooting: 1
 --- !u!114 &8926880860528202724
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -272,6 +276,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   so_Weapon: {fileID: 11400000, guid: 492c2bd7293213145b1967db817fb1a3, type: 2}
+  canFire: 1
+  isShooting: 0
   actualNumberOfBullet: 0
   actualWeaponModeIndex: 0
   camera: {fileID: 0}
