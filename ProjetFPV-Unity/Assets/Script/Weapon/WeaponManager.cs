@@ -14,8 +14,8 @@ namespace Weapon
         [Expandable]
         public SO_Weapon so_Weapon;
         
-        protected bool canFire = true;
-        protected bool isShooting;
+        [SerializeField]protected bool canFire = true;
+        [SerializeField]internal bool isShooting;
         protected bool isReloading;
         
         protected float lastTimefired;
