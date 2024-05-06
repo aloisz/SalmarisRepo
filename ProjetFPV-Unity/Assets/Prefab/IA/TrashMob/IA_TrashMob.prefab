@@ -211,7 +211,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &7670129111412073086
 Transform:
   m_ObjectHideFlags: 0
@@ -248,6 +248,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 128
   actualPawnHealth: 0
+  pawnState: 0
   tickVerification: 0.1
   enemyWeight: 1
   rb: {fileID: 0}
@@ -257,7 +258,7 @@ MonoBehaviour:
   agentSpeedWhenIsToFar: 50
   agentDashRadius: 8
   agentDashSpeed: 200
-  countBeforeAttack: 10
+  countBeforeAttack: 5
 --- !u!114 &8506461778801699736
 MonoBehaviour:
   m_ObjectHideFlags: 0

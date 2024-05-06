@@ -30,7 +30,7 @@ public class Barbatos : Shotgun
                 actualWeaponModeIndex = WeaponMode.Primary;
             }
             isFirstBulletGone = false;
-            Shoot();
+            ShootingAction();
         }
         else
         {
@@ -49,7 +49,7 @@ public class Barbatos : Shotgun
         {
             actualWeaponModeIndex = WeaponMode.Secondary;
         }
-        Shoot();
+        ShootingAction();
     }
 
 

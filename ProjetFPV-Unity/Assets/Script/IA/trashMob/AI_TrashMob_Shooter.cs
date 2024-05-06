@@ -2,6 +2,7 @@
 using UnityEditor;
 using System;
 using System.Collections;
+using DG.Tweening;
 using Player;
 using Weapon;
 
@@ -24,7 +25,19 @@ namespace AI
         protected override void Update()
         {
             base.Update();
-            ChangeStateMachine();
+            ChangeStateWhenReloading();
+            if(trashMobState == TrashMobState.Idle) 
+                transform.DOLookAt(PlayerController.Instance.transform.position + Vector3.up, 0.2f, AxisConstraint.Y);
+            
+            switch (Vector3.Distance(PlayerController.Instance.transform.position, transform.position))
+            {
+                case var value when value < agentShootingRadius:
+                    HandlShooting();
+                    break;
+                case var value when value > agentShootingRadius:
+                    ChangeState(TrashMobState.Moving);
+                    break;
+            }
         }
         
         protected override void PawnBehavior()
@@ -35,9 +48,11 @@ namespace AI
                 case TrashMobState.Idle:
                     isShooting = true;
                     weapon.ShootingAction();
+                    IsPhysicNavMesh(false);
                     break;
                 case TrashMobState.Moving:
                     isShooting = false;
+                    IsPhysicNavMesh(true);
                     break;
                 case TrashMobState.AttackingCloseRange:
                     isShooting = false;
@@ -46,18 +61,26 @@ namespace AI
         }
 
         private float time = 0;
-        private float maxTimer = 5;
+        [SerializeField] float timeBeforeShooting = 5;
         
-        private void ChangeStateMachine()
+        private void HandlShooting()
         {
-            if (time < maxTimer)
+            if (time < timeBeforeShooting)
             {
                 time += Time.deltaTime * 1;
-                if (time >= maxTimer)
+                if (time >= timeBeforeShooting)
                 {
                     time = 0;
                     ChangeState(TrashMobState.Idle);
                 }
+            }
+        }
+
+        private void ChangeStateWhenReloading()
+        {
+            if (weapon.isReloading)
+            {
+                ChangeState(TrashMobState.Moving);
             }
         }
 
@@ -78,7 +101,7 @@ namespace AI
 
         protected override void OnDrawGizmos()
         {
-            base.OnDrawGizmos();
+            //base.OnDrawGizmos();
             var tr = transform;
             var pos = tr.position;
             // display an orange disc where the object is

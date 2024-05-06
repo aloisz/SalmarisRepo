@@ -110,6 +110,7 @@ public class UpgradeModule : GenericSingletonClass<UpgradeModule>
         LeftModule();
     }
 
+    
     private void OnDrawGizmos()
     {
         Gizmos.color = new Color(1, 0.5f, 0);

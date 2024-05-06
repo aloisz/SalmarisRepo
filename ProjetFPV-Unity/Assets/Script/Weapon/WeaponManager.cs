@@ -16,7 +16,7 @@ namespace Weapon
         
         [SerializeField]protected bool canFire = true;
         [SerializeField]internal bool isShooting;
-        protected bool isReloading;
+        internal bool isReloading;
         
         protected float lastTimefired;
         [HideInInspector]public int actualNumberOfBullet; 

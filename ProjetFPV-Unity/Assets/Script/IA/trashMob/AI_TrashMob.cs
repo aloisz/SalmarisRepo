@@ -144,7 +144,7 @@ namespace AI
         public override void DisableAgent()
         {
             base.DisableAgent();
-            StopAllCoroutines();
+            StopCoroutine(DashAttack());
         }
         
         
