@@ -11,14 +11,18 @@ public class HUD : GenericSingletonClass<HUD>
 {
     [SerializeField] private Vector2 giggleMultiplierBackground;
     [SerializeField] private Vector2 giggleMultiplier;
+    [SerializeField] private Vector2 crosshairImpulseMinMax;
     [SerializeField] private AnimationCurve crosshairAnimation;
     
     [SerializeField] private Image UIBackground, shieldBar, healthBar, dashBar;
     [SerializeField] private List<Image> crosshairBorders = new List<Image>();
+    [SerializeField] private Image crosshairDots;
 
     private float _giggleX;
     private float _giggleY;
     private Sequence crosshairSequence;
+    private float _rotationDots;
+    
     private static readonly int ScreenGiggleX = Shader.PropertyToID("_ScreenGiggleX");
     private static readonly int ScreenGiggleY = Shader.PropertyToID("_ScreenGiggleY");
 
@@ -28,11 +32,12 @@ public class HUD : GenericSingletonClass<HUD>
         CreateMaterialInstance(shieldBar);
         CreateMaterialInstance(healthBar);
         CreateMaterialInstance(dashBar);
+        CreateMaterialInstance(crosshairDots);
         
         foreach(var cb in crosshairBorders) CreateMaterialInstance(cb);
 
         PlayerHealth.Instance.onHit += DamageHealthBarEffect;
-        WeaponState.Instance.barbatos.OnShoot += CrosshairShoot;
+        WeaponState.Instance.barbatos.OnHudShoot += CrosshairShoot;
     }
 
     private void Update()
@@ -81,12 +86,30 @@ public class HUD : GenericSingletonClass<HUD>
 
     private void CrosshairShoot()
     {
-        foreach (var cb in crosshairBorders)
+        var wep = WeaponState.Instance.defaultWeapon;
+        var wepManager = WeaponState.Instance.barbatos;
+        var wepPrimary = wep.weaponMode[0];
+        var wepSecondary = wep.weaponMode[1];
+
+        if ((int)wepManager.actualWeaponModeIndex == 0)
         {
-            cb.material.SetFloat("_Offset", 0f);
-            crosshairSequence.Kill();
+            foreach (var cb in crosshairBorders)
+            {
+                cb.material.SetFloat("_Offset", 0f);
+                crosshairSequence.Kill();
             
-            crosshairSequence.Append(cb.material.DOFloat(0.1f, "_Offset", crosshairAnimation.keys[^1].time).SetEase(crosshairAnimation));
+                crosshairSequence.Append(cb.material.DOFloat(Mathf.Lerp(crosshairImpulseMinMax.x, crosshairImpulseMinMax.y, wepPrimary.fireRate / 20f), 
+                    "_Offset", 1/wepPrimary.fireRate).SetEase(crosshairAnimation));
+            }
+        }
+        else if ((int)wepManager.actualWeaponModeIndex == 1)
+        {
+            crosshairDots.material.SetFloat("_Rotate", 0f);
+            crosshairSequence.Kill();
+
+            _rotationDots += 90f;
+            
+            crosshairSequence.Append(crosshairDots.material.DOFloat(_rotationDots, "_Rotate", 1/wepSecondary.fireRate).SetEase(crosshairAnimation));
         }
     }
 
