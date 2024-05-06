@@ -16,7 +16,6 @@ public class WeaponState : GenericSingletonClass<WeaponState>
         
         var component = GetComponent<Barbatos>();
         defaultWeapon = Instantiate(component.so_Weapon);
-
         barbatos = component;
         barbatos.so_Weapon = defaultWeapon;
     }

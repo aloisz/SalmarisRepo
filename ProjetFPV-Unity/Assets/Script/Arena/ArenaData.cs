@@ -37,7 +37,7 @@ public class ArenaWave
 public class EnemyToSpawn
 {
     public EnemyKeys enemyKey;
-    public Vector3 worldPosition;
+    //public Vector3 worldPosition;
     
     public enum EnemyKeys
     {

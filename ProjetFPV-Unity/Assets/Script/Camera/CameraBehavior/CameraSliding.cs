@@ -1,4 +1,5 @@
 using System;
+using DG.Tweening;
 using Player;
 using UnityEngine;
 
@@ -36,7 +37,7 @@ namespace CameraBehavior
             var cameraManagerSlidingPos = cameraManager.slindingPos.position;
             
             var heightTime = slindingCurve.Evaluate(timeElapsed);
-            Debug.Log($"timeElapsed {timeElapsed} + heightTime {heightTime}");
+            //Debug.Log($"timeElapsed {timeElapsed} + heightTime {heightTime}");
 
             var heightX = Mathf.Lerp(transitionParentPos.x, cameraManagerSlidingPos.x, heightTime); 
             var heightY = Mathf.Lerp(transitionParentPos.y, cameraManagerSlidingPos.y, heightTime); 

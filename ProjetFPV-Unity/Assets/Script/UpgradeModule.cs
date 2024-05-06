@@ -59,6 +59,8 @@ public class UpgradeModule : GenericSingletonClass<UpgradeModule>
 
         _currentAvailableUpgrades = list;
         GenerateUpgradeOffers();
+        
+        Announcements.Instance.GenerateAnnouncement("Shop incoming !");
     }
 
     public void LeftModule()

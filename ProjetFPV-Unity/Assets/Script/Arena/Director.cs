@@ -119,7 +119,7 @@ public class Director : GenericSingletonClass<Director>
             AI_Pawn p = mob.GetComponent<AI_Pawn>();
             p.EnableNavMesh(false);
             
-            mob.transform.position = e.worldPosition;
+            mob.transform.position = arenas[currentArenaIndex].enemiesPositions[currentWaveIndex].positions[i];
             
             _spawnedEnemies.Add(p);
 
