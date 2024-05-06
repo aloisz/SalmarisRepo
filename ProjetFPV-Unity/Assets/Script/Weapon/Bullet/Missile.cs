@@ -59,6 +59,7 @@ public class Missile : BulletBehavior,IExplosion
         Explosion.transform.rotation = Quaternion.identity;
         explosion = Explosion.GetComponent<Explosion>();
         explosion.SetWhoIsTarget(whoIsTarget);
+        this.explosion.SetDoPlayerDamage(true);
     }
 
     public void HitScanExplosion(LayerMask newTarget)
@@ -68,6 +69,7 @@ public class Missile : BulletBehavior,IExplosion
         Explosion.transform.rotation = Quaternion.identity;
         explosion = Explosion.GetComponent<Explosion>();
         explosion.SetWhoIsTarget(newTarget);
+        this.explosion.SetDoPlayerDamage(true);
         
         Pooling.instance.DelayedDePop(bullet.PoolingKeyName, gameObject, 0.05f); // DePop Missile
     }

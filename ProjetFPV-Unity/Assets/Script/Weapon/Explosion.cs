@@ -12,14 +12,15 @@ public class Explosion : MonoBehaviour
     public float damageInflicted = 20;
     [SerializeField] private AnimationCurve damageRepartition;
     public LayerMask explosionMask;
+    public bool doDamagePlayer;
     [Space]
     
     public float explosionRadius;
     public float explosionForce;
     public ParticleSystem particle;
 
-    [Header("RocketJump")] [SerializeField]
-    private LayerMask PlayerMask;
+    [Header("RocketJump")] /*[SerializeField]
+    private LayerMask PlayerMask;*/
     private bool canRocketJump;
     private float rocketJumpForceApplied;
 
@@ -80,7 +81,7 @@ public class Explosion : MonoBehaviour
             {
                 Vector3 shotgunImpulseVector = ((PlayerController.Instance.transform.position + Vector3.up) - transform.position).normalized * rocketJumpForceApplied;
                 PlayerController.Instance.shotgunExternalForce = shotgunImpulseVector;
-                obj.GetComponent<PlayerHealth>().Hit(damageRepartition.Evaluate(Vector3.Distance(transform.position ,obj.transform.position)));
+                if(doDamagePlayer)obj.GetComponent<PlayerHealth>().Hit(damageRepartition.Evaluate(Vector3.Distance(transform.position ,obj.transform.position)));
             }
             else
             {
@@ -117,6 +118,11 @@ public class Explosion : MonoBehaviour
     public bool SetRocketJump(bool value)
     {
         return canRocketJump = value;
+    }
+
+    public bool SetDoPlayerDamage(bool value)
+    {
+        return doDamagePlayer = value;
     }
     
     /*private void FixedUpdate()
