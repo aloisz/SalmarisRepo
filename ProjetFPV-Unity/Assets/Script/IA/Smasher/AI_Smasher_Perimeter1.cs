@@ -136,8 +136,9 @@ namespace AI
             isAttacking = false;
             aiSmasher.GetPawnPersonnalInformation();
         }
-        
-        
+
+
+        private IDamage pl;
         private void Attack()
         {
             Collider[] colliders = Physics.OverlapSphere(transform.position, attackSphereRadius, aiSmasher.targetMask);
@@ -146,7 +147,10 @@ namespace AI
             {
                 if (obj.transform.CompareTag("Player"))
                 {
-                    PlayerHealth.Instance.ApplyDamage(damageApplied);
+                    if (obj.transform.TryGetComponent(out pl))
+                    {
+                        pl.Hit(damageApplied);
+                    }
                     
                     var dir = (obj.transform.position - impulse.position).normalized;
                     aiSmasher.ApplyKnockBack(knockBackStrenght, dir);

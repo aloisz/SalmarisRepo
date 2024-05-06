@@ -1681,6 +1681,12 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 551848296}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!20 &552292978 stripped
+Camera:
+  m_CorrespondingSourceObject: {fileID: 1219454692140418237, guid: 9294123db3fc3a54b89f62907126f122,
+    type: 3}
+  m_PrefabInstance: {fileID: 6290109903192429939}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &571458318
 GameObject:
   m_ObjectHideFlags: 0
@@ -8821,6 +8827,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8394932507012710498, guid: b8b6c0fdf0c4fdc45a7a779e068e839d,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -14486,8 +14497,13 @@ PrefabInstance:
     - target: {fileID: 4578877613765379770, guid: 84d40c77e7b58464992652bedc437abe,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 8872332571000708671, guid: 84d40c77e7b58464992652bedc437abe,
+        type: 3}
+      propertyPath: m_Camera
+      value: 
+      objectReference: {fileID: 552292978}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -19985,7 +20001,7 @@ PrefabInstance:
     - target: {fileID: 7502665594481904492, guid: 8065eb87f568da04999f49596c158ce1,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -20138,33 +20154,13 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 3698928635149738337, guid: 9294123db3fc3a54b89f62907126f122,
         type: 3}
-      propertyPath: globalCameraRot
-      value: 30
-      objectReference: {fileID: 0}
-    - target: {fileID: 3698928635149738337, guid: 9294123db3fc3a54b89f62907126f122,
-        type: 3}
       propertyPath: playerTransform
       value: 
       objectReference: {fileID: 1023333981}
-    - target: {fileID: 4730761813960348661, guid: 9294123db3fc3a54b89f62907126f122,
-        type: 3}
-      propertyPath: recoil
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4730761813960348661, guid: 9294123db3fc3a54b89f62907126f122,
-        type: 3}
-      propertyPath: m_Enabled
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 8108733499738347442, guid: 9294123db3fc3a54b89f62907126f122,
         type: 3}
       propertyPath: m_Name
       value: CameraParent
-      objectReference: {fileID: 0}
-    - target: {fileID: 8108733499738347442, guid: 9294123db3fc3a54b89f62907126f122,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8561856535418673292, guid: 9294123db3fc3a54b89f62907126f122,
         type: 3}
