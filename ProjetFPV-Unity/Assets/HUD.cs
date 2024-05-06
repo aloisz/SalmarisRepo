@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using DG.Tweening;
+using NaughtyAttributes;
 using Player;
 using UnityEngine;
 using UnityEngine.UI;
@@ -12,15 +13,17 @@ public class HUD : GenericSingletonClass<HUD>
     [SerializeField] private Vector2 giggleMultiplierBackground;
     [SerializeField] private Vector2 giggleMultiplier;
     [SerializeField] private Vector2 crosshairImpulseMinMax;
-    [SerializeField] private AnimationCurve crosshairAnimation;
+    [CurveRange(0,0,1,1)][SerializeField] private AnimationCurve crosshairAnimation;
+    [CurveRange(0,0,1,1)][SerializeField] private AnimationCurve crosshairBombAnimation;
+    [CurveRange(0,0,1,1)][SerializeField] private AnimationCurve crosshairBombDropDownAnimation;
     
     [SerializeField] private Image UIBackground, shieldBar, healthBar, dashBar;
     [SerializeField] private List<Image> crosshairBorders = new List<Image>();
     [SerializeField] private Image crosshairDots;
+    [SerializeField] private Image crosshairBombDropdown;
 
     private float _giggleX;
     private float _giggleY;
-    private Sequence crosshairSequence;
     private float _rotationDots;
     
     private static readonly int ScreenGiggleX = Shader.PropertyToID("_ScreenGiggleX");
@@ -33,6 +36,7 @@ public class HUD : GenericSingletonClass<HUD>
         CreateMaterialInstance(healthBar);
         CreateMaterialInstance(dashBar);
         CreateMaterialInstance(crosshairDots);
+        CreateMaterialInstance(crosshairBombDropdown);
         
         foreach(var cb in crosshairBorders) CreateMaterialInstance(cb);
 
@@ -67,8 +71,8 @@ public class HUD : GenericSingletonClass<HUD>
     
     private void UIHealthShield()
     {
-        shieldBar.material.DOFloat(PlayerHealth.Instance.Shield / 100f, "_BarAmount", 0.1f);
-        healthBar.material.DOFloat(PlayerHealth.Instance.Health / 100f, "_BarAmount", 0.1f);
+        shieldBar.material.DOFloat(PlayerHealth.Instance.Shield / PlayerHealth.Instance.maxShield, "_BarAmount", 0.1f);
+        healthBar.material.DOFloat(PlayerHealth.Instance.Health / PlayerHealth.Instance.maxHealth, "_BarAmount", 0.1f);
 
         shieldBar.material.DOFloat(1-(PlayerHealth.Instance.Shield / PlayerHealth.Instance.maxShield), 
             "_AlertMode", 0.1f);
@@ -96,20 +100,34 @@ public class HUD : GenericSingletonClass<HUD>
             foreach (var cb in crosshairBorders)
             {
                 cb.material.SetFloat("_Offset", 0f);
-                crosshairSequence.Kill();
-            
-                crosshairSequence.Append(cb.material.DOFloat(Mathf.Lerp(crosshairImpulseMinMax.x, crosshairImpulseMinMax.y, wepPrimary.fireRate / 20f), 
-                    "_Offset", 1/wepPrimary.fireRate).SetEase(crosshairAnimation));
+
+                cb.material.DOFloat(Mathf.Lerp(crosshairImpulseMinMax.x, crosshairImpulseMinMax.y, wepPrimary.fireRate / 20f), 
+                    "_Offset", 1/wepPrimary.fireRate).SetEase(crosshairAnimation);
             }
         }
         else if ((int)wepManager.actualWeaponModeIndex == 1)
         {
-            crosshairDots.material.SetFloat("_Rotate", 0f);
-            crosshairSequence.Kill();
-
-            _rotationDots += 90f;
+            var rect = crosshairDots.GetComponent<RectTransform>();
+            //rect.localRotation *= Quaternion.Euler(new Vector3(0,0,45));
+            rect.DOLocalRotateQuaternion(Quaternion.Euler(new Vector3(0, 0, rect.localRotation.eulerAngles.z - 90)), 
+                1 / wepSecondary.fireRate * 0.25f).SetEase(crosshairBombAnimation);
             
-            crosshairSequence.Append(crosshairDots.material.DOFloat(_rotationDots, "_Rotate", 1/wepSecondary.fireRate).SetEase(crosshairAnimation));
+            crosshairBombDropdown.material.SetFloat("_Alpha", 0f);
+            crosshairBombDropdown.material.DOFloat(1f,"_Alpha", 1 / wepSecondary.fireRate * 0.1f);
+            
+            crosshairBombDropdown.material.SetFloat("_OffsetAmount", 0f);
+            crosshairBombDropdown.material.DOFloat(0.7f,"_OffsetAmount", 1 / wepSecondary.fireRate * 0.1f).SetEase(crosshairBombDropDownAnimation)
+                .OnComplete(()=>
+            {
+                crosshairBombDropdown.material.DOFloat(0f,"_Alpha", 1 / wepSecondary.fireRate * 0.3f);
+            });
+            
+            foreach (var cb in crosshairBorders)
+            {
+                cb.material.SetFloat("_Offset", 0f);
+
+                cb.material.DOFloat(0.025f, "_Offset", 1/wepPrimary.fireRate).SetEase(crosshairAnimation);
+            }
         }
     }
 

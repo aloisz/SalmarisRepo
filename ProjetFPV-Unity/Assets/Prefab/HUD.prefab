@@ -1706,7 +1706,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   giggleMultiplierBackground: {x: 0.15, y: 0.45}
   giggleMultiplier: {x: 0.65, y: 1.9}
-  crosshairImpulseMinMax: {x: 0.05, y: 0.35}
+  crosshairImpulseMinMax: {x: 0.02, y: 0.15}
   crosshairAnimation:
     serializedVersion: 2
     m_Curve:
@@ -1740,6 +1740,108 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+  crosshairBombAnimation:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 0.42980957
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 0.58370775
+      value: 0.7867241
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 0.70342237
+      value: 0.92227155
+      inSlope: 0.0111179035
+      outSlope: 0.0111179035
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.5825339
+    - serializedVersion: 3
+      time: 0.82405204
+      value: 0.85659736
+      inSlope: 0.0006456572
+      outSlope: 0.0006456572
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.40505236
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  crosshairBombDropDownAnimation:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 2.3068182
+      outSlope: 2.3068182
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.02955665
+    - serializedVersion: 3
+      time: 0.5960388
+      value: 1
+      inSlope: -0.020876328
+      outSlope: -0.020876328
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.16748768
+      outWeight: 0
+    - serializedVersion: 3
+      time: 0.79190016
+      value: 0.9422932
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
   UIBackground: {fileID: 1116006129322678347}
   shieldBar: {fileID: 172331270362332253}
   healthBar: {fileID: 8587402323512215560}
@@ -1750,6 +1852,7 @@ MonoBehaviour:
   - {fileID: 2814193715448065153}
   - {fileID: 2991194578247945785}
   crosshairDots: {fileID: 2664776761620238420}
+  crosshairBombDropdown: {fileID: 7118725977423668329}
 --- !u!1 &4852999294358899059
 GameObject:
   m_ObjectHideFlags: 0
