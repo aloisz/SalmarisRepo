@@ -8,12 +8,23 @@ using Random = UnityEngine.Random;
 
 public class GameManager : GenericSingletonClass<GameManager>
 {
-    public int numberOfTrashMob = 20;
     public List<AI_Pawn> aiPawnsAvailable;
-
     public int currentLevelIndex;
-
+    
     public Action OnLevelCompleted;
 
-    public void LevelFinished() => OnLevelCompleted?.Invoke();
+    public int globalScore;
+
+    private void Start()
+    {
+        
+    }
+
+    public void LevelFinished()
+    {
+        OnLevelCompleted?.Invoke();
+        Debug.Log("Level Finished");
+
+        currentLevelIndex++;
+    }
 }

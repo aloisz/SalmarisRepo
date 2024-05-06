@@ -13,6 +13,10 @@ public class PlayerMoney : GenericSingletonClass<PlayerMoney>
         set => money = Mathf.Clamp(value, 0, 999);
     }
 
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="amount"></param>
     public void IncrementMoney(int amount) => money += amount;
     
     public void DecrementMoney(int amount) => money -= amount;

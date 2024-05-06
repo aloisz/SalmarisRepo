@@ -23,6 +23,10 @@ public class UpgradeButton : MonoBehaviour
         GetComponent<Button>().onClick.AddListener(()=>UpgradeWeapon((int)weaponMode.modeIndex, weaponMode));
     }
 
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="mode"></param>
     public void InitUpgradeButton(SO_WeaponMode mode)
     {
         weaponMode = mode;

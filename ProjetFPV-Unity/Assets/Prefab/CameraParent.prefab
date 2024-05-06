@@ -45,7 +45,7 @@ GameObject:
   m_Layer: 0
   m_Name: WeaponPos
   m_TagString: Untagged
-  m_Icon: {fileID: 0}
+  m_Icon: {fileID: 2974397684917235467, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
@@ -58,7 +58,7 @@ Transform:
   m_GameObject: {fileID: 3375880369610840122}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.503, y: -0.28, z: 0.72}
+  m_LocalPosition: {x: 0.503, y: -0.27999997, z: 0.72}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -77,7 +77,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ad1922b58c8837a40b574872255f4c21, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  FireRate: 10
+  weapon: {fileID: 6364967691326366049}
 --- !u!1 &6828706350314435878
 GameObject:
   m_ObjectHideFlags: 0
@@ -184,6 +184,39 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 757ae2661a5068e4aa0e52d5bb530af3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  slindingCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: -0.0023498535
+      inSlope: 0.03370993
+      outSlope: 0.03370993
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.075835474
+    - serializedVersion: 3
+      time: 0.3518455
+      value: 0.13844013
+      inSlope: -0.3377287
+      outSlope: -0.3377287
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.036715314
+      outWeight: 0.10959232
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 11.560781
+      outSlope: 11.560781
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.013881629
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!114 &6733487462158228391
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -228,6 +261,30 @@ MonoBehaviour:
       tangentMode: 0
       weightedMode: 0
       inWeight: 0.104434915
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  jumpingImpactHandSwing:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0.2537651
+      value: -0.051361084
+      inSlope: 0.021935405
+      outSlope: 0.021935405
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.10107164
+    - serializedVersion: 3
+      time: 49.40554
+      value: 0.3
+      inSlope: 0.016250862
+      outSlope: 0.016250862
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.06169683
       outWeight: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
@@ -395,6 +452,16 @@ PrefabInstance:
       propertyPath: m_Name
       value: Barbatos
       objectReference: {fileID: 0}
+    - target: {fileID: 3870765314782128013, guid: 1caa73a4460aefb43849ad9e775de0ec,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0.18828961
+      objectReference: {fileID: 0}
+    - target: {fileID: 3870765314782128013, guid: 1caa73a4460aefb43849ad9e775de0ec,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -0.0000004825684
+      objectReference: {fileID: 0}
     - target: {fileID: 5117023111138849358, guid: 1caa73a4460aefb43849ad9e775de0ec,
         type: 3}
       propertyPath: m_ActionEvents.Array.size
@@ -403,12 +470,12 @@ PrefabInstance:
     - target: {fileID: 5117023111138849358, guid: 1caa73a4460aefb43849ad9e775de0ec,
         type: 3}
       propertyPath: m_ActionEvents.Array.data[19].m_ActionId
-      value: 0d47f93a-234d-4f17-a019-bb1f63e886fb
+      value: e89c27cd-453e-4f60-8a25-3ef428d28ab9
       objectReference: {fileID: 0}
     - target: {fileID: 5117023111138849358, guid: 1caa73a4460aefb43849ad9e775de0ec,
         type: 3}
       propertyPath: m_ActionEvents.Array.data[19].m_ActionName
-      value: Player/SwapWeapon[/Keyboard/f]
+      value: Player/Interact[/Keyboard/f]
       objectReference: {fileID: 0}
     - target: {fileID: 6646551948826305234, guid: 1caa73a4460aefb43849ad9e775de0ec,
         type: 3}
@@ -496,6 +563,18 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1caa73a4460aefb43849ad9e775de0ec, type: 3}
+--- !u!114 &6364967691326366049 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6646551948826305234, guid: 1caa73a4460aefb43849ad9e775de0ec,
+    type: 3}
+  m_PrefabInstance: {fileID: 317965208819614643}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d6209a84d6d899140b143fd0be3ce460, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!4 &9116053657430845635 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8857200771577457520, guid: 1caa73a4460aefb43849ad9e775de0ec,

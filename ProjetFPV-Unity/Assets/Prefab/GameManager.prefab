@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 405651772600835029}
   - component: {fileID: 1889187784810179873}
   - component: {fileID: 7485811901243830937}
-  - component: {fileID: 2575179740416200042}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -46,10 +45,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7a7b16215d8ff8940aa0d3476af5fbec, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  numberOfTrashMob: 10
   aiPawnsAvailable: []
-  globalIntensityValue: 0
-  timeScore: 0
+  currentLevelIndex: 0
+  globalScore: 0
 --- !u!114 &7485811901243830937
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -126,15 +124,3 @@ MonoBehaviour:
       baseCount: 60
       baseRefreshSpeed: 5
       refreshSpeed: 0
---- !u!114 &2575179740416200042
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5927612242175170680}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f49e814e778c2174da7a2ca93affaefa, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 

@@ -11,11 +11,13 @@ namespace MyAudio
     {
         private string soundName = "Enter Name";
         private SfxType sfxType;
-        private AudioSource audioSource;
-        
+        private AudioClip audioClip;
+
+        private int audioID;
+        private float audioDuration;
         private bool groupEnabled;
-        
-    
+
+
         [MenuItem("Editor/Audio_Window")] // Create a window on Unity
         public static void ShowWindow()
         {
@@ -27,9 +29,11 @@ namespace MyAudio
             GUILayout.Label("Base Settings", EditorStyles.boldLabel);
         
             GUILayout.Space(16);
+            audioID = EditorGUILayout.IntField("Audio ID", audioID);
             soundName = EditorGUILayout.TextField("Sound name", soundName);
             sfxType = (SfxType)EditorGUILayout.EnumPopup("Sfx type", sfxType);
-            audioSource = (AudioSource)EditorGUILayout.ObjectField("Audio source", audioSource, typeof(AudioSource));
+            audioDuration = EditorGUILayout.FloatField("Audio Duration", audioDuration);
+            audioClip = (AudioClip)EditorGUILayout.ObjectField("Audio source", audioClip, typeof(AudioClip));
 
             groupEnabled = EditorGUILayout.Toggle("Optional Settings", groupEnabled);
             
@@ -37,9 +41,6 @@ namespace MyAudio
             {
                 
             }
-
-
-
             DisplayBtn();
         }
         
@@ -53,21 +54,26 @@ namespace MyAudio
             {
                 Debug.Log($"{soundName}");
                 
-                SoundList soundList = new SoundList()
+                Sound soundItem = new Sound()
                 {
-                    sfxType = SfxType.Ambiance,
-                    sound = new Sound()
-                    {
-                        audioId = 1,
-                        audioClip = audioSource,
-                        soundName = soundName
-                    }
+                    audioId = this.audioID,
+                    soundName = this.soundName,
+                    audioClip = this.audioClip,
+                    audioDuration = this.audioDuration
                 };
-                /*soundList.sfxType = SfxType.Ambiance;
-                soundList.sound[0].soundName = soundName;
-                soundList.sound[0].audioId = 125;*/
                 
-                AudioManager.Instance.soundList.Add(soundList);
+                switch (sfxType)
+                {
+                    case SfxType.SFX:
+                        AudioManager.Instance.audioSO[0].soundList.Add(soundItem);
+                        break;
+                    case SfxType.Music:
+                        AudioManager.Instance.audioSO[1].soundList.Add(soundItem);
+                        break;
+                    case SfxType.Ambiance:
+                        AudioManager.Instance.audioSO[2].soundList.Add(soundItem);
+                        break;
+                }
             }
         }
         

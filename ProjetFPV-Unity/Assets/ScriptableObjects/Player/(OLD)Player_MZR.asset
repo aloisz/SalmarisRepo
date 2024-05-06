@@ -1,0 +1,81 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0a71b2abe57b72a4da7599e067bad271, type: 3}
+  m_Name: (OLD)Player_MZR
+  m_EditorClassIdentifier: 
+  moveSpeed: 3
+  moveSpeedInAirDivider: 10
+  moveThreshold: 0.1
+  jumpForce: 35
+  secondaryJumpMultiplierFromYVel: 4
+  moveAirMultiplier: 0.75
+  dashForce: 50
+  dashDuration: 0.3
+  dashLagDuration: 0.5
+  dashSpeedMultiplier: 1.25
+  dashSpeedMultiplierDuration: 1.5
+  dashSpeedMultiplierResetDuration: 2
+  speedMaxToAccelerate: 12
+  accelerationMultiplier: 2
+  slidingInSlopeDownForce: 2
+  slidingInSlopeLimiter: 100
+  overallMomentumLimiterMoveSlideInSlope: 10
+  decelerationMultiplierSlideOnGround: 55
+  decelerationMultiplierSlideInSlopeUp: 1000
+  jumpEdgeImpulseForce: 5
+  slideBoostCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 2.5
+      inSlope: -0.0066812756
+      outSlope: -15.488213
+      tangentMode: 1
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.038177337
+    - serializedVersion: 3
+      time: 0.45
+      value: 0.1
+      inSlope: 0.000010616636
+      outSlope: 0.000010616636
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.13669956
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  staminaPerSecond: 0.01
+  gravityMultiplier: 65
+  groundDrag: 7
+  airDrag: 1.8
+  maxRigidbodyVelocity: 100
+  groundDetectionLenght: 2.5
+  raycastLenghtSlopeDetection: 2
+  groundDetectionForwardOffset: 0.25
+  groundDetectionUpOffset: 0
+  minSlopeDegrees: 3
+  edgeDetectionDownLenght: 5
+  edgeDetectionDownOffsetY: 0.2
+  edgeDetectionTopLenght: 5
+  edgeDetectionTopOffsetY: 2.5
+  edgeDetectionEdgeFromTopLenght: 1.6
+  sensibility: 0.08
+  lookLimitY: 90
+  frictionMaterial: {fileID: 13400000, guid: 66462d3f498916c45b06fcf1b1aa7596, type: 2}
+  wallMaterial: {fileID: 13400000, guid: 394c912cc7e142549ba3f2b085deeae4, type: 2}
+  movingMaterial: {fileID: 13400000, guid: 394c912cc7e142549ba3f2b085deeae4, type: 2}
+  timeBeforeDetectedIdle: 0.06
+  maxPlayerHealth: 100
+  maxPlayerShield: 100
