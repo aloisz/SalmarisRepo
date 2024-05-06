@@ -118,6 +118,12 @@ namespace Weapon
         
         [field: Header("-----Pooling-----")] 
         [field: SerializeField] internal string poolingPopKey{ get; private set; }
+        
+        [field: Space]
+        [field: Header("-----Hand Swing-----")] 
+        [field: SerializeField] internal float weaponRecoilPosZ{ get; private set; }
+        [field: SerializeField] [field: MinMaxSlider(-15, 15)] internal Vector2 weaponRecoilRotx{ get; private set; } 
+        [field: SerializeField] [field: MinMaxSlider(-15, 15)] internal Vector2 weaponRecoilRotZ{ get; private set; }
         #endregion
     }
     

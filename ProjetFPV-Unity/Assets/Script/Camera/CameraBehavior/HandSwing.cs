@@ -25,6 +25,11 @@ namespace CameraBehavior
             basePos = transform.localPosition;
         }
 
+        private void Start()
+        {
+            weapon.OnShoot += Shoot;
+        }
+
         public void LateUpdate()
         {
             if (!cameraManager.doCameraFeel)return;
@@ -48,7 +53,7 @@ namespace CameraBehavior
             // weapon position
             transform.localPosition = Vector3.Lerp(transform.localPosition, basePos + new Vector3(0,JumpingOffSetY,0), cameraManager.so_Camera.weaponSwaySmooth * Time.deltaTime);
             
-            if (Input.GetKey(KeyCode.Mouse0))
+            if (weapon.isShooting)
             {
                 if (Time.time - lastfired > 1 / weapon.so_Weapon.weaponMode[(int)weapon.actualWeaponModeIndex].fireRate)
                 {
@@ -60,15 +65,19 @@ namespace CameraBehavior
         private void Shoot()
         {
             lastfired = Time.time;
-            float angleX = Random.Range(3, 30);
-            float angleZ = Random.Range(-3,3);
+            float angleX = Random.Range(weapon.so_Weapon.weaponMode[(int)weapon.actualWeaponModeIndex].weaponRecoilRotx.x, 
+                weapon.so_Weapon.weaponMode[(int)weapon.actualWeaponModeIndex].weaponRecoilRotx.y);
+            
+            float angleZ = Random.Range(weapon.so_Weapon.weaponMode[(int)weapon.actualWeaponModeIndex].weaponRecoilRotZ.x,
+                weapon.so_Weapon.weaponMode[(int)weapon.actualWeaponModeIndex].weaponRecoilRotZ.y);
             
             Quaternion shootingRot = transform.localRotation * Quaternion.Euler(-angleX, angleZ, 0);
             transform.localRotation = 
                 Quaternion.Slerp(transform.localRotation, shootingRot, cameraManager.so_Camera.rotationOffSetSmooth * Time.deltaTime);
             
+            float zRecoil = weapon.so_Weapon.weaponMode[(int)weapon.actualWeaponModeIndex].weaponRecoilPosZ;
             transform.localPosition = 
-                Vector3.Lerp(transform.localPosition, transform.localPosition + new Vector3(0,0,-0.1f), Time.time - lastfired );//cameraManager.so_Camera.positionOffSetSmooth * Time.deltaTime
+                Vector3.Lerp(transform.localPosition, transform.localPosition + new Vector3(0,0,-zRecoil), cameraManager.so_Camera.positionOffSetSmooth * Time.deltaTime);//cameraManager.so_Camera.positionOffSetSmooth * Time.deltaTime
 
         }   
     }
