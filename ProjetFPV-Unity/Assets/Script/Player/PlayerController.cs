@@ -194,7 +194,8 @@ namespace Player
             var slopeDirection = new Vector3(_raycastSlope.normal.x, 0, _raycastSlope.normal.z).normalized;
             var vectorSlideDown = Vector3.down * (playerScriptable.slidingInSlopeDownForce) / dividerOnSlopeClimbing;
             var vectorSlideForward = (slopeDirection * (_actualSlopeAngle / playerScriptable.slopeAngleDivider)) / dividerOnSlopeClimbing;
-            var vectorSlide = vectorSlideDown + vectorSlideForward / dividerOnSlope;
+            var vectorSlide = (vectorSlideDown + vectorSlideForward / dividerOnSlope) / 
+                              (isSliding && isOnSlope ? playerScriptable.overallMomentumLimiterMoveSlideInSlope : 1f);
 
             var finalVector = (isMoving ? vectorMove : Vector3.zero) + 
                               (isOnSlope && isSliding && !isSlopeClimbing ? vectorSlide : Vector3.zero)
@@ -206,7 +207,7 @@ namespace Player
 
             finalVector = new Vector3(tempFinalVectorX, finalVector.y, tempFinalVectorZ);
             
-            return finalVector / (isSliding && isMoving && isOnSlope ? playerScriptable.overallMomentumLimiterMoveSlideInSlope : 1f);
+            return finalVector / (isSliding && isOnSlope ? playerScriptable.overallMomentumLimiterMoveSlideInSlope : 1f);
         }
         
         /// <summary>
@@ -549,7 +550,7 @@ namespace Player
 
                 if(/*isOnSlope || */!isMoving || direction.z < 0.5f
                    || (!isOnGround && _rb.velocity.y < 10f) || 
-                   GetDirectionXZ(_rb.velocity).magnitude < 20f) return;
+                   GetDirectionXZ(_rb.velocity).magnitude < (playerScriptable.moveSpeed * 10f) - 5f) return;
                 
                 if (!isJumping && _jumpFacilityForce > playerScriptable.maxHeightToJumpFacility) return;
                 
