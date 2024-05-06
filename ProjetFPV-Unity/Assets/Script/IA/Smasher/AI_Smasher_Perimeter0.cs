@@ -39,7 +39,9 @@ public class AI_Smasher_Perimeter0 : MonoBehaviour
         }
         else isCacAttacking = false;
     }
-    
+
+
+    private IDamage pl;
     private void CacAttackPerimeter0()
     {
         isCacAttacking = true;
@@ -49,7 +51,10 @@ public class AI_Smasher_Perimeter0 : MonoBehaviour
         {
             if (obj.transform.CompareTag("Player"))
             {
-                PlayerHealth.Instance.ApplyDamage(damageAppliedPerimeter0);
+                if (obj.transform.TryGetComponent(out pl))
+                {
+                    pl.Hit(damageAppliedPerimeter0);
+                }
 
                 var dir = (obj.transform.position - impulse.position).normalized;
                 aiSmasher.ApplyKnockBack(knockBackStrenght, dir);

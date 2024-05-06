@@ -36,6 +36,7 @@ namespace Weapon.EnemyWeapon
             bulletProjectile.transform.rotation *= Quaternion.AngleAxis(90, PlayerController.transform.right);
             bulletProjectile.EnableMovement(true);
             bulletProjectile.transform.DOJump(playerPos, throwPower, 1, time);
+            bulletProjectile.AddDamage(so_Weapon.weaponMode[(int)actualWeaponModeIndex].bulletDamage);
             bulletProjectile.PoolingKeyName(so_Weapon.weaponMode[(int)actualWeaponModeIndex].poolingPopKey);
         }
         
