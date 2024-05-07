@@ -81,7 +81,11 @@ public class Explosion : MonoBehaviour
             {
                 Vector3 shotgunImpulseVector = ((PlayerController.Instance.transform.position + Vector3.up) - transform.position).normalized * rocketJumpForceApplied;
                 PlayerController.Instance.shotgunExternalForce = shotgunImpulseVector;
-                if(doDamagePlayer)obj.GetComponent<PlayerHealth>().Hit(damageRepartition.Evaluate(Vector3.Distance(transform.position ,obj.transform.position)));
+                if(doDamagePlayer)
+                {
+                    obj.GetComponent<PlayerHealth>().Hit(
+                    damageRepartition.Evaluate(Vector3.Distance(transform.position ,obj.transform.position)));
+                }
             }
             else
             {

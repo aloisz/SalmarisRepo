@@ -22,6 +22,7 @@ public class HUD : GenericSingletonClass<HUD>
     [SerializeField] private List<Image> crosshairBorders = new List<Image>();
     [SerializeField] private Image crosshairDots;
     [SerializeField] private Image crosshairBombDropdown;
+    [SerializeField] private Image deform;
 
     private float _giggleX;
     private float _giggleY;
@@ -38,10 +39,13 @@ public class HUD : GenericSingletonClass<HUD>
         CreateMaterialInstance(dashBar);
         CreateMaterialInstance(crosshairDots);
         CreateMaterialInstance(crosshairBombDropdown);
+        CreateMaterialInstance(deform);
         
         foreach(var cb in crosshairBorders) CreateMaterialInstance(cb);
 
         PlayerHealth.Instance.onHit += DamageHealthBarEffect;
+        PlayerHealth.Instance.onHit += UpdateDamageUI;
+        
         WeaponState.Instance.barbatos.OnHudShoot += CrosshairShoot;
     }
 
@@ -138,4 +142,33 @@ public class HUD : GenericSingletonClass<HUD>
         var mat = Instantiate(imageToGetMaterialFrom.material);
         imageToGetMaterialFrom.material = mat;
     }
+
+    public void UpdateDamageUI()
+    {
+        var dmgCasterDir = PlayerHealth.Instance.lastEnemyPosition;
+        
+        var v = Vector3.Cross(RemoveYValue(dmgCasterDir).normalized, 
+            RemoveYValue(Camera.main.transform.forward)).y;
+        
+        Debug.Log(v);
+
+        if (v > 0)
+        {
+            deform.material.SetFloat("_DamageLeft", v);
+            deform.material.SetFloat("_DamageRight", 0f);
+        }
+        else if (v < 0)
+        {
+            deform.material.SetFloat("_DamageRight", -v);
+            deform.material.SetFloat("_DamageLeft", 0f);
+        }
+        
+        else if (v is > -0.1f and < 0.1f)
+        {
+            deform.material.SetFloat("_DamageRight", 1f);
+            deform.material.SetFloat("_DamageLeft", 1f);
+        }
+    }
+
+    private Vector3 RemoveYValue(Vector3 v) => new (v.x, 0, v.z);
 }
