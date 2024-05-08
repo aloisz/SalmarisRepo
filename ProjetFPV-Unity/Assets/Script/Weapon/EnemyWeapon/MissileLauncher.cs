@@ -21,7 +21,7 @@ public class MissileLauncher : HeavyArtillery
         // Logic
         bulletProjectile.EnableMovement(true);  
         bulletProjectile.transform.rotation *= Quaternion.AngleAxis(90, PlayerController.transform.right);
-        bulletProjectile.GetTheBulletDir(GetThePlayerDirection());
+        bulletProjectile.SetTheBulletDir(GetThePlayerDirection());
         bulletProjectile.AddVelocity(so_Weapon.weaponMode[(int)actualWeaponModeIndex].bulletSpeed);
         bulletProjectile.AddDamage(so_Weapon.weaponMode[(int)actualWeaponModeIndex].bulletDamage);
         bulletProjectile.PoolingKeyName(so_Weapon.weaponMode[(int)actualWeaponModeIndex].poolingPopKey);

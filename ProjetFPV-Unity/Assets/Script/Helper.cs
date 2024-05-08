@@ -46,6 +46,25 @@ public static class Helper
         }
         return value;
     }
+
+    public static Vector3 CalculateVelocity(Vector3 target, Vector3 origin, float time, float jumpPower)
+    {
+        Vector3 distance = target - origin;
+        Vector3 distanceXZ = distance;
+        distanceXZ.y = 0f;
+
+        float Y = distance.y;
+        float XZ = distanceXZ.magnitude;
+
+        float velocityXZ = (XZ * time);
+        float velocityY = (jumpPower * time) + (.5f * Mathf.Abs(Physics.gravity.y) * (time * time)); // ((Y ) / time) + 
+
+        Vector3 result = distanceXZ.normalized;
+        result *= velocityXZ ;
+        result.y = velocityY;
+
+        return result;
+    }
     
     public static Vector3 ReturnDirFromTransform(int index, Transform t)
     {

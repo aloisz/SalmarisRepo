@@ -46,8 +46,8 @@ public class BarbatwoBullet : BulletBehavior
         
         rb.isKinematic = false;
         rb.drag = drag;
-        transform.rotation = Quaternion.Slerp (transform.rotation, Quaternion.LookRotation (GetTheBulletDir(bullet.bulletDir)), Time.fixedDeltaTime * 40f);
-        rb.AddForce((GetTheBulletDir(bullet.bulletDir)) * (bullet.speed * Time.fixedDeltaTime) , ForceMode.Impulse);
+        transform.rotation = Quaternion.Slerp (transform.rotation, Quaternion.LookRotation (SetTheBulletDir(bullet.bulletDir)), Time.fixedDeltaTime * 40f);
+        rb.AddForce((SetTheBulletDir(bullet.bulletDir)) * (bullet.speed * Time.fixedDeltaTime) , ForceMode.Impulse);
     }
 
     private Explosion explosion;

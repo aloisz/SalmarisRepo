@@ -9,6 +9,6 @@ namespace Weapon.Interface
         public float AddDamage(float damage);
         public string PoolingKeyName(string key);
 
-        public Vector3 GetTheBulletDir(Vector3 dir);
+        public Vector3 SetTheBulletDir(Vector3 dir);
     }
 }

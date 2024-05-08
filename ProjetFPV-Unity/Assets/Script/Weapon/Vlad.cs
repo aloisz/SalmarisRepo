@@ -162,7 +162,7 @@ public class Vlad : HeavyArtillery
         // Logic
         bulletProjectile.EnableMovement(true);  
         bulletProjectile.transform.rotation *= Quaternion.AngleAxis(90, PlayerController.transform.right);
-        bulletProjectile.GetTheBulletDir(GetTheAimDirection());
+        bulletProjectile.SetTheBulletDir(GetTheAimDirection());
         
         bulletProjectile.AddVelocity(so_Weapon.weaponMode[(int)actualWeaponModeIndex].bulletSpeed * bulletSpeedMultiplier);
         bulletProjectile.PoolingKeyName(so_Weapon.weaponMode[(int)actualWeaponModeIndex].poolingPopKey);
