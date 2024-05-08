@@ -59,7 +59,6 @@ public class BarbatwoBullet : BulletBehavior
         
         this.explosion = Explosion.GetComponent<Explosion>();
         this.explosion.SetDoPlayerDamage(false);
-        this.explosion.SetRocketJump(true);
         this.explosion.SetRocketForce(rocketJumpForceApplied);
         this.explosion.SetWhoIsTarget(whoIsTheTarget);
     }

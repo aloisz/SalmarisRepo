@@ -18,10 +18,7 @@ public class Explosion : MonoBehaviour
     public float explosionRadius;
     public float explosionForce;
     public ParticleSystem particle;
-
-    [Header("RocketJump")] /*[SerializeField]
-    private LayerMask PlayerMask;*/
-    private bool canRocketJump;
+    
     private float rocketJumpForceApplied;
 
     private SphereCollider sphereColliderRadius;
@@ -47,8 +44,6 @@ public class Explosion : MonoBehaviour
         
         SetRadius(baseExplosionRadius);
         SetForce(baseExplosionForce);
-        
-        SetRocketJump(false);
     }
     
     private void OnTriggerEnter(Collider other)
@@ -117,11 +112,6 @@ public class Explosion : MonoBehaviour
     public float SetRocketForce(float value)
     {
         return rocketJumpForceApplied = value;
-    }
-    
-    public bool SetRocketJump(bool value)
-    {
-        return canRocketJump = value;
     }
 
     public bool SetDoPlayerDamage(bool value)

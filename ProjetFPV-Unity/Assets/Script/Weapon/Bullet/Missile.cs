@@ -68,18 +68,18 @@ public class Missile : BulletBehavior,IExplosion
         whoIsTarget = value;
     }
     
-    private Explosion explosion;
-    public void Explosion()
+    protected Explosion explosion;
+    public virtual void Explosion()
     {
         GameObject Explosion = Pooling.instance.Pop("Explosion");
         Explosion.transform.position = transform.position;
         Explosion.transform.rotation = Quaternion.identity;
         explosion = Explosion.GetComponent<Explosion>();
-        explosion.SetWhoIsTarget(whoIsTarget);
+        explosion.SetWhoIsTarget(enemyMask);
         this.explosion.SetDoPlayerDamage(true);
     }
 
-    public void HitScanExplosion(LayerMask newTarget)
+    public virtual void HitScanExplosion(LayerMask newTarget)
     {
         GameObject Explosion = Pooling.instance.Pop("Explosion");
         Explosion.transform.position = transform.position;
