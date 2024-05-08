@@ -2,19 +2,17 @@ using System.Collections;
 using System.Collections.Generic;
 using Player;
 using UnityEngine;
+using UnityEngine.Serialization;
 using Weapon.Interface;
 
 public class Missile : BulletBehavior,IExplosion
 {
     protected LayerMask whoIsTarget;
     [SerializeField] protected float drag;
-    [SerializeField] protected float timeBeforeExplosion = 2f;
-    protected float time = 0;
     
     protected virtual void OnDisable()
     {
         base.OnDisable();
-        time = 0;
     }
     
     // Here put following logic when bullet collide with walkableMask
@@ -34,17 +32,10 @@ public class Missile : BulletBehavior,IExplosion
         Pooling.instance.DePop(bullet.PoolingKeyName, gameObject);
     }
 
-    protected override void Update()
+    protected override void EventWhenBulletLifeTimeEnd()
     {
-        base.Update();
-        time += Time.deltaTime * 1;
-        if (time >= timeBeforeExplosion)
-        {
-            time = 0;
-            Explosion();
-            Pooling.instance.DePop(bullet.PoolingKeyName, gameObject);
-        }
-        
+        base.EventWhenBulletLifeTimeEnd();
+        Explosion();
     }
     
     protected override void FixedUpdate()

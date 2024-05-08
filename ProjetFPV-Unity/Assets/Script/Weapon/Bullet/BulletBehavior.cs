@@ -12,6 +12,7 @@ public class BulletBehavior : MonoBehaviour, IBulletBehavior
     public LayerMask enemyMask;
     
     [SerializeField] protected float bulletLifeTime;
+    protected float timerBulletLifeTime = 0;
     // Components
     protected Rigidbody rb;
     protected TrailRenderer trailRenderer;
@@ -31,6 +32,7 @@ public class BulletBehavior : MonoBehaviour, IBulletBehavior
     {
         transform.position = Vector3.zero;
         transform.rotation = Quaternion.identity;
+        timerBulletLifeTime = 0;
         
         UseGravity(false);
         GravityApplied(0);
@@ -49,7 +51,18 @@ public class BulletBehavior : MonoBehaviour, IBulletBehavior
         rb.isKinematic = false;
     }
 
-    protected virtual void Update() { }
+    protected virtual void Update()
+    {
+        timerBulletLifeTime += Time.deltaTime * 1;
+        if (timerBulletLifeTime >= bulletLifeTime)
+        {
+            timerBulletLifeTime = 0;
+            EventWhenBulletLifeTimeEnd();
+            Pooling.instance.DePop(bullet.PoolingKeyName, gameObject);
+        }
+    }
+    
+    protected virtual void EventWhenBulletLifeTimeEnd() {}
 
     protected virtual void OnCollisionEnter(Collision collision)
     {
