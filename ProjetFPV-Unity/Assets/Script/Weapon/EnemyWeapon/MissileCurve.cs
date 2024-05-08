@@ -32,7 +32,6 @@ namespace Weapon.EnemyWeapon
             playerPos = player.transform.position;
             float distToPlayer = Vector3.Distance(playerPos, transform.position);
             float time = timeToArrive.Evaluate(distToPlayer);
-            Debug.Log(distToPlayer + " " + time);
             
             bulletProjectile.transform.rotation *= Quaternion.AngleAxis(90, PlayerController.transform.right);
             bulletProjectile.EnableMovement(true);

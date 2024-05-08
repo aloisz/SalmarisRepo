@@ -49,6 +49,8 @@ public class BulletBehavior : MonoBehaviour, IBulletBehavior
         rb.isKinematic = false;
     }
 
+    protected virtual void Update() { }
+
     protected virtual void OnCollisionEnter(Collision collision)
     {
         if (LayerMask.GetMask(LayerMask.LayerToName(collision.gameObject.layer)) == walkableMask)

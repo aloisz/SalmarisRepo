@@ -128,16 +128,6 @@ public class Explosion : MonoBehaviour
     {
         return doDamagePlayer = value;
     }
-    
-    /*private void FixedUpdate()
-    {
-        if(!canRocketJump) return;
-        canRocketJump = false;
-        
-        Vector3 shotgunImpulseVector = ((PlayerController.Instance.transform.position + Vector3.up) - transform.position).normalized * rocketJumpForceApplied;
-        PlayerController.Instance.shotgunExternalForce = canRocketJump ? shotgunImpulseVector : Vector3.zero;
-    }*/
-    
 
     #if UNITY_EDITOR
     private void OnDrawGizmos()
