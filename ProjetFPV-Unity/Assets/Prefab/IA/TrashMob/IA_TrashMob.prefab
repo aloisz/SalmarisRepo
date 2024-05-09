@@ -198,7 +198,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7670129111412073086}
-  - component: {fileID: 7272881338494786430}
+  - component: {fileID: 2282008530010013194}
   - component: {fileID: 8506461778801699736}
   - component: {fileID: 2789770422107626833}
   - component: {fileID: 1287084627326769800}
@@ -225,12 +225,13 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 8211619901898913944}
   - {fileID: 5221750144642385043}
   - {fileID: 8371110689142126727}
   - {fileID: 6479330984120383571}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &7272881338494786430
+--- !u!114 &2282008530010013194
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -239,7 +240,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 6159587722465297484}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 262fb931277c940488f5e18f91b0c5ae, type: 3}
+  m_Script: {fileID: 11500000, guid: 9c2495b028e340da8fedae48b111beec, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   targetToFollow: {fileID: 0}
@@ -249,16 +250,29 @@ MonoBehaviour:
     m_Bits: 128
   actualPawnHealth: 0
   pawnState: 0
-  tickVerification: 0.1
+  tickVerification: 0.2
   enemyWeight: 1
+  perimeters:
+  - distToEnemy: 5
+    timeSpentInPerimeter: 2
+  - distToEnemy: 17.5
+    timeSpentInPerimeter: 2
+  - distToEnemy: 42.3
+    timeSpentInPerimeter: 0
+  - distToEnemy: 55.3
+    timeSpentInPerimeter: 0
   rb: {fileID: 0}
   visionDetector: {fileID: 146247463210128156}
-  trashMobState: 1
+  trashMobState: 0
   agentSpeedRadius: 30
   agentSpeedWhenIsToFar: 50
-  agentDashRadius: 8
+  agentDashRadius: 15
   agentDashSpeed: 200
-  countBeforeAttack: 5
+  countBeforeAttack: 2
+  cacAttackPos: {fileID: 8211619901898913944}
+  cacAttackSphereRadius: 1
+  isCacAttacking: 0
+  damageApplied: 15
 --- !u!114 &8506461778801699736
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -428,3 +442,34 @@ NavMeshAgent:
   m_BaseOffset: 1
   m_WalkableMask: 1
   m_ObstacleAvoidanceType: 4
+--- !u!1 &7846051481294323883
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8211619901898913944}
+  m_Layer: 8
+  m_Name: CacPos
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &8211619901898913944
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7846051481294323883}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0.3699999, z: 0.99500275}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 7670129111412073086}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

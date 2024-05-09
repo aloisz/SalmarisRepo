@@ -14,7 +14,7 @@ namespace AI
 {
     public class AI_Pawn : MonoBehaviour, IDamage
     {
-        [SerializeField] private Transform targetToFollow;
+        [SerializeField] protected Transform targetToFollow;
         [SerializeField] protected SO_IA so_IA;
         
         [Header("Pawn Properties")]
@@ -27,6 +27,9 @@ namespace AI
 
         [Header("Director")]
         public float enemyWeight;
+        
+        [Header("--- Perimeter ---")] 
+        public List<Perimeters> perimeters;
         
         //Component----------------------
         internal NavMeshAgent navMeshAgent;
@@ -93,7 +96,7 @@ namespace AI
                     timer = 0; 
                     
                     if(pawnState == PawnState.Disable) return;
-                    FollowTarget();
+                    if(!isFleeing) FollowTarget();
                     PawnBehavior();
                 }
             }
@@ -133,16 +136,17 @@ namespace AI
         #endregion
 
         #region VisionModule
-
+        
+        protected bool isFleeing = false;
         protected virtual void FollowTarget ()
         {
             if(!targetToFollow || !navMeshAgent.enabled) return;
-            SetTarget(targetToFollow);
+            SetTarget(targetToFollow.position);
         }
         
-        protected virtual void SetTarget (Transform targetToFollow)
+        protected virtual void SetTarget (Vector3 targetToFollow)
         {
-            navMeshAgent.SetDestination(targetToFollow.position);
+            navMeshAgent.SetDestination(targetToFollow);
         }
 
         protected virtual void OnTriggerEnter(Collider other)
@@ -208,7 +212,41 @@ namespace AI
             Handles.DrawWireArc(transform.position, transform.up, transform.right, 360, so_IA.visionDetectorRadius, 3);
             Handles.DrawWireArc(transform.position, transform.right, transform.up, 360, so_IA.visionDetectorRadius, 3);
             Handles.DrawWireArc(transform.position, transform.forward, transform.right, 360, so_IA.visionDetectorRadius, 3);
+            
+            var tr = transform;
+            var pos = tr.position;
+            DebugDistance(tr, pos);
         }
+        
+        protected virtual void DebugDistance(Transform tr, Vector3 pos)
+        {
+            for (int i = 0; i < perimeters.Count; i++)
+            {
+                Color32 color = new Color32();
+                color = new Color32(0, 125, 255, (byte)i); 
+                switch (i)
+                {
+                    case 0:
+                        color = new Color32(0, 125, 255, 50); 
+                        break;
+                    case 1:
+                        color = new Color32(0, 125, 255, 30); 
+                        break;
+                    case 2:
+                        color = new Color32(0, 125, 255, 20); 
+                        break;
+                    case 3:
+                        color = new Color32(0, 125, 255, 10); 
+                        break;
+                    case 4:
+                        color = new Color32(0, 125, 255, 5); 
+                        break;
+                }
+                Handles.color = color;
+                Handles.DrawSolidDisc(pos, tr.up, perimeters[i].distToEnemy);
+            }
+        }
+        
         #endif
     }
     
