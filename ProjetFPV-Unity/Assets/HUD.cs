@@ -13,10 +13,12 @@ public class HUD : GenericSingletonClass<HUD>
     [SerializeField] private Vector2 giggleMultiplierBackground;
     [SerializeField] private Vector2 giggleMultiplier;
     [SerializeField] private Vector2 crosshairImpulseMinMax;
+    [SerializeField] [Range(0f,1f)] private float damageMaxIntensity;
     [CurveRange(0,0,1,1)][SerializeField] private AnimationCurve crosshairAnimation;
     [CurveRange(0,0,1,1)][SerializeField] private AnimationCurve crosshairBombAnimation;
     [CurveRange(0,0,1,1)][SerializeField] private AnimationCurve crosshairBombScaleAnimation;
     [CurveRange(0,0,1,1)][SerializeField] private AnimationCurve crosshairBombDropDownAnimation;
+    [SerializeField] private float damageDisplayDuration;
     
     [SerializeField] private Image UIBackground, shieldBar, healthBar, dashBar;
     [SerializeField] private List<Image> crosshairBorders = new List<Image>();
@@ -27,6 +29,9 @@ public class HUD : GenericSingletonClass<HUD>
     private float _giggleX;
     private float _giggleY;
     private float _rotationDots;
+    private float _timerDamageDisplay;
+    private float _crossProductDamageRight;
+    private float _crossProductDamageLeft;
     
     private static readonly int ScreenGiggleX = Shader.PropertyToID("_ScreenGiggleX");
     private static readonly int ScreenGiggleY = Shader.PropertyToID("_ScreenGiggleY");
@@ -55,9 +60,17 @@ public class HUD : GenericSingletonClass<HUD>
         UIGiggle(shieldBar.material, giggleMultiplier);
         UIGiggle(healthBar.material,giggleMultiplier);
         UIGiggle(dashBar.material, giggleMultiplier);
+        UIGiggle(deform.material, giggleMultiplierBackground);
         
         UIStamina();
         UIHealthShield();
+        
+        _timerDamageDisplay.DecreaseTimerIfPositive();
+        
+        deform.material.SetFloat("_DamageRight", _crossProductDamageRight * Mathf.Lerp(0,1,_timerDamageDisplay / damageDisplayDuration));
+        deform.material.SetFloat("_DamageLeft", _crossProductDamageLeft * Mathf.Lerp(0,1,_timerDamageDisplay / damageDisplayDuration));
+        
+        deform.material.SetFloat("_SpeedAlpha", Mathf.Lerp(0f, 0.225f, (PlayerController.Instance.overallVelocity / 30f)));
     }
 
     private void UIGiggle(Material mat, Vector2 multiplier)
@@ -143,31 +156,29 @@ public class HUD : GenericSingletonClass<HUD>
         imageToGetMaterialFrom.material = mat;
     }
 
-    public void UpdateDamageUI()
+    private void UpdateDamageUI()
     {
+        deform.material.SetFloat("_DamageLeft", 0f);
+        deform.material.SetFloat("_DamageRight", 0f);
+
+        _timerDamageDisplay = damageDisplayDuration;
+        
         var dmgCasterDir = PlayerHealth.Instance.lastEnemyPosition;
         
         var v = Vector3.Cross(RemoveYValue(dmgCasterDir).normalized, 
             RemoveYValue(Camera.main.transform.forward)).y;
-        
-        Debug.Log(v);
 
-        if (v > 0)
-        {
-            deform.material.SetFloat("_DamageLeft", v);
-            deform.material.SetFloat("_DamageRight", 0f);
-        }
-        else if (v < 0)
-        {
-            deform.material.SetFloat("_DamageRight", -v);
-            deform.material.SetFloat("_DamageLeft", 0f);
-        }
+        // Damage from right v == -1
+        // Damage from left v == 1
         
-        else if (v is > -0.1f and < 0.1f)
-        {
-            deform.material.SetFloat("_DamageRight", 1f);
-            deform.material.SetFloat("_DamageLeft", 1f);
-        }
+        // Damage from front or back v == 0
+
+        float vNormalized = (v + 1f) / 2f; // Normalize t to range from 0 to 1
+        _crossProductDamageLeft = Mathf.Lerp(0, damageMaxIntensity, vNormalized);
+        _crossProductDamageRight = Mathf.Lerp(damageMaxIntensity, 0, vNormalized);
+        
+        deform.material.SetFloat("_ShatteredMaskAlpha", Mathf.Lerp(0, 1, (PlayerHealth.Instance.Health + PlayerHealth.Instance.Shield) / 
+            (PlayerHealth.Instance.maxHealth + PlayerHealth.Instance.maxShield)));
     }
 
     private Vector3 RemoveYValue(Vector3 v) => new (v.x, 0, v.z);

@@ -5,13 +5,14 @@ using UnityEngine;
 
 public class DamageTriggerDebug : MonoBehaviour
 {
+   [SerializeField] private float dmgIntervallDelay;
    private float timer;
    
    private void OnTriggerEnter(Collider other)
    {
       if (other.CompareTag("Player"))
       {
-         timer = 2f;
+         timer = dmgIntervallDelay;
       }
    }
    
@@ -24,7 +25,7 @@ public class DamageTriggerDebug : MonoBehaviour
          {
             PlayerHealth.Instance.Hit(10f);
             PlayerHealth.Instance.lastEnemyPosition = transform.position;
-            timer = 2f;
+            timer = dmgIntervallDelay;
          }
       }
    }

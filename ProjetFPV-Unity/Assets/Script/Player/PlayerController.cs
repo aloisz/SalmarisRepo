@@ -16,6 +16,7 @@ namespace Player
         [Header("Overall Behavior")]
         public bool canMove = true;
         public bool canDoubleJump = true;
+        public float overallVelocity;
         public bool DEBUG;
         
         public Action onDeath;
@@ -176,6 +177,8 @@ namespace Player
 
             if (_rb.velocity.magnitude > playerScriptable.maxRigidbodyVelocity) 
                 _rb.velocity = Vector3.ClampMagnitude(_rb.velocity, playerScriptable.maxRigidbodyVelocity);
+
+            overallVelocity = _rb.velocity.magnitude;
         }
         
         /// <summary>
