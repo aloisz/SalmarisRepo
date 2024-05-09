@@ -76,7 +76,7 @@ namespace CameraBehavior
 
         public void Update()
         {
-            ObstacleAvoidance();
+            //ObstacleAvoidance();
         }
 
 
