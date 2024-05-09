@@ -70,13 +70,13 @@ public class HUD : GenericSingletonClass<HUD>
         deform.material.SetFloat("_DamageRight", _crossProductDamageRight * Mathf.Lerp(0,1,_timerDamageDisplay / damageDisplayDuration));
         deform.material.SetFloat("_DamageLeft", _crossProductDamageLeft * Mathf.Lerp(0,1,_timerDamageDisplay / damageDisplayDuration));
         
-        deform.material.SetFloat("_SpeedAlpha", Mathf.Lerp(0f, 0.225f, (PlayerController.Instance.overallVelocity / 30f)));
+        deform.material.SetFloat("_SpeedAlpha", Mathf.Lerp(0f, 0.225f, (PlayerController.Instance._rb.velocity.magnitude / 30f)));
     }
 
     private void UIGiggle(Material mat, Vector2 multiplier)
     {
         _giggleX = Mathf.Lerp(_giggleX, PlayerInputs.Instance.rotateValue.x / 540f, Time.deltaTime * 1f);
-        _giggleY = Mathf.Lerp(_giggleY, PlayerInputs.Instance.rotateValue.y / 540f, Time.deltaTime * 1f);
+        _giggleY = Mathf.Lerp(_giggleY, (PlayerInputs.Instance.rotateValue.y / 540f) + (-PlayerController.Instance._rb.velocity.y * multiplier.y) / 700f, Time.deltaTime * 1f);
         
         mat.SetFloat(ScreenGiggleX, -_giggleX * multiplier.x);
         mat.SetFloat(ScreenGiggleY, -_giggleY * multiplier.y);
@@ -122,6 +122,12 @@ public class HUD : GenericSingletonClass<HUD>
                 cb.material.DOFloat(Mathf.Lerp(crosshairImpulseMinMax.x, crosshairImpulseMinMax.y, wepPrimary.fireRate / 20f), 
                     "_Offset", 1/wepPrimary.fireRate).SetEase(crosshairAnimation);
             }
+            
+            var rect = crosshairDots.GetComponent<RectTransform>();
+            //rect.localRotation *= Quaternion.Euler(new Vector3(0,0,45));
+            rect.DOLocalRotateQuaternion(Quaternion.Euler(new Vector3(0, 0, rect.localRotation.eulerAngles.z + 90)), 
+                1 / wepPrimary.fireRate).SetEase(crosshairBombAnimation);
+            rect.DOScale(Vector3.one * 1.5f, 1 / wepPrimary.fireRate).SetEase(crosshairBombScaleAnimation);
         }
         else if ((int)wepManager.actualWeaponModeIndex == 1)
         {

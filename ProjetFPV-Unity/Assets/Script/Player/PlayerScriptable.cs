@@ -61,6 +61,12 @@ namespace Player
         [Tooltip("The divider for the speed gain in slopes.")]
         public float slopeSpeedDivider = 10f;
         
+        [Tooltip("The boost for the speed gained in slopes.")]
+        public float slopeForwardBoost = 10f;
+        
+        [Tooltip("The momentum divider while jumping")]
+        public float jumpMomentumDivider = 10f;
+        
         [Tooltip("Rigidbody's velocity limitation while moving and sliding in a slope")]
         public float overallMomentumLimiterMoveSlideInSlope = 10f;
 
@@ -134,7 +140,7 @@ namespace Player
                  "More the edge is high, more the value will be near Max, less it is, more the value will be enar Min.")]
         public Vector2 minMaxJumpFacility = Vector2.zero;
         
-        [Tooltip("")]
+        [Tooltip(" ")]
         public bool enableAutoJumpEdge = true;
 
         //----------------------------------------------------
