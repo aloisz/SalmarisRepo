@@ -197,8 +197,7 @@ namespace Player
             var slopeDirection = new Vector3(_raycastSlope.normal.x, 0, _raycastSlope.normal.z).normalized;
             var vectorSlideDown = Vector3.down * (playerScriptable.slidingInSlopeDownForce) / dividerOnSlopeClimbing;
             var vectorSlideForward = (slopeDirection * (_actualSlopeAngle / playerScriptable.slopeAngleDivider)) / dividerOnSlopeClimbing;
-            var vectorSlide = (vectorSlideDown + vectorSlideForward / dividerOnSlope) / 
-                              (isSliding && isOnSlope ? playerScriptable.overallMomentumLimiterMoveSlideInSlope : 1f);
+            var vectorSlide = vectorSlideDown + vectorSlideForward / dividerOnSlope;
 
             var finalVector = (isMoving ? vectorMove : Vector3.zero) + 
                               (isOnSlope && isSliding && !isSlopeClimbing ? vectorSlide : Vector3.zero)
@@ -210,7 +209,7 @@ namespace Player
 
             finalVector = new Vector3(tempFinalVectorX, finalVector.y, tempFinalVectorZ);
             
-            return finalVector / (isSliding && isOnSlope ? playerScriptable.overallMomentumLimiterMoveSlideInSlope : 1f);
+            return finalVector / (isSliding && isMoving && isOnSlope ? playerScriptable.overallMomentumLimiterMoveSlideInSlope : 1f);
         }
         
         /// <summary>
