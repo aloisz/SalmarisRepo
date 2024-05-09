@@ -253,14 +253,15 @@ MonoBehaviour:
   pawnState: 0
   tickVerification: 0.2
   enemyWeight: 0
+  perimeters:
+  - distToEnemy: 30
+    timeSpentInPerimeter: 0
+  - distToEnemy: 50
+    timeSpentInPerimeter: 0
   rb: {fileID: 0}
   visionDetector: {fileID: 146247463210128156}
   trashMobState: 1
-  agentSpeedRadius: 30
   agentSpeedWhenIsToFar: 50
-  agentDashRadius: 8
-  agentDashSpeed: 500
-  countBeforeAttack: 2
   isPawnStatic: 0
   agentShootingRadius: 35
   timeBeforeShooting: 1

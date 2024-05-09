@@ -89,14 +89,7 @@ namespace AI
 
         protected override void CheckDistance()
         {
-            if (Vector3.Distance(PlayerController.Instance.transform.position, transform.position) > agentShootingRadius)
-            {
-                base.CheckDistance();
-            }
-            else
-            {
-                navMeshAgent.speed = so_IA.walkingSpeed;
-            }
+            base.CheckDistance();
         }
 
 #if UNITY_EDITOR
@@ -104,7 +97,7 @@ namespace AI
 
         protected override void OnDrawGizmos()
         {
-            //base.OnDrawGizmos();
+            base.OnDrawGizmos();
             var tr = transform;
             var pos = tr.position;
             // display an orange disc where the object is

@@ -253,14 +253,15 @@ MonoBehaviour:
   pawnState: 0
   tickVerification: 0.2
   enemyWeight: 0
+  perimeters:
+  - distToEnemy: 30
+    timeSpentInPerimeter: 0
+  - distToEnemy: 50
+    timeSpentInPerimeter: 0
   rb: {fileID: 0}
   visionDetector: {fileID: 146247463210128156}
   trashMobState: 1
-  agentSpeedRadius: 30
   agentSpeedWhenIsToFar: 50
-  agentDashRadius: 8
-  agentDashSpeed: 500
-  countBeforeAttack: 2
   isPawnStatic: 0
   agentShootingRadius: 35
   timeBeforeShooting: 1
@@ -288,26 +289,35 @@ MonoBehaviour:
     m_Curve:
     - serializedVersion: 3
       time: 0
-      value: 1.1976082
-      inSlope: 0
-      outSlope: 0
+      value: 1
+      inSlope: 0.02801764
+      outSlope: 0.02801764
       tangentMode: 0
       weightedMode: 0
       inWeight: 0
-      outWeight: 0
+      outWeight: 0.13886802
     - serializedVersion: 3
-      time: 50.302307
-      value: -0.0050704926
-      inSlope: -0.025130935
-      outSlope: -0.025130935
+      time: 25.453695
+      value: 1.5818253
+      inSlope: -0.00032084226
+      outSlope: -0.00032084226
       tangentMode: 0
       weightedMode: 0
-      inWeight: 0.09542903
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 50
+      value: 1
+      inSlope: -0.0067586256
+      outSlope: -0.0067586256
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.14923789
       outWeight: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  throwPower: 5
+  throwPower: 10
 --- !u!114 &8506461778801699736
 MonoBehaviour:
   m_ObjectHideFlags: 0

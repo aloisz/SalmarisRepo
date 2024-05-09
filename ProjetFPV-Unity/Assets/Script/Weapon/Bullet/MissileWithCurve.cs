@@ -18,6 +18,7 @@ namespace Weapon.Bullet
         {
             rb.drag = drag;
             rb.velocity = bullet.bulletDir;
+            rb.isKinematic = true;
             //rb.isKinematic = false;
         }
     }
