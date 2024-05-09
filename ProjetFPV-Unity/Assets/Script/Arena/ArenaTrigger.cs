@@ -99,14 +99,11 @@ public class ArenaTrigger : MonoBehaviour
 
     private void OnDrawGizmos()
     {
-        _box ??= GetComponent<BoxCollider>();
+        _box = GetComponent<BoxCollider>();
         if (!_box) return;
         
-        Gizmos.color = new Color32(120, 10, 250, 255);
-        Gizmos.DrawWireCube(transform.position, _box.size);
-        
-        Gizmos.color = new Color32(120, 10, 250, 25);
-        Gizmos.DrawCube(transform.position, _box.size);
+        var color = new Color32(120, 10, 250, 255);
+        Helper.DrawBoxCollider(color, transform, _box, 0.15f);
 
         var style = new GUIStyle()
         {
