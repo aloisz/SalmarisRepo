@@ -18,10 +18,7 @@ public class Explosion : MonoBehaviour
     public float explosionRadius;
     public float explosionForce;
     public ParticleSystem particle;
-
-    [Header("RocketJump")] /*[SerializeField]
-    private LayerMask PlayerMask;*/
-    private bool canRocketJump;
+    
     private float rocketJumpForceApplied;
 
     private SphereCollider sphereColliderRadius;
@@ -47,8 +44,6 @@ public class Explosion : MonoBehaviour
         
         SetRadius(baseExplosionRadius);
         SetForce(baseExplosionForce);
-        
-        SetRocketJump(false);
     }
     
     private void OnTriggerEnter(Collider other)
@@ -81,7 +76,11 @@ public class Explosion : MonoBehaviour
             {
                 Vector3 shotgunImpulseVector = ((PlayerController.Instance.transform.position + Vector3.up) - transform.position).normalized * rocketJumpForceApplied;
                 PlayerController.Instance.shotgunExternalForce = shotgunImpulseVector;
-                if(doDamagePlayer)obj.GetComponent<PlayerHealth>().Hit(damageRepartition.Evaluate(Vector3.Distance(transform.position ,obj.transform.position)));
+                if(doDamagePlayer)
+                {
+                    obj.GetComponent<PlayerHealth>().Hit(
+                    damageRepartition.Evaluate(Vector3.Distance(transform.position ,obj.transform.position)));
+                }
             }
             else
             {
@@ -114,26 +113,11 @@ public class Explosion : MonoBehaviour
     {
         return rocketJumpForceApplied = value;
     }
-    
-    public bool SetRocketJump(bool value)
-    {
-        return canRocketJump = value;
-    }
 
     public bool SetDoPlayerDamage(bool value)
     {
         return doDamagePlayer = value;
     }
-    
-    /*private void FixedUpdate()
-    {
-        if(!canRocketJump) return;
-        canRocketJump = false;
-        
-        Vector3 shotgunImpulseVector = ((PlayerController.Instance.transform.position + Vector3.up) - transform.position).normalized * rocketJumpForceApplied;
-        PlayerController.Instance.shotgunExternalForce = canRocketJump ? shotgunImpulseVector : Vector3.zero;
-    }*/
-    
 
     #if UNITY_EDITOR
     private void OnDrawGizmos()

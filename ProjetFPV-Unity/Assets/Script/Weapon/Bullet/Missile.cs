@@ -2,12 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using Player;
 using UnityEngine;
+using UnityEngine.Serialization;
 using Weapon.Interface;
 
 public class Missile : BulletBehavior,IExplosion
 {
     protected LayerMask whoIsTarget;
     [SerializeField] protected float drag;
+    
     protected virtual void OnDisable()
     {
         base.OnDisable();
@@ -28,6 +30,12 @@ public class Missile : BulletBehavior,IExplosion
         trailRenderer.enabled = false;
         collision.transform.GetComponent<IDamage>().Hit(bullet.damage);
         Pooling.instance.DePop(bullet.PoolingKeyName, gameObject);
+    }
+
+    protected override void EventWhenBulletLifeTimeEnd()
+    {
+        base.EventWhenBulletLifeTimeEnd();
+        Explosion();
     }
     
     protected override void FixedUpdate()
@@ -51,18 +59,18 @@ public class Missile : BulletBehavior,IExplosion
         whoIsTarget = value;
     }
     
-    private Explosion explosion;
-    public void Explosion()
+    protected Explosion explosion;
+    public virtual void Explosion()
     {
         GameObject Explosion = Pooling.instance.Pop("Explosion");
         Explosion.transform.position = transform.position;
         Explosion.transform.rotation = Quaternion.identity;
         explosion = Explosion.GetComponent<Explosion>();
-        explosion.SetWhoIsTarget(whoIsTarget);
+        explosion.SetWhoIsTarget(enemyMask);
         this.explosion.SetDoPlayerDamage(true);
     }
 
-    public void HitScanExplosion(LayerMask newTarget)
+    public virtual void HitScanExplosion(LayerMask newTarget)
     {
         GameObject Explosion = Pooling.instance.Pop("Explosion");
         Explosion.transform.position = transform.position;

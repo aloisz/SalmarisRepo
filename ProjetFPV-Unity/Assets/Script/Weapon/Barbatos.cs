@@ -59,9 +59,9 @@ public class Barbatos : Shotgun
         if(isFirstBulletGone) return;
         if (hit.transform.TryGetComponent<IExplosion>(out IExplosion explosion))
         {
+            isFirstBulletGone = true;
             explosion.HitScanExplosion(whoIsTheTarget);
         }
-        isFirstBulletGone = true;
     }
     
     
@@ -74,7 +74,7 @@ public class Barbatos : Shotgun
         // Logic
         bulletProjectile.EnableMovement(true);  
         bulletProjectile.transform.rotation *= Quaternion.AngleAxis(90, PlayerController.transform.right);
-        bulletProjectile.GetTheBulletDir(GetTheAimDirection());
+        bulletProjectile.SetTheBulletDir(GetTheAimDirection());
         bulletProjectile.UseGravity(true);
         bulletProjectile.GravityApplied(gravityApplied);
         bulletProjectile.AddVelocity(so_Weapon.weaponMode[(int)actualWeaponModeIndex].bulletSpeed + PlayerController.direction.magnitude);

@@ -12,6 +12,7 @@ public class BulletBehavior : MonoBehaviour, IBulletBehavior
     public LayerMask enemyMask;
     
     [SerializeField] protected float bulletLifeTime;
+    protected float timerBulletLifeTime = 0;
     // Components
     protected Rigidbody rb;
     protected TrailRenderer trailRenderer;
@@ -31,13 +32,14 @@ public class BulletBehavior : MonoBehaviour, IBulletBehavior
     {
         transform.position = Vector3.zero;
         transform.rotation = Quaternion.identity;
+        timerBulletLifeTime = 0;
         
         UseGravity(false);
         GravityApplied(0);
         EnableMovement(false);
         AddVelocity(0);
         AddDamage(0);
-        GetTheBulletDir(transform.forward);
+        SetTheBulletDir(transform.forward);
     }
 
     protected virtual void Start(){}
@@ -45,9 +47,22 @@ public class BulletBehavior : MonoBehaviour, IBulletBehavior
     protected virtual void FixedUpdate()
     {
         if (!EnableMovement(bullet.isMoving)) return;
-        rb.velocity = (GetTheBulletDir(bullet.bulletDir)) * (bullet.speed * Time.fixedDeltaTime);
+        rb.velocity = (SetTheBulletDir(bullet.bulletDir)) * (bullet.speed * Time.fixedDeltaTime);
         rb.isKinematic = false;
     }
+
+    protected virtual void Update()
+    {
+        timerBulletLifeTime += Time.deltaTime * 1;
+        if (timerBulletLifeTime >= bulletLifeTime)
+        {
+            timerBulletLifeTime = 0;
+            EventWhenBulletLifeTimeEnd();
+            Pooling.instance.DePop(bullet.PoolingKeyName, gameObject);
+        }
+    }
+    
+    protected virtual void EventWhenBulletLifeTimeEnd() {}
 
     protected virtual void OnCollisionEnter(Collision collision)
     {
@@ -95,7 +110,7 @@ public class BulletBehavior : MonoBehaviour, IBulletBehavior
         return bullet.PoolingKeyName = key;
     }
 
-    public virtual Vector3 GetTheBulletDir(Vector3 dir)
+    public virtual Vector3 SetTheBulletDir(Vector3 dir)
     {
         return bullet.bulletDir = dir;
     }

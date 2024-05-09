@@ -14,7 +14,7 @@ public class Shotgun : ShootingLogicModule
     {
         base.RaycastEnum();
         if (!so_Weapon.weaponMode[(int)actualWeaponModeIndex].isRocketJump) return;
-        RaycastSingleHitScanRocketJump(so_Weapon.weaponMode[(int)actualWeaponModeIndex].rocketJumpDistance);
+        //RaycastSingleHitScanRocketJump(so_Weapon.weaponMode[(int)actualWeaponModeIndex].rocketJumpDistance);
     }
     
     public void RaycastSingleHitScanRocketJump(float maxDistance)

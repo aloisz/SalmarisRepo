@@ -10,6 +10,8 @@ public class PlayerHealth : GenericSingletonClass<PlayerHealth>, IDamage
 {
     [SerializeField] private float explosionRadius, explosionForce;
     [SerializeField] private LayerMask explosionMask;
+
+    public Vector3 lastEnemyPosition;
     
     private float _health;
     public float Health
@@ -34,14 +36,6 @@ public class PlayerHealth : GenericSingletonClass<PlayerHealth>, IDamage
     void Start()
     {
         InitValues();
-        //StartCoroutine(Hit());
-    }
-
-    IEnumerator Hit()
-    {
-        ApplyDamage(16);
-        yield return new WaitForSeconds(1f);
-        StartCoroutine(Hit());
     }
 
     private void InitValues()
@@ -51,37 +45,6 @@ public class PlayerHealth : GenericSingletonClass<PlayerHealth>, IDamage
 
         Health = maxHealth;
         Shield = maxShield;
-    }
-
-    public void ApplyDamage(float amount)
-    {
-        if (Shield > 0)
-        {
-            if (amount >= Shield)
-            {
-                // Damage exceeds shield, consume shield first
-                amount -= Shield;
-                Shield = 0;
-                ShockwaveBreakShield();
-            }
-            else
-            {
-                // Damage does not exceed shield, only deplete shield
-                Shield -= amount;
-                amount = 0;
-            }
-        }
-
-        // Apply remaining damage to health
-        Health -= amount;
-
-        // Check if health drops below 0
-        if (Health <= 0)
-        {
-            //Die();
-        }
-        
-        onHit?.Invoke();
     }
 
     public void RestoreShield(float amount) => Shield += amount;
@@ -110,5 +73,35 @@ public class PlayerHealth : GenericSingletonClass<PlayerHealth>, IDamage
     public void Hit(float damageInflicted)
     {
         ApplyDamage(damageInflicted);
+    }
+    private void ApplyDamage(float amount)
+    {
+        if (Shield > 0)
+        {
+            if (amount >= Shield)
+            {
+                // Damage exceeds shield, consume shield first
+                amount -= Shield;
+                Shield = 0;
+                ShockwaveBreakShield();
+            }
+            else
+            {
+                // Damage does not exceed shield, only deplete shield
+                Shield -= amount;
+                amount = 0;
+            }
+        }
+
+        // Apply remaining damage to health
+        Health -= amount;
+
+        // Check if health drops below 0
+        if (Health <= 0)
+        {
+            //Die();
+        }
+        
+        onHit?.Invoke();
     }
 }

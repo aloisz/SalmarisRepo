@@ -275,7 +275,11 @@ MonoBehaviour:
   targetMask:
     serializedVersion: 2
     m_Bits: 128
+  actualPawnHealth: 0
+  pawnState: 0
   tickVerification: 0.2
+  enemyWeight: 0
+  rb: {fileID: 0}
   visionDetector: {fileID: 1457748404378036388}
   airSackMobState: 0
   shootingPos: {fileID: 0}
@@ -295,6 +299,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   so_Weapon: {fileID: 11400000, guid: eecb04e6488a85c4e83fa55f07c371ab, type: 2}
+  canFire: 1
+  isShooting: 0
   actualNumberOfBullet: 0
   actualWeaponModeIndex: 0
   camera: {fileID: 0}
