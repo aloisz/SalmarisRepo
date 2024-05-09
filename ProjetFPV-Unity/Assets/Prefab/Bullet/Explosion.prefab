@@ -122,7 +122,7 @@ MonoBehaviour:
   doDamagePlayer: 0
   explosionRadius: 5
   explosionForce: 1500
-  particle: {fileID: 548716067057301829}
+  particle: {fileID: 8415396310975315387}
 --- !u!135 &8773833415115981408
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -188,7 +188,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &7709327915862122027
 Transform:
   m_ObjectHideFlags: 0
@@ -5072,6 +5072,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: PS_Explosion
       objectReference: {fileID: 0}
+    - target: {fileID: 3459172092774987301, guid: 0e7caf52394888945bd76cad922427f5,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4209578848988401111, guid: 0e7caf52394888945bd76cad922427f5,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -5127,12 +5132,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0e7caf52394888945bd76cad922427f5, type: 3}
---- !u!198 &548716067057301829 stripped
-ParticleSystem:
-  m_CorrespondingSourceObject: {fileID: 5790774711942025179, guid: 0e7caf52394888945bd76cad922427f5,
-    type: 3}
-  m_PrefabInstance: {fileID: 6323503235581703838}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &7902397982137580361 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4209578848988401111, guid: 0e7caf52394888945bd76cad922427f5,
