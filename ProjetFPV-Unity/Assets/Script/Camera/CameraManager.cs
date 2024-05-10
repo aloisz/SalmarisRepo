@@ -38,7 +38,7 @@ namespace CameraBehavior
         
         // Get All Camera Component
         internal CameraSliding cameraSliding;
-        private CameraJumping cameraJumping;
+        internal CameraJumping cameraJumping;
         private CameraDash cameraDash;
         internal HandSwing handSwing;
 
@@ -76,7 +76,7 @@ namespace CameraBehavior
 
         public void Update()
         {
-            ObstacleAvoidance();
+            //ObstacleAvoidance();
         }
 
 
@@ -149,6 +149,7 @@ namespace CameraBehavior
                     break;
             }
             cameraJumping.HandlesHighSpeed();
+            cameraJumping.DisplayCameraShake();
 
             // Fix the different rotation smoothness
             if (Math.Abs(actualglobalCameraRot - globalCameraRot) > 0.1f) 

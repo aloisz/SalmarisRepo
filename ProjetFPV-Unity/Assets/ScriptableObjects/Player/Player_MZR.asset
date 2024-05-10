@@ -16,7 +16,7 @@ MonoBehaviour:
   moveSpeedInAirDivider: 10
   moveThreshold: 0.1
   jumpForce: 35
-  secondaryJumpMultiplierFromYVel: 4
+  secondaryJumpMultiplierFromYVel: 2
   moveAirMultiplier: 0.75
   dashForce: 50
   dashDuration: 0.115
@@ -28,9 +28,11 @@ MonoBehaviour:
   accelerationMultiplier: 2
   slidingInSlopeDownForce: 2
   slopeAngleDivider: 2
-  slopeSpeedDivider: 10
+  slopeSpeedDivider: 50
+  slopeForwardBoost: 10
+  jumpMomentumDivider: 10
   overallMomentumLimiterMoveSlideInSlope: 10000
-  decelerationMultiplierSlideInSlopeUp: 1000
+  decelerationMultiplierSlideInSlopeUp: 0.5
   jumpEdgeImpulseForce: 700
   slideBoostCurve:
     serializedVersion: 2

@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using AI;
+using CameraBehavior;
 using Player;
 using Unity.VisualScripting;
 using UnityEditor;
@@ -11,6 +12,7 @@ public class Explosion : MonoBehaviour
 {
     public float damageInflicted = 20;
     [SerializeField] private AnimationCurve damageRepartition;
+    [SerializeField] private AnimationCurve camShakeRepartition;
     public LayerMask explosionMask;
     public bool doDamagePlayer;
     [Space]
@@ -53,6 +55,9 @@ public class Explosion : MonoBehaviour
             
         damageRepartition.AddKey(0, damageInflicted);
         damageRepartition.AddKey(explosionRadius, damageInflicted / explosionRadius);
+
+        CameraManager.Instance.cameraJumping.CameraShake(7, .5f, camShakeRepartition,
+            Vector3.Distance(PlayerController.Instance.transform.position, transform.position));
         
         Explode();
         particle.Play();

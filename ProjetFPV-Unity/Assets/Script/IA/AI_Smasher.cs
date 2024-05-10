@@ -11,8 +11,7 @@ public class AI_Smasher : AI_Pawn
     [Header("----- AI_Smasher -----")] 
     [SerializeField] protected SmasherMobState smasherMobState;
     
-    [Header("--- Perimeter ---")] 
-    public List<Perimeters> perimeters;
+    
 
     [Header("Component")] 
     [SerializeField] protected AI_Smasher_Perimeter0 _aiSmasherPerimeter0;
@@ -110,7 +109,7 @@ public class AI_Smasher : AI_Pawn
         Handles.color = Color.green;
         Handles.DrawLine(pos, pos + transform.forward * 10, 2);
         
-        DebugDistance(tr, pos);
+        
 
         if(Application.isPlaying)
         {
@@ -118,31 +117,6 @@ public class AI_Smasher : AI_Pawn
             style.normal.textColor = Color.red;
             style.fontSize = 25;
             Handles.Label(pos + new Vector3(0,5,0), $"State {smasherMobState}", style);
-        }
-    }
-
-    private void DebugDistance(Transform tr, Vector3 pos)
-    {
-        for (int i = 0; i < perimeters.Count; i++)
-        {
-            Color32 color = new Color32();
-            switch (i)
-            {
-                case 0:
-                    color = new Color32(0, 125, 255, 50); 
-                    break;
-                case 1:
-                    color = new Color32(0, 125, 255, 30); 
-                    break;
-                case 2:
-                    color = new Color32(0, 125, 255, 20); 
-                    break;
-                case 3:
-                    color = new Color32(0, 125, 255, 10); 
-                    break;
-            }
-            Handles.color = color;
-            Handles.DrawSolidDisc(pos, tr.up, perimeters[i].distToEnemy);
         }
     }
     #endif

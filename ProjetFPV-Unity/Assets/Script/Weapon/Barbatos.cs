@@ -15,10 +15,15 @@ public class Barbatos : Shotgun
     [SerializeField] private float dragApply;
     [SerializeField] private float gravityApplied;
 
+    private float lastTimeFired_0; // primary
+    private float lastTimeFired_1; // secondary
+    private bool isPrimary;
+
     protected override void Start()
     {
         base.Start();
         barbatosInput = GetComponent<BarbatosInput>();
+        WeaponState.Instance.barbatos.OnHudShoot += UpdateLastTimeFired;
     }
 
     protected override void GetAllInput()
@@ -30,6 +35,8 @@ public class Barbatos : Shotgun
                 actualWeaponModeIndex = WeaponMode.Primary;
             }
             isFirstBulletGone = false;
+            lastTimefired = lastTimeFired_0;
+            isPrimary = true;
             ShootingAction();
         }
         else
@@ -49,8 +56,11 @@ public class Barbatos : Shotgun
         {
             actualWeaponModeIndex = WeaponMode.Secondary;
         }
+        lastTimefired = lastTimeFired_1;
+        isPrimary = false;
         ShootingAction();
     }
+    
 
 
     protected override void HitScanLogic(RaycastHit hit)
@@ -59,9 +69,21 @@ public class Barbatos : Shotgun
         if(isFirstBulletGone) return;
         if (hit.transform.TryGetComponent<IExplosion>(out IExplosion explosion))
         {
+            isFirstBulletGone = true;
             explosion.HitScanExplosion(whoIsTheTarget);
         }
-        isFirstBulletGone = true;
+    }
+
+    private void UpdateLastTimeFired()
+    {
+        if (isPrimary)
+        {
+            lastTimeFired_0 = lastTimefired;
+        }
+        else
+        {
+            lastTimeFired_1 = lastTimefired;
+        }
     }
     
     

@@ -22,7 +22,8 @@ namespace Weapon.EnemyWeapon
             player = Player.PlayerController.Instance;
             
         }
-        
+
+        private Vector3 playerHitPos;
         protected override void ShootProjectile()
         {
             base.ShootProjectile();
@@ -30,6 +31,12 @@ namespace Weapon.EnemyWeapon
         
             // Logic
             playerPos = player.transform.position;
+
+            RaycastHit hit;
+            if (Physics.Raycast(playerPos, -player.transform.up, out hit, 1000))
+            {
+                playerHitPos = hit.point;
+            }
             float distToPlayer = Vector3.Distance(playerPos, transform.position);
             float time = timeToArrive.Evaluate(distToPlayer);
             
@@ -37,7 +44,8 @@ namespace Weapon.EnemyWeapon
             bulletProjectile.EnableMovement(true);
             bulletProjectile.UseGravity(true);
             
-            bulletProjectile.transform.DOJump(playerPos, throwPower, 1, time).SetEase(Ease.Linear);
+            bulletProjectile.transform.DOJump(playerHitPos, throwPower, 1, time).SetEase(Ease.Linear).OnComplete((() => 
+                bulletProjectile.UseGravity(true)));
             /*bulletProjectile.SetTheBulletDir(Helper.CalculateVelocity(PlayerController.transform.position,
                 gunBarrelPos.position, 1, throwPower));*/
             

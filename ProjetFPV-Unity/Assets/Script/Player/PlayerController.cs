@@ -16,6 +16,7 @@ namespace Player
         [Header("Overall Behavior")]
         public bool canMove = true;
         public bool canDoubleJump = true;
+        public Vector3 overallMomentum;
         public bool DEBUG;
         
         public Action onDeath;
@@ -186,7 +187,7 @@ namespace Player
         {
             var dividerOnSlopeClimbing = (isSlopeClimbing && isSliding ? playerScriptable.decelerationMultiplierSlideInSlopeUp : 1f);
             var dividerOnSlope = (!isSlopeClimbing && isSliding ? playerScriptable.slopeSpeedDivider : 1f);
-            var accelerating = _rb.velocity.magnitude < playerScriptable.speedMaxToAccelerate && !isOnSlope && !isSliding;
+            var accelerating = _rb.velocity.magnitude < playerScriptable.speedMaxToAccelerate && !isSliding;
             var vectorMove = DirectionFromCamera(direction).normalized * 
                              (_moveSpeed * _speedMultiplierFromDash * (accelerating ? playerScriptable.accelerationMultiplier : 1f))
                              / dividerOnSlopeClimbing;
@@ -194,8 +195,7 @@ namespace Player
             var slopeDirection = new Vector3(_raycastSlope.normal.x, 0, _raycastSlope.normal.z).normalized;
             var vectorSlideDown = Vector3.down * (playerScriptable.slidingInSlopeDownForce) / dividerOnSlopeClimbing;
             var vectorSlideForward = (slopeDirection * (_actualSlopeAngle / playerScriptable.slopeAngleDivider)) / dividerOnSlopeClimbing;
-            var vectorSlide = (vectorSlideDown + vectorSlideForward / dividerOnSlope) / 
-                              (isSliding && isOnSlope ? playerScriptable.overallMomentumLimiterMoveSlideInSlope : 1f);
+            var vectorSlide = vectorSlideDown + ((vectorSlideForward * playerScriptable.slopeForwardBoost) / dividerOnSlope);
 
             var finalVector = (isMoving ? vectorMove : Vector3.zero) + 
                               (isOnSlope && isSliding && !isSlopeClimbing ? vectorSlide : Vector3.zero)
@@ -206,8 +206,12 @@ namespace Player
             var tempFinalVectorZ = finalVector.z * slideBoostValue;
 
             finalVector = new Vector3(tempFinalVectorX, finalVector.y, tempFinalVectorZ);
+
+            overallMomentum = finalVector / (isSliding && isMoving && isOnSlope
+                ? playerScriptable.overallMomentumLimiterMoveSlideInSlope
+                : 1f);
             
-            return finalVector / (isSliding && isOnSlope ? playerScriptable.overallMomentumLimiterMoveSlideInSlope : 1f);
+            return overallMomentum;
         }
         
         /// <summary>
@@ -613,13 +617,13 @@ namespace Player
                 _amountOfJumps = 1;
                 isJumping = true;
             }
+
+            var forwardMomentumVector = GetDirectionXZ(_rb.velocity) / (playerScriptable.maxRigidbodyVelocity / 0.75f);
             
-            var forwardMomentumVector = GetOverallMomentumVector() / 20f;
             _rb.AddForce((_amountOfJumps < 2 ? 
                 playerScriptable.jumpForce : 
                 playerScriptable.jumpForce * Mathf.Lerp(0.75f, playerScriptable.secondaryJumpMultiplierFromYVel, 
-                    Mathf.Abs(_rb.velocity.y / playerScriptable.maxRigidbodyVelocity))) 
-                * (Vector3.up + new Vector3(forwardMomentumVector.x, 0, forwardMomentumVector.z)), ForceMode.Impulse);
+                    Mathf.Abs(_rb.velocity.y / playerScriptable.maxRigidbodyVelocity))) * (Vector3.up + new Vector3(forwardMomentumVector.x, 0, forwardMomentumVector.y)), ForceMode.Impulse);
         }
         
         /// <summary>

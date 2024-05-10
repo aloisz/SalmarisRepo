@@ -116,6 +116,30 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+  camShakeRepartition:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1.0122681
+      inSlope: -0.10953803
+      outSlope: -0.10953803
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.05655527
+    - serializedVersion: 3
+      time: 15
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
   explosionMask:
     serializedVersion: 2
     m_Bits: 0
@@ -5067,10 +5091,20 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 2375827054501295352}
     m_Modifications:
+    - target: {fileID: 847156398884899364, guid: 0e7caf52394888945bd76cad922427f5,
+        type: 3}
+      propertyPath: CollisionModule.enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3459172092774987301, guid: 0e7caf52394888945bd76cad922427f5,
         type: 3}
       propertyPath: m_Name
       value: PS_Explosion
+      objectReference: {fileID: 0}
+    - target: {fileID: 3459172092774987301, guid: 0e7caf52394888945bd76cad922427f5,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4209578848988401111, guid: 0e7caf52394888945bd76cad922427f5,
         type: 3}

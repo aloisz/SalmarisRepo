@@ -27,7 +27,8 @@ namespace CameraBehavior
 
         private void Start()
         {
-            weapon.OnShoot += Shoot;
+            //weapon.OnShoot += Shoot;
+            WeaponState.Instance.barbatos.OnHudShoot += Shoot;
         }
 
         public void LateUpdate()
@@ -53,16 +54,9 @@ namespace CameraBehavior
             // weapon position
             transform.localPosition = Vector3.Lerp(transform.localPosition, basePos + new Vector3(0,JumpingOffSetY,0), cameraManager.so_Camera.weaponSwaySmooth * Time.deltaTime);
             
-            if (weapon.isShooting)
-            {
-                if (Time.time - lastfired > 1 / weapon.so_Weapon.weaponMode[(int)weapon.actualWeaponModeIndex].fireRate)
-                {
-                    Shoot();
-                }
-            }
         }
 
-        private void Shoot()
+        public void Shoot()
         {
             lastfired = Time.time;
             float angleX = Random.Range(weapon.so_Weapon.weaponMode[(int)weapon.actualWeaponModeIndex].weaponRecoilRotx.x, 

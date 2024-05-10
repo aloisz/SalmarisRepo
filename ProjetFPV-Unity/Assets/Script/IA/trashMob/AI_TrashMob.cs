@@ -15,16 +15,10 @@ namespace AI
     {
         [Header("--- AI_TrashMob ---")] 
         [SerializeField] protected TrashMobState trashMobState;
+       
         [Space]
-        [SerializeField] protected float agentSpeedRadius = 2;
         [SerializeField] protected float agentSpeedWhenIsToFar = 50;
         
-        [Space]
-        [SerializeField] protected float agentDashRadius = 2;
-        [SerializeField] protected float agentDashSpeed = 500;
-        [Tooltip("Each tick count increase, when matching value attack will be performed")] [SerializeField] protected float countBeforeAttack = 10;
-        private int actualCountBeforeAttack = 0;
-        private bool isPerformingAttack;
         
         protected enum TrashMobState
         {
@@ -44,17 +38,6 @@ namespace AI
             if(trashMobState == TrashMobState.AttackingCloseRange) 
                 transform.DOLookAt(PlayerController.Instance.transform.position + Vector3.up, 0.2f, AxisConstraint.Y);
         }
-        
-        protected override void FixedUpdate()
-        {
-            base.FixedUpdate();
-            if (isPerformingAttack)
-            {
-                isPerformingAttack = false;
-                Vector3 attackDir = PlayerController.Instance.transform.position - transform.position;
-                rb.AddForce(attackDir.normalized * agentDashSpeed, ForceMode.Impulse);
-            }
-        }
 
         protected TrashMobState ChangeState(TrashMobState state)
         {
@@ -64,21 +47,8 @@ namespace AI
         protected override void PawnBehavior()
         {
             base.PawnBehavior();
-            switch (trashMobState)
-            {
-                case TrashMobState.Idle:
-                    break;
-                case TrashMobState.Moving:
-                    break;
-                case TrashMobState.AttackingCloseRange:
-                    //CacAttack();
-                    if(isInDashAttackCoroutine || !gameObject.activeSelf) return;
-                    StartCoroutine(DashAttack());
-                    break;
-            }
             CheckDistance();
         }
-        
         
         /// <summary>
         /// Adapt the agent speed if the player is too far away
@@ -86,67 +56,18 @@ namespace AI
         /// <returns></returns>
         protected virtual void CheckDistance()
         {
-            if (Vector3.Distance(PlayerController.Instance.transform.position, transform.position) > agentSpeedRadius)
+            switch (Vector3.Distance(PlayerController.Instance.transform.position, transform.position))
             {
-                navMeshAgent.speed = agentSpeedWhenIsToFar;
-                ChangeState(TrashMobState.Moving);
-            }
-            else
-            {
-                if (Vector3.Distance(PlayerController.Instance.transform.position, transform.position) > agentDashRadius)
-                {
+                case var value when value < perimeters[perimeters.Count - 2].distToEnemy:
                     navMeshAgent.speed = so_IA.walkingSpeed;
+                    break;
+                
+                case var value when value < perimeters[perimeters.Count - 1].distToEnemy:
+                    navMeshAgent.speed = agentSpeedWhenIsToFar;
                     ChangeState(TrashMobState.Moving);
-                }
-                else
-                {
-                    actualCountBeforeAttack++;
-                    if (actualCountBeforeAttack >= countBeforeAttack)
-                    {
-                        ChangeState(TrashMobState.AttackingCloseRange);
-                    }
-                }
+                    break;
             }
         }
-
-        private bool isInDashAttackCoroutine;
-        private IEnumerator DashAttack()
-        {
-            isInDashAttackCoroutine = true;
-            navMeshAgent.speed = 0;
-            
-            yield return new WaitForSeconds(1f);
-            IsPhysicNavMesh(false);
-            isPerformingAttack = true;
-            
-            yield return new WaitForSeconds(2);
-            GetPawnPersonnalInformation();
-            ChangeState(TrashMobState.Moving);
-            actualCountBeforeAttack = 0;
-            isInDashAttackCoroutine = false;
-        }
-
-        RaycastHit hit;
-        bool hasHit = false;
-        private float timerCacAttack;
-        private void CacAttack()
-        {
-            Debug.DrawRay(transform.position, transform.forward * 2, Color.green, .1f);
-            
-            hasHit = Physics.BoxCast(transform.position, transform.localScale*0.5f, 
-                transform.forward, out hit, transform.rotation, 2, targetMask);
-            if (hasHit)
-            {
-                Debug.Log("Hit : " + hit.transform.name);
-            }
-        }
-
-        public override void DisableAgent()
-        {
-            base.DisableAgent();
-            StopCoroutine(DashAttack());
-        }
-        
         
         protected override void DestroyLogic()
         {
@@ -164,31 +85,6 @@ namespace AI
             if(Application.isPlaying)
             {
                 Handles.Label(transform.position + Vector3.up, $"walkingSpeed {navMeshAgent.speed}");
-                Handles.Label(transform.position + (Vector3.right * 12), $"isPerformingAttack {isPerformingAttack}");
-            }
-            
-            var tr = transform;
-            var pos = tr.position;
-            // display an orange disc where the object is
-            var color = new Color32(0, 125, 255, 20);
-            Handles.color = color;
-            Handles.DrawSolidDisc(pos, tr.up, agentSpeedRadius);
-            
-            var color2 = new Color32(255, 125, 255, 40);
-            Handles.color = color2;
-            Handles.DrawSolidDisc(pos, tr.up, agentDashRadius);
-
-            CacAttackGizmo();
-        }
-
-        private void CacAttackGizmo()
-        {
-            
-            if (hasHit)
-            {
-                Gizmos.color = Color.red;
-                Gizmos.DrawRay(transform.position, transform.forward * hit.distance);
-                Gizmos.DrawWireCube(transform.position + transform.forward * hit.distance, transform.localScale*0.5f);
             }
         }
         #endif  
