@@ -20,7 +20,7 @@ public class HUD : GenericSingletonClass<HUD>
     [CurveRange(0,0,1,1)][SerializeField] private AnimationCurve crosshairBombDropDownAnimation;
     [SerializeField] private float damageDisplayDuration;
     
-    [SerializeField] private Image UIBackground, shieldBar, healthBar, dashBar;
+    [SerializeField] private Image UIBackground, shieldBar, healthBar, dashBar, rageBar;
     [SerializeField] private List<Image> crosshairBorders = new List<Image>();
     [SerializeField] private Image crosshairDots;
     [SerializeField] private Image crosshairBombDropdown;
@@ -64,6 +64,9 @@ public class HUD : GenericSingletonClass<HUD>
         
         UIStamina();
         UIHealthShield();
+
+        rageBar.fillAmount = PlayerKillStreak.Instance.KillStreak / PlayerKillStreak.Instance.maxKillStreak;
+        rageBar.color = PlayerKillStreak.Instance.isInRageMode ? Color.red : Color.white;
         
         _timerDamageDisplay.DecreaseTimerIfPositive();
         

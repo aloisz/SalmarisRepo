@@ -219,8 +219,8 @@ namespace Player
         /// </summary>
         private void SetMoveSpeed()
         {
-            _moveSpeed = isOnGround ? playerScriptable.moveSpeed : 
-                playerScriptable.moveSpeed / playerScriptable.moveSpeedInAirDivider;
+            _moveSpeed = (isOnGround ? playerScriptable.moveSpeed : 
+                playerScriptable.moveSpeed / playerScriptable.moveSpeedInAirDivider) * PlayerKillStreak.Instance.speedBoost;
         }
         
         /// <summary>
@@ -278,11 +278,11 @@ namespace Player
         private void RechargeStamina()
         {
             if(!isDashing && !isJumping)
-                PlayerStamina.Instance.GenerateStaminaStep(playerScriptable.staminaPerSecond);
+                PlayerStamina.Instance.GenerateStaminaStep(playerScriptable.staminaPerSecond * PlayerKillStreak.Instance.staminaBoost);
             
             else if(isJumping)
                 //Generate two times less stamina when in this airs.
-                PlayerStamina.Instance.GenerateStaminaStep(playerScriptable.staminaPerSecond / 2f);
+                PlayerStamina.Instance.GenerateStaminaStep(playerScriptable.staminaPerSecond * PlayerKillStreak.Instance.staminaBoost / 2f);
         }
 
         #endregion
