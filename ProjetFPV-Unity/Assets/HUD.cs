@@ -32,6 +32,9 @@ public class HUD : GenericSingletonClass<HUD>
     private float _timerDamageDisplay;
     private float _crossProductDamageRight;
     private float _crossProductDamageLeft;
+
+    private Vector3 _basePositionHealthBar;
+    private Vector3 _basePositionShieldBar;
     
     private static readonly int ScreenGiggleX = Shader.PropertyToID("_ScreenGiggleX");
     private static readonly int ScreenGiggleY = Shader.PropertyToID("_ScreenGiggleY");
@@ -48,10 +51,13 @@ public class HUD : GenericSingletonClass<HUD>
         
         foreach(var cb in crosshairBorders) CreateMaterialInstance(cb);
 
-        PlayerHealth.Instance.onHit += DamageHealthBarEffect;
+        PlayerHealth.Instance.onHit += DamageBarEffect;
         PlayerHealth.Instance.onHit += UpdateDamageUI;
         
         WeaponState.Instance.barbatos.OnHudShoot += CrosshairShoot;
+
+        _basePositionHealthBar = healthBar.rectTransform.anchoredPosition;
+        _basePositionShieldBar = shieldBar.rectTransform.anchoredPosition;
     }
 
     private void Update()
@@ -102,11 +108,25 @@ public class HUD : GenericSingletonClass<HUD>
             "_AlertMode", 0.1f);
     }
 
-    private void DamageHealthBarEffect()
+    private void DamageBarEffect()
     {
-        if (PlayerHealth.Instance.Shield > 0) return;
-        var value = Mathf.Lerp(10f, 3f, PlayerHealth.Instance.Health / PlayerHealth.Instance.maxHealth);
-        healthBar.transform.DOShakePosition(0.5f, Vector3.one * value, 120);
+        switch (PlayerHealth.Instance.Shield)
+        {
+            case <= 0:
+            {
+                var value = Mathf.Lerp(10f, 3f, PlayerHealth.Instance.Health / PlayerHealth.Instance.maxHealth);
+                healthBar.rectTransform.anchoredPosition = _basePositionHealthBar;
+                healthBar.transform.DOShakePosition(0.5f, Vector3.one * value, 120);
+                break;
+            }
+            case > 0:
+            {
+                var value = Mathf.Lerp(3f, 0.5f, PlayerHealth.Instance.Shield / PlayerHealth.Instance.maxShield);
+                shieldBar.rectTransform.anchoredPosition = _basePositionShieldBar;
+                shieldBar.transform.DOShakePosition(0.5f, Vector3.one * value, 120);
+                break;
+            }
+        }
     }
 
     private void CrosshairShoot()
@@ -116,38 +136,43 @@ public class HUD : GenericSingletonClass<HUD>
         var wepPrimary = wep.weaponMode[0];
         var wepSecondary = wep.weaponMode[1];
 
+        var fireRateMultiplier = PlayerKillStreak.Instance.fireRateBoost;
+        var animMultiplier = 1.25f;
+
         if ((int)wepManager.actualWeaponModeIndex == 0)
         {
             foreach (var cb in crosshairBorders)
             {
                 cb.material.SetFloat("_Offset", 0f);
 
-                cb.material.DOFloat(Mathf.Lerp(crosshairImpulseMinMax.x, crosshairImpulseMinMax.y, wepPrimary.fireRate / 20f), 
-                    "_Offset", 1/wepPrimary.fireRate).SetEase(crosshairAnimation);
+                cb.material.DOFloat(Mathf.Lerp(crosshairImpulseMinMax.x, crosshairImpulseMinMax.y, (wepPrimary.fireRate * fireRateMultiplier) / 20f), 
+                    "_Offset", 1 / (wepPrimary.fireRate * fireRateMultiplier)).SetEase(crosshairAnimation);
             }
             
             var rect = crosshairDots.GetComponent<RectTransform>();
             //rect.localRotation *= Quaternion.Euler(new Vector3(0,0,45));
+            rect.rotation = new Quaternion(0,0,0,0);
             rect.DOLocalRotateQuaternion(Quaternion.Euler(new Vector3(0, 0, rect.localRotation.eulerAngles.z + 90)), 
-                1 / wepPrimary.fireRate).SetEase(crosshairBombAnimation);
-            rect.DOScale(Vector3.one * 1.5f, 1 / wepPrimary.fireRate).SetEase(crosshairBombScaleAnimation);
+                1 / (wepPrimary.fireRate * fireRateMultiplier)).SetEase(crosshairBombAnimation);
+            rect.DOScale(Vector3.one * 1.5f, 1 / (wepPrimary.fireRate * fireRateMultiplier)).SetEase(crosshairBombScaleAnimation);
         }
         else if ((int)wepManager.actualWeaponModeIndex == 1)
         {
             var rect = crosshairDots.GetComponent<RectTransform>();
             //rect.localRotation *= Quaternion.Euler(new Vector3(0,0,45));
+            rect.rotation = new Quaternion(0,0,0,0);
             rect.DOLocalRotateQuaternion(Quaternion.Euler(new Vector3(0, 0, rect.localRotation.eulerAngles.z - 90)), 
-                1 / wepSecondary.fireRate * 0.25f).SetEase(crosshairBombAnimation);
-            rect.DOScale(Vector3.one * 1.5f, 1 / wepSecondary.fireRate * 0.25f).SetEase(crosshairBombScaleAnimation);
+                1 / (wepSecondary.fireRate * fireRateMultiplier * 0.25f)).SetEase(crosshairBombAnimation);
+            rect.DOScale(Vector3.one * 1.5f, 1 / (wepSecondary.fireRate * fireRateMultiplier * 0.25f)).SetEase(crosshairBombScaleAnimation);
             
             crosshairBombDropdown.material.SetFloat("_Alpha", 0f);
-            crosshairBombDropdown.material.DOFloat(1f,"_Alpha", 1 / wepSecondary.fireRate * 0.1f);
+            crosshairBombDropdown.material.DOFloat(1f,"_Alpha", 1 / (wepSecondary.fireRate * fireRateMultiplier * 0.1f));
             
             crosshairBombDropdown.material.SetFloat("_OffsetAmount", 0f);
-            crosshairBombDropdown.material.DOFloat(0.7f,"_OffsetAmount", 1 / wepSecondary.fireRate * 0.1f).SetEase(crosshairBombDropDownAnimation)
+            crosshairBombDropdown.material.DOFloat(0.7f,"_OffsetAmount", 1 / (wepSecondary.fireRate * fireRateMultiplier * 0.1f)).SetEase(crosshairBombDropDownAnimation)
                 .OnComplete(()=>
             {
-                crosshairBombDropdown.material.DOFloat(0f,"_Alpha", 1 / wepSecondary.fireRate * 0.3f);
+                crosshairBombDropdown.material.DOFloat(0f,"_Alpha", 1 / (wepSecondary.fireRate * fireRateMultiplier * 0.3f));
             });
             
             foreach (var cb in crosshairBorders)

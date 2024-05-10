@@ -100,7 +100,7 @@ public class PlayerKillStreak : GenericSingletonClass<PlayerKillStreak>
 
         ResetInactivityTimer();
         
-        KillStreak += amount;
+        KillStreak += isInRageMode ? amount / 3f : amount;
         if(KillStreak >= 100f) ResetRageTimer();
     }
     

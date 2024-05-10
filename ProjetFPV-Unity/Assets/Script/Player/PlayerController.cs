@@ -783,18 +783,21 @@ namespace Player
             #endregion
             
             #region GroundCheck
-            
-            var offset = playerScriptable.groundDetectionForwardOffset;
-            var pos = cameraAttachPosition.position + new Vector3(0,playerScriptable.groundDetectionUpOffset,0);
 
-            for (int i = 0; i < 4; i++)
+            if (cameraAttachPosition)
             {
-                var posCheck = ReturnCheckOffsetFromDir(pos, Helper.ReturnDirFromIndex(i), offset);
-                
-                Gizmos.color = new Color(1,.5f,0);
-                Gizmos.DrawRay(posCheck, Vector3.down * playerScriptable.groundDetectionLenght);
+                var offset = playerScriptable.groundDetectionForwardOffset;
+                var pos = cameraAttachPosition.position + new Vector3(0, playerScriptable.groundDetectionUpOffset, 0);
+
+                for (int i = 0; i < 4; i++)
+                {
+                    var posCheck = ReturnCheckOffsetFromDir(pos, Helper.ReturnDirFromIndex(i), offset);
+
+                    Gizmos.color = new Color(1, .5f, 0);
+                    Gizmos.DrawRay(posCheck, Vector3.down * playerScriptable.groundDetectionLenght);
+                }
             }
-            
+
             #endregion
 
             if (!playerScriptable.enableAutoJumpEdge) return;
