@@ -145,7 +145,7 @@ namespace Weapon
         /// </summary>
         protected virtual void SingleSelectiveFire()
         {
-            if (Time.time - lastTimefired > 1 / so_Weapon.weaponMode[(int)actualWeaponModeIndex].fireRate)
+            if (Time.time - lastTimefired > 1 / (so_Weapon.weaponMode[(int)actualWeaponModeIndex].fireRate * PlayerKillStreak.Instance.fireRateBoost))
             {
                 LogicWhenShooting();
                 WichTypeMunitionIsGettingShot();
@@ -175,7 +175,7 @@ namespace Weapon
             {   
                 LogicWhenShooting();
                 WichTypeMunitionIsGettingShot();
-                yield return new WaitForSeconds(so_Weapon.weaponMode[(int)actualWeaponModeIndex].burstTime);
+                yield return new WaitForSeconds(so_Weapon.weaponMode[(int)actualWeaponModeIndex].burstTime / PlayerKillStreak.Instance.fireRateBoost);
             }
         }
         
@@ -185,7 +185,7 @@ namespace Weapon
         /// </summary>
         protected virtual void AutoSelectiveFire()
         {
-            if (Time.time - lastTimefired > 1 / so_Weapon.weaponMode[(int)actualWeaponModeIndex].fireRate)
+            if (Time.time - lastTimefired > 1 / (so_Weapon.weaponMode[(int)actualWeaponModeIndex].fireRate * PlayerKillStreak.Instance.fireRateBoost))
             {
                 LogicWhenShooting();
                 WichTypeMunitionIsGettingShot();
@@ -234,7 +234,7 @@ namespace Weapon
 
         private IEnumerator TimeToReload()
         {
-            yield return new WaitForSeconds(so_Weapon.weaponMode[(int)actualWeaponModeIndex].timeToReload);
+            yield return new WaitForSeconds(so_Weapon.weaponMode[(int)actualWeaponModeIndex].timeToReload / PlayerKillStreak.Instance.reloadBoost);
             actualNumberOfBullet = so_Weapon.weaponMode[(int)actualWeaponModeIndex].numberOfBullet;
             isReloading = false;
         }

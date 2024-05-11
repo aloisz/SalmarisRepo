@@ -16,6 +16,7 @@ GameObject:
   - component: {fileID: 6655356332372034070}
   - component: {fileID: 3384089798135616920}
   - component: {fileID: 460264770731970922}
+  - component: {fileID: 5366420336553840192}
   - component: {fileID: 4329080655008607625}
   - component: {fileID: 4285045805137103391}
   - component: {fileID: 8394932507012710498}
@@ -57,8 +58,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   canMove: 1
   canDoubleJump: 1
+  overallMomentum: {x: 0, y: 0, z: 0}
   DEBUG: 0
-  playerScriptable: {fileID: 11400000, guid: b64488bd6eec9cb4cba32d12244e0f8a, type: 2}
+  playerScriptable: {fileID: 11400000, guid: c32c7c78f1595814ab35078749be1c4d, type: 2}
   cameraAttachPosition: {fileID: 0}
   capsuleCollider: {fileID: 3057406663904845015}
   capsuleColliderSlide: {fileID: 7966141238275471627}
@@ -120,14 +122,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a1724f56bc45b464a8eb9586d2d84c2c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerScriptable: {fileID: 11400000, guid: c32c7c78f1595814ab35078749be1c4d, type: 2}
   explosionRadius: 10
   explosionForce: 150
   explosionMask:
     serializedVersion: 2
     m_Bits: 256
-  maxHealth: 0
-  maxShield: 0
+  lastEnemyPosition: {x: 0, y: 0, z: 0}
+  maxHealth: 100
+  maxShield: 100
+  probabilityToGainShield: 0.75
 --- !u!114 &6655356332372034070
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -135,7 +138,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 359912182890571611}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c52d7c9653bb8a2498c07d5a1f1696a5, type: 3}
   m_Name: 
@@ -166,6 +169,46 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   money: 0
+--- !u!114 &5366420336553840192
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 359912182890571611}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1e0c752cf294ff543bab7d7953b8236e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxKillStreak: 100
+  isInRageMode: 0
+  staminaBoost: 0
+  reloadBoost: 0
+  fireRateBoost: 0
+  speedBoost: 0
+  healPerKill: 0
+  shieldPerEnemies:
+  - shieldValue: 2
+    key: 0
+  - shieldValue: 8
+    key: 1
+  incrementKillStreakDmg: 1
+  incrementKillStreakKill: 8
+  decrementInactivityP: 10
+  decrementPlayerDmgP: 7
+  inactivityTimeAllowed: 3
+  staminaMaxValue: 1.25
+  reloadMaxValue: 1.25
+  fireRateMaxValue: 1.25
+  speedMaxValue: 1
+  staminaMaxValueR: 2
+  reloadMaxValueR: 2
+  fireRateMaxValueR: 2
+  speedMaxValueR: 1
+  healMaxValueR: 10
+  rageBaseDuration: 6
+  refilePenaltyDuration: 3
 --- !u!114 &4329080655008607625
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -31,6 +31,7 @@ public class PlayerHealth : GenericSingletonClass<PlayerHealth>, IDamage
 
     public float maxHealth;
     public float maxShield;
+    public float probabilityToGainShield;
     
     // Start is called before the first frame update
     void Start()
@@ -48,6 +49,7 @@ public class PlayerHealth : GenericSingletonClass<PlayerHealth>, IDamage
     }
 
     public void RestoreShield(float amount) => Shield += amount;
+    public void RestoreHealth(float amount) => Health += amount;
 
     private void ShockwaveBreakShield()
     {
