@@ -25,6 +25,7 @@ public class HUD : GenericSingletonClass<HUD>
     [SerializeField] private Image crosshairDots;
     [SerializeField] private Image crosshairBombDropdown;
     [SerializeField] private Image deform;
+    [SerializeField] private Image vitals;
 
     private float _giggleX;
     private float _giggleY;
@@ -48,6 +49,7 @@ public class HUD : GenericSingletonClass<HUD>
         CreateMaterialInstance(crosshairDots);
         CreateMaterialInstance(crosshairBombDropdown);
         CreateMaterialInstance(deform);
+        CreateMaterialInstance(vitals);
         
         foreach(var cb in crosshairBorders) CreateMaterialInstance(cb);
 
@@ -67,6 +69,7 @@ public class HUD : GenericSingletonClass<HUD>
         UIGiggle(healthBar.material,giggleMultiplier);
         UIGiggle(dashBar.material, giggleMultiplier);
         UIGiggle(deform.material, giggleMultiplierBackground);
+        UIGiggle(vitals.material, giggleMultiplierBackground);
         
         UIStamina();
         UIHealthShield();
@@ -80,6 +83,9 @@ public class HUD : GenericSingletonClass<HUD>
         deform.material.SetFloat("_DamageLeft", _crossProductDamageLeft * Mathf.Lerp(0,1,_timerDamageDisplay / damageDisplayDuration));
         
         deform.material.SetFloat("_SpeedAlpha", Mathf.Lerp(0f, 0.225f, (PlayerController.Instance._rb.velocity.magnitude / 30f)));
+        
+        vitals.material.SetFloat("_AlertMode", 
+            Mathf.Lerp(1, 0, PlayerHealth.Instance.Health / PlayerHealth.Instance.maxHealth));
     }
 
     private void UIGiggle(Material mat, Vector2 multiplier)
@@ -210,8 +216,7 @@ public class HUD : GenericSingletonClass<HUD>
         _crossProductDamageLeft = Mathf.Lerp(0, damageMaxIntensity, vNormalized);
         _crossProductDamageRight = Mathf.Lerp(damageMaxIntensity, 0, vNormalized);
         
-        deform.material.SetFloat("_ShatteredMaskAlpha", Mathf.Lerp(0, 1, (PlayerHealth.Instance.Health + PlayerHealth.Instance.Shield) / 
-            (PlayerHealth.Instance.maxHealth + PlayerHealth.Instance.maxShield)));
+        deform.material.SetFloat("_ShatteredMaskAlpha", Mathf.Lerp(0, 1, PlayerHealth.Instance.Health / PlayerHealth.Instance.maxHealth));
     }
 
     private Vector3 RemoveYValue(Vector3 v) => new (v.x, 0, v.z);
