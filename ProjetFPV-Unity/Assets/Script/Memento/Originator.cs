@@ -9,12 +9,26 @@ public class Originator : MonoBehaviour
     public Memento Save()
     {
         //Player
-        return new Memento(PlayerController.Instance.transform);
+        return new Memento(PlayerController.Instance.transform, PlayerHealth.Instance);
     }
 
     public void Restore(Memento memento)
     {
-        //Player
-        PlayerController.Instance.transform.position = new Vector3(memento.x, memento.y, memento.z);
+        ResetPlayer(memento);
+    }
+
+    private void ResetPlayer(Memento memento)
+    {
+        // Position
+        PlayerController.Instance.transform.position = memento.GetPlayerPosition();
+        
+        // Rotation
+        PlayerController.Instance.transform.rotation = memento.GetPlayerRotation();
+        
+        //Health
+        PlayerHealth.Instance._health = memento.GetPlayerHealth();
+        
+        // Shield
+        PlayerHealth.Instance._shield = memento.GetPlayerShield();
     }
 }
