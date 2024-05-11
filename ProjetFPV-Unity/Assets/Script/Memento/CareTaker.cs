@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CareTaker : MonoBehaviour
+public class CareTaker : GenericSingletonClass<CareTaker> 
 {
     [SerializeField] private Originator originator;
 

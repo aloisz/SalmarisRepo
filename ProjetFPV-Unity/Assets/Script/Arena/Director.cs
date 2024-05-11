@@ -73,6 +73,11 @@ public class Director : GenericSingletonClass<Director>
         //when entering in the arena, notify the director if the new arena ID.
         currentArenaIndex = arenaID;
         
+        if (GetActualArenaTrigger().arenaUnlockedDoors.Length > 0)
+        {
+            foreach(Door d in GetActualArenaTrigger().arenaUnlockedDoors) d.ActivateDoor();
+        }
+        
         //start a new wave.
         if(CanGoToNextWave()) StartCoroutine(nameof(StartNewWave));
     }
@@ -86,6 +91,8 @@ public class Director : GenericSingletonClass<Director>
     {
         //reset all variables.
         ResetWaveVariables();
+        
+        yield return new WaitUntil(() => GetActualArenaTrigger().key.isPickedUp);
         
         currentWaveIndex++;
 
@@ -112,14 +119,14 @@ public class Director : GenericSingletonClass<Director>
     {
         int i = 0;
         _hasFinishSpawningEnemies = false;
-        
+
         foreach (EnemyToSpawn e in GetActualWave().enemiesToSpawn)
         {
             GameObject mob = Pooling.instance.Pop(Enum.GetName(typeof(EnemyToSpawn.EnemyKeys), e.enemyKey));
             AI_Pawn p = mob.GetComponent<AI_Pawn>();
             p.EnableNavMesh(false);
             
-            mob.transform.position = arenas[currentArenaIndex].enemiesPositions[currentWaveIndex].positions[i];
+            mob.transform.position = GetActualArenaTrigger().enemiesPositions[currentWaveIndex].positions[i];
             
             _spawnedEnemies.Add(p);
 
@@ -217,13 +224,19 @@ public class Director : GenericSingletonClass<Director>
     private ArenaData GetActualArenaData()
     {
         if (currentArenaIndex < 0) return null;
-        return arenas[currentArenaIndex].arenaData;
+        return GetActualArenaTrigger().arenaData;
     }
 
     private ArenaWave GetActualWave()
     {
         if (currentWaveIndex < 0) return null;
         return GetActualArenaData().arenaWaves[currentWaveIndex]; 
+    }
+    
+    private ArenaTrigger GetActualArenaTrigger()
+    {
+        if (currentArenaIndex < 0) return null;
+        return arenas[currentArenaIndex];
     }
 
     private void NotifyArenaCompleted()
@@ -239,8 +252,11 @@ public class Director : GenericSingletonClass<Director>
         
         onArenaFinished.Invoke();
         
-        Debug.Log("Arena Finished");
-        
+        if (GetActualArenaTrigger().arenaUnlockedDoors.Length > 0)
+        {
+            foreach(Door d in GetActualArenaTrigger().arenaUnlockedDoors) d.DeactivateDoor();
+        }
+
         if(GetActualArenaData().shouldSpawnShopAtTheEnd) 
             UpgradeModule.Instance.InitModule(GetActualArenaData().shopOrbitalPosition, GetActualArenaData().possibleUpgrades);
         

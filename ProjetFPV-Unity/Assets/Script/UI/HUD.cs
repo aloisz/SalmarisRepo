@@ -25,6 +25,7 @@ public class HUD : GenericSingletonClass<HUD>
     [SerializeField] private Image crosshairDots;
     [SerializeField] private Image crosshairBombDropdown;
     [SerializeField] private Image deform;
+    [SerializeField] private Image vitals;
 
     private float _giggleX;
     private float _giggleY;
@@ -48,6 +49,7 @@ public class HUD : GenericSingletonClass<HUD>
         CreateMaterialInstance(crosshairDots);
         CreateMaterialInstance(crosshairBombDropdown);
         CreateMaterialInstance(deform);
+        CreateMaterialInstance(vitals);
         
         foreach(var cb in crosshairBorders) CreateMaterialInstance(cb);
 
@@ -67,6 +69,7 @@ public class HUD : GenericSingletonClass<HUD>
         UIGiggle(healthBar.material,giggleMultiplier);
         UIGiggle(dashBar.material, giggleMultiplier);
         UIGiggle(deform.material, giggleMultiplierBackground);
+        UIGiggle(vitals.material, giggleMultiplierBackground);
         
         UIStamina();
         UIHealthShield();
@@ -80,6 +83,9 @@ public class HUD : GenericSingletonClass<HUD>
         deform.material.SetFloat("_DamageLeft", _crossProductDamageLeft * Mathf.Lerp(0,1,_timerDamageDisplay / damageDisplayDuration));
         
         deform.material.SetFloat("_SpeedAlpha", Mathf.Lerp(0f, 0.225f, (PlayerController.Instance._rb.velocity.magnitude / 30f)));
+        
+        vitals.material.SetFloat("_AlertMode", 
+            Mathf.Lerp(1, 0, PlayerHealth.Instance.Health / PlayerHealth.Instance.maxHealth));
     }
 
     private void UIGiggle(Material mat, Vector2 multiplier)
@@ -137,7 +143,6 @@ public class HUD : GenericSingletonClass<HUD>
         var wepSecondary = wep.weaponMode[1];
 
         var fireRateMultiplier = PlayerKillStreak.Instance.fireRateBoost;
-        var animMultiplier = 1.25f;
 
         if ((int)wepManager.actualWeaponModeIndex == 0)
         {
@@ -162,17 +167,17 @@ public class HUD : GenericSingletonClass<HUD>
             //rect.localRotation *= Quaternion.Euler(new Vector3(0,0,45));
             rect.rotation = new Quaternion(0,0,0,0);
             rect.DOLocalRotateQuaternion(Quaternion.Euler(new Vector3(0, 0, rect.localRotation.eulerAngles.z - 90)), 
-                1 / (wepSecondary.fireRate * fireRateMultiplier * 0.25f)).SetEase(crosshairBombAnimation);
-            rect.DOScale(Vector3.one * 1.5f, 1 / (wepSecondary.fireRate * fireRateMultiplier * 0.25f)).SetEase(crosshairBombScaleAnimation);
+                1 / (wepSecondary.fireRate * fireRateMultiplier) * 0.25f).SetEase(crosshairBombAnimation);
+            rect.DOScale(Vector3.one * 1.5f, 1 / (wepSecondary.fireRate * fireRateMultiplier) * 0.25f).SetEase(crosshairBombScaleAnimation);
             
             crosshairBombDropdown.material.SetFloat("_Alpha", 0f);
-            crosshairBombDropdown.material.DOFloat(1f,"_Alpha", 1 / (wepSecondary.fireRate * fireRateMultiplier * 0.1f));
+            crosshairBombDropdown.material.DOFloat(1f,"_Alpha", 1 / (wepSecondary.fireRate * fireRateMultiplier) * 0.1f);
             
             crosshairBombDropdown.material.SetFloat("_OffsetAmount", 0f);
-            crosshairBombDropdown.material.DOFloat(0.7f,"_OffsetAmount", 1 / (wepSecondary.fireRate * fireRateMultiplier * 0.1f)).SetEase(crosshairBombDropDownAnimation)
+            crosshairBombDropdown.material.DOFloat(0.7f,"_OffsetAmount", 1 / (wepSecondary.fireRate * fireRateMultiplier) * 0.1f).SetEase(crosshairBombDropDownAnimation)
                 .OnComplete(()=>
             {
-                crosshairBombDropdown.material.DOFloat(0f,"_Alpha", 1 / (wepSecondary.fireRate * fireRateMultiplier * 0.3f));
+                crosshairBombDropdown.material.DOFloat(0f,"_Alpha", 1 / (wepSecondary.fireRate * fireRateMultiplier) * 0.3f);
             });
             
             foreach (var cb in crosshairBorders)
@@ -211,8 +216,7 @@ public class HUD : GenericSingletonClass<HUD>
         _crossProductDamageLeft = Mathf.Lerp(0, damageMaxIntensity, vNormalized);
         _crossProductDamageRight = Mathf.Lerp(damageMaxIntensity, 0, vNormalized);
         
-        deform.material.SetFloat("_ShatteredMaskAlpha", Mathf.Lerp(0, 1, (PlayerHealth.Instance.Health + PlayerHealth.Instance.Shield) / 
-            (PlayerHealth.Instance.maxHealth + PlayerHealth.Instance.maxShield)));
+        deform.material.SetFloat("_ShatteredMaskAlpha", Mathf.Lerp(0, 1, PlayerHealth.Instance.Health / PlayerHealth.Instance.maxHealth));
     }
 
     private Vector3 RemoveYValue(Vector3 v) => new (v.x, 0, v.z);
