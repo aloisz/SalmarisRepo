@@ -13,7 +13,10 @@ public class ArenaTrigger : MonoBehaviour
     [Expandable] public ArenaData arenaData;
     
     public List<EnemyPositionData> enemiesPositions = new List<EnemyPositionData>();
-    [SerializeField] private List<Transform> waves = new List<Transform>();
+    [SerializeField] private Transform[] waves;
+    
+    public Door[] arenaUnlockedDoors;
+    public Key key;
     
     private BoxCollider _box;
 
@@ -26,6 +29,12 @@ public class ArenaTrigger : MonoBehaviour
             _box.isTrigger = true;
             Debug.LogError($"{gameObject.name} has a collider who isn't in trigger. The attached {this} script need it to be trigger to work properly. " +
                              $"The collider is auto-set to trigger but consume resources on play.");
+        }
+
+        if (key)
+        {
+            key.arenaTrigger = this;
+            key.ActivateKey();
         }
     }
 
@@ -44,8 +53,6 @@ public class ArenaTrigger : MonoBehaviour
 
     public void SetupWaveEnemiesPosition()
     {
-        if (waves.Count < transform.childCount) throw new Exception($"No enough Wave's Transform added to the list of {this}");
-        
         enemiesPositions.Clear();
         
         int j = 0;
