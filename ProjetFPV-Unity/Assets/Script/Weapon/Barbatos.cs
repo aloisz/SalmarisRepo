@@ -92,7 +92,7 @@ public class Barbatos : Shotgun
     {
         if(so_Weapon.weaponMode[(int)actualWeaponModeIndex].weaponParticle is null) return;
         ParticleSystem particle = Instantiate(so_Weapon.weaponMode[(int)actualWeaponModeIndex].weaponParticle,
-            gunBarrelPos.position, Quaternion.identity);
+            gunBarrelPos.position, Quaternion.identity, transform);
         particle.Play();
     }
     
