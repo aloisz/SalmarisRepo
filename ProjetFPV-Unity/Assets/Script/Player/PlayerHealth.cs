@@ -57,8 +57,6 @@ public class PlayerHealth : GenericSingletonClass<PlayerHealth>, IDamage
         
         foreach (Collider obj in surroundingObj)
         {
-            Debug.Log("Booom");
-            
             if (obj.GetComponent<AI_Pawn>() is not null)
             {
                 var enemy = obj.GetComponent<AI_Pawn>();
