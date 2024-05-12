@@ -65,6 +65,7 @@ namespace CameraBehavior
         [field: BoxGroup("---Jumping---")][field: Range(0, 5)] [field:SerializeField] internal float highSpeedMaxMultiplierValue{ get; private set; }
         [field: BoxGroup("---Jumping---")][field: Range(0, 5)] [field:SerializeField] internal float highSpeedMultiplier{ get; private set; }
         [field: BoxGroup("---Jumping---")][field: Range(0, 10)] [field:SerializeField] internal float highSpeedDeMultiplier { get; private set; }
+        [field: BoxGroup("---Jumping---")][field: Range(0, 50)] [field:SerializeField] internal float jumpingLandingImpactMultiplier { get; private set; }
         
         /// <summary>
         /// Weapon Sway Settings

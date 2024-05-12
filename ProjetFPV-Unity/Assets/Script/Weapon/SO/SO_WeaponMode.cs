@@ -121,9 +121,19 @@ namespace Weapon
         
         [field: Space]
         [field: Header("-----Hand Swing-----")] 
-        [field: SerializeField] internal float weaponRecoilPosZ{ get; private set; }
+        [field: SerializeField] [field: MinMaxSlider(-15, 15)] internal Vector2 weaponRecoilPosX{ get; private set; }
+        [field: SerializeField] [field: MinMaxSlider(-15, 15)] internal Vector2 weaponRecoilPosY{ get; private set; }
+        [field: SerializeField] [field: MinMaxSlider(-15, 15)] internal Vector2 weaponRecoilPosZ{ get; private set; }
+        
+        [field: Space]
         [field: SerializeField] [field: MinMaxSlider(-15, 15)] internal Vector2 weaponRecoilRotx{ get; private set; } 
+        [field: SerializeField] [field: MinMaxSlider(-15, 15)] internal Vector2 weaponRecoilRotY{ get; private set; }
         [field: SerializeField] [field: MinMaxSlider(-15, 15)] internal Vector2 weaponRecoilRotZ{ get; private set; }
+        
+        [field: Space]
+        [field: SerializeField] internal Vector3 weaponRecoilCameraOffset{ get; private set; }
+        [field: SerializeField] internal AnimationCurve weaponRecoilCameraOffsetCurve{ get; private set; }
+        [field: SerializeField] internal float weaponRecoilDuration{ get; private set; }
         #endregion
     }
     
