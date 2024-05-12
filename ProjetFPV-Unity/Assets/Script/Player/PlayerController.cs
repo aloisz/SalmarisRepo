@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using AI;
 using NaughtyAttributes;
 using Unity.VisualScripting;
 using UnityEditor;
@@ -587,6 +588,21 @@ namespace Player
                     capsuleColliderSlide.enabled = false;
                 }
             }
+        }
+
+        public AI_Pawn DetectNearestEnemy()
+        {
+            float distance = 99999f;
+            AI_Pawn nearest = null;
+            foreach (AI_Pawn ai in FindObjectsOfType<AI_Pawn>())
+            {
+                if (Vector3.Distance(transform.position, ai.transform.position) < distance)
+                {
+                    distance = Vector3.Distance(transform.position, ai.transform.position);
+                    nearest = ai;
+                } 
+            }
+            return nearest;
         }
 
         #endregion
