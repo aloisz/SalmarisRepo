@@ -84,6 +84,16 @@ public class Barbatos : Shotgun
         {
             lastTimeFired_1 = lastTimefired;
         }
+
+        PlayParticle();
+    }
+
+    private void PlayParticle()
+    {
+        if(so_Weapon.weaponMode[(int)actualWeaponModeIndex].weaponParticle is null) return;
+        ParticleSystem particle = Instantiate(so_Weapon.weaponMode[(int)actualWeaponModeIndex].weaponParticle,
+            gunBarrelPos.position, Quaternion.identity);
+        particle.Play();
     }
     
     

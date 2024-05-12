@@ -134,6 +134,9 @@ namespace Weapon
         [field: SerializeField] internal Vector3 weaponRecoilCameraOffset{ get; private set; }
         [field: SerializeField] internal AnimationCurve weaponRecoilCameraOffsetCurve{ get; private set; }
         [field: SerializeField] internal float weaponRecoilDuration{ get; private set; }
+        
+        [field: Header("-----VFX-----")] 
+        [field: SerializeField] internal ParticleSystem weaponParticle{ get; private set; }
         #endregion
     }
     
