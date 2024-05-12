@@ -198,7 +198,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7670129111412073086}
-  - component: {fileID: 2282008530010013194}
+  - component: {fileID: 2086369195885276854}
+  - component: {fileID: 4886167193287351728}
   - component: {fileID: 8506461778801699736}
   - component: {fileID: 2789770422107626833}
   - component: {fileID: 1287084627326769800}
@@ -206,7 +207,7 @@ GameObject:
   - component: {fileID: 978088160069668588}
   - component: {fileID: 3138227253059653242}
   m_Layer: 8
-  m_Name: IA_TrashMob
+  m_Name: 'IA_TrashMob_Mortar '
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -225,13 +226,13 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 8211619901898913944}
   - {fileID: 5221750144642385043}
   - {fileID: 8371110689142126727}
   - {fileID: 6479330984120383571}
+  - {fileID: 2579781514014401438}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &2282008530010013194
+--- !u!114 &2086369195885276854
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -240,11 +241,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 6159587722465297484}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9c2495b028e340da8fedae48b111beec, type: 3}
+  m_Script: {fileID: 11500000, guid: b5f246c76c3b46d89cf8bf4e14a2deb1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   targetToFollow: {fileID: 0}
-  so_IA: {fileID: 11400000, guid: 47d4e7c9114fa1c4aa6f7d75063c530c, type: 2}
+  so_IA: {fileID: 11400000, guid: b695b60cd6794354faf6fb75593f5ed0, type: 2}
   targetMask:
     serializedVersion: 2
     m_Bits: 128
@@ -252,25 +253,72 @@ MonoBehaviour:
   pawnState: 0
   mobType: 0
   tickVerification: 0.2
-  enemyWeight: 1
+  enemyWeight: 0
   perimeters:
-  - distToEnemy: 5
-    timeSpentInPerimeter: 2
-  - distToEnemy: 17.5
-    timeSpentInPerimeter: 2
-  - distToEnemy: 42.3
+  - distToEnemy: 30
     timeSpentInPerimeter: 0
-  - distToEnemy: 55.3
+  - distToEnemy: 50
     timeSpentInPerimeter: 0
   rb: {fileID: 0}
   visionDetector: {fileID: 146247463210128156}
-  trashMobState: 0
+  trashMobState: 1
   agentSpeedWhenIsToFar: 50
-  agentDashSpeed: 200
-  cacAttackPos: {fileID: 8211619901898913944}
-  cacAttackSphereRadius: 1
-  isCacAttacking: 0
-  damageApplied: 15
+  isPawnStatic: 0
+  agentShootingRadius: 35
+  timeBeforeShooting: 1
+--- !u!114 &4886167193287351728
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6159587722465297484}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ccab4ff369c786743ba878684ff96ec3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  so_Weapon: {fileID: 11400000, guid: 38c58d33818a4084aa92e4db3d18d228, type: 2}
+  canFire: 1
+  isShooting: 0
+  actualNumberOfBullet: 0
+  actualWeaponModeIndex: 0
+  camera: {fileID: 0}
+  gunBarrelPos: {fileID: 2579781514014401438}
+  timeToArrive:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0.02801764
+      outSlope: 0.02801764
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.13886802
+    - serializedVersion: 3
+      time: 25.453695
+      value: 1.5818253
+      inSlope: -0.00032084226
+      outSlope: -0.00032084226
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 50
+      value: 1
+      inSlope: -0.0067586256
+      outSlope: -0.0067586256
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.14923789
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  throwPower: 10
 --- !u!114 &8506461778801699736
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -346,7 +394,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: c0b6ff23867f93340b8508a50f91cb0a, type: 2}
+  - {fileID: 2100000, guid: f164edd12ea0f4d4e8d68802aa4b5550, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -425,7 +473,7 @@ NavMeshAgent:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6159587722465297484}
-  m_Enabled: 0
+  m_Enabled: 1
   m_AgentTypeID: 0
   m_Radius: 2.06
   m_Speed: 3.5
@@ -436,11 +484,11 @@ NavMeshAgent:
   m_AutoTraverseOffMeshLink: 1
   m_AutoBraking: 1
   m_AutoRepath: 1
-  m_Height: 2
+  m_Height: 1
   m_BaseOffset: 1
   m_WalkableMask: 1
   m_ObstacleAvoidanceType: 4
---- !u!1 &7846051481294323883
+--- !u!1 &8882631955451132357
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -448,24 +496,24 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 8211619901898913944}
-  m_Layer: 8
-  m_Name: CacPos
+  - component: {fileID: 2579781514014401438}
+  m_Layer: 0
+  m_Name: ShootingPos
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &8211619901898913944
+--- !u!4 &2579781514014401438
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7846051481294323883}
+  m_GameObject: {fileID: 8882631955451132357}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.3699999, z: 0.99500275}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0.052, y: 0.276, z: 0.526}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

@@ -19,6 +19,7 @@ namespace AI
         
         [Header("Pawn Properties")]
         public LayerMask targetMask;
+        
         [Space] [ProgressBar("Health", 500, EColor.Red)] public float actualPawnHealth;
         [SerializeField] internal PawnState pawnState;
         [SerializeField] private EnemyToSpawn.EnemyKeys mobType;
