@@ -90,9 +90,9 @@ public class Barbatos : Shotgun
 
     private void PlayParticle()
     {
-        if(so_Weapon.weaponMode[(int)actualWeaponModeIndex].weaponParticle is null) return;
+        if(so_Weapon.weaponMode[(int)actualWeaponModeIndex].weaponParticle == null) return;
         ParticleSystem particle = Instantiate(so_Weapon.weaponMode[(int)actualWeaponModeIndex].weaponParticle,
-            gunBarrelPos.position, Quaternion.identity, transform);
+            gunBarrelPos.position, gunBarrelPos.transform.rotation, transform);
         particle.Play();
     }
     
