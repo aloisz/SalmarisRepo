@@ -7,7 +7,8 @@ public class ExplosiveBaril : MonoBehaviour, IExplosion, IDamage
 {
     [SerializeField] private float health = 100;
     [SerializeField] private LayerMask explosionMask;
-
+    [SerializeField] private float damage = 35f;
+    
     private Explosion _explosion;
     private bool _isExploded;
 
@@ -19,6 +20,7 @@ public class ExplosiveBaril : MonoBehaviour, IExplosion, IDamage
         _explosion = Explosion.GetComponent<Explosion>();
         _explosion.SetWhoIsTarget(explosionMask);
         _explosion.SetDoPlayerDamage(true);
+        _explosion.SetDamage(damage);
     }
 
     public void HitScanExplosion(LayerMask newTarget)

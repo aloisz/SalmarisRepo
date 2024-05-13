@@ -128,6 +128,11 @@ public class Explosion : MonoBehaviour
         return doDamagePlayer = value;
     }
 
+    public float SetDamage(float value)
+    {
+        return damageInflicted = value;
+    }
+
     #if UNITY_EDITOR
     private void OnDrawGizmos()
     {
