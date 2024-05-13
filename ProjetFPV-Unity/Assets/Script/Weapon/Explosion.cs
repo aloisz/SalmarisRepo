@@ -70,11 +70,12 @@ public class Explosion : MonoBehaviour
 
         foreach (Collider obj in surroundingObj)
         {
-            if (obj.GetComponent<AI_Pawn>() != null)
+            if (obj.GetComponent<IDamage>() != null)
             {
-                var enemy = obj.GetComponent<AI_Pawn>();
-                enemy.DisableAgent();
-                enemy.Hit(damageRepartition.Evaluate(Vector3.Distance(transform.position ,obj.transform.position)));
+                var component = obj.GetComponent<IDamage>();
+                if(obj.GetComponent<AI_Pawn>()) obj.GetComponent<AI_Pawn>().DisableAgent();
+                
+                component.Hit(damageRepartition.Evaluate(Vector3.Distance(transform.position ,obj.transform.position)));
             }
             
             if (obj.transform.gameObject.CompareTag("Player")) // if is player then add rocketJump value
