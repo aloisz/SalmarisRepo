@@ -89,6 +89,14 @@ public class Barbatos : Shotgun
         PlayParticle();
     }
 
+    public override void Reload()
+    {
+        base.Reload();
+        ParticleSystem particle = Instantiate(so_Weapon.weaponMode[(int)actualWeaponModeIndex].reloadParticle,
+            vfxPos[2].position, gunBarrelPos.transform.rotation, transform);
+        particle.Play();
+    }
+
     private void PlayParticle()
     {
         if(so_Weapon.weaponMode[(int)actualWeaponModeIndex].weaponParticle == null) return;

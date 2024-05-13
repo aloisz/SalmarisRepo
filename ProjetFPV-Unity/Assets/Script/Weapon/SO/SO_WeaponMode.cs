@@ -137,6 +137,7 @@ namespace Weapon
         
         [field: Header("-----VFX-----")] 
         [field: SerializeField] internal ParticleSystem weaponParticle{ get; private set; }
+        [field: SerializeField] internal ParticleSystem reloadParticle{ get; private set; }
         #endregion
     }
     
