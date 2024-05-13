@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.12818879, g: 1.0747823, b: 0.846147, a: 1}
+  m_IndirectSpecularColor: {r: 0.12843634, g: 1.0750786, b: 0.8463825, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -448,6 +448,8 @@ MonoBehaviour:
   arenaData: {fileID: 0}
   enemiesPositions: []
   waves: []
+  arenaUnlockedDoors: []
+  key: {fileID: 0}
 --- !u!65 &70187022
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -4618,6 +4620,8 @@ MonoBehaviour:
   arenaData: {fileID: 0}
   enemiesPositions: []
   waves: []
+  arenaUnlockedDoors: []
+  key: {fileID: 0}
 --- !u!65 &214536567
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -5763,11 +5767,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 768702412}
     m_Modifications:
-    - target: {fileID: 738034490287152872, guid: 0a671ff38d89d114bb02013810bf3c1b,
-        type: 3}
-      propertyPath: m_LocalPosition.z
-      value: -43.490356
-      objectReference: {fileID: 0}
     - target: {fileID: 5592346424687822396, guid: 0a671ff38d89d114bb02013810bf3c1b,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -5822,11 +5821,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: 1_0_Tutorial
-      objectReference: {fileID: 0}
-    - target: {fileID: 7493882975542181981, guid: 0a671ff38d89d114bb02013810bf3c1b,
-        type: 3}
-      propertyPath: m_LocalPosition.x
-      value: -91.000015
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -14020,18 +14014,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 779621266}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
---- !u!114 &782580796 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 5446655469181326108, guid: 84d40c77e7b58464992652bedc437abe,
-    type: 3}
-  m_PrefabInstance: {fileID: 1963381338}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!43 &795279676
 Mesh:
   m_ObjectHideFlags: 0
@@ -15499,6 +15481,8 @@ MonoBehaviour:
   arenaData: {fileID: 0}
   enemiesPositions: []
   waves: []
+  arenaUnlockedDoors: []
+  key: {fileID: 0}
 --- !u!65 &923871376
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -21605,6 +21589,8 @@ MonoBehaviour:
   arenaData: {fileID: 11400000, guid: f3feeb3b2b4a7ed4b9f9648330eff657, type: 2}
   enemiesPositions: []
   waves: []
+  arenaUnlockedDoors: []
+  key: {fileID: 0}
 --- !u!65 &998263700
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -22157,18 +22143,6 @@ Mesh:
     offset: 0
     size: 0
     path: 
---- !u!114 &1017826447 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 6685615102845589819, guid: 84d40c77e7b58464992652bedc437abe,
-    type: 3}
-  m_PrefabInstance: {fileID: 1963381338}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1001 &1023333980
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -22307,17 +22281,17 @@ PrefabInstance:
         type: 3}
       propertyPath: ammo
       value: 
-      objectReference: {fileID: 1980785061}
+      objectReference: {fileID: 0}
     - target: {fileID: 6655356332372034070, guid: b8b6c0fdf0c4fdc45a7a779e068e839d,
         type: 3}
       propertyPath: ammoMax
       value: 
-      objectReference: {fileID: 1935388789}
+      objectReference: {fileID: 0}
     - target: {fileID: 6655356332372034070, guid: b8b6c0fdf0c4fdc45a7a779e068e839d,
         type: 3}
       propertyPath: stamina
       value: 
-      objectReference: {fileID: 1017826447}
+      objectReference: {fileID: 0}
     - target: {fileID: 6655356332372034070, guid: b8b6c0fdf0c4fdc45a7a779e068e839d,
         type: 3}
       propertyPath: m_Enabled
@@ -22327,7 +22301,7 @@ PrefabInstance:
         type: 3}
       propertyPath: weaponName
       value: 
-      objectReference: {fileID: 782580796}
+      objectReference: {fileID: 0}
     - target: {fileID: 6655356332372034070, guid: b8b6c0fdf0c4fdc45a7a779e068e839d,
         type: 3}
       propertyPath: staminaCharge
@@ -22356,17 +22330,17 @@ PrefabInstance:
     - target: {fileID: 7372045558108116486, guid: b8b6c0fdf0c4fdc45a7a779e068e839d,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: 29.88
       objectReference: {fileID: 0}
     - target: {fileID: 7372045558108116486, guid: b8b6c0fdf0c4fdc45a7a779e068e839d,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: 21.08
       objectReference: {fileID: 0}
     - target: {fileID: 7372045558108116486, guid: b8b6c0fdf0c4fdc45a7a779e068e839d,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0
+      value: 62.63
       objectReference: {fileID: 0}
     - target: {fileID: 7372045558108116486, guid: b8b6c0fdf0c4fdc45a7a779e068e839d,
         type: 3}
@@ -23693,6 +23667,8 @@ MonoBehaviour:
   arenaData: {fileID: 0}
   enemiesPositions: []
   waves: []
+  arenaUnlockedDoors: []
+  key: {fileID: 0}
 --- !u!65 &1056742563
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -25211,6 +25187,8 @@ MonoBehaviour:
   arenaData: {fileID: 0}
   enemiesPositions: []
   waves: []
+  arenaUnlockedDoors: []
+  key: {fileID: 0}
 --- !u!65 &1152162766
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -34791,6 +34769,8 @@ MonoBehaviour:
   arenaData: {fileID: 0}
   enemiesPositions: []
   waves: []
+  arenaUnlockedDoors: []
+  key: {fileID: 0}
 --- !u!65 &1776502185
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -36515,18 +36495,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6a40896cca62a6a47b83464afbcb8d32, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &1935388789 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 7655408316094904467, guid: 84d40c77e7b58464992652bedc437abe,
-    type: 3}
-  m_PrefabInstance: {fileID: 1963381338}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!43 &1935908012
 Mesh:
   m_ObjectHideFlags: 0
@@ -37580,18 +37548,6 @@ Mesh:
     offset: 0
     size: 0
     path: 
---- !u!114 &1980785061 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 8398557288263676713, guid: 84d40c77e7b58464992652bedc437abe,
-    type: 3}
-  m_PrefabInstance: {fileID: 1963381338}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!43 &1986448266
 Mesh:
   m_ObjectHideFlags: 0
