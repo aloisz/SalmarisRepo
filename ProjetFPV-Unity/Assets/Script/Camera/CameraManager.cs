@@ -43,7 +43,6 @@ namespace CameraBehavior
         internal HandSwing handSwing;
 
         private bool isCommingBackFromEffect;
-        
         internal float timer = 0;
 
         public static CameraManager Instance;
@@ -89,9 +88,10 @@ namespace CameraBehavior
         {
             if (!mustAvoid)
             {
+                var YImpact = (cameraJumping.jumpingImpactOnLanding.Evaluate(PlayerController.Instance._rb.velocity.y) );
+                
                 transform.position = Vector3.Lerp(transform.position, playerTransform.position, 
-                    Time.deltaTime * (so_Camera.positionOffSetSmooth - 
-                                      (cameraJumping.jumpingImpact.Evaluate(PlayerController.Instance._rb.velocity.magnitude) * 5)));
+                    Time.deltaTime * (so_Camera.positionOffSetSmooth - YImpact));
             }
             else
             {
@@ -150,6 +150,8 @@ namespace CameraBehavior
             }
             cameraJumping.HandlesHighSpeed();
             cameraJumping.DisplayCameraShake();
+
+            handSwing.CameraImpact();
 
             // Fix the different rotation smoothness
             if (Math.Abs(actualglobalCameraRot - globalCameraRot) > 0.1f) 
@@ -232,7 +234,7 @@ namespace CameraBehavior
             }
             camera.fieldOfView = currentFov;
         }
-
+        
         private void MovingTransitionParent()
         {
             transitionParent.position = Vector3.Lerp(transitionParent.position, playerTransform.position, 

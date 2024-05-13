@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using DG.Tweening;
 using NaughtyAttributes;
 using Player;
+using TMPro;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
 using Weapon;
@@ -25,6 +27,9 @@ public class HUD : GenericSingletonClass<HUD>
     [SerializeField] private Image crosshairDots;
     [SerializeField] private Image crosshairBombDropdown;
     [SerializeField] private Image deform;
+    [SerializeField] private Image vitals;
+
+    [SerializeField] private TextMeshProUGUI infos1, infos2;
 
     private float _giggleX;
     private float _giggleY;
@@ -48,6 +53,7 @@ public class HUD : GenericSingletonClass<HUD>
         CreateMaterialInstance(crosshairDots);
         CreateMaterialInstance(crosshairBombDropdown);
         CreateMaterialInstance(deform);
+        CreateMaterialInstance(vitals);
         
         foreach(var cb in crosshairBorders) CreateMaterialInstance(cb);
 
@@ -67,6 +73,7 @@ public class HUD : GenericSingletonClass<HUD>
         UIGiggle(healthBar.material,giggleMultiplier);
         UIGiggle(dashBar.material, giggleMultiplier);
         UIGiggle(deform.material, giggleMultiplierBackground);
+        UIGiggle(vitals.material, giggleMultiplierBackground);
         
         UIStamina();
         UIHealthShield();
@@ -80,6 +87,37 @@ public class HUD : GenericSingletonClass<HUD>
         deform.material.SetFloat("_DamageLeft", _crossProductDamageLeft * Mathf.Lerp(0,1,_timerDamageDisplay / damageDisplayDuration));
         
         deform.material.SetFloat("_SpeedAlpha", Mathf.Lerp(0f, 0.225f, (PlayerController.Instance._rb.velocity.magnitude / 30f)));
+        
+        vitals.material.SetFloat("_AlertMode", 
+            Mathf.Lerp(1, 0, PlayerHealth.Instance.Health / PlayerHealth.Instance.maxHealth));
+
+        var vitalsValue = PlayerHealth.Instance.Health + PlayerHealth.Instance.Shield;
+        var state = "Good";
+        switch (vitalsValue)
+        {
+            case > 150 : 
+                state = "Good";
+                break;
+            case > 100 and < 150 : 
+                state = "Damaged";
+                break;
+            case > 50 and < 100 : 
+                state = "Very Damaged";
+                break;
+            case < 50 : 
+                state = "Critical";
+                break;
+        }
+
+        infos1.text = $"Current State : {PlayerController.Instance.currentActionState}" +
+                      $"<br>Current Vitals : {state}";
+
+        var dangerProximity = PlayerController.Instance.DetectNearestEnemy() ? (int)Vector3.Distance(PlayerController.Instance.transform.position,
+            PlayerController.Instance.DetectNearestEnemy().transform.position) : 0;
+        var dangerText = dangerProximity != 0 ? dangerProximity.ToString() + " m" : "None";
+        
+        infos2.text = $"{(PlayerController.Instance._rb.velocity.magnitude * 3.6f):F1} Km/h" +
+                      $"<br>Danger Proximity : {dangerText}";
     }
 
     private void UIGiggle(Material mat, Vector2 multiplier)
@@ -210,8 +248,7 @@ public class HUD : GenericSingletonClass<HUD>
         _crossProductDamageLeft = Mathf.Lerp(0, damageMaxIntensity, vNormalized);
         _crossProductDamageRight = Mathf.Lerp(damageMaxIntensity, 0, vNormalized);
         
-        deform.material.SetFloat("_ShatteredMaskAlpha", Mathf.Lerp(0, 1, (PlayerHealth.Instance.Health + PlayerHealth.Instance.Shield) / 
-            (PlayerHealth.Instance.maxHealth + PlayerHealth.Instance.maxShield)));
+        deform.material.SetFloat("_ShatteredMaskAlpha", Mathf.Lerp(0, 1, PlayerHealth.Instance.Health / PlayerHealth.Instance.maxHealth));
     }
 
     private Vector3 RemoveYValue(Vector3 v) => new (v.x, 0, v.z);

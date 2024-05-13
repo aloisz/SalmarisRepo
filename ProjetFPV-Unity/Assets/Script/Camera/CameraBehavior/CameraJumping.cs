@@ -10,6 +10,7 @@ namespace CameraBehavior
     {
         private CameraManager cameraManager;
         [SerializeField] internal AnimationCurve jumpingImpact;
+        [SerializeField] internal AnimationCurve jumpingImpactOnLanding;
         [SerializeField] internal AnimationCurve jumpingImpactHandSwing;
         private void Awake()
         {

@@ -43,7 +43,7 @@ namespace CameraBehavior
             var heightY = Mathf.Lerp(transitionParentPos.y, cameraManagerSlidingPos.y, heightTime); 
             var heightZ = Mathf.Lerp(transitionParentPos.z, cameraManagerSlidingPos.z, heightTime); 
             
-            cameraManager.transitionParent.position =  new Vector3(heightX, heightY, heightZ);
+            cameraManager.transitionParent.position = new Vector3(heightX, heightY, heightZ);
             
             /*Vector3.Lerp(cameraManager.transitionParent.position, cameraManager.slindingPos.position, 
                 Time.deltaTime * cameraManager.so_Camera.positionOffSetSmooth)*/

@@ -13,14 +13,14 @@ public class PlayerHealth : GenericSingletonClass<PlayerHealth>, IDamage
 
     public Vector3 lastEnemyPosition;
     
-    private float _health;
+    [HideInInspector]public float _health;
     public float Health
     {
         get => _health;
         private set => _health = Mathf.Clamp(value, 0f, maxHealth);
     }
     
-    private float _shield;
+    [HideInInspector]public float _shield;
     public float Shield
     {
         get => _shield;
@@ -57,8 +57,6 @@ public class PlayerHealth : GenericSingletonClass<PlayerHealth>, IDamage
         
         foreach (Collider obj in surroundingObj)
         {
-            Debug.Log("Booom");
-            
             if (obj.GetComponent<AI_Pawn>() is not null)
             {
                 var enemy = obj.GetComponent<AI_Pawn>();
