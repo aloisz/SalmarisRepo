@@ -9,6 +9,7 @@ using Object = UnityEngine.Object;
 public class Barbatos : Shotgun
 {
     private BarbatosInput barbatosInput;
+    [SerializeField] protected List<Transform> vfxPos;
     
     [Header("Projectile")] 
     [SerializeField] private LayerMask whoIsTheTarget;
@@ -83,6 +84,36 @@ public class Barbatos : Shotgun
         else
         {
             lastTimeFired_1 = lastTimefired;
+        }
+
+        PlayParticle();
+    }
+
+    public override void Reload()
+    {
+        base.Reload();
+        ParticleSystem particle = Instantiate(so_Weapon.weaponMode[(int)actualWeaponModeIndex].reloadParticle,
+            vfxPos[2].position, gunBarrelPos.transform.rotation, transform);
+        particle.Play();
+        
+        
+    }
+
+    private void PlayParticle()
+    {
+        if(so_Weapon.weaponMode[(int)actualWeaponModeIndex].weaponParticle == null) return;
+
+        if (isPrimary)
+        {
+            ParticleSystem particle = Instantiate(so_Weapon.weaponMode[(int)actualWeaponModeIndex].weaponParticle,
+                vfxPos[0].position, gunBarrelPos.transform.rotation, transform);
+            particle.Play();
+        }
+        else
+        {
+            ParticleSystem particle = Instantiate(so_Weapon.weaponMode[(int)actualWeaponModeIndex].weaponParticle,
+                vfxPos[1].position, gunBarrelPos.transform.rotation, transform);
+            particle.Play();
         }
     }
     

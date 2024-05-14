@@ -40,52 +40,6 @@ MonoBehaviour:
   maxNits:
     m_OverrideState: 0
     m_Value: 1000
---- !u!114 &-7013609512694375674
-MonoBehaviour:
-  m_ObjectHideFlags: 3
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: af0c9bc5a1911b14db85e866ea3016e3, type: 3}
-  m_Name: LightScatteringPostProcess
-  m_EditorClassIdentifier: 
-  active: 0
-  numberOfSamples:
-    m_OverrideState: 0
-    m_Value: 16
-  fogDensity:
-    m_OverrideState: 1
-    m_Value: 2
-  maxRayDistance:
-    m_OverrideState: 1
-    m_Value: 0.562
-  tint:
-    m_OverrideState: 0
-    m_Value: {r: 0.7490196, g: 0.7490196, b: 0.7490196, a: 1}
-  softenScreenEdges:
-    m_OverrideState: 0
-    m_Value: 0
-  animateSamplingOffset:
-    m_OverrideState: 0
-    m_Value: 0
-  lightMustBeOnScreen:
-    m_OverrideState: 0
-    m_Value: 0
-  falloffBasis:
-    m_OverrideState: 0
-    m_Value: 0
-  occlusionAssumption:
-    m_OverrideState: 0
-    m_Value: 0
-  occlusionOverDistanceAmount:
-    m_OverrideState: 0
-    m_Value: 1
-  falloffIntensity:
-    m_OverrideState: 1
-    m_Value: 1
 --- !u!114 &-4378120151067804297
 MonoBehaviour:
   m_ObjectHideFlags: 3
@@ -208,7 +162,6 @@ MonoBehaviour:
   - {fileID: -396042115946689150}
   - {fileID: 704501622253866241}
   - {fileID: 8706899575533288206}
-  - {fileID: -7013609512694375674}
   - {fileID: 3679404529385353546}
 --- !u!114 &704501622253866241
 MonoBehaviour:
@@ -262,8 +215,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   active: 1
   postExposure:
-    m_OverrideState: 0
-    m_Value: -0.35
+    m_OverrideState: 1
+    m_Value: -0.56
   contrast:
     m_OverrideState: 0
     m_Value: -5
@@ -272,7 +225,7 @@ MonoBehaviour:
     m_Value: {r: 1, g: 1, b: 1, a: 1}
   hueShift:
     m_OverrideState: 0
-    m_Value: 76
+    m_Value: -43
   saturation:
     m_OverrideState: 1
     m_Value: 8

@@ -38,6 +38,13 @@ namespace AI
         [Header("Debugging")] 
         [SerializeField] private bool enableDebugging;
 
+        public void ResetAll()
+        {
+            isAttacking = false;
+            isPreparingDash = false;
+            timeElapsedInPerimeter = 0;
+            hasLanded = false;
+        }
 
         private void Update()
         {
@@ -117,15 +124,14 @@ namespace AI
         private void DashInPlayerDir(float time, Vector3 landingPos)
         {
             hasLanded = false;
-            aiSmasher.transform.DOJump(landingPos, 1, 1, time).OnComplete((() =>
+            aiSmasher.transform.DOJump(landingPos, 2.5f, 1, time).OnComplete((() =>
             {
                 hasLanded = true;
-                aiSmasher.IsPhysicNavMesh(true);
             }));
         }
 
         private float timeSinceLanded;
-        private float maxTimeSinceLanded = 1f;
+        private float maxTimeSinceLanded = .5f;
         private void HandleHasLanded()
         {
             if(!hasLanded) return;
@@ -134,7 +140,7 @@ namespace AI
             timeSinceLanded = 0;
             hasLanded = false;
             isAttacking = false;
-            aiSmasher.GetPawnPersonnalInformation();
+            aiSmasher.IsPhysicNavMesh(true);
         }
 
 

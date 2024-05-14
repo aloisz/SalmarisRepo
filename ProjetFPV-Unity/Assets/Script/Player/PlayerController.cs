@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using AI;
 using NaughtyAttributes;
 using Unity.VisualScripting;
 using UnityEditor;
@@ -219,8 +220,8 @@ namespace Player
         /// </summary>
         private void SetMoveSpeed()
         {
-            _moveSpeed = isOnGround ? playerScriptable.moveSpeed : 
-                playerScriptable.moveSpeed / playerScriptable.moveSpeedInAirDivider;
+            _moveSpeed = (isOnGround ? playerScriptable.moveSpeed : 
+                playerScriptable.moveSpeed / playerScriptable.moveSpeedInAirDivider) * PlayerKillStreak.Instance.speedBoost;
         }
         
         /// <summary>
@@ -278,11 +279,11 @@ namespace Player
         private void RechargeStamina()
         {
             if(!isDashing && !isJumping)
-                PlayerStamina.Instance.GenerateStaminaStep(playerScriptable.staminaPerSecond);
+                PlayerStamina.Instance.GenerateStaminaStep(playerScriptable.staminaPerSecond * PlayerKillStreak.Instance.staminaBoost);
             
             else if(isJumping)
                 //Generate two times less stamina when in this airs.
-                PlayerStamina.Instance.GenerateStaminaStep(playerScriptable.staminaPerSecond / 2f);
+                PlayerStamina.Instance.GenerateStaminaStep(playerScriptable.staminaPerSecond * PlayerKillStreak.Instance.staminaBoost / 2f);
         }
 
         #endregion
@@ -589,6 +590,21 @@ namespace Player
             }
         }
 
+        public AI_Pawn DetectNearestEnemy()
+        {
+            float distance = 99999f;
+            AI_Pawn nearest = null;
+            foreach (AI_Pawn ai in FindObjectsOfType<AI_Pawn>())
+            {
+                if (Vector3.Distance(transform.position, ai.transform.position) < distance)
+                {
+                    distance = Vector3.Distance(transform.position, ai.transform.position);
+                    nearest = ai;
+                } 
+            }
+            return nearest;
+        }
+
         #endregion
         
         //-------------------- Inputs ----------------------
@@ -783,18 +799,21 @@ namespace Player
             #endregion
             
             #region GroundCheck
-            
-            var offset = playerScriptable.groundDetectionForwardOffset;
-            var pos = cameraAttachPosition.position + new Vector3(0,playerScriptable.groundDetectionUpOffset,0);
 
-            for (int i = 0; i < 4; i++)
+            if (cameraAttachPosition)
             {
-                var posCheck = ReturnCheckOffsetFromDir(pos, Helper.ReturnDirFromIndex(i), offset);
-                
-                Gizmos.color = new Color(1,.5f,0);
-                Gizmos.DrawRay(posCheck, Vector3.down * playerScriptable.groundDetectionLenght);
+                var offset = playerScriptable.groundDetectionForwardOffset;
+                var pos = cameraAttachPosition.position + new Vector3(0, playerScriptable.groundDetectionUpOffset, 0);
+
+                for (int i = 0; i < 4; i++)
+                {
+                    var posCheck = ReturnCheckOffsetFromDir(pos, Helper.ReturnDirFromIndex(i), offset);
+
+                    Gizmos.color = new Color(1, .5f, 0);
+                    Gizmos.DrawRay(posCheck, Vector3.down * playerScriptable.groundDetectionLenght);
+                }
             }
-            
+
             #endregion
 
             if (!playerScriptable.enableAutoJumpEdge) return;

@@ -43,11 +43,19 @@ public class AI_Smasher : AI_Pawn
                 _aiSmasherPerimeter0.HandlePerimeter0();
                 break;
             case SmasherMobState.Perimeter_1:
+                _aiSmasherPerimeter0.Reset();
                 _aiSmasherPerimeter1.HandlePerimeter1();
                 break;
             case SmasherMobState.Perimeter_2:
+                EnableNavMesh(true);
+                _aiSmasherPerimeter0.Reset();
+                _aiSmasherPerimeter1.ResetAll();
+                navMeshAgent.speed = so_IA.walkingSpeed;
                 break;
             case SmasherMobState.Perimeter_3:
+                EnableNavMesh(true);
+                navMeshAgent.speed = so_IA.walkingSpeed;
+                _aiSmasherPerimeter1.ResetAll();
                 break;
             default:
                 throw new ArgumentOutOfRangeException();

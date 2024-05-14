@@ -19,8 +19,10 @@ namespace AI
         
         [Header("Pawn Properties")]
         public LayerMask targetMask;
+        
         [Space] [ProgressBar("Health", 500, EColor.Red)] public float actualPawnHealth;
         [SerializeField] internal PawnState pawnState;
+        [SerializeField] private EnemyToSpawn.EnemyKeys mobType;
         
         [Header("Tick")]
         [SerializeField][Tooltip("How many time the check is performed")] protected float tickVerification = 0.2f;
@@ -114,6 +116,7 @@ namespace AI
             {
                 DestroyLogic();
                 if(Director.Instance) Director.Instance.TryAddingValueFromLastKilledEnemy(enemyWeight);
+                if(PlayerKillStreak.Instance) PlayerKillStreak.Instance.NotifyEnemyKilled(mobType);
             }
         }
         protected virtual void DestroyLogic(){}
@@ -197,6 +200,7 @@ namespace AI
         public void Hit(float damageInflicted)
         {
             actualPawnHealth -= damageInflicted;
+            PlayerKillStreak.Instance.NotifyDamageInflicted();
         }
 
         public void EnableNavMesh(bool enabled)
