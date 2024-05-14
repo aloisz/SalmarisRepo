@@ -74,8 +74,11 @@ public class Explosion : MonoBehaviour
             {
                 var component = obj.GetComponent<IDamage>();
                 if(obj.GetComponent<AI_Pawn>()) obj.GetComponent<AI_Pawn>().DisableAgent();
-                
-                component.Hit(damageRepartition.Evaluate(Vector3.Distance(transform.position ,obj.transform.position)));
+
+                if (!obj.GetComponent<PlayerController>())
+                {
+                    component.Hit(damageRepartition.Evaluate(Vector3.Distance(transform.position ,obj.transform.position)));
+                }
             }
             
             if (obj.transform.gameObject.CompareTag("Player")) // if is player then add rocketJump value
@@ -123,6 +126,11 @@ public class Explosion : MonoBehaviour
     public bool SetDoPlayerDamage(bool value)
     {
         return doDamagePlayer = value;
+    }
+
+    public float SetDamage(float value)
+    {
+        return damageInflicted = value;
     }
 
     #if UNITY_EDITOR

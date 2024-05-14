@@ -38,6 +38,7 @@ Transform:
   - {fileID: 5507313274161343430}
   - {fileID: 6941096685395122364}
   - {fileID: 4532720903293265567}
+  - {fileID: 7560969581577846566}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &6646551948826305234
@@ -62,6 +63,7 @@ MonoBehaviour:
   vfxPos:
   - {fileID: 6941096685395122364}
   - {fileID: 4532720903293265567}
+  - {fileID: 7560969581577846566}
   whoIsTheTarget:
     serializedVersion: 2
     m_Bits: 0
@@ -331,6 +333,37 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0.097, y: 0.09399998, z: 0.6010001}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 8857200771577457520}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &8773179379779913491
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7560969581577846566}
+  m_Layer: 0
+  m_Name: VFX Pos Reload
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7560969581577846566
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8773179379779913491}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0.08042073, z: 0, w: 0.996761}
+  m_LocalPosition: {x: -0.10800001, y: 0.04030001, z: 0.06999999}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
