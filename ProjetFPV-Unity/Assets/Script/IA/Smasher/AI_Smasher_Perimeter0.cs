@@ -28,6 +28,12 @@ public class AI_Smasher_Perimeter0 : MonoBehaviour
     
     #region Attack
 
+    public void Reset()
+    {
+        isCacAttacking = false;
+        timeElapsedForCacAttack = 0;
+    }
+
     private float timeElapsedForCacAttack = 0;
     public void HandlePerimeter0()
     {
