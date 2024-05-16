@@ -359,7 +359,8 @@ namespace Player
                 capsuleColliderSlide.material = chosenMat;
             }
         }
-        
+
+        [SerializeField] private float[] drags;
         /// <summary>
         /// Set the rigidbody drag of the player, from it's different states.
         /// </summary>
@@ -367,19 +368,23 @@ namespace Player
         {
             if (isOnGround && isSliding && isOnSlope && !isSlopeClimbing)
             {
-                _rb.drag = 0f;
+                // 0f
+                _rb.drag = drags[0];
             }
             else if (isOnGround && isSliding && !isOnSlope && !isSlopeClimbing)
             {
-                _rb.drag = 0.65f;
+                // 0.65f
+                _rb.drag = drags[1];
                 if (isOnGround && isSliding && !isOnSlope)
                 {
-                    _rb.drag = 5f;
+                    // 5f
+                    _rb.drag = drags[2];
                 }
             }
             else if (isOnGround && isSliding && isOnSlope && isSlopeClimbing && _rb.velocity.magnitude < 25f)
             {
-                _rb.drag = 0f;
+                // 0f
+                _rb.drag = drags[3];
             }
             else if (isOnSlope && !isSliding)
             {
@@ -387,7 +392,8 @@ namespace Player
             }
             else if (isOnGround && isSliding && !isOnSlope && _rb.velocity.magnitude < 20f)
             {
-                _rb.drag = 6f;
+                // 6f
+                _rb.drag = drags[4];
             }
             else if (isOnGround && !isSliding)
             {
