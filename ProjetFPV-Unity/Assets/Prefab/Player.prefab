@@ -76,6 +76,12 @@ MonoBehaviour:
   groundLayer:
     serializedVersion: 2
     m_Bits: 64
+  drags:
+  - 0.75
+  - 0.65
+  - 5
+  - 0
+  - 6
 --- !u!114 &5313092729534710420
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -128,6 +134,8 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 256
   lastEnemyPosition: {x: 0, y: 0, z: 0}
+  _health: 0
+  _shield: 0
   maxHealth: 100
   maxShield: 100
   probabilityToGainShield: 0.75
