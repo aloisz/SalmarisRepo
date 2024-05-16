@@ -8,6 +8,7 @@ using UnityEditor;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.Serialization;
+using ColorUtility = Unity.VisualScripting.ColorUtility;
 
 namespace Player
 {
@@ -402,6 +403,7 @@ namespace Player
             else
             {
                 _rb.drag = playerScriptable.airDrag;
+                
             }
         }
 
