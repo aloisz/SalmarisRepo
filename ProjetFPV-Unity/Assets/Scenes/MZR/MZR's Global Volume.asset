@@ -58,12 +58,12 @@ MonoBehaviour:
     m_Value: 2
   gaussianStart:
     m_OverrideState: 1
-    m_Value: 29.6
+    m_Value: 0
   gaussianEnd:
     m_OverrideState: 1
-    m_Value: 266.26
+    m_Value: 500
   gaussianMaxRadius:
-    m_OverrideState: 0
+    m_OverrideState: 1
     m_Value: 1
   highQualitySampling:
     m_OverrideState: 0
@@ -76,7 +76,7 @@ MonoBehaviour:
     m_Value: 30
   focalLength:
     m_OverrideState: 1
-    m_Value: 93
+    m_Value: 1
   bladeCount:
     m_OverrideState: 1
     m_Value: 9
@@ -126,7 +126,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ccf1aba9553839d41ae37dd52e9ebcce, type: 3}
   m_Name: MotionBlur
   m_EditorClassIdentifier: 
-  active: 0
+  active: 1
   mode:
     m_OverrideState: 0
     m_Value: 0
@@ -135,7 +135,7 @@ MonoBehaviour:
     m_Value: 2
   intensity:
     m_OverrideState: 1
-    m_Value: 0.155
+    m_Value: 0.05
   clamp:
     m_OverrideState: 0
     m_Value: 0.2
@@ -201,7 +201,7 @@ MonoBehaviour:
   active: 0
   intensity:
     m_OverrideState: 1
-    m_Value: 0
+    m_Value: 0.631
 --- !u!114 &2654928482155053666
 MonoBehaviour:
   m_ObjectHideFlags: 3
@@ -323,7 +323,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: af0c9bc5a1911b14db85e866ea3016e3, type: 3}
   m_Name: LightScatteringPostProcess
   m_EditorClassIdentifier: 
-  active: 1
+  active: 0
   numberOfSamples:
     m_OverrideState: 1
     m_Value: 16

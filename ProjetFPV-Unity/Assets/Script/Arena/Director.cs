@@ -92,7 +92,7 @@ public class Director : GenericSingletonClass<Director>
         //reset all variables.
         ResetWaveVariables();
         
-        yield return new WaitUntil(() => GetActualArenaTrigger().key.isPickedUp);
+        yield return new WaitUntil(() => !GetActualArenaTrigger().key || GetActualArenaTrigger().key.isPickedUp);
         
         currentWaveIndex++;
 
@@ -288,7 +288,7 @@ public class Director : GenericSingletonClass<Director>
             return;
         }
         
-        if (_currentRemainingEnemies <= 0 && !CanGoToNextWave() && !_currentArenaFinished)
+        if (_currentRemainingEnemies <= 0 && !CanGoToNextWave() && !_currentArenaFinished && _hasFinishSpawningEnemies)
         {
             NotifyArenaCompleted();
         }

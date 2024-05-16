@@ -74,7 +74,7 @@ public class ArenaTrigger : MonoBehaviour
 
             //Setup the enemy positions list
             var x = new List<Vector3>();
-            for (var k = 0; k < 10; k++) x.Add(Vector3.zero);
+            for (var k = 0; k < arenaWaves[j].enemiesToSpawn.Length; k++) x.Add(Vector3.zero);
             enemiesPositions.Add(new EnemyPositionData()
             {
                 positions = x
