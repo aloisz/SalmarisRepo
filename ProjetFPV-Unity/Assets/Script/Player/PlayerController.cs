@@ -1,14 +1,7 @@
 using System;
 using System.Collections;
-using System.Collections.Generic;
 using AI;
-using NaughtyAttributes;
-using Unity.VisualScripting;
-using UnityEditor;
 using UnityEngine;
-using UnityEngine.InputSystem;
-using UnityEngine.Serialization;
-using ColorUtility = Unity.VisualScripting.ColorUtility;
 
 namespace Player
 {
