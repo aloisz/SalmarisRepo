@@ -53,19 +53,39 @@ MonoBehaviour:
   <explosionRadius>k__BackingField: {x: 0, y: 0}
   <explosionDamage>k__BackingField: {x: 0, y: 0}
   <poolingPopKey>k__BackingField: 
-  <weaponRecoilPosX>k__BackingField: {x: 0, y: 0}
-  <weaponRecoilPosY>k__BackingField: {x: 0, y: 0}
-  <weaponRecoilPosZ>k__BackingField: {x: 0, y: 0}
-  <weaponRecoilRotx>k__BackingField: {x: 0, y: 0}
-  <weaponRecoilRotY>k__BackingField: {x: 0, y: 0}
-  <weaponRecoilRotZ>k__BackingField: {x: 0, y: 0}
-  <weaponRecoilCameraOffset>k__BackingField: {x: 0, y: 0, z: 0}
+  <weaponRecoilPosX>k__BackingField: {x: -1, y: 1}
+  <weaponRecoilPosY>k__BackingField: {x: -0.7, y: 0.7}
+  <weaponRecoilPosZ>k__BackingField: {x: -5, y: 0}
+  <weaponRecoilRotx>k__BackingField: {x: -15, y: 15}
+  <weaponRecoilRotY>k__BackingField: {x: -15, y: 15}
+  <weaponRecoilRotZ>k__BackingField: {x: -15, y: 15}
+  <weaponRecoilCameraOffset>k__BackingField: {x: 0, y: 0, z: -1}
   <weaponRecoilCameraOffsetCurve>k__BackingField:
     serializedVersion: 2
-    m_Curve: []
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 2
+      outSlope: 2
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  <weaponRecoilDuration>k__BackingField: 0
-  <weaponParticle>k__BackingField: {fileID: 0}
-  <reloadParticle>k__BackingField: {fileID: 0}
+  <weaponRecoilDuration>k__BackingField: 0.085
+  <weaponParticle>k__BackingField: {fileID: 2694217312978912468, guid: fa79ec50d7c4daa40989f9abca070ee8,
+    type: 3}
+  <reloadParticle>k__BackingField: {fileID: 2694217312978912468, guid: cc7b8b2a57a169548a1b34045c7b4003,
+    type: 3}

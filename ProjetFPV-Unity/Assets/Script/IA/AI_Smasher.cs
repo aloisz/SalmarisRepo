@@ -105,6 +105,13 @@ public class AI_Smasher : AI_Pawn
         }
     }
     
+    public override void Hit(float damageInflicted)
+    {
+        
+    }
+    
+    
+    
     // Debug -------------------------
     #if UNITY_EDITOR
     protected override void OnDrawGizmos()

@@ -1,5 +1,20 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!114 &-2549549397286107253
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 73bb0c28b25f48d4ea2f38b3e2010651, type: 3}
+  m_Name: AutoExposureRenderFeature
+  m_EditorClassIdentifier: 
+  m_Active: 1
+  settings:
+    renderPassEvent: 550
 --- !u!114 &-2051885567065106077
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -14,6 +29,21 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Active: 1
   m_Shader: {fileID: 4800000, guid: 0f854b35a0cf61a429bd5dcfea30eddd, type: 3}
+--- !u!114 &-939229904648687276
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 96dab975e69883249a56554e791c4fd0, type: 3}
+  m_Name: ButoRenderFeature
+  m_EditorClassIdentifier: 
+  m_Active: 1
+  settings:
+    renderPassEvent: 450
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -33,9 +63,10 @@ MonoBehaviour:
   m_RendererFeatures:
   - {fileID: 6521269614726445078}
   - {fileID: -2051885567065106077}
-  - {fileID: 3850616544471852580}
   - {fileID: 76795120091840803}
-  m_RendererFeatureMap: 167851d62934805a635955b7f23c86e324a67c835823703523c18e3dc1d41001
+  - {fileID: -2549549397286107253}
+  - {fileID: -939229904648687276}
+  m_RendererFeatureMap: 167851d62934805a635955b7f23c86e323c18e3dc1d410018b4773cd542e9edc54b1fdc2602ff7f2
   m_UseNativeRenderPass: 0
   postProcessData: {fileID: 11400000, guid: 41439944d30ece34e96484bdb6645b55, type: 2}
   xrSystemData: {fileID: 11400000, guid: 60e1133243b97e347b653163a8c01b64, type: 2}
