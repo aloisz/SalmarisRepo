@@ -135,7 +135,7 @@ namespace Weapon
         {
             isShooting = true;
             lastTimefired = Time.time;
-            Debug.Log($"Mode {so_Weapon.weaponMode[(int)actualWeaponModeIndex]}  lastTimefired {lastTimefired}");
+            //Debug.Log($"Mode {so_Weapon.weaponMode[(int)actualWeaponModeIndex]}  lastTimefired {lastTimefired}");
             HudShootingAction();
             if(!so_Weapon.weaponMode[(int)actualWeaponModeIndex].isBulletInfinite) actualNumberOfBullet--;
             if(actualNumberOfBullet == 0) Reload();
