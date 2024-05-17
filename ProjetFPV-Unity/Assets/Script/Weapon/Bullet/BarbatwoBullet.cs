@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Player;
 using UnityEngine;
+using Weapon;
 
 public class BarbatwoBullet : BulletBehavior
 {
@@ -41,9 +42,9 @@ public class BarbatwoBullet : BulletBehavior
 
     private void BounceLogic()
     {
+        Explosion();
         if(bounceNbr == 1)
         {
-            Explosion();
             trailRenderer.enabled = false;
             Pooling.instance.DePop(bullet.PoolingKeyName, gameObject);
         }
@@ -55,7 +56,8 @@ public class BarbatwoBullet : BulletBehavior
             if (Physics.Raycast(transform.position, bullet.bulletDir, out hit, 1000, walkableMask))
             {
                 bullet.bulletDir = Vector3.Reflect(direction, hit.normal);
-                rb.AddForce(bullet.bulletDir * (bullet.speed / 3 * Time.fixedDeltaTime) , ForceMode.Impulse);
+                bulletShot = false;
+                bullet.speed = bullet.speed / 2;
             }
         }
     }
