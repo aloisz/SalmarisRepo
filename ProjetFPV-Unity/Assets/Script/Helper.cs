@@ -128,4 +128,37 @@ public static class Helper
         Gizmos.color = color;
         Gizmos.DrawCube(Vector3.zero, boxCollider.size);
     }
+    
+    
+    #if UNITY_EDITOR
+    public static void DrawWireCapsule(Vector3 _pos, Quaternion _rot, float _radius, float _height, Color _color, float thickness)
+    {
+        if (_color != default(Color))
+            Handles.color = _color;
+        Matrix4x4 angleMatrix = Matrix4x4.TRS(_pos, _rot, Handles.matrix.lossyScale);
+        using (new Handles.DrawingScope(angleMatrix))
+        {
+            var pointOffset = (_height - (_radius * 2)) / 2;
+ 
+            //draw sideways
+            Handles.DrawWireArc(Vector3.up * pointOffset, Vector3.left, Vector3.back, -180, _radius, thickness);
+            Handles.DrawLine(new Vector3(0, pointOffset, -_radius), new Vector3(0, -pointOffset, -_radius), thickness);
+            Handles.DrawLine(new Vector3(0, pointOffset, _radius), new Vector3(0, -pointOffset, _radius), thickness);
+            Handles.DrawWireArc(Vector3.down * pointOffset, Vector3.left, Vector3.back, 180, _radius, thickness);
+            //draw frontways
+            Handles.DrawWireArc(Vector3.up * pointOffset, Vector3.back, Vector3.left, 180, _radius, thickness);
+            Handles.DrawLine(new Vector3(-_radius, pointOffset, 0), new Vector3(-_radius, -pointOffset, 0), thickness);
+            Handles.DrawLine(new Vector3(_radius, pointOffset, 0), new Vector3(_radius, -pointOffset, 0), thickness);
+            Handles.DrawWireArc(Vector3.down * pointOffset, Vector3.back, Vector3.left, -180, _radius, thickness);
+            //draw center
+            Handles.DrawWireDisc(Vector3.up * pointOffset, Vector3.up, _radius, thickness);
+            Handles.DrawWireDisc(Vector3.down * pointOffset, Vector3.up, _radius, thickness);
+ 
+        }
+    }
+    #endif
+    
 }
+
+
+
