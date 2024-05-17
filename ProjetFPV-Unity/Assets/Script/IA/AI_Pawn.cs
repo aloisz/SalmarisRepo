@@ -197,7 +197,7 @@ namespace AI
             }
         }
         
-        public void Hit(float damageInflicted)
+        public virtual void Hit(float damageInflicted)
         {
             actualPawnHealth -= damageInflicted;
             PlayerKillStreak.Instance.NotifyDamageInflicted();

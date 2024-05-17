@@ -37,7 +37,7 @@ public class AI_Smasher : AI_Pawn
     protected override void PawnBehavior()
     {
         base.PawnBehavior();
-        switch (smasherMobState)
+        /*switch (smasherMobState)
         {
             case SmasherMobState.Perimeter_0:
                 _aiSmasherPerimeter0.HandlePerimeter0();
@@ -59,7 +59,7 @@ public class AI_Smasher : AI_Pawn
                 break;
             default:
                 throw new ArgumentOutOfRangeException();
-        }
+        }*/
         CheckDistance();
     }
 
@@ -104,6 +104,13 @@ public class AI_Smasher : AI_Pawn
                 break;
         }
     }
+    
+    public override void Hit(float damageInflicted)
+    {
+        
+    }
+    
+    
     
     // Debug -------------------------
     #if UNITY_EDITOR
