@@ -11,16 +11,7 @@ public class Barbatos : Shotgun
 {
     private BarbatosInput barbatosInput;
     [SerializeField] protected List<Transform> vfxPos;
-
-    [Header("Projectile")] 
-    [SerializeField] private ProjectileType projectileType;
-    [SerializeField] [ShowIf("projectileType", ProjectileType.Bounce)]
-    private int bounceNbr;
     
-    [SerializeField] private LayerMask whoIsTheTarget;
-    [SerializeField] private float dragApply;
-    [SerializeField] private float gravityApplied;
-
     private float lastTimeFired_0; // primary
     private float lastTimeFired_1; // secondary
     private bool isPrimary;
@@ -76,7 +67,7 @@ public class Barbatos : Shotgun
         if (hit.transform.TryGetComponent<IExplosion>(out IExplosion explosion))
         {
             isFirstBulletGone = true;
-            explosion.HitScanExplosion(whoIsTheTarget);
+            explosion.HitScanExplosion(so_Weapon.weaponMode[(int)actualWeaponModeIndex].whoIsTheTarget);
         }
     }
 
@@ -134,22 +125,22 @@ public class Barbatos : Shotgun
         bulletProjectile.transform.rotation *= Quaternion.AngleAxis(90, PlayerController.transform.right);
         bulletProjectile.SetTheBulletDir(GetTheAimDirection());
         bulletProjectile.UseGravity(true);
-        bulletProjectile.GravityApplied(gravityApplied);
+        bulletProjectile.GravityApplied(so_Weapon.weaponMode[(int)actualWeaponModeIndex].gravityApplied);
         bulletProjectile.AddVelocity(so_Weapon.weaponMode[(int)actualWeaponModeIndex].bulletSpeed + PlayerController.direction.magnitude);
         bulletProjectile.AddDamage(so_Weapon.weaponMode[(int)actualWeaponModeIndex].bulletDamage);
         bulletProjectile.PoolingKeyName(so_Weapon.weaponMode[(int)actualWeaponModeIndex].poolingPopKey);
         
-        bulletProjectile.DragModification(dragApply);
+        bulletProjectile.DragModification(so_Weapon.weaponMode[(int)actualWeaponModeIndex].dragApply);
         bulletProjectile.RocketJumpForceApplied(so_Weapon.weaponMode[(int)actualWeaponModeIndex].rocketJumpForceApplied);
-        bulletProjectile.WhoIsTheTarget(whoIsTheTarget);
+        bulletProjectile.WhoIsTheTarget(so_Weapon.weaponMode[(int)actualWeaponModeIndex].whoIsTheTarget);
 
-        switch (projectileType)
+        switch (so_Weapon.weaponMode[(int)actualWeaponModeIndex].projectileType)
         {
             case ProjectileType.Simple:
                 bulletProjectile.DoBounce(ProjectileType.Simple, 0);
                 break;
             case ProjectileType.Bounce:
-                bulletProjectile.DoBounce(ProjectileType.Bounce, bounceNbr);
+                bulletProjectile.DoBounce(ProjectileType.Bounce, so_Weapon.weaponMode[(int)actualWeaponModeIndex].bounceNbr);
                 break;
         }
     }
@@ -180,8 +171,3 @@ public class Barbatos : Shotgun
     }
 }
 
-public enum ProjectileType
-{
-    Simple,
-    Bounce,
-}

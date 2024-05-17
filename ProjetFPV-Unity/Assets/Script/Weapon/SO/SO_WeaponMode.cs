@@ -115,6 +115,13 @@ namespace Weapon
         [field: SerializeField] internal bool doExplosion{ get; private set; }
         [field: ShowIf("doExplosion")][field: SerializeField] [field: MinMaxSlider(1, 100.0f)] internal Vector2 explosionRadius{ get; private set; }
         [field: ShowIf("doExplosion")][field: SerializeField] [field: MinMaxSlider(1, 100.0f)] internal Vector2 explosionDamage{ get; private set; }
+        [field:SerializeField] internal ProjectileType projectileType { get; private set; }
+        [field:SerializeField] internal int bounceNbr { get; private set; }
+    
+        [field:SerializeField] internal LayerMask whoIsTheTarget { get; private set; }
+        [field:SerializeField] internal float dragApply { get; private set; }
+        [field:SerializeField] internal float gravityApplied { get; private set; }
+        
         
         [field: Header("-----Pooling-----")] 
         [field: SerializeField] internal string poolingPopKey{ get; private set; }
@@ -158,6 +165,11 @@ namespace Weapon
     {
         Raycast,
         SphereCast
+    }
+    public enum ProjectileType
+    {
+        Simple,
+        Bounce,
     }
 }
 
