@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Player;
@@ -8,6 +9,9 @@ public class BarbatwoBullet : BulletBehavior
     protected LayerMask whoIsTheTarget;
     protected float drag;
     private float rocketJumpForceApplied;
+
+    private ProjectileType projectileType;
+    private int bounceNbr;
     protected virtual void OnDisable()
     {
         base.OnDisable();
@@ -17,9 +21,43 @@ public class BarbatwoBullet : BulletBehavior
     // Here put following logic when bullet collide with walkableMask
     protected override void CollideWithWalkableMask(Collision collision)
     {
+        switch (projectileType)
+        {
+            case ProjectileType.Simple:
+                SimpleLogic();
+                break;
+            case ProjectileType.Bounce:
+                BounceLogic();
+                break;
+        }
+    }
+
+    private void SimpleLogic()
+    {
         Explosion();
         trailRenderer.enabled = false;
         Pooling.instance.DePop(bullet.PoolingKeyName, gameObject);
+    }
+
+    private void BounceLogic()
+    {
+        if(bounceNbr == 1)
+        {
+            Explosion();
+            trailRenderer.enabled = false;
+            Pooling.instance.DePop(bullet.PoolingKeyName, gameObject);
+        }
+        else
+        {
+            bounceNbr--;
+            Vector3 direction = bullet.bulletDir;
+            RaycastHit hit;
+            if (Physics.Raycast(transform.position, bullet.bulletDir, out hit, 1000, walkableMask))
+            {
+                bullet.bulletDir = Vector3.Reflect(direction, hit.normal);
+                rb.AddForce(bullet.bulletDir * (bullet.speed / 3 * Time.fixedDeltaTime) , ForceMode.Impulse);
+            }
+        }
     }
     
     // Here put following logic when bullet collide with enemyMask
@@ -77,5 +115,11 @@ public class BarbatwoBullet : BulletBehavior
     public void RocketJumpForceApplied(float value)
     {
         rocketJumpForceApplied = value;
+    }
+
+    public void DoBounce(ProjectileType type, int bounceNbr)
+    {
+        projectileType = type;
+        this.bounceNbr = bounceNbr;
     }
 }

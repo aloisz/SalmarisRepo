@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using NaughtyAttributes;
 using UnityEngine;
 using Weapon;
 using Weapon.Interface;
@@ -10,8 +11,12 @@ public class Barbatos : Shotgun
 {
     private BarbatosInput barbatosInput;
     [SerializeField] protected List<Transform> vfxPos;
-    
+
     [Header("Projectile")] 
+    [SerializeField] private ProjectileType projectileType;
+    [SerializeField] [ShowIf("projectileType", ProjectileType.Bounce)]
+    private int bounceNbr;
+    
     [SerializeField] private LayerMask whoIsTheTarget;
     [SerializeField] private float dragApply;
     [SerializeField] private float gravityApplied;
@@ -137,6 +142,16 @@ public class Barbatos : Shotgun
         bulletProjectile.DragModification(dragApply);
         bulletProjectile.RocketJumpForceApplied(so_Weapon.weaponMode[(int)actualWeaponModeIndex].rocketJumpForceApplied);
         bulletProjectile.WhoIsTheTarget(whoIsTheTarget);
+
+        switch (projectileType)
+        {
+            case ProjectileType.Simple:
+                bulletProjectile.DoBounce(ProjectileType.Simple, 0);
+                break;
+            case ProjectileType.Bounce:
+                bulletProjectile.DoBounce(ProjectileType.Bounce, bounceNbr);
+                break;
+        }
     }
 
 
@@ -163,6 +178,10 @@ public class Barbatos : Shotgun
             explosion.transform.position = hit.point;
         }
     }
-    
-    
+}
+
+public enum ProjectileType
+{
+    Simple,
+    Bounce,
 }
