@@ -83,8 +83,14 @@ public class Explosion : MonoBehaviour
             
             if (obj.transform.gameObject.CompareTag("Player")) // if is player then add rocketJump value
             {
-                Vector3 shotgunImpulseVector = ((PlayerController.Instance.transform.position + Vector3.up) - transform.position).normalized * rocketJumpForceApplied;
-                PlayerController.Instance.shotgunExternalForce = shotgunImpulseVector;
+                Vector3 dir = PlayerController.Instance.DirectionFromCamera(PlayerController.Instance.direction) + PlayerController.Instance.overallMomentum;
+                
+                Vector3 shotgunImpulseVector = Vector3.up * rocketJumpForceApplied + dir
+                    * Mathf.Lerp(5f, 30f, PlayerController.Instance._rb.velocity.magnitude / PlayerController.Instance.playerScriptable.speedMaxToAccelerate);
+                
+                PlayerController.Instance._rb.AddForce(
+                    shotgunImpulseVector, ForceMode.Impulse);
+                
                 if(doDamagePlayer)
                 {
                     obj.GetComponent<PlayerHealth>().Hit(
@@ -93,6 +99,7 @@ public class Explosion : MonoBehaviour
             }
             else
             {
+                
                 if (obj.GetComponent<Rigidbody>() == null) continue;
                 var rb = obj.GetComponent<Rigidbody>();
                 rb.AddExplosionForce(explosionForce, transform.position, explosionRadius);
