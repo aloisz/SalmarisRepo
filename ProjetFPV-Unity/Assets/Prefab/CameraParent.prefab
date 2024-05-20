@@ -58,7 +58,7 @@ Transform:
   m_GameObject: {fileID: 3375880369610840122}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.503, y: -0.27999997, z: 0.72}
+  m_LocalPosition: {x: 0.502995, y: -0.27999973, z: 0.7199993}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -126,7 +126,7 @@ GameObject:
   m_Layer: 0
   m_Name: CameraParent
   m_TagString: Untagged
-  m_Icon: {fileID: 0}
+  m_Icon: {fileID: -5487077368411116049, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
@@ -160,7 +160,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   so_Camera: {fileID: 11400000, guid: f9db27691f8558546abf21e2518d6da4, type: 2}
-  globalCameraRot: 52
+  globalCameraRot: 30
   transitionParent: {fileID: 3575910731196181252}
   playerTransform: {fileID: 0}
   weaponTransform: {fileID: 7597889783967174112}
@@ -269,22 +269,22 @@ MonoBehaviour:
     serializedVersion: 2
     m_Curve:
     - serializedVersion: 3
-      time: -0.025707245
-      value: 2
-      inSlope: 0.6256245
-      outSlope: 0.6256245
+      time: 0
+      value: 0.1
+      inSlope: 0.027436271
+      outSlope: 0.027436271
       tangentMode: 0
       weightedMode: 0
       inWeight: 0
-      outWeight: 0.043701805
+      outWeight: 0.058024693
     - serializedVersion: 3
       time: 40
-      value: 10
-      inSlope: 0.17440347
-      outSlope: 0.17440347
+      value: 0.8
+      inSlope: 0.04563679
+      outSlope: 0.04563679
       tangentMode: 0
       weightedMode: 0
-      inWeight: 0.059125952
+      inWeight: 0.044444464
       outWeight: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
@@ -313,6 +313,11 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+  cameraPos: {fileID: 0}
+  baseCameraPos: {fileID: 0}
+  maxcameraPos: {fileID: 0}
+  YImpact: 0
+  YImpactDeMultiplier: 2
 --- !u!114 &4593806786542784810
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -513,6 +518,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6646551948826305234, guid: 1caa73a4460aefb43849ad9e775de0ec,
         type: 3}
+      propertyPath: bounceNbr
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 6646551948826305234, guid: 1caa73a4460aefb43849ad9e775de0ec,
+        type: 3}
       propertyPath: dragApply
       value: 0.5
       objectReference: {fileID: 0}
@@ -555,7 +565,7 @@ PrefabInstance:
     - target: {fileID: 8857200771577457520, guid: 1caa73a4460aefb43849ad9e775de0ec,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: 0.00000011920929
       objectReference: {fileID: 0}
     - target: {fileID: 8857200771577457520, guid: 1caa73a4460aefb43849ad9e775de0ec,
         type: 3}
@@ -565,7 +575,7 @@ PrefabInstance:
     - target: {fileID: 8857200771577457520, guid: 1caa73a4460aefb43849ad9e775de0ec,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0
+      value: -0.0000019073486
       objectReference: {fileID: 0}
     - target: {fileID: 8857200771577457520, guid: 1caa73a4460aefb43849ad9e775de0ec,
         type: 3}
