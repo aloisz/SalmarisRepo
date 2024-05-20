@@ -112,7 +112,7 @@ Transform:
   m_GameObject: {fileID: 2489371294951316218}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.015, y: 0.535, z: 0.449}
+  m_LocalPosition: {x: 0.015000105, y: 0.53499985, z: 0.4489975}
   m_LocalScale: {x: 0.68419105, y: 0.2029757, z: 0.30191982}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -245,7 +245,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   targetToFollow: {fileID: 0}
-  so_IA: {fileID: 11400000, guid: b695b60cd6794354faf6fb75593f5ed0, type: 2}
+  so_IA: {fileID: 11400000, guid: db2d0cd2850d7904aaa1d822cde53bbd, type: 2}
   targetMask:
     serializedVersion: 2
     m_Bits: 128
@@ -253,18 +253,18 @@ MonoBehaviour:
   pawnState: 0
   mobType: 0
   tickVerification: 0.2
-  enemyWeight: 0
+  enemyWeight: 2
   perimeters:
-  - distToEnemy: 30
+  - distToEnemy: 55
     timeSpentInPerimeter: 0
-  - distToEnemy: 50
+  - distToEnemy: 55
     timeSpentInPerimeter: 0
   rb: {fileID: 0}
   visionDetector: {fileID: 146247463210128156}
   trashMobState: 1
   agentSpeedWhenIsToFar: 50
   isPawnStatic: 0
-  agentShootingRadius: 35
+  agentShootingRadius: 55
   timeBeforeShooting: 1
 --- !u!114 &4886167193287351728
 MonoBehaviour:
@@ -278,7 +278,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ccab4ff369c786743ba878684ff96ec3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  so_Weapon: {fileID: 11400000, guid: 38c58d33818a4084aa92e4db3d18d228, type: 2}
+  so_Weapon: {fileID: 11400000, guid: 7a6e87af1ed9bc44b9e06d8d493f5263, type: 2}
   canFire: 1
   isShooting: 0
   actualNumberOfBullet: 0
@@ -298,13 +298,22 @@ MonoBehaviour:
       inWeight: 0
       outWeight: 0.13886802
     - serializedVersion: 3
-      time: 25.453695
-      value: 1.5818253
+      time: 38.78704
+      value: 1.4208298
       inSlope: -0.00032084226
       outSlope: -0.00032084226
       tangentMode: 0
       weightedMode: 0
       inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 47.19645
+      value: 1.3257008
+      inSlope: -0.040660173
+      outSlope: -0.040660173
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.13254307
       outWeight: 0.33333334
     - serializedVersion: 3
       time: 50
@@ -318,7 +327,7 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  throwPower: 10
+  throwPower: 40
 --- !u!114 &8506461778801699736
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -513,7 +522,7 @@ Transform:
   m_GameObject: {fileID: 8882631955451132357}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.052, y: 0.276, z: 0.526}
+  m_LocalPosition: {x: 0.052000046, y: 0.33500004, z: 0.9489975}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
