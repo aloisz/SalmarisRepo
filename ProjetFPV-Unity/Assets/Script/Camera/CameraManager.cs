@@ -92,6 +92,8 @@ namespace CameraBehavior
                 
                 transform.position = Vector3.Lerp(transform.position, playerTransform.position, 
                     Time.deltaTime * (so_Camera.positionOffSetSmooth - YImpact));
+                
+                cameraJumping.ImpactWhenLanding();
             }
             else
             {
