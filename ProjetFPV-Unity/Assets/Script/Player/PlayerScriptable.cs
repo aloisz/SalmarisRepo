@@ -98,6 +98,9 @@ namespace Player
         public float airDrag = 1.8f;
         
         [Tooltip("The time before reaching the max friction you can get when sliding on ground.")]
+        public float timeToReachFrictionWhenSlidingOnGround = 2f;
+        
+        [Tooltip("The time before reaching the max friction you can get when sliding.")]
         public float timeToReachFrictionWhenSliding = 2f;
         
         [Tooltip("The Rigidbody's max velocity.")] 

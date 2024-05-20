@@ -58,6 +58,7 @@ namespace Player
         private float _slideBoost;
 
         private float _timerSlideDragOnGround;
+        private float _timerSlideDrag;
         
         //---------------------------------------
         
@@ -324,7 +325,7 @@ namespace Player
 
                 var v = velocity;
 
-                v.y -= Time.deltaTime * playerScriptable.gravityMultiplier * (isSliding && isOnSlope ? 2f : 1f);
+                v.y -= Time.deltaTime * playerScriptable.gravityMultiplier;
 
                 v.x = velocity.x + (DirectionFromCamera(direction).x * playerScriptable.moveAirMultiplier);
                 v.z = velocity.z + (DirectionFromCamera(direction).z * playerScriptable.moveAirMultiplier);
@@ -362,13 +363,18 @@ namespace Player
         /// </summary>
         private void SetDrag()
         {
-            if (isOnGround && isSliding && !isOnSlope) _timerSlideDragOnGround += Time.deltaTime / playerScriptable.timeToReachFrictionWhenSliding;
+            if (isOnGround && isSliding && !isOnSlope) 
+                _timerSlideDragOnGround += Time.deltaTime / playerScriptable.timeToReachFrictionWhenSlidingOnGround;
             else _timerSlideDragOnGround = 0f;
+            
+            if (isOnGround && isSliding && isOnSlope && !isSlopeClimbing) 
+                _timerSlideDrag += Time.deltaTime / playerScriptable.timeToReachFrictionWhenSliding;
+            else _timerSlideDrag = 0f;
                 
             if (isOnGround && isSliding && isOnSlope && !isSlopeClimbing)
             {
                 // 0f
-                _rb.drag = drags[0];
+                _rb.drag = Mathf.Lerp(0f, drags[0], _timerSlideDrag);
             }
             else if (isOnGround && isSliding && !isOnSlope && !isSlopeClimbing)
             {
