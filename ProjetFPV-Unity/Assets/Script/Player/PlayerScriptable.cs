@@ -65,7 +65,7 @@ namespace Player
         public float slopeForwardBoost = 10f;
         
         [Tooltip("The momentum divider while jumping")]
-        public float jumpMomentumDivider = 10f;
+        public float jumpMomentumDivider = 0.75f;
         
         [Tooltip("Rigidbody's velocity limitation while moving and sliding in a slope")]
         public float overallMomentumLimiterMoveSlideInSlope = 10f;
