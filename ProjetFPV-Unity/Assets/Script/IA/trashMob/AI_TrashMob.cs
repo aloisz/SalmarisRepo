@@ -84,7 +84,7 @@ namespace AI
             base.OnDrawGizmos();
             if(Application.isPlaying)
             {
-                Handles.Label(transform.position + Vector3.up, $"walkingSpeed {navMeshAgent.speed}");
+                //Handles.Label(transform.position + Vector3.up, $"walkingSpeed {navMeshAgent.speed}");
             }
         }
         #endif  

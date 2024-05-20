@@ -46,8 +46,6 @@ namespace Weapon.EnemyWeapon
             
             bulletProjectile.transform.DOJump(playerHitPos, throwPower, 1, time).SetEase(Ease.Linear).OnComplete((() => 
                 bulletProjectile.UseGravity(true)));
-            /*bulletProjectile.SetTheBulletDir(Helper.CalculateVelocity(PlayerController.transform.position,
-                gunBarrelPos.position, 1, throwPower));*/
             
             bulletProjectile.AddDamage(so_Weapon.weaponMode[(int)actualWeaponModeIndex].bulletDamage);
             bulletProjectile.PoolingKeyName(so_Weapon.weaponMode[(int)actualWeaponModeIndex].poolingPopKey);

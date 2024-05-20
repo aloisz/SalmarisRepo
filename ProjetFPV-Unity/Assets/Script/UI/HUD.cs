@@ -64,6 +64,8 @@ public class HUD : GenericSingletonClass<HUD>
 
         _basePositionHealthBar = healthBar.rectTransform.anchoredPosition;
         _basePositionShieldBar = shieldBar.rectTransform.anchoredPosition;
+
+        InitCrosshairBorders();
     }
 
     private void Update()
@@ -180,9 +182,14 @@ public class HUD : GenericSingletonClass<HUD>
         {
             foreach (var cb in crosshairBorders)
             {
-                cb.material.SetFloat("_Offset", 0f);
+                var averageY = wepPrimary.yAxisDispersion.magnitude;
+                var averageZ = wepPrimary.zAxisDispersion.magnitude;
+                var dispersion = (averageY + averageZ) / 2f;
 
-                cb.material.DOFloat(Mathf.Lerp(crosshairImpulseMinMax.x, crosshairImpulseMinMax.y, (wepPrimary.fireRate * fireRateMultiplier) / 20f), 
+                var maxDispersion = 30f;
+                
+                cb.material.SetFloat("_Offset", dispersion / maxDispersion);
+                cb.material.DOFloat(Mathf.Lerp(0,1, dispersion / maxDispersion) * 1.75f, 
                     "_Offset", 1 / (wepPrimary.fireRate * fireRateMultiplier)).SetEase(crosshairAnimation);
             }
             
@@ -214,10 +221,33 @@ public class HUD : GenericSingletonClass<HUD>
             
             foreach (var cb in crosshairBorders)
             {
-                cb.material.SetFloat("_Offset", 0f);
+                var averageY = wepPrimary.yAxisDispersion.magnitude;
+                var averageZ = wepPrimary.zAxisDispersion.magnitude;
+                var dispersion = (averageY + averageZ) / 2f;
 
-                cb.material.DOFloat(0.025f, "_Offset", 1/wepPrimary.fireRate).SetEase(crosshairAnimation);
+                var maxDispersion = 30f;
+                
+                cb.material.SetFloat("_Offset", dispersion / maxDispersion);
+                cb.material.DOFloat(Mathf.Lerp(0,1, dispersion / maxDispersion) * 1.75f, 
+                    "_Offset", 1 / (wepPrimary.fireRate * fireRateMultiplier)).SetEase(crosshairAnimation);
             }
+        }
+    }
+
+    private void InitCrosshairBorders()
+    {
+        var wep = WeaponState.Instance.defaultWeapon;
+        var wepPrimary = wep.weaponMode[0];
+        
+        foreach (var cb in crosshairBorders)
+        {
+            var averageY = wepPrimary.yAxisDispersion.magnitude;
+            var averageZ = wepPrimary.zAxisDispersion.magnitude;
+            var dispersion = (averageY + averageZ) / 2f;
+
+            var maxDispersion = 30f;
+                
+            cb.material.SetFloat("_Offset", dispersion / maxDispersion);
         }
     }
 
