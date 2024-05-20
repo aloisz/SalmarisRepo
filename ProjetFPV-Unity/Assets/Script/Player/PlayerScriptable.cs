@@ -97,6 +97,12 @@ namespace Player
         [Tooltip("The Rigidbody's drag while the player is in the air.")]
         public float airDrag = 1.8f;
         
+        [Tooltip("The time before reaching the max friction you can get when sliding on ground.")]
+        public float timeToReachFrictionWhenSlidingOnGround = 2f;
+        
+        [Tooltip("The time before reaching the max friction you can get when sliding.")]
+        public float timeToReachFrictionWhenSliding = 2f;
+        
         [Tooltip("The Rigidbody's max velocity.")] 
         public float maxRigidbodyVelocity = 100f;
 
@@ -157,9 +163,6 @@ namespace Player
         [Header("Physical Material")]
         [Tooltip("The friction material to apply when you're idling.")]
         public PhysicMaterial frictionMaterial;
-        
-        [Tooltip("The friction material to apply when you're hitting a wall.")]
-        public PhysicMaterial wallMaterial;
         
         [Tooltip("The friction material to apply when you're moving")]
         public PhysicMaterial movingMaterial;

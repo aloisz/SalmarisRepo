@@ -62,7 +62,7 @@ MonoBehaviour:
   canDoubleJump: 1
   overallMomentum: {x: 0, y: 0, z: 0}
   DEBUG: 0
-  playerScriptable: {fileID: 11400000, guid: 508a3b058b9a95c46a60ad81b3e9b51a, type: 2}
+  playerScriptable: {fileID: 11400000, guid: c32c7c78f1595814ab35078749be1c4d, type: 2}
   cameraAttachPosition: {fileID: 5167188316764643109}
   capsuleCollider: {fileID: 3057406663904845015}
   capsuleColliderSlide: {fileID: 7966141238275471627}
@@ -79,7 +79,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 64
   drags:
-  - 0.75
+  - 0.65
   - 0.65
   - 5
   - 0
@@ -651,6 +651,11 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 7372045558108116486}
     m_Modifications:
+    - target: {fileID: 1219454692140418237, guid: 9294123db3fc3a54b89f62907126f122,
+        type: 3}
+      propertyPath: m_Depth
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3698928635149738337, guid: 9294123db3fc3a54b89f62907126f122,
         type: 3}
       propertyPath: playerTransform
