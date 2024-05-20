@@ -30,9 +30,9 @@ MonoBehaviour:
   slopeAngleDivider: 2
   slopeSpeedDivider: 20
   slopeForwardBoost: 10
-  jumpMomentumDivider: 3
-  overallMomentumLimiterMoveSlideInSlope: 10000
-  decelerationMultiplierSlideInSlopeUp: 0.5
+  jumpMomentumDivider: 0.2
+  overallMomentumLimiterMoveSlideInSlope: 1000
+  decelerationMultiplierSlideInSlopeUp: 1000
   jumpEdgeImpulseForce: 700
   slideBoostCurve:
     serializedVersion: 2
@@ -70,7 +70,7 @@ MonoBehaviour:
   staminaPerSecond: 0.0025
   gravityMultiplier: 65
   groundDrag: 7
-  airDrag: 1.8
+  airDrag: 0.5
   timeToReachFrictionWhenSlidingOnGround: 2
   timeToReachFrictionWhenSliding: 2
   maxRigidbodyVelocity: 100
