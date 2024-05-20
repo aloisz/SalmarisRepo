@@ -104,6 +104,11 @@ public static class Helper
         }
     }
 
+    public static Vector3 Vector3Abs(Vector3 v)
+    {
+        return new Vector3(Mathf.Abs(v.x), Mathf.Abs(v.y), Mathf.Abs(v.z));
+    }
+
     public static void RandomInList<T>(out T randomObject, List<T> referenceList) where T : class
     {
         randomObject = referenceList[Random.Range(0, referenceList.Count)];

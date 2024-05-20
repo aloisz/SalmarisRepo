@@ -66,9 +66,6 @@ namespace Player
         
         [Tooltip("The momentum divider while jumping")]
         public float jumpMomentumDivider = 0.75f;
-        
-        //[Tooltip("Rigidbody's velocity limitation while moving and sliding in a slope")]
-        //public float overallMomentumLimiterMoveSlideInSlope = 10f;
 
         [Tooltip("The deceleration amount of the player's speed when he is climbing a slope while sliding.")] 
         public float decelerationMultiplierSlideInSlopeUp = 1000f;
@@ -105,6 +102,9 @@ namespace Player
         
         [Tooltip("The Rigidbody's max velocity.")] 
         public float maxRigidbodyVelocity = 100f;
+        
+        [Tooltip("Rigidbody's velocity limitation while moving and sliding in a slope")]
+        public float rigidbodyClampSlide = 1.5f;
 
         //----------------------------------------------------
         

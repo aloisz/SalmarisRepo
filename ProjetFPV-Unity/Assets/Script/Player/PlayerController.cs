@@ -165,13 +165,18 @@ namespace Player
             //Set the current input values to the direction.
             var dirFromInputs = PlayerInputs.Instance.moveValue;
             direction = new Vector3(dirFromInputs.x, 0, dirFromInputs.y).normalized;
+            if (isSliding && !isSlopeClimbing)
+                direction = new Vector3(direction.x, direction.y, Mathf.Abs(direction.z));
             
             //If the direction isn't null, set the direction not reset to direction.
             if (direction.magnitude > playerScriptable.moveThreshold) directionNotReset = direction;
             
             _rb.AddForce(GetOverallMomentumVector(), ForceMode.Impulse);
 
-            if (_rb.velocity.magnitude > playerScriptable.maxRigidbodyVelocity) 
+            if (_rb.velocity.magnitude > playerScriptable.rigidbodyClampSlide && isSliding) 
+                _rb.velocity = Vector3.ClampMagnitude(_rb.velocity, playerScriptable.rigidbodyClampSlide);
+
+            if (_rb.velocity.magnitude > playerScriptable.maxRigidbodyVelocity)
                 _rb.velocity = Vector3.ClampMagnitude(_rb.velocity, playerScriptable.maxRigidbodyVelocity);
         }
         
@@ -183,8 +188,7 @@ namespace Player
         {
             var dividerOnSlope = (!isSlopeClimbing && isSliding ? playerScriptable.slopeSpeedDivider : 1f);
             var accelerating = _rb.velocity.magnitude < playerScriptable.speedMaxToAccelerate && !isSliding;
-            var vectorMove = DirectionFromCamera(direction).normalized * 
-                             (_moveSpeed * _speedMultiplierFromDash * (accelerating ? playerScriptable.accelerationMultiplier : 1f));
+            var vectorMove = DirectionFromCamera(direction).normalized * (_moveSpeed * _speedMultiplierFromDash * (accelerating ? playerScriptable.accelerationMultiplier : 1f));
 
             var slopeDirection = new Vector3(_raycastSlope.normal.x, 0, _raycastSlope.normal.z).normalized;
 
@@ -403,7 +407,7 @@ namespace Player
             }
             else
             {
-                _rb.drag = _rb.velocity.magnitude >= 50f ? 0.8f : 1.8f;
+                _rb.drag = _rb.velocity.magnitude >= 50f ? 0.8f : playerScriptable.airDrag;
             }
         }
 
@@ -645,6 +649,8 @@ namespace Player
             }
 
             var forwardMomentumVector = GetDirectionXZ(_rb.velocity) / (playerScriptable.maxRigidbodyVelocity / playerScriptable.jumpMomentumDivider);
+
+            if (_amountOfJumps < 2) _rb.velocity = new Vector3(_rb.velocity.x, 0, _rb.velocity.z);
             
             _rb.AddForce((_amountOfJumps < 2 ? 
                 playerScriptable.jumpForce : 

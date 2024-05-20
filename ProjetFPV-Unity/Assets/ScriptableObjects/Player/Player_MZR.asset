@@ -28,10 +28,10 @@ MonoBehaviour:
   accelerationMultiplier: 2
   slidingInSlopeDownForce: 2
   slopeAngleDivider: 2
-  slopeSpeedDivider: 100
-  slopeForwardBoost: 10
+  slopeSpeedDivider: 1
+  slopeForwardBoost: 1
   jumpMomentumDivider: 0.2
-  decelerationMultiplierSlideInSlopeUp: 10
+  decelerationMultiplierSlideInSlopeUp: 1.25
   jumpEdgeImpulseForce: 700
   slideBoostCurve:
     serializedVersion: 2
@@ -73,6 +73,7 @@ MonoBehaviour:
   timeToReachFrictionWhenSlidingOnGround: 2
   timeToReachFrictionWhenSliding: 2
   maxRigidbodyVelocity: 100
+  rigidbodyClampSlide: 60
   groundDetectionLenght: 2.8
   raycastLenghtSlopeDetection: 2
   groundDetectionForwardOffset: 0.25
