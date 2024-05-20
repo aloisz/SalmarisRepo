@@ -134,9 +134,9 @@ GameObject:
   - component: {fileID: 27362392}
   - component: {fileID: 27362393}
   m_Layer: 0
-  m_Name: Enemy_4
+  m_Name: TrashMob_4
   m_TagString: Untagged
-  m_Icon: {fileID: 2800000, guid: 3fee4e0ce66778b478aebfc6194f1d19, type: 3}
+  m_Icon: {fileID: 2800000, guid: 26b3a285bd12885428695d8344a1476d, type: 3}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
@@ -149,7 +149,7 @@ Transform:
   m_GameObject: {fileID: 27362391}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -16.229982, y: 11.299988, z: 33.070045}
+  m_LocalPosition: {x: -22.82999, y: 6.4100037, z: 39.160007}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -498,7 +498,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   arenaID: 3
   arenaData: {fileID: 11400000, guid: 535ec261491f3cb459b051755c04b784, type: 2}
-  enemiesPositions: []
+  enemiesPositions:
+  - positions:
+    - {x: -335.77008, y: -112.92999, z: -944.93604}
+    - {x: -347.51178, y: -113.22998, z: -972.8887}
+    - {x: -369.29254, y: -111.31, z: -955.7003}
+    - {x: -327.27844, y: -103.28998, z: -1000.0736}
+    - {x: -364.80078, y: -107.91998, z: -920.7773}
+  - positions:
+    - {x: -321.7611, y: -110.639984, z: -938.2987}
+    - {x: -321.82532, y: -99.53, z: -965.55774}
+    - {x: -345.499, y: -103.53, z: -904.9462}
+    - {x: -377.097, y: -110.45999, z: -995.12775}
+    - {x: -344.632, y: -115.369995, z: -924.79175}
   waves:
   - {fileID: 1417180069}
   - {fileID: 493097786}
@@ -4368,7 +4380,7 @@ PrefabInstance:
     - target: {fileID: 7555274470901413412, guid: 7e2c9c6befba59742b47b442259e5677,
         type: 3}
       propertyPath: arenas.Array.size
-      value: 3
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 7555274470901413412, guid: 7e2c9c6befba59742b47b442259e5677,
         type: 3}
@@ -4385,6 +4397,11 @@ PrefabInstance:
       propertyPath: arenas.Array.data[2]
       value: 
       objectReference: {fileID: 1152162765}
+    - target: {fileID: 7555274470901413412, guid: 7e2c9c6befba59742b47b442259e5677,
+        type: 3}
+      propertyPath: arenas.Array.data[3]
+      value: 
+      objectReference: {fileID: 70187021}
     - target: {fileID: 8837885950582107662, guid: 7e2c9c6befba59742b47b442259e5677,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -4884,9 +4901,9 @@ GameObject:
   - component: {fileID: 300959715}
   - component: {fileID: 300959716}
   m_Layer: 0
-  m_Name: Enemy_0
+  m_Name: TrashMob_0
   m_TagString: Untagged
-  m_Icon: {fileID: 2800000, guid: 3fee4e0ce66778b478aebfc6194f1d19, type: 3}
+  m_Icon: {fileID: 2800000, guid: 26b3a285bd12885428695d8344a1476d, type: 3}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
@@ -8220,6 +8237,50 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 383874934}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &386099249
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 386099250}
+  - component: {fileID: 386099251}
+  m_Layer: 0
+  m_Name: TrashMob_4
+  m_TagString: Untagged
+  m_Icon: {fileID: 2800000, guid: 26b3a285bd12885428695d8344a1476d, type: 3}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &386099250
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 386099249}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -2.4899979, y: -1.0400085, z: 36.130013}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 493097786}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &386099251
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 386099249}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 287935f946f356444b9331848b823b59, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &418967725
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -8882,9 +8943,9 @@ GameObject:
   - component: {fileID: 478083847}
   - component: {fileID: 478083848}
   m_Layer: 0
-  m_Name: Enemy_1
+  m_Name: TrashMob_1
   m_TagString: Untagged
-  m_Icon: {fileID: 2800000, guid: 3fee4e0ce66778b478aebfc6194f1d19, type: 3}
+  m_Icon: {fileID: 2800000, guid: 26b3a285bd12885428695d8344a1476d, type: 3}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
@@ -9108,7 +9169,12 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 664968545}
+  - {fileID: 736901837}
+  - {fileID: 738702855}
+  - {fileID: 1727911572}
+  - {fileID: 386099250}
   m_Father: {fileID: 70187020}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!43 &513931022
@@ -9662,9 +9728,9 @@ GameObject:
   - component: {fileID: 557763012}
   - component: {fileID: 557763013}
   m_Layer: 0
-  m_Name: Enemy_2
+  m_Name: TrashMob_2
   m_TagString: Untagged
-  m_Icon: {fileID: 2800000, guid: 3fee4e0ce66778b478aebfc6194f1d19, type: 3}
+  m_Icon: {fileID: 2800000, guid: 26b3a285bd12885428695d8344a1476d, type: 3}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
@@ -11333,6 +11399,50 @@ Mesh:
     offset: 0
     size: 0
     path: 
+--- !u!1 &664968544
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 664968545}
+  - component: {fileID: 664968546}
+  m_Layer: 0
+  m_Name: TrashMob_0
+  m_TagString: Untagged
+  m_Icon: {fileID: 2800000, guid: 26b3a285bd12885428695d8344a1476d, type: 3}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &664968545
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 664968544}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 21.01, y: 3.6900024, z: 23.74998}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 493097786}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &664968546
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 664968544}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 287935f946f356444b9331848b823b59, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!43 &692126854
 Mesh:
   m_ObjectHideFlags: 0
@@ -12458,6 +12568,94 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 735607398}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1 &736901836
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 736901837}
+  - component: {fileID: 736901838}
+  m_Layer: 0
+  m_Name: TrashMob_1
+  m_TagString: Untagged
+  m_Icon: {fileID: 2800000, guid: 26b3a285bd12885428695d8344a1476d, type: 3}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &736901837
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 736901836}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 22.270012, y: 14.799988, z: -3.4799907}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 493097786}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &736901838
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 736901836}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 287935f946f356444b9331848b823b59, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!1 &738702854
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 738702855}
+  - component: {fileID: 738702856}
+  m_Layer: 0
+  m_Name: TrashMob_2
+  m_TagString: Untagged
+  m_Icon: {fileID: 2800000, guid: 26b3a285bd12885428695d8344a1476d, type: 3}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &738702855
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 738702854}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -4.3200016, y: 10.799988, z: 55.909985}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 493097786}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &738702856
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 738702854}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 287935f946f356444b9331848b823b59, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!43 &748848921
 Mesh:
   m_ObjectHideFlags: 0
@@ -29662,9 +29860,9 @@ GameObject:
   - component: {fileID: 1255269252}
   - component: {fileID: 1255269253}
   m_Layer: 0
-  m_Name: Enemy_3
+  m_Name: TrashMob_3
   m_TagString: Untagged
-  m_Icon: {fileID: 2800000, guid: 3fee4e0ce66778b478aebfc6194f1d19, type: 3}
+  m_Icon: {fileID: 2800000, guid: 26b3a285bd12885428695d8344a1476d, type: 3}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
@@ -36492,6 +36690,50 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 844865207}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1727911571
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1727911572}
+  - component: {fileID: 1727911573}
+  m_Layer: 0
+  m_Name: TrashMob_3
+  m_TagString: Untagged
+  m_Icon: {fileID: 2800000, guid: 26b3a285bd12885428695d8344a1476d, type: 3}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1727911572
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1727911571}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -31.500004, y: 3.869995, z: -35.699986}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 493097786}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1727911573
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1727911571}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 287935f946f356444b9331848b823b59, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!43 &1734982429
 Mesh:
   m_ObjectHideFlags: 0
