@@ -18,9 +18,9 @@ public class Missile : BulletBehavior,IExplosion
     // Here put following logic when bullet collide with walkableMask
     protected override void CollideWithWalkableMask(Collision collision)
     {
-        Explosion();
+        /*Explosion();
         trailRenderer.enabled = false;
-        Pooling.instance.DePop(bullet.PoolingKeyName, gameObject);
+        Pooling.instance.DePop(bullet.PoolingKeyName, gameObject);*/
     }
     
     // Here put following logic when bullet collide with enemyMask
@@ -44,7 +44,7 @@ public class Missile : BulletBehavior,IExplosion
         TrackPlayer();
     }
 
-    private void TrackPlayer()
+    protected virtual void TrackPlayer()
     {
         Vector3 bulletDir = (PlayerController.Instance.transform.position - transform.position).normalized;
         
@@ -54,7 +54,7 @@ public class Missile : BulletBehavior,IExplosion
         rb.isKinematic = false;
     }
     
-    public void WhoIsTheTarget(LayerMask value)
+    public virtual void WhoIsTheTarget(LayerMask value)
     {
         whoIsTarget = value;
     }
