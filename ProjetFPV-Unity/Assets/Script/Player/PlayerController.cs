@@ -181,21 +181,21 @@ namespace Player
         /// <returns></returns>
         private Vector3 GetOverallMomentumVector()
         {
-            var dividerOnSlopeClimbing = (isSlopeClimbing && isSliding ? playerScriptable.decelerationMultiplierSlideInSlopeUp : 1f);
             var dividerOnSlope = (!isSlopeClimbing && isSliding ? playerScriptable.slopeSpeedDivider : 1f);
             var accelerating = _rb.velocity.magnitude < playerScriptable.speedMaxToAccelerate && !isSliding;
             var vectorMove = DirectionFromCamera(direction).normalized * 
                              (_moveSpeed * _speedMultiplierFromDash * (accelerating ? playerScriptable.accelerationMultiplier : 1f));
-            
-            var slopeDirection = new Vector3(_raycastSlope.normal.x, 0, _raycastSlope.normal.z).normalized;
-            var vectorSlideDown = Vector3.down * (playerScriptable.slidingInSlopeDownForce) / dividerOnSlopeClimbing;
-            var vectorSlideForward = (slopeDirection * (_actualSlopeAngle / playerScriptable.slopeAngleDivider)) / dividerOnSlopeClimbing;
-            var vectorSlide = vectorSlideDown + ((vectorSlideForward * playerScriptable.slopeForwardBoost) / dividerOnSlope);
 
-            var finalVector = (isMoving ? vectorMove : Vector3.zero) +
+            var slopeDirection = new Vector3(_raycastSlope.normal.x, 0, _raycastSlope.normal.z).normalized;
+
+            var vectorSlideDown = Vector3.down * (playerScriptable.slidingInSlopeDownForce);
+            var vectorSlideForward = (slopeDirection * (_actualSlopeAngle / playerScriptable.slopeAngleDivider));
+            var vectorSlide = vectorSlideDown + ((vectorSlideForward * playerScriptable.slopeForwardBoost));
+
+            var finalVector = ((isMoving ? vectorMove : Vector3.zero) +
                               (isOnSlope && isSliding && !isSlopeClimbing
                                   ? vectorSlide
-                                  : Vector3.zero);
+                                  : Vector3.zero)) / dividerOnSlope;
 
             var slideBoostValue = (isSliding ? _slideBoost : 1f);
             var tempFinalVectorX = finalVector.x * slideBoostValue;
@@ -203,10 +203,8 @@ namespace Player
 
             finalVector = new Vector3(tempFinalVectorX, finalVector.y, tempFinalVectorZ);
 
-            overallMomentum = finalVector / ((isSliding && isMoving && isOnSlope
-                ? playerScriptable.overallMomentumLimiterMoveSlideInSlope
-                : 1f) * (isSlopeClimbing && isSliding ? 1000f : 1f));
-            
+            overallMomentum = finalVector / (isSlopeClimbing && isSliding ? playerScriptable.decelerationMultiplierSlideInSlopeUp : 1f);
+
             return overallMomentum;
         }
         

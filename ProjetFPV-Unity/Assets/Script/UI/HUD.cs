@@ -31,6 +31,8 @@ public class HUD : GenericSingletonClass<HUD>
 
     [SerializeField] private TextMeshProUGUI infos1, infos2;
 
+    [SerializeField] private Image[] dotsDashes;
+
     private float _giggleX;
     private float _giggleY;
     private float _rotationDots;
@@ -279,6 +281,16 @@ public class HUD : GenericSingletonClass<HUD>
         _crossProductDamageRight = Mathf.Lerp(damageMaxIntensity, 0, vNormalized);
         
         deform.material.SetFloat("_ShatteredMaskAlpha", Mathf.Lerp(0, 1, PlayerHealth.Instance.Health / PlayerHealth.Instance.maxHealth));
+    }
+
+    private void UpdateDashDots()
+    {
+        int i = 0;
+        float stamina = PlayerStamina.Instance.staminaValue;
+        foreach (Image img in dotsDashes)
+        {
+            
+        }
     }
 
     private Vector3 RemoveYValue(Vector3 v) => new (v.x, 0, v.z);
