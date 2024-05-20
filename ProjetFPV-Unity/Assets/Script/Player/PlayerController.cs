@@ -56,6 +56,8 @@ namespace Player
         private float _jumpFacilityForce = 0f;
         
         private float _slideBoost;
+
+        private float _timerSlideDragOnGround;
         
         //---------------------------------------
         
@@ -322,7 +324,7 @@ namespace Player
 
                 var v = velocity;
 
-                v.y -= Time.deltaTime * playerScriptable.gravityMultiplier;
+                v.y -= Time.deltaTime * playerScriptable.gravityMultiplier * (isSliding && isOnSlope ? 2f : 1f);
 
                 v.x = velocity.x + (DirectionFromCamera(direction).x * playerScriptable.moveAirMultiplier);
                 v.z = velocity.z + (DirectionFromCamera(direction).z * playerScriptable.moveAirMultiplier);
@@ -360,6 +362,9 @@ namespace Player
         /// </summary>
         private void SetDrag()
         {
+            if (isOnGround && isSliding && !isOnSlope) _timerSlideDragOnGround += Time.deltaTime / playerScriptable.timeToReachFrictionWhenSliding;
+            else _timerSlideDragOnGround = 0f;
+                
             if (isOnGround && isSliding && isOnSlope && !isSlopeClimbing)
             {
                 // 0f
@@ -372,7 +377,7 @@ namespace Player
                 if (isOnGround && isSliding && !isOnSlope)
                 {
                     // 5f
-                    _rb.drag = drags[2];
+                    _rb.drag = Mathf.Lerp(_rb.drag, drags[2], _timerSlideDragOnGround);
                 }
             }
             else if (isOnGround && isSliding && isOnSlope && isSlopeClimbing && _rb.velocity.magnitude < 25f)
@@ -396,7 +401,6 @@ namespace Player
             else
             {
                 _rb.drag = playerScriptable.airDrag;
-                
             }
         }
 

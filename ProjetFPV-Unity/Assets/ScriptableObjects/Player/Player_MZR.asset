@@ -38,8 +38,8 @@ MonoBehaviour:
     serializedVersion: 2
     m_Curve:
     - serializedVersion: 3
-      time: -0.00049848534
-      value: 1.9638703
+      time: -0.0010441965
+      value: 0.45113838
       inSlope: -0.0066812756
       outSlope: -49.755764
       tangentMode: 1
@@ -47,23 +47,14 @@ MonoBehaviour:
       inWeight: 0.33333334
       outWeight: 0.060356483
     - serializedVersion: 3
-      time: 0.119179666
-      value: 1.956572
+      time: 0.11863395
+      value: 0.4475938
       inSlope: Infinity
-      outSlope: -43.68471
+      outSlope: -2.2776265
       tangentMode: 1
       weightedMode: 0
       inWeight: 0
-      outWeight: 0.33333334
-    - serializedVersion: 3
-      time: 0.25434148
-      value: 0.66663957
-      inSlope: -6.4440894
-      outSlope: -1.4315184
-      tangentMode: 1
-      weightedMode: 0
-      inWeight: 0.31582743
-      outWeight: 0.29026693
+      outWeight: 0.046089616
     - serializedVersion: 3
       time: 0.44813842
       value: 0.21886596
@@ -80,6 +71,7 @@ MonoBehaviour:
   gravityMultiplier: 65
   groundDrag: 7
   airDrag: 1.8
+  timeToReachFrictionWhenSliding: 1.75
   maxRigidbodyVelocity: 100
   groundDetectionLenght: 2.8
   raycastLenghtSlopeDetection: 2
@@ -97,7 +89,6 @@ MonoBehaviour:
   sensibility: 0.075
   lookLimitY: 90
   frictionMaterial: {fileID: 13400000, guid: 66462d3f498916c45b06fcf1b1aa7596, type: 2}
-  wallMaterial: {fileID: 13400000, guid: 394c912cc7e142549ba3f2b085deeae4, type: 2}
   movingMaterial: {fileID: 13400000, guid: 394c912cc7e142549ba3f2b085deeae4, type: 2}
   timeBeforeDetectedIdle: 0.06
   maxPlayerHealth: 100
