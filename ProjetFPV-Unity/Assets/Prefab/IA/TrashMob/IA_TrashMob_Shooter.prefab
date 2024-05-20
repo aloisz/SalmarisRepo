@@ -245,25 +245,26 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   targetToFollow: {fileID: 0}
-  so_IA: {fileID: 11400000, guid: 2d30b6a2cff272b4b90ad063b75d6b44, type: 2}
+  so_IA: {fileID: 11400000, guid: b6d543a97322dcc41b5b1ccacab97511, type: 2}
   targetMask:
     serializedVersion: 2
     m_Bits: 128
   actualPawnHealth: 0
   pawnState: 0
+  mobType: 0
   tickVerification: 0.2
-  enemyWeight: 0
+  enemyWeight: 2
   perimeters:
-  - distToEnemy: 30
+  - distToEnemy: 55
     timeSpentInPerimeter: 0
-  - distToEnemy: 50
+  - distToEnemy: 60
     timeSpentInPerimeter: 0
   rb: {fileID: 0}
   visionDetector: {fileID: 146247463210128156}
   trashMobState: 1
-  agentSpeedWhenIsToFar: 50
+  agentSpeedWhenIsToFar: 35
   isPawnStatic: 0
-  agentShootingRadius: 35
+  agentShootingRadius: 55
   timeBeforeShooting: 1
 --- !u!114 &8926880860528202724
 MonoBehaviour:
@@ -277,7 +278,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0844e6e7145549c897fd46eaab53b842, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  so_Weapon: {fileID: 11400000, guid: 492c2bd7293213145b1967db817fb1a3, type: 2}
+  so_Weapon: {fileID: 11400000, guid: d26ca07312043fb4884e922e29c44f01, type: 2}
   canFire: 1
   isShooting: 0
   actualNumberOfBullet: 0
