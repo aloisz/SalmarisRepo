@@ -1,4 +1,5 @@
-﻿using Player;
+﻿using DG.Tweening;
+using Player;
 using UnityEngine;
 
 namespace Weapon.Bullet
@@ -6,12 +7,17 @@ namespace Weapon.Bullet
     public class MissileWithCurve : Missile
     {
         private Vector3 dirToFollow;
-        protected override void FixedUpdate()
+        [SerializeField] private AnimationCurve walkableCurve;
+        
+        protected override void CollideWithWalkableMask(Collision collision)
         {
-            transform.rotation = Quaternion.LookRotation(bullet.bulletDir, Vector3.forward);
-            if (!EnableMovement(bullet.isMoving)) return;
-            TrackPlayer();
-            EnableMovement(false);
+            /*RaycastHit hit;
+            if (Physics.Raycast(transform.position, -transform.up, out hit, 1000))
+            {
+                Debug.DrawRay(transform.position, hit.point, Color.red, 2);
+            }*/
+            bullet.gravityApplied = 0;
+            transform.DOMoveY(transform.position.y + 1, 2).SetEase(walkableCurve);
         }
 
         private void TrackPlayer()
