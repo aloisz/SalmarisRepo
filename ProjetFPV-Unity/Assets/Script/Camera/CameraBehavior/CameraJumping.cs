@@ -12,9 +12,44 @@ namespace CameraBehavior
         [SerializeField] internal AnimationCurve jumpingImpact;
         [SerializeField] internal AnimationCurve jumpingImpactOnLanding;
         [SerializeField] internal AnimationCurve jumpingImpactHandSwing;
+
+        [Header("Jump Impact")] 
+        [SerializeField] internal Transform cameraPos;
+        [SerializeField] internal Transform baseCameraPos;
+        [SerializeField] internal Transform maxcameraPos;
+        [SerializeField] private float YImpact;
+        [SerializeField] private float YImpactDeMultiplier;
         private void Awake()
         {
             cameraManager = GetComponent<CameraManager>();
+        }
+
+
+        public void ImpactWhenLanding()
+        {
+            if (!PlayerController.Instance.isOnGround)
+            {
+                var localYImpact = jumpingImpactOnLanding.Evaluate(PlayerController.Instance._rb.velocity.y);
+                if (localYImpact > YImpact)
+                {
+                    YImpact = localYImpact;
+                    //Debug.Log(YImpact);
+                }
+            }
+            else
+            {
+                if (YImpact > 0)
+                {
+                    YImpact -= Time.deltaTime * YImpactDeMultiplier;
+                }
+            }
+            
+            if(!PlayerController.Instance.isOnGround) return;
+            Vector3 offSet = new Vector3(0, -YImpact, 0);
+            
+            cameraPos.position = 
+                Vector3.Lerp(cameraPos.position,  baseCameraPos.position + offSet, 
+                    Time.deltaTime * (cameraManager.so_Camera.positionOffSetSmooth));
         }
         
         public void Jumping()
