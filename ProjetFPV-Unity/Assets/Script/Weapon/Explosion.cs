@@ -7,6 +7,7 @@ using Player;
 using Unity.VisualScripting;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class Explosion : MonoBehaviour
 {
@@ -19,7 +20,10 @@ public class Explosion : MonoBehaviour
     
     public float explosionRadius;
     public float explosionForce;
-    public ParticleSystem particle;
+    
+    //particles 
+    private int particlesIndex;
+    [SerializeField]private List<ParticleSystem> particles;
     
     private float rocketJumpForceApplied;
 
@@ -60,7 +64,8 @@ public class Explosion : MonoBehaviour
             Vector3.Distance(PlayerController.Instance.transform.position, transform.position));
         
         Explode();
-        particle.Play();
+        
+        particles[particlesIndex].Play();
     }
 
 
@@ -89,9 +94,8 @@ public class Explosion : MonoBehaviour
                     (!PlayerController.Instance.isOnGround ? 2f : 0.5f));
                 
                 Debug.Log(dir);
-                
-                Vector3 shotgunImpulseVector = (!PlayerController.Instance.isOnGround ? Vector3.up : Vector3.up * 2f) * rocketJumpForceApplied + dir
-                    * Mathf.Lerp(5f, 30f, PlayerController.Instance._rb.velocity.magnitude / PlayerController.Instance.playerScriptable.speedMaxToAccelerate);
+
+                Vector3 shotgunImpulseVector = Vector3.up * rocketJumpForceApplied + dir;
 
                 PlayerController.Instance._rb.AddForce(
                     shotgunImpulseVector, ForceMode.Impulse);
@@ -143,6 +147,11 @@ public class Explosion : MonoBehaviour
     public float SetDamage(float value)
     {
         return damageInflicted = value;
+    }
+
+    public int SetParticleIndex(int value)
+    {
+        return particlesIndex = value;
     }
 
     #if UNITY_EDITOR

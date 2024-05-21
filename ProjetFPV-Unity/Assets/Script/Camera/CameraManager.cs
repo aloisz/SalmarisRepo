@@ -70,7 +70,6 @@ namespace CameraBehavior
         {
             MovingCameraManager();
             CameraStateManagamement();
-            
         }
 
         public void Update()
@@ -88,12 +87,14 @@ namespace CameraBehavior
         {
             if (!mustAvoid)
             {
-                var YImpact = (cameraJumping.jumpingImpactOnLanding.Evaluate(PlayerController.Instance._rb.velocity.y) );
+                //var YImpact = (cameraJumping.jumpingImpactOnLanding.Evaluate(PlayerController.Instance._rb.velocity.y) );
                 
                 transform.position = Vector3.Lerp(transform.position, playerTransform.position, 
-                    Time.deltaTime * (so_Camera.positionOffSetSmooth - YImpact));
+                    Time.deltaTime * (so_Camera.positionOffSetSmooth));
                 
-                cameraJumping.ImpactWhenLanding();
+                transform.rotation = Quaternion.Euler(transform.eulerAngles.x , playerTransform.eulerAngles.y,transform.eulerAngles.z );
+                
+                
             }
             else
             {
@@ -154,6 +155,7 @@ namespace CameraBehavior
             cameraJumping.DisplayCameraShake();
 
             handSwing.CameraImpact();
+            cameraJumping.ImpactWhenLanding();
 
             // Fix the different rotation smoothness
             if (Math.Abs(actualglobalCameraRot - globalCameraRot) > 0.1f) 

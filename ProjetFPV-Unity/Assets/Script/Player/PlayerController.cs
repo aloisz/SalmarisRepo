@@ -649,13 +649,14 @@ namespace Player
             }
 
             var forwardMomentumVector = GetDirectionXZ(_rb.velocity) / (playerScriptable.maxRigidbodyVelocity / playerScriptable.jumpMomentumDivider);
-
-            if (_amountOfJumps < 2) _rb.velocity = new Vector3(_rb.velocity.x, 0, _rb.velocity.z);
             
-            _rb.AddForce((_amountOfJumps < 2 ? 
+            _rb.AddForce(
+                (_amountOfJumps < 2 ? 
                 playerScriptable.jumpForce : 
-                playerScriptable.jumpForce * Mathf.Lerp(0.75f, playerScriptable.secondaryJumpMultiplierFromYVel, 
-                    Mathf.Abs(_rb.velocity.y / playerScriptable.maxRigidbodyVelocity))) * (Vector3.up + new Vector3(forwardMomentumVector.x, 0, forwardMomentumVector.y)), ForceMode.Impulse);
+                playerScriptable.jumpForce * 
+                Mathf.Lerp(0.75f, playerScriptable.secondaryJumpMultiplierFromYVel, 
+                    Mathf.Abs(_rb.velocity.y / playerScriptable.maxRigidbodyVelocity))) * 
+                (Vector3.up + new Vector3(forwardMomentumVector.x, 0, forwardMomentumVector.y)), ForceMode.Impulse);
         }
         
         /// <summary>
@@ -666,7 +667,7 @@ namespace Player
             var rot = PlayerInputs.Instance.rotateValue;
             
             _rotationX += -rot.y * playerScriptable.sensibility;
-            _rotationX = Mathf.Clamp(_rotationX, -playerScriptable.lookLimitY, playerScriptable.lookLimitY);
+            _rotationX = Mathf.Clamp(_rotationX, -playerScriptable.lookLimitY, playerScriptable.lookLimitY); 
             cameraAttachPosition.localRotation = Quaternion.Euler(_rotationX, 0, 0);
             transform.rotation *= Quaternion.Euler(0, rot.x * playerScriptable.sensibility, 0);
         }

@@ -194,7 +194,7 @@ public class ShootingLogicModule : WeaponManager, IShootRaycast, IShootSphereCas
         Ray ray = Camera.main.ScreenPointToRay(screenCenterPoint);
         if (Physics.Raycast(ray,out hit,10000, so_Weapon.hitLayer))
         {
-            Debug.DrawRay(screenCenterPoint, hit.point, Color.red, 2);
+            Debug.DrawRay(ray.origin, ray.direction * 1000, Color.red, 2);
             mouseWorldPosition = hit.point;
         }
         Vector3 aimDir = (mouseWorldPosition - gunBarrelPos.transform.position).normalized;

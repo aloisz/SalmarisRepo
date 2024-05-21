@@ -123,7 +123,6 @@ public class Barbatos : Shotgun
         // Logic
         bulletProjectile.EnableMovement(true);  
         bulletProjectile.transform.rotation *= Quaternion.AngleAxis(90, PlayerController.transform.right);
-        bulletProjectile.SetTheBulletDir(GetTheAimDirection());
         bulletProjectile.UseGravity(true);
         bulletProjectile.GravityApplied(so_Weapon.weaponMode[(int)actualWeaponModeIndex].gravityApplied);
         bulletProjectile.AddVelocity(so_Weapon.weaponMode[(int)actualWeaponModeIndex].bulletSpeed + PlayerController.direction.magnitude);
@@ -143,6 +142,9 @@ public class Barbatos : Shotgun
                 bulletProjectile.DoBounce(ProjectileType.Bounce, so_Weapon.weaponMode[(int)actualWeaponModeIndex].bounceNbr);
                 break;
         }
+        
+        bulletProjectile.SetTheBulletDir(Vector3.zero);
+        bulletProjectile.SetTheBulletDir(GetTheAimDirection());
     }
 
 

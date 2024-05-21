@@ -42,6 +42,8 @@ public class EnemyToSpawn
     public enum EnemyKeys
     {
         TrashMob,
+        TrashMobSMG,
+        TrashMobMissile,
         AirSack
     }
 }

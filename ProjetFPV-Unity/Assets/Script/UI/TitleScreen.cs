@@ -14,6 +14,7 @@ public class TitleScreen : MonoBehaviour
 
     public void OpenOptions() => optionMenu.SetActive(true);
     public void CloseOptions() => optionMenu.SetActive(false);
+    public void Quit() => Application.Quit();
     
     public void OpenLevelSelection() => levelSelectionMenu.SetActive(true);
     public void CloseLevelSelection() => levelSelectionMenu.SetActive(false);

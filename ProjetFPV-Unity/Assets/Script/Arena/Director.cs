@@ -95,9 +95,13 @@ public class Director : GenericSingletonClass<Director>
         yield return new WaitUntil(() => !GetActualArenaTrigger().key || GetActualArenaTrigger().key.isPickedUp);
         
         currentWaveIndex++;
+        
+        Debug.Log(currentWaveIndex);
+        Debug.Log(GetActualWave());
 
         _currentArenaFinished = false;
         _hasStartedWave = true;
+        _hasFinishSpawningEnemies = false;
 
         //set the (dynamic)NextWaveValue to the NextWaveValue reference in the wave data.
         _dynamicNextWaveValue = GetActualWave().nextWaveValue;
@@ -124,15 +128,12 @@ public class Director : GenericSingletonClass<Director>
         {
             GameObject mob = Pooling.instance.Pop(Enum.GetName(typeof(EnemyToSpawn.EnemyKeys), e.enemyKey));
             AI_Pawn p = mob.GetComponent<AI_Pawn>();
-            p.EnableNavMesh(false);
             
             mob.transform.position = GetActualArenaTrigger().enemiesPositions[currentWaveIndex].positions[i];
             
             _spawnedEnemies.Add(p);
 
             yield return new WaitForSeconds(GetActualWave().delayBetweenEachEnemySpawn);
-            
-            p.EnableNavMesh(true);
 
             i++;
         }
