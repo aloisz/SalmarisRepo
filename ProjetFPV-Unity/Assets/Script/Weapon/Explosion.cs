@@ -89,9 +89,8 @@ public class Explosion : MonoBehaviour
                     (!PlayerController.Instance.isOnGround ? 2f : 0.5f));
                 
                 Debug.Log(dir);
-                
-                Vector3 shotgunImpulseVector = (!PlayerController.Instance.isOnGround ? Vector3.up : Vector3.up * 2f) * rocketJumpForceApplied + dir
-                    * Mathf.Lerp(5f, 30f, PlayerController.Instance._rb.velocity.magnitude / PlayerController.Instance.playerScriptable.speedMaxToAccelerate);
+
+                Vector3 shotgunImpulseVector = Vector3.up * rocketJumpForceApplied + dir;
 
                 PlayerController.Instance._rb.AddForce(
                     shotgunImpulseVector, ForceMode.Impulse);
