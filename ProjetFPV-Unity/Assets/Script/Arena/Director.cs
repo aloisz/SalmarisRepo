@@ -94,15 +94,14 @@ public class Director : GenericSingletonClass<Director>
         
         yield return new WaitUntil(() => !GetActualArenaTrigger().key || GetActualArenaTrigger().key.isPickedUp);
         
-        Debug.Log("Wave Started");
-        if (currentWaveIndex == -1) currentWaveIndex = 0;
-        else currentWaveIndex++;
+        currentWaveIndex++;
         
         Debug.Log(currentWaveIndex);
         Debug.Log(GetActualWave());
 
         _currentArenaFinished = false;
         _hasStartedWave = true;
+        _hasFinishSpawningEnemies = false;
 
         //set the (dynamic)NextWaveValue to the NextWaveValue reference in the wave data.
         _dynamicNextWaveValue = GetActualWave().nextWaveValue;

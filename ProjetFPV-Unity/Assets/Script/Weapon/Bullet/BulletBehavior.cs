@@ -39,7 +39,12 @@ public class BulletBehavior : MonoBehaviour, IBulletBehavior
         EnableMovement(false);
         AddVelocity(0);
         AddDamage(0);
-        SetTheBulletDir(transform.forward);
+        SetTheBulletDir(Vector3.zero);
+
+        rb.velocity = Vector3.zero;
+        rb.rotation = Quaternion.identity;
+        
+        trailRenderer.Clear();
     }
 
     protected virtual void Start(){}
@@ -113,6 +118,11 @@ public class BulletBehavior : MonoBehaviour, IBulletBehavior
     public virtual Vector3 SetTheBulletDir(Vector3 dir)
     {
         return bullet.bulletDir = dir;
+    }
+
+    public virtual Vector3 GetBulletDir()
+    {
+        return bullet.bulletDir;
     }
 
     public bool UseGravity(bool condition)

@@ -16,7 +16,9 @@ public class BarbatwoBullet : BulletBehavior
     protected virtual void OnDisable()
     {
         base.OnDisable();
+        if(!bulletShot) return;
         bulletShot = false;
+        
     }
     
     // Here put following logic when bullet collide with walkableMask
@@ -86,8 +88,8 @@ public class BarbatwoBullet : BulletBehavior
         
         rb.isKinematic = false;
         rb.drag = drag;
-        transform.rotation = Quaternion.Slerp (transform.rotation, Quaternion.LookRotation (SetTheBulletDir(bullet.bulletDir)), Time.fixedDeltaTime * 40f);
-        rb.AddForce((SetTheBulletDir(bullet.bulletDir)) * (bullet.speed * Time.fixedDeltaTime) , ForceMode.Impulse);
+        transform.rotation = Quaternion.Slerp (transform.rotation, Quaternion.LookRotation (GetBulletDir()), Time.fixedDeltaTime * 40f);
+        rb.AddForce((GetBulletDir()) * (bullet.speed * Time.fixedDeltaTime) , ForceMode.Impulse);
     }
 
     private Explosion explosion;
