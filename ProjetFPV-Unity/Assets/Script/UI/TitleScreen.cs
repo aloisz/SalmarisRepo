@@ -20,4 +20,5 @@ public class TitleScreen : MonoBehaviour
 
     public void PlayLevelOne() => asyncManager.LoadLevelButton(scenesLevels[0]);
     public void PlayLevelTwo() => asyncManager.LoadLevelButton(scenesLevels[1]);
+    public void PlayLevelThree() => asyncManager.LoadLevelButton(scenesLevels[2]);
 }

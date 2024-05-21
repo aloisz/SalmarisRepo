@@ -30,7 +30,10 @@ public static class Helper
 
     public static Vector3 ConvertToV3Int(Vector3 v)
     {
-        var vector = new Vector3(Mathf.RoundToInt(v.x), Mathf.RoundToInt(v.y), Mathf.RoundToInt(v.z));
+        var x = v.x > 0f ? 1f : 0f;
+        var y = v.y > 0f ? 1f : 0f;
+        var z = v.z > 0f ? 1f : 0f;
+        var vector = new Vector3(x, y, z);
         return vector;
     }
 
