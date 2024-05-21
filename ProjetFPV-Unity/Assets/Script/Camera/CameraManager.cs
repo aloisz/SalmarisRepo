@@ -70,7 +70,6 @@ namespace CameraBehavior
         {
             MovingCameraManager();
             CameraStateManagamement();
-            
         }
 
         public void Update()
@@ -92,6 +91,8 @@ namespace CameraBehavior
                 
                 transform.position = Vector3.Lerp(transform.position, playerTransform.position, 
                     Time.deltaTime * (so_Camera.positionOffSetSmooth - YImpact));
+                
+                transform.rotation = Quaternion.Euler(transform.eulerAngles.x , playerTransform.eulerAngles.y,transform.eulerAngles.z );
                 
                 cameraJumping.ImpactWhenLanding();
             }
@@ -239,8 +240,8 @@ namespace CameraBehavior
         
         private void MovingTransitionParent()
         {
-            transitionParent.position = Vector3.Lerp(transitionParent.position, playerTransform.position, 
-                Time.deltaTime * so_Camera.positionOffSetSmooth); 
+            /*transitionParent.position = Vector3.Lerp(transitionParent.position, playerTransform.position, 
+                Time.deltaTime * so_Camera.positionOffSetSmooth); */
             
             // Rotation
             float xValue = 0;

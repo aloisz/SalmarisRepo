@@ -666,7 +666,7 @@ namespace Player
             var rot = PlayerInputs.Instance.rotateValue;
             
             _rotationX += -rot.y * playerScriptable.sensibility;
-            _rotationX = Mathf.Clamp(_rotationX, -playerScriptable.lookLimitY, playerScriptable.lookLimitY);
+            _rotationX = Mathf.Clamp(_rotationX, -playerScriptable.lookLimitY, playerScriptable.lookLimitY); 
             cameraAttachPosition.localRotation = Quaternion.Euler(_rotationX, 0, 0);
             transform.rotation *= Quaternion.Euler(0, rot.x * playerScriptable.sensibility, 0);
         }
