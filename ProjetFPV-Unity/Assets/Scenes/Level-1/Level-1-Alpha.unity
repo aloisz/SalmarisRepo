@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.19063134, g: 1.1262243, b: 0.88628113, a: 1}
+  m_IndirectSpecularColor: {r: 0.18672778, g: 1.1224574, b: 0.8830248, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -149,7 +149,7 @@ Transform:
   m_GameObject: {fileID: 13585202}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -20.79999, y: 2.4700012, z: -8.600007}
+  m_LocalPosition: {x: -33.999992, y: 6.5899963, z: -35.10001}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1334,6 +1334,94 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 287935f946f356444b9331848b823b59, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &61094736
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 61094737}
+  - component: {fileID: 61094738}
+  m_Layer: 0
+  m_Name: TrashMobSMG_5
+  m_TagString: Untagged
+  m_Icon: {fileID: 2800000, guid: 571b0055f9fa48142812038b095e2abf, type: 3}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &61094737
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 61094736}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -45.819984, y: 12.910004, z: -50.37999}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 707347956}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &61094738
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 61094736}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 287935f946f356444b9331848b823b59, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!1 &71371717
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 71371718}
+  - component: {fileID: 71371719}
+  m_Layer: 0
+  m_Name: TrashMob_5
+  m_TagString: Untagged
+  m_Icon: {fileID: 2800000, guid: 26b3a285bd12885428695d8344a1476d, type: 3}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &71371718
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 71371717}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 53.9, y: 8.420013, z: 28.100018}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 672794292}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &71371719
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 71371717}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 287935f946f356444b9331848b823b59, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!43 &75127916
 Mesh:
   m_ObjectHideFlags: 0
@@ -1664,50 +1752,6 @@ Mesh:
     offset: 0
     size: 0
     path: 
---- !u!1 &93450204
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 93450205}
-  - component: {fileID: 93450206}
-  m_Layer: 0
-  m_Name: TrashMobSMG_1
-  m_TagString: Untagged
-  m_Icon: {fileID: 2800000, guid: 571b0055f9fa48142812038b095e2abf, type: 3}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &93450205
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 93450204}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -52.890034, y: 13.380005, z: -13.449982}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 707347956}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &93450206
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 93450204}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 287935f946f356444b9331848b823b59, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!43 &93711885
 Mesh:
   m_ObjectHideFlags: 0
@@ -2203,6 +2247,50 @@ Mesh:
     offset: 0
     size: 0
     path: 
+--- !u!1 &100471470
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 100471471}
+  - component: {fileID: 100471472}
+  m_Layer: 0
+  m_Name: TrashMobSMG_5
+  m_TagString: Untagged
+  m_Icon: {fileID: 2800000, guid: 571b0055f9fa48142812038b095e2abf, type: 3}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &100471471
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 100471470}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 11.899998, y: 6.4100037, z: -1.0000265}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 169943117}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &100471472
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 100471470}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 287935f946f356444b9331848b823b59, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &103185700
 GameObject:
   m_ObjectHideFlags: 0
@@ -3861,6 +3949,9 @@ Transform:
   - {fileID: 1265044719}
   - {fileID: 149304544}
   - {fileID: 321070022}
+  - {fileID: 1174901866}
+  - {fileID: 1534264365}
+  - {fileID: 990106533}
   m_Father: {fileID: 1948280458}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!43 &125428151
@@ -4658,6 +4749,50 @@ Mesh:
     offset: 0
     size: 0
     path: 
+--- !u!1 &142489853
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 142489854}
+  - component: {fileID: 142489855}
+  m_Layer: 0
+  m_Name: TrashMobSMG_6
+  m_TagString: Untagged
+  m_Icon: {fileID: 2800000, guid: 571b0055f9fa48142812038b095e2abf, type: 3}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &142489854
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 142489853}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 19.530008, y: 16.119995, z: 2.2800012}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1804806501}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &142489855
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 142489853}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 287935f946f356444b9331848b823b59, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &148919055
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -5260,9 +5395,9 @@ GameObject:
   - component: {fileID: 149304544}
   - component: {fileID: 149304545}
   m_Layer: 0
-  m_Name: TrashMobSMG_3
+  m_Name: TrashMob_3
   m_TagString: Untagged
-  m_Icon: {fileID: 2800000, guid: 571b0055f9fa48142812038b095e2abf, type: 3}
+  m_Icon: {fileID: 2800000, guid: 26b3a285bd12885428695d8344a1476d, type: 3}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
@@ -5275,7 +5410,7 @@ Transform:
   m_GameObject: {fileID: 149304543}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -24.000015, y: 11.040009, z: 4.699945}
+  m_LocalPosition: {x: -24.83998, y: 5.5, z: 15.210003}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -5288,6 +5423,50 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 149304543}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 287935f946f356444b9331848b823b59, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!1 &151841971
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 151841972}
+  - component: {fileID: 151841973}
+  m_Layer: 0
+  m_Name: TrashMob_0
+  m_TagString: Untagged
+  m_Icon: {fileID: 2800000, guid: 26b3a285bd12885428695d8344a1476d, type: 3}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &151841972
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 151841971}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 35.070004, y: 0, z: 9.570004}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 672794292}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &151841973
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 151841971}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 287935f946f356444b9331848b823b59, type: 3}
@@ -5327,6 +5506,7 @@ Transform:
   - {fileID: 1592888193}
   - {fileID: 879822679}
   - {fileID: 1473882583}
+  - {fileID: 100471471}
   m_Father: {fileID: 1482561284}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!850595691 &188134315
@@ -5584,7 +5764,7 @@ Transform:
   m_GameObject: {fileID: 200742288}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 17.899998, y: 10.799988, z: 28.199987}
+  m_LocalPosition: {x: 22.789991, y: 5.049988, z: 25.920002}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -5801,6 +5981,7 @@ Transform:
   - {fileID: 1480396467}
   - {fileID: 1193709606}
   - {fileID: 762289927}
+  - {fileID: 1792332461}
   m_Father: {fileID: 826618019}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!43 &225773491
@@ -7107,6 +7288,94 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 287935f946f356444b9331848b823b59, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &260888215
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 260888216}
+  - component: {fileID: 260888217}
+  m_Layer: 0
+  m_Name: TrashMob_6
+  m_TagString: Untagged
+  m_Icon: {fileID: 2800000, guid: 26b3a285bd12885428695d8344a1476d, type: 3}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &260888216
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 260888215}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -12.820002, y: 3, z: 12.460013}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 672794292}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &260888217
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 260888215}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 287935f946f356444b9331848b823b59, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!1 &265265194
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 265265195}
+  - component: {fileID: 265265196}
+  m_Layer: 0
+  m_Name: TrashMob_4
+  m_TagString: Untagged
+  m_Icon: {fileID: 2800000, guid: 26b3a285bd12885428695d8344a1476d, type: 3}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &265265195
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 265265194}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 17.219984, y: 4.950012, z: -18.929977}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 986319216}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &265265196
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 265265194}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 287935f946f356444b9331848b823b59, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!43 &269616585
 Mesh:
   m_ObjectHideFlags: 0
@@ -8085,9 +8354,9 @@ GameObject:
   - component: {fileID: 321070022}
   - component: {fileID: 321070023}
   m_Layer: 0
-  m_Name: TrashMobSMG_4
+  m_Name: TrashMob_4
   m_TagString: Untagged
-  m_Icon: {fileID: 2800000, guid: 571b0055f9fa48142812038b095e2abf, type: 3}
+  m_Icon: {fileID: 2800000, guid: 26b3a285bd12885428695d8344a1476d, type: 3}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
@@ -8100,7 +8369,7 @@ Transform:
   m_GameObject: {fileID: 321070021}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 20.699984, y: 6.4100037, z: -4.1999903}
+  m_LocalPosition: {x: 20.69, y: 4.7099915, z: 8.789957}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -8714,50 +8983,6 @@ Transform:
   - {fileID: 2006299292}
   m_Father: {fileID: 1145269706}
   m_LocalEulerAnglesHint: {x: 0, y: 34.436, z: 0}
---- !u!1 &357414863
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 357414864}
-  - component: {fileID: 357414865}
-  m_Layer: 0
-  m_Name: TrashMobSMG_3
-  m_TagString: Untagged
-  m_Icon: {fileID: 2800000, guid: 571b0055f9fa48142812038b095e2abf, type: 3}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &357414864
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 357414863}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: -1.5, z: -3.7499924}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 1193504851}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &357414865
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 357414863}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 287935f946f356444b9331848b823b59, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &362683667
 GameObject:
   m_ObjectHideFlags: 0
@@ -9733,6 +9958,50 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 387619408}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &393928024
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 393928025}
+  - component: {fileID: 393928026}
+  m_Layer: 0
+  m_Name: TrashMob_4
+  m_TagString: Untagged
+  m_Icon: {fileID: 2800000, guid: 26b3a285bd12885428695d8344a1476d, type: 3}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &393928025
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 393928024}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -5.4999886, y: 3.3900146, z: -11.619999}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1804806501}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &393928026
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 393928024}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 287935f946f356444b9331848b823b59, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &401584296
 GameObject:
   m_ObjectHideFlags: 0
@@ -9744,9 +10013,9 @@ GameObject:
   - component: {fileID: 401584297}
   - component: {fileID: 401584298}
   m_Layer: 0
-  m_Name: TrashMobSMG_0
+  m_Name: TrashMob_0
   m_TagString: Untagged
-  m_Icon: {fileID: 2800000, guid: 571b0055f9fa48142812038b095e2abf, type: 3}
+  m_Icon: {fileID: 2800000, guid: 26b3a285bd12885428695d8344a1476d, type: 3}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
@@ -13424,7 +13693,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &524153265
 Transform:
   m_ObjectHideFlags: 0
@@ -13457,11 +13726,9 @@ MonoBehaviour:
   arenaData: {fileID: 11400000, guid: f3feeb3b2b4a7ed4b9f9648330eff657, type: 2}
   enemiesPositions:
   - positions:
-    - {x: -54.299995, y: -89.56998, z: -167.60004}
-    - {x: -62.736153, y: -89.56998, z: -178.76611}
-    - {x: -76.80454, y: -89.56998, z: -167.21927}
-    - {x: -66.74462, y: -89.56998, z: -160.35358}
-    - {x: -66.97166, y: -89.56998, z: -170.93604}
+    - {x: -52.475723, y: -89.56998, z: -205.76282}
+    - {x: -73.59039, y: -89.56998, z: -194.93301}
+    - {x: -99.45417, y: -85.44998, z: -186.28455}
   waves:
   - {fileID: 1708237028}
   arenaUnlockedDoors: []
@@ -13498,7 +13765,7 @@ GameObject:
   - component: {fileID: 527650220}
   - component: {fileID: 527650221}
   m_Layer: 0
-  m_Name: TrashMob_1
+  m_Name: TrashMob_3
   m_TagString: Untagged
   m_Icon: {fileID: 2800000, guid: 26b3a285bd12885428695d8344a1476d, type: 3}
   m_NavMeshLayer: 0
@@ -13513,7 +13780,7 @@ Transform:
   m_GameObject: {fileID: 527650219}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -40.970028, y: 5.3099976, z: 32.24002}
+  m_LocalPosition: {x: -52.299976, y: 12.179993, z: -19.800005}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -13939,7 +14206,7 @@ Transform:
   m_GameObject: {fileID: 549942053}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 2.6800063, y: 14.799988, z: 43.610012}
+  m_LocalPosition: {x: -6.269988, y: 11.380005, z: 55.590034}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -13993,7 +14260,6 @@ Transform:
   - {fileID: 1974378142}
   - {fileID: 1109032268}
   - {fileID: 1757680556}
-  - {fileID: 755029661}
   m_Father: {fileID: 1948280458}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!43 &551867545
@@ -14161,7 +14427,7 @@ Mesh:
     offset: 0
     size: 0
     path: 
---- !u!1 &557450229
+--- !u!1 &555557216
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -14169,8 +14435,8 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 557450230}
-  - component: {fileID: 557450231}
+  - component: {fileID: 555557217}
+  - component: {fileID: 555557218}
   m_Layer: 0
   m_Name: TrashMob_4
   m_TagString: Untagged
@@ -14178,28 +14444,28 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &557450230
+--- !u!4 &555557217
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 557450229}
+  m_GameObject: {fileID: 555557216}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -10.299989, y: 2.4700012, z: -8.100008}
+  m_LocalPosition: {x: 50.64999, y: 8.420013, z: -54.869987}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 1708237028}
+  m_Father: {fileID: 672794292}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &557450231
+--- !u!114 &555557218
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 557450229}
+  m_GameObject: {fileID: 555557216}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 287935f946f356444b9331848b823b59, type: 3}
@@ -14283,7 +14549,7 @@ Transform:
   m_GameObject: {fileID: 563891158}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -5.799991, y: 3.6900024, z: 27.299986}
+  m_LocalPosition: {x: 21.449991, y: 4.9200134, z: 55.57999}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -16119,6 +16385,50 @@ Mesh:
     offset: 0
     size: 0
     path: 
+--- !u!1 &605070573
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 605070574}
+  - component: {fileID: 605070575}
+  m_Layer: 0
+  m_Name: TrashMob_3
+  m_TagString: Untagged
+  m_Icon: {fileID: 2800000, guid: 26b3a285bd12885428695d8344a1476d, type: 3}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &605070574
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 605070573}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 31.3, y: 0, z: -23.700005}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 672794292}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &605070575
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 605070573}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 287935f946f356444b9331848b823b59, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!43 &609431646
 Mesh:
   m_ObjectHideFlags: 0
@@ -17090,7 +17400,7 @@ Transform:
   m_GameObject: {fileID: 634683484}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -21.700026, y: 3.869995, z: 41.700016}
+  m_LocalPosition: {x: -1.0999942, y: 0.7999878, z: -25.699984}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -17697,6 +18007,50 @@ Mesh:
     offset: 0
     size: 0
     path: 
+--- !u!1 &663762022
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 663762023}
+  - component: {fileID: 663762024}
+  m_Layer: 0
+  m_Name: TrashMobSMG_6
+  m_TagString: Untagged
+  m_Icon: {fileID: 2800000, guid: 571b0055f9fa48142812038b095e2abf, type: 3}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &663762023
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 663762022}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -7.8100076, y: 12.429993, z: -18.309986}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 986319216}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &663762024
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 663762022}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 287935f946f356444b9331848b823b59, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!43 &664143344
 Mesh:
   m_ObjectHideFlags: 0
@@ -18192,6 +18546,44 @@ Mesh:
     offset: 0
     size: 0
     path: 
+--- !u!1 &672794291
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 672794292}
+  m_Layer: 0
+  m_Name: Wave_1
+  m_TagString: Untagged
+  m_Icon: {fileID: 2800000, guid: 30d46ad7479fdbb439418806c634acc7, type: 3}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &672794292
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 672794291}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 151841972}
+  - {fileID: 1095943129}
+  - {fileID: 1296164503}
+  - {fileID: 605070574}
+  - {fileID: 555557217}
+  - {fileID: 71371718}
+  - {fileID: 260888216}
+  m_Father: {fileID: 2131033120}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &675421090
 GameObject:
   m_ObjectHideFlags: 0
@@ -18757,7 +19149,7 @@ Transform:
   m_GameObject: {fileID: 698822240}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 2.47, z: 0}
+  m_LocalPosition: {x: 16.849997, y: 2.4700012, z: -34.289993}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -18969,11 +19361,12 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 2133769612}
-  - {fileID: 93450205}
-  - {fileID: 769594220}
-  - {fileID: 780105129}
-  - {fileID: 779782131}
+  - {fileID: 1436041047}
+  - {fileID: 1756061816}
+  - {fileID: 1249357011}
+  - {fileID: 1203399836}
+  - {fileID: 1978207481}
+  - {fileID: 61094737}
   m_Father: {fileID: 1774674417}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!43 &707677884
@@ -20010,50 +20403,6 @@ Mesh:
     offset: 0
     size: 0
     path: 
---- !u!1 &755029660
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 755029661}
-  - component: {fileID: 755029662}
-  m_Layer: 0
-  m_Name: TrashMobSMG_7
-  m_TagString: Untagged
-  m_Icon: {fileID: 2800000, guid: 571b0055f9fa48142812038b095e2abf, type: 3}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &755029661
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 755029660}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -2.5999904, y: -1.0400085, z: -11.499982}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 550234586}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &755029662
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 755029660}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 287935f946f356444b9331848b823b59, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!43 &759682236
 Mesh:
   m_ObjectHideFlags: 0
@@ -20220,9 +20569,9 @@ GameObject:
   - component: {fileID: 762289927}
   - component: {fileID: 762289928}
   m_Layer: 0
-  m_Name: TrashMobMissile_4
+  m_Name: TrashMobSMG_4
   m_TagString: Untagged
-  m_Icon: {fileID: 2800000, guid: 4320cd9dfd4c2634481a8cba8a983c04, type: 3}
+  m_Icon: {fileID: 2800000, guid: 571b0055f9fa48142812038b095e2abf, type: 3}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
@@ -20235,7 +20584,7 @@ Transform:
   m_GameObject: {fileID: 762289926}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -73.169975, y: 2.4700012, z: 14.369982}
+  m_LocalPosition: {x: -64.36999, y: 2.4700012, z: 14.240027}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -20408,138 +20757,6 @@ Mesh:
     offset: 0
     size: 0
     path: 
---- !u!1 &769594219
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 769594220}
-  - component: {fileID: 769594221}
-  m_Layer: 0
-  m_Name: TrashMobMissile_2
-  m_TagString: Untagged
-  m_Icon: {fileID: 2800000, guid: 4320cd9dfd4c2634481a8cba8a983c04, type: 3}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &769594220
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 769594219}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -19.799976, y: 12.290009, z: -11.380023}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 707347956}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &769594221
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 769594219}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 287935f946f356444b9331848b823b59, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!1 &779782130
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 779782131}
-  - component: {fileID: 779782132}
-  m_Layer: 0
-  m_Name: TrashMobMissile_4
-  m_TagString: Untagged
-  m_Icon: {fileID: 2800000, guid: 4320cd9dfd4c2634481a8cba8a983c04, type: 3}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &779782131
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 779782130}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -3.0000238, y: 2.019989, z: -29.999992}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 707347956}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &779782132
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 779782130}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 287935f946f356444b9331848b823b59, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!1 &780105128
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 780105129}
-  - component: {fileID: 780105130}
-  m_Layer: 0
-  m_Name: TrashMobMissile_3
-  m_TagString: Untagged
-  m_Icon: {fileID: 2800000, guid: 4320cd9dfd4c2634481a8cba8a983c04, type: 3}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &780105129
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 780105128}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -15.430017, y: 6.0400085, z: -60.439983}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 707347956}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &780105130
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 780105128}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 287935f946f356444b9331848b823b59, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!43 &785089973
 Mesh:
   m_ObjectHideFlags: 0
@@ -20739,6 +20956,7 @@ Transform:
   - {fileID: 1568169900}
   - {fileID: 1665977233}
   - {fileID: 1026868636}
+  - {fileID: 1777371925}
   m_Father: {fileID: 826618019}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!43 &790850247
@@ -20984,7 +21202,7 @@ Transform:
   m_GameObject: {fileID: 803090194}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -72.71, y: 2.0899963, z: -11.299995}
+  m_LocalPosition: {x: -72.60001, y: 2.0899963, z: -10.200004}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -21470,7 +21688,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 826618018}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 1792e76dd7561aa48b79bd4f3613cdf9, type: 3}
   m_Name: 
@@ -21483,13 +21701,15 @@ MonoBehaviour:
     - {x: -723.3305, y: -106.94, z: -1105.6729}
     - {x: -703.7357, y: -97.130005, z: -1086.526}
     - {x: -654.753, y: -110.899994, z: -1098.9448}
-    - {x: -738.04376, y: -101.79999, z: -1130.1096}
+    - {x: -679.4548, y: -91.5, z: -1117.7188}
+    - {x: -704.0481, y: -96.600006, z: -1091.3936}
   - positions:
-    - {x: -689.42474, y: -108.42001, z: -1106.2983}
-    - {x: -762.9204, y: -106.41, z: -1123.324}
-    - {x: -703.7357, y: -97.130005, z: -1086.526}
-    - {x: -671.4608, y: -92.23001, z: -1119.5614}
-    - {x: -766.59406, y: -106.03, z: -1097.9141}
+    - {x: -732.07, y: -100.880005, z: -1128.4075}
+    - {x: -762.94916, y: -106.41, z: -1122.2189}
+    - {x: -635.3503, y: -108.79001, z: -1102.6926}
+    - {x: -739.8846, y: -101.76999, z: -1126.2297}
+    - {x: -757.84717, y: -106.03, z: -1096.9401}
+    - {x: -637.43317, y: -110.41, z: -1087.2417}
   waves:
   - {fileID: 786413526}
   - {fileID: 223085087}
@@ -22133,7 +22353,7 @@ Transform:
   m_GameObject: {fileID: 844749626}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -31.500004, y: 3.869995, z: -35.699986}
+  m_LocalPosition: {x: -25.969988, y: 3.869995, z: -36.73006}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -22463,9 +22683,9 @@ GameObject:
   - component: {fileID: 879822679}
   - component: {fileID: 879822680}
   m_Layer: 0
-  m_Name: TrashMobMissile_3
+  m_Name: TrashMob_3
   m_TagString: Untagged
-  m_Icon: {fileID: 2800000, guid: 4320cd9dfd4c2634481a8cba8a983c04, type: 3}
+  m_Icon: {fileID: 2800000, guid: 26b3a285bd12885428695d8344a1476d, type: 3}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
@@ -22478,7 +22698,7 @@ Transform:
   m_GameObject: {fileID: 879822678}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 18.499979, y: 11.040009, z: -38.220005}
+  m_LocalPosition: {x: 18.200005, y: 11.230011, z: -32.99996}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -22522,7 +22742,7 @@ Transform:
   m_GameObject: {fileID: 882745722}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -5.5999966, y: 1.1000061, z: 25.199984}
+  m_LocalPosition: {x: 12.160006, y: -0.9200134, z: 43.349995}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -23313,10 +23533,12 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 579532077}
+  - {fileID: 1501222018}
+  - {fileID: 2138045455}
   - {fileID: 527650220}
-  - {fileID: 2132121960}
-  - {fileID: 1969070243}
-  - {fileID: 2134396823}
+  - {fileID: 265265195}
+  - {fileID: 1734710783}
+  - {fileID: 663762023}
   m_Father: {fileID: 1774674417}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &989987772
@@ -23354,6 +23576,50 @@ Transform:
   - {fileID: 346210144}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &990106532
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 990106533}
+  - component: {fileID: 990106534}
+  m_Layer: 0
+  m_Name: TrashMobSMG_7
+  m_TagString: Untagged
+  m_Icon: {fileID: 2800000, guid: 571b0055f9fa48142812038b095e2abf, type: 3}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &990106533
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 990106532}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -18.76002, y: 8.470001, z: 30.349998}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 122882802}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &990106534
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 990106532}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 287935f946f356444b9331848b823b59, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1018245999
 GameObject:
   m_ObjectHideFlags: 0
@@ -23365,9 +23631,9 @@ GameObject:
   - component: {fileID: 1018246000}
   - component: {fileID: 1018246001}
   m_Layer: 0
-  m_Name: TrashMobSMG_0
+  m_Name: TrashMob_0
   m_TagString: Untagged
-  m_Icon: {fileID: 2800000, guid: 571b0055f9fa48142812038b095e2abf, type: 3}
+  m_Icon: {fileID: 2800000, guid: 26b3a285bd12885428695d8344a1476d, type: 3}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
@@ -23380,7 +23646,7 @@ Transform:
   m_GameObject: {fileID: 1018245999}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 17.5, y: 3.019989, z: 11.7}
+  m_LocalPosition: {x: -3.259984, y: 3.019989, z: -10.920029}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -23409,9 +23675,9 @@ GameObject:
   - component: {fileID: 1026868636}
   - component: {fileID: 1026868637}
   m_Layer: 0
-  m_Name: TrashMobMissile_4
+  m_Name: TrashMobSMG_4
   m_TagString: Untagged
-  m_Icon: {fileID: 2800000, guid: 4320cd9dfd4c2634481a8cba8a983c04, type: 3}
+  m_Icon: {fileID: 2800000, guid: 571b0055f9fa48142812038b095e2abf, type: 3}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
@@ -23424,7 +23690,7 @@ Transform:
   m_GameObject: {fileID: 1026868635}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -48.879974, y: 6.700012, z: -21.149998}
+  m_LocalPosition: {x: 10.800011, y: 17, z: -16.199966}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -23437,6 +23703,50 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1026868635}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 287935f946f356444b9331848b823b59, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!1 &1035367166
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1035367167}
+  - component: {fileID: 1035367168}
+  m_Layer: 0
+  m_Name: TrashMob_3
+  m_TagString: Untagged
+  m_Icon: {fileID: 2800000, guid: 26b3a285bd12885428695d8344a1476d, type: 3}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1035367167
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1035367166}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 36.150005, y: 5.279999, z: 41.069996}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1193504851}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1035367168
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1035367166}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 287935f946f356444b9331848b823b59, type: 3}
@@ -23798,7 +24108,7 @@ Transform:
   m_GameObject: {fileID: 1042977063}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -6.600017, y: 1.3999939, z: 4.0000353}
+  m_LocalPosition: {x: -0.61999905, y: 1.3999939, z: -6.210056}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -24778,17 +25088,17 @@ PrefabInstance:
     - target: {fileID: 7372045558108116486, guid: b8b6c0fdf0c4fdc45a7a779e068e839d,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -346
+      value: -329.3
       objectReference: {fileID: 0}
     - target: {fileID: 7372045558108116486, guid: b8b6c0fdf0c4fdc45a7a779e068e839d,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: -1.99
+      value: -106.24
       objectReference: {fileID: 0}
     - target: {fileID: 7372045558108116486, guid: b8b6c0fdf0c4fdc45a7a779e068e839d,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 683
+      value: -952
       objectReference: {fileID: 0}
     - target: {fileID: 7372045558108116486, guid: b8b6c0fdf0c4fdc45a7a779e068e839d,
         type: 3}
@@ -25192,6 +25502,50 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 1079564513}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1095943128
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1095943129}
+  - component: {fileID: 1095943130}
+  m_Layer: 0
+  m_Name: TrashMob_1
+  m_TagString: Untagged
+  m_Icon: {fileID: 2800000, guid: 26b3a285bd12885428695d8344a1476d, type: 3}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1095943129
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1095943128}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 5.799989, y: 0, z: 15.100011}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 672794292}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1095943130
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1095943128}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 287935f946f356444b9331848b823b59, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1096569930
 GameObject:
   m_ObjectHideFlags: 0
@@ -25638,9 +25992,9 @@ GameObject:
   - component: {fileID: 1109032268}
   - component: {fileID: 1109032269}
   m_Layer: 0
-  m_Name: TrashMobMissile_5
+  m_Name: TrashMobSMG_5
   m_TagString: Untagged
-  m_Icon: {fileID: 2800000, guid: 4320cd9dfd4c2634481a8cba8a983c04, type: 3}
+  m_Icon: {fileID: 2800000, guid: 571b0055f9fa48142812038b095e2abf, type: 3}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
@@ -25653,7 +26007,7 @@ Transform:
   m_GameObject: {fileID: 1109032267}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -23.599997, y: -1.0400085, z: -40.199963}
+  m_LocalPosition: {x: -17.480003, y: 5.450012, z: -29.629944}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -27010,6 +27364,50 @@ Mesh:
     offset: 0
     size: 0
     path: 
+--- !u!1 &1174901865
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1174901866}
+  - component: {fileID: 1174901867}
+  m_Layer: 0
+  m_Name: TrashMobSMG_5
+  m_TagString: Untagged
+  m_Icon: {fileID: 2800000, guid: 571b0055f9fa48142812038b095e2abf, type: 3}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1174901866
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1174901865}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 17.620005, y: 16.25, z: 0.67996025}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 122882802}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1174901867
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1174901865}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 287935f946f356444b9331848b823b59, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1185750458
 GameObject:
   m_ObjectHideFlags: 0
@@ -27076,10 +27474,8 @@ Transform:
   - {fileID: 1067998120}
   - {fileID: 2086944923}
   - {fileID: 675421091}
-  - {fileID: 357414864}
-  - {fileID: 1364347819}
-  - {fileID: 1645665421}
-  - {fileID: 1638860714}
+  - {fileID: 1035367167}
+  - {fileID: 1789735025}
   m_Father: {fileID: 2131033120}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1193709605
@@ -27093,9 +27489,9 @@ GameObject:
   - component: {fileID: 1193709606}
   - component: {fileID: 1193709607}
   m_Layer: 0
-  m_Name: TrashMobMissile_3
+  m_Name: TrashMobSMG_3
   m_TagString: Untagged
-  m_Icon: {fileID: 2800000, guid: 4320cd9dfd4c2634481a8cba8a983c04, type: 3}
+  m_Icon: {fileID: 2800000, guid: 571b0055f9fa48142812038b095e2abf, type: 3}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
@@ -27108,7 +27504,7 @@ Transform:
   m_GameObject: {fileID: 1193709605}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 18.499989, y: 16.269989, z: -19.029995}
+  m_LocalPosition: {x: -50.22, y: 6.730011, z: -17.069992}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -28019,6 +28415,50 @@ Mesh:
     offset: 0
     size: 0
     path: 
+--- !u!1 &1203399835
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1203399836}
+  - component: {fileID: 1203399837}
+  m_Layer: 0
+  m_Name: TrashMob_3
+  m_TagString: Untagged
+  m_Icon: {fileID: 2800000, guid: 26b3a285bd12885428695d8344a1476d, type: 3}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1203399836
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1203399835}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 11.600014, y: 7.0599976, z: -11.439999}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 707347956}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1203399837
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1203399835}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 287935f946f356444b9331848b823b59, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1209755247
 GameObject:
   m_ObjectHideFlags: 0
@@ -33344,6 +33784,50 @@ Mesh:
     offset: 0
     size: 0
     path: 
+--- !u!1 &1249357010
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1249357011}
+  - component: {fileID: 1249357012}
+  m_Layer: 0
+  m_Name: TrashMob_2
+  m_TagString: Untagged
+  m_Icon: {fileID: 2800000, guid: 26b3a285bd12885428695d8344a1476d, type: 3}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1249357011
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1249357010}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -46.610016, y: 7.4100037, z: 35.88}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 707347956}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1249357012
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1249357010}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 287935f946f356444b9331848b823b59, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!43 &1256661229
 Mesh:
   m_ObjectHideFlags: 0
@@ -33535,7 +34019,7 @@ Transform:
   m_GameObject: {fileID: 1265044718}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 9.900003, y: 3.019989, z: -21.399948}
+  m_LocalPosition: {x: 16.249992, y: 0.45999146, z: -19.249962}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -33853,6 +34337,50 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1289892050}
   m_CullTransparentMesh: 1
+--- !u!1 &1296164502
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1296164503}
+  - component: {fileID: 1296164504}
+  m_Layer: 0
+  m_Name: TrashMob_2
+  m_TagString: Untagged
+  m_Icon: {fileID: 2800000, guid: 26b3a285bd12885428695d8344a1476d, type: 3}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1296164503
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1296164502}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -8.399998, y: 0, z: -14.500009}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 672794292}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1296164504
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1296164502}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 287935f946f356444b9331848b823b59, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!43 &1298049616
 Mesh:
   m_ObjectHideFlags: 0
@@ -35920,50 +36448,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1357457698}
   m_CullTransparentMesh: 1
---- !u!1 &1364347818
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1364347819}
-  - component: {fileID: 1364347820}
-  m_Layer: 0
-  m_Name: TrashMobSMG_4
-  m_TagString: Untagged
-  m_Icon: {fileID: 2800000, guid: 571b0055f9fa48142812038b095e2abf, type: 3}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1364347819
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1364347818}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 43.400013, y: 4.01001, z: 42.499992}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 1193504851}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1364347820
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1364347818}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 287935f946f356444b9331848b823b59, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!43 &1375514471
 Mesh:
   m_ObjectHideFlags: 0
@@ -36954,6 +37438,50 @@ Mesh:
     offset: 0
     size: 0
     path: 
+--- !u!1 &1436041046
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1436041047}
+  - component: {fileID: 1436041048}
+  m_Layer: 0
+  m_Name: TrashMob_0
+  m_TagString: Untagged
+  m_Icon: {fileID: 2800000, guid: 26b3a285bd12885428695d8344a1476d, type: 3}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1436041047
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1436041046}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -9.40003, y: 0, z: -35.09999}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 707347956}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1436041048
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1436041046}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 287935f946f356444b9331848b823b59, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!43 &1437994196
 Mesh:
   m_ObjectHideFlags: 0
@@ -37762,9 +38290,9 @@ GameObject:
   - component: {fileID: 1473882583}
   - component: {fileID: 1473882584}
   m_Layer: 0
-  m_Name: TrashMobMissile_4
+  m_Name: TrashMobSMG_4
   m_TagString: Untagged
-  m_Icon: {fileID: 2800000, guid: 4320cd9dfd4c2634481a8cba8a983c04, type: 3}
+  m_Icon: {fileID: 2800000, guid: 571b0055f9fa48142812038b095e2abf, type: 3}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
@@ -37777,7 +38305,7 @@ Transform:
   m_GameObject: {fileID: 1473882582}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -22.82999, y: 6.4100037, z: 39.160007}
+  m_LocalPosition: {x: -15.259983, y: 6.4100037, z: 34.199978}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -38136,9 +38664,9 @@ GameObject:
   - component: {fileID: 1480396467}
   - component: {fileID: 1480396468}
   m_Layer: 0
-  m_Name: TrashMobMissile_2
+  m_Name: TrashMob_2
   m_TagString: Untagged
-  m_Icon: {fileID: 2800000, guid: 4320cd9dfd4c2634481a8cba8a983c04, type: 3}
+  m_Icon: {fileID: 2800000, guid: 26b3a285bd12885428695d8344a1476d, type: 3}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
@@ -38151,7 +38679,7 @@ Transform:
   m_GameObject: {fileID: 1480396466}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -9.3799925, y: 11.369995, z: 17.790024}
+  m_LocalPosition: {x: 56.439995, y: -0.29000854, z: -6.820076}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -38211,7 +38739,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1482561283}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 1792e76dd7561aa48b79bd4f3613cdf9, type: 3}
   m_Name: 
@@ -38220,16 +38748,20 @@ MonoBehaviour:
   arenaData: {fileID: 11400000, guid: 535ec261491f3cb459b051755c04b784, type: 2}
   enemiesPositions:
   - positions:
-    - {x: -363.8523, y: -111.31, z: -1019.56396}
-    - {x: -405.953, y: -111.31, z: -1006.20306}
+    - {x: -385.68658, y: -111.31, z: -1041.1488}
+    - {x: -405.89117, y: -108.099976, z: -997.31555}
     - {x: -407.29254, y: -111.31, z: -1025.1003}
-    - {x: -365.27844, y: -103.28998, z: -1069.4736}
-    - {x: -402.80078, y: -107.91998, z: -990.17725}
+    - {x: -365.3245, y: -103.099976, z: -1064.2451}
+    - {x: -395.48065, y: -107.91998, z: -995.49915}
+    - {x: -370.06262, y: -107.91998, z: -1031.9769}
   - positions:
     - {x: -359.7611, y: -110.639984, z: -1007.69867}
     - {x: -359.82532, y: -99.53, z: -1034.9578}
     - {x: -383.499, y: -103.53, z: -974.3462}
-    - {x: -415.097, y: -110.45999, z: -1064.5277}
+    - {x: -409.62354, y: -110.45999, z: -1065.8252}
+    - {x: -387.95795, y: -110.93997, z: -1041.7391}
+    - {x: -382.7668, y: -103.56998, z: -978.4366}
+    - {x: -362.2823, y: -98.20999, z: -1029.0714}
   waves:
   - {fileID: 169943117}
   - {fileID: 1804806501}
@@ -38326,7 +38858,7 @@ Transform:
   m_GameObject: {fileID: 1483975472}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -3.3000083, y: 2.4700012, z: -13.599998}
+  m_LocalPosition: {x: -6.830002, y: 2.4700012, z: -32.749996}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -38577,6 +39109,50 @@ Mesh:
     offset: 0
     size: 0
     path: 
+--- !u!1 &1501222017
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1501222018}
+  - component: {fileID: 1501222019}
+  m_Layer: 0
+  m_Name: TrashMob_1
+  m_TagString: Untagged
+  m_Icon: {fileID: 2800000, guid: 26b3a285bd12885428695d8344a1476d, type: 3}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1501222018
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1501222017}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -46.990013, y: -1.7200012, z: -17.339977}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 986319216}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1501222019
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1501222017}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 287935f946f356444b9331848b823b59, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!43 &1509813599
 Mesh:
   m_ObjectHideFlags: 0
@@ -39103,6 +39679,50 @@ Mesh:
     offset: 0
     size: 0
     path: 
+--- !u!1 &1534264364
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1534264365}
+  - component: {fileID: 1534264366}
+  m_Layer: 0
+  m_Name: TrashMobSMG_6
+  m_TagString: Untagged
+  m_Icon: {fileID: 2800000, guid: 571b0055f9fa48142812038b095e2abf, type: 3}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1534264365
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1534264364}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 15.930007, y: 10.880005, z: -30.52002}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 122882802}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1534264366
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1534264364}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 287935f946f356444b9331848b823b59, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!43 &1538729649
 Mesh:
   m_ObjectHideFlags: 0
@@ -39433,50 +40053,6 @@ Mesh:
     offset: 0
     size: 0
     path: 
---- !u!1 &1555173654
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1555173655}
-  - component: {fileID: 1555173656}
-  m_Layer: 0
-  m_Name: TrashMob_3
-  m_TagString: Untagged
-  m_Icon: {fileID: 2800000, guid: 26b3a285bd12885428695d8344a1476d, type: 3}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1555173655
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1555173654}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -14.299997, y: 2.4700012, z: 1.6999869}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 1708237028}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1555173656
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1555173654}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 287935f946f356444b9331848b823b59, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!43 &1556190702
 Mesh:
   m_ObjectHideFlags: 0
@@ -39642,6 +40218,50 @@ Mesh:
     offset: 0
     size: 0
     path: 
+--- !u!1 &1567494269
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1567494270}
+  - component: {fileID: 1567494271}
+  m_Layer: 0
+  m_Name: TrashMobSMG_5
+  m_TagString: Untagged
+  m_Icon: {fileID: 2800000, guid: 571b0055f9fa48142812038b095e2abf, type: 3}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1567494270
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1567494269}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -3.389992, y: 10.76001, z: 51.85999}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1804806501}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1567494271
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1567494269}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 287935f946f356444b9331848b823b59, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1568169899
 GameObject:
   m_ObjectHideFlags: 0
@@ -39653,9 +40273,9 @@ GameObject:
   - component: {fileID: 1568169900}
   - component: {fileID: 1568169901}
   m_Layer: 0
-  m_Name: TrashMobSMG_2
+  m_Name: TrashMob_2
   m_TagString: Untagged
-  m_Icon: {fileID: 2800000, guid: 571b0055f9fa48142812038b095e2abf, type: 3}
+  m_Icon: {fileID: 2800000, guid: 26b3a285bd12885428695d8344a1476d, type: 3}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
@@ -40677,9 +41297,9 @@ GameObject:
   - component: {fileID: 1592888193}
   - component: {fileID: 1592888194}
   m_Layer: 0
-  m_Name: TrashMobMissile_2
+  m_Name: TrashMob_2
   m_TagString: Untagged
-  m_Icon: {fileID: 2800000, guid: 4320cd9dfd4c2634481a8cba8a983c04, type: 3}
+  m_Icon: {fileID: 2800000, guid: 26b3a285bd12885428695d8344a1476d, type: 3}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
@@ -40692,7 +41312,7 @@ Transform:
   m_GameObject: {fileID: 1592888192}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -25.620014, y: 3.019989, z: 4.06001}
+  m_LocalPosition: {x: -25.62001, y: 3.019989, z: 4.059949}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -42123,50 +42743,6 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 1634336937}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &1638860713
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1638860714}
-  - component: {fileID: 1638860715}
-  m_Layer: 0
-  m_Name: TrashMobMissile_6
-  m_TagString: Untagged
-  m_Icon: {fileID: 2800000, guid: 4320cd9dfd4c2634481a8cba8a983c04, type: 3}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1638860714
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1638860713}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -25.5, y: 0, z: 30.65}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 1193504851}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1638860715
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1638860713}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 287935f946f356444b9331848b823b59, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1642832827
 GameObject:
   m_ObjectHideFlags: 0
@@ -42206,50 +42782,6 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1642832827}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 287935f946f356444b9331848b823b59, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!1 &1645665420
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1645665421}
-  - component: {fileID: 1645665422}
-  m_Layer: 0
-  m_Name: TrashMobSMG_5
-  m_TagString: Untagged
-  m_Icon: {fileID: 2800000, guid: 571b0055f9fa48142812038b095e2abf, type: 3}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1645665421
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1645665420}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 9.399995, y: -0.8699951, z: 45.79}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 1193504851}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1645665422
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1645665420}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 287935f946f356444b9331848b823b59, type: 3}
@@ -43603,8 +44135,6 @@ Transform:
   - {fileID: 698822241}
   - {fileID: 1483975473}
   - {fileID: 13585203}
-  - {fileID: 1555173655}
-  - {fileID: 557450230}
   m_Father: {fileID: 524153265}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!43 &1716239587
@@ -43824,6 +44354,50 @@ MonoBehaviour:
   m_Bidirectional: 1
   m_AutoUpdatePosition: 0
   m_Area: 0
+--- !u!1 &1734710782
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1734710783}
+  - component: {fileID: 1734710784}
+  m_Layer: 0
+  m_Name: TrashMob_5
+  m_TagString: Untagged
+  m_Icon: {fileID: 2800000, guid: 26b3a285bd12885428695d8344a1476d, type: 3}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1734710783
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1734710782}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -16.299988, y: 4.950012, z: -67.30003}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 986319216}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1734710784
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1734710782}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 287935f946f356444b9331848b823b59, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1737718962
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -44442,6 +45016,50 @@ Mesh:
     offset: 0
     size: 0
     path: 
+--- !u!1 &1756061815
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1756061816}
+  - component: {fileID: 1756061817}
+  m_Layer: 0
+  m_Name: TrashMob_1
+  m_TagString: Untagged
+  m_Icon: {fileID: 2800000, guid: 26b3a285bd12885428695d8344a1476d, type: 3}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1756061816
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1756061815}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 17.200016, y: 0, z: 12.0999975}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 707347956}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1756061817
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1756061815}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 287935f946f356444b9331848b823b59, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1757680555
 GameObject:
   m_ObjectHideFlags: 0
@@ -44453,9 +45071,9 @@ GameObject:
   - component: {fileID: 1757680556}
   - component: {fileID: 1757680557}
   m_Layer: 0
-  m_Name: TrashMobMissile_6
+  m_Name: TrashMobSMG_6
   m_TagString: Untagged
-  m_Icon: {fileID: 2800000, guid: 4320cd9dfd4c2634481a8cba8a983c04, type: 3}
+  m_Icon: {fileID: 2800000, guid: 571b0055f9fa48142812038b095e2abf, type: 3}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
@@ -44468,7 +45086,7 @@ Transform:
   m_GameObject: {fileID: 1757680555}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 18.799988, y: -1.0400085, z: -41.000034}
+  m_LocalPosition: {x: -2.8699994, y: 11.820007, z: 53.679996}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -44554,7 +45172,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1762957936
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -46107,7 +46725,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1774674417
 Transform:
   m_ObjectHideFlags: 0
@@ -46142,16 +46760,19 @@ MonoBehaviour:
   enemiesPositions:
   - positions:
     - {x: -342.31073, y: -109.78, z: -797.33295}
-    - {x: -362.711, y: -104.47, z: -749.35596}
-    - {x: -362.82852, y: -109.78, z: -784.46124}
-    - {x: -418.16052, y: -98.72, z: -826.4684}
-    - {x: -384.0301, y: -109.78, z: -817.82587}
+    - {x: -391.8466, y: -111.5, z: -789.92114}
+    - {x: -358.8202, y: -111.5, z: -849.64325}
+    - {x: -397.68512, y: -97.600006, z: -789.5224}
+    - {x: -336.32492, y: -104.82999, z: -822.2135}
+    - {x: -388.9849, y: -104.82999, z: -848.48474}
+    - {x: -357.968, y: -97.350006, z: -809.6253}
   - positions:
-    - {x: -341.4453, y: -101.25998, z: -820.36096}
-    - {x: -399.13593, y: -98.41998, z: -790.939}
-    - {x: -369.13293, y: -99.50998, z: -805.0478}
-    - {x: -388.9104, y: -105.75998, z: -850.15686}
-    - {x: -363.36615, y: -109.78, z: -829.45447}
+    - {x: -371.4306, y: -111.79999, z: -830.8454}
+    - {x: -325.39972, y: -111.79999, z: -802.2699}
+    - {x: -369.8927, y: -104.389984, z: -750.71814}
+    - {x: -341.6364, y: -104.73999, z: -820.2104}
+    - {x: -335.12878, y: -105.69998, z: -820.20074}
+    - {x: -410.7094, y: -98.889984, z: -826.71423}
   waves:
   - {fileID: 986319216}
   - {fileID: 707347956}
@@ -46343,6 +46964,50 @@ Mesh:
     offset: 0
     size: 0
     path: 
+--- !u!1 &1777371924
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1777371925}
+  - component: {fileID: 1777371926}
+  m_Layer: 0
+  m_Name: TrashMobSMG_5
+  m_TagString: Untagged
+  m_Icon: {fileID: 2800000, guid: 571b0055f9fa48142812038b095e2abf, type: 3}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1777371925
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1777371924}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -10.299973, y: 11.899994, z: 13.000002}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 786413526}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1777371926
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1777371924}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 287935f946f356444b9331848b823b59, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1789690357
 GameObject:
   m_ObjectHideFlags: 0
@@ -46478,6 +47143,50 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1789690357}
   m_CullTransparentMesh: 1
+--- !u!1 &1789735024
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1789735025}
+  - component: {fileID: 1789735026}
+  m_Layer: 0
+  m_Name: TrashMob_4
+  m_TagString: Untagged
+  m_Icon: {fileID: 2800000, guid: 26b3a285bd12885428695d8344a1476d, type: 3}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1789735025
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1789735024}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 2.090001, y: 1.019989, z: -3.6800041}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1193504851}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1789735026
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1789735024}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 287935f946f356444b9331848b823b59, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!43 &1789836028
 Mesh:
   m_ObjectHideFlags: 0
@@ -46643,6 +47352,50 @@ Mesh:
     offset: 0
     size: 0
     path: 
+--- !u!1 &1792332460
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1792332461}
+  - component: {fileID: 1792332462}
+  m_Layer: 0
+  m_Name: TrashMobSMG_5
+  m_TagString: Untagged
+  m_Icon: {fileID: 2800000, guid: 571b0055f9fa48142812038b095e2abf, type: 3}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1792332461
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1792332460}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 56.310047, y: -1.9100037, z: 8.770072}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 223085087}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1792332462
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1792332460}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 287935f946f356444b9331848b823b59, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!43 &1795219771
 Mesh:
   m_ObjectHideFlags: 0
@@ -47171,6 +47924,9 @@ Transform:
   - {fileID: 2033409797}
   - {fileID: 1642832828}
   - {fileID: 844749627}
+  - {fileID: 393928025}
+  - {fileID: 1567494270}
+  - {fileID: 142489854}
   m_Father: {fileID: 1482561284}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1805148064
@@ -47933,9 +48689,9 @@ GameObject:
   - component: {fileID: 1821874047}
   - component: {fileID: 1821874048}
   m_Layer: 0
-  m_Name: TrashMobSMG_1
+  m_Name: TrashMob_1
   m_TagString: Untagged
-  m_Icon: {fileID: 2800000, guid: 571b0055f9fa48142812038b095e2abf, type: 3}
+  m_Icon: {fileID: 2800000, guid: 26b3a285bd12885428695d8344a1476d, type: 3}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
@@ -47948,7 +48704,7 @@ Transform:
   m_GameObject: {fileID: 1821874046}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -25.2, y: 3.019989, z: 23}
+  m_LocalPosition: {x: -25.56998, y: 6.230011, z: 31.880013}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -49708,21 +50464,22 @@ MonoBehaviour:
   arenaData: {fileID: 11400000, guid: 1c0092959d7447449bc6c28f22b8372a, type: 2}
   enemiesPositions:
   - positions:
-    - {x: -388.2979, y: -112.92999, z: -1026.0841}
-    - {x: -386.26926, y: -113.22998, z: -1004.95776}
-    - {x: -373.0512, y: -111.31, z: -1052.2556}
-    - {x: -405.64337, y: -103.28998, z: -1024.5398}
-    - {x: -361.42847, y: -107.91998, z: -1035.6006}
-    - {x: -362.74146, y: -107.91998, z: -1002.8982}
+    - {x: -384.32092, y: -112.92999, z: -1038.8726}
+    - {x: -369.14856, y: -115.25, z: -989.9918}
+    - {x: -368.10428, y: -113.869995, z: -1052.7166}
+    - {x: -407.4718, y: -108.82999, z: -1016.3013}
+    - {x: -362.30743, y: -109.619995, z: -1024.9254}
+    - {x: -365.76776, y: -98.07999, z: -1032.8767}
+    - {x: -368.97134, y: -103.44998, z: -1063.9578}
+    - {x: -400.66357, y: -105.859985, z: -1001.4745}
   - positions:
-    - {x: -386.367, y: -110.639984, z: -1002.8505}
-    - {x: -362.65128, y: -103.53, z: -1003.10284}
-    - {x: -377.10474, y: -99.53, z: -986.9717}
-    - {x: -401.54877, y: -110.45999, z: -987.6951}
-    - {x: -382.65802, y: -115.369995, z: -994.5209}
-    - {x: -407.4249, y: -115.369995, z: -1069.4061}
-    - {x: -365.11383, y: -115.369995, z: -1072.2649}
-    - {x: -385.05554, y: -115.369995, z: -1041.7601}
+    - {x: -359.27545, y: -109.40997, z: -978.22754}
+    - {x: -359.3778, y: -109.28, z: -1007.9176}
+    - {x: -386.96222, y: -102.94998, z: -976.871}
+    - {x: -385.7471, y: -113.53, z: -1058.3162}
+    - {x: -384.15802, y: -115.369995, z: -996.8208}
+    - {x: -402.29868, y: -108.879974, z: -1061.4458}
+    - {x: -383.65903, y: -102.50998, z: -978.9439}
   waves:
   - {fileID: 122882802}
   - {fileID: 550234586}
@@ -50079,50 +50836,6 @@ Mesh:
     offset: 0
     size: 0
     path: 
---- !u!1 &1969070242
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1969070243}
-  - component: {fileID: 1969070244}
-  m_Layer: 0
-  m_Name: TrashMobSMG_3
-  m_TagString: Untagged
-  m_Icon: {fileID: 2800000, guid: 571b0055f9fa48142812038b095e2abf, type: 3}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1969070243
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1969070242}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -52.469994, y: 11.059998, z: -62.040024}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 986319216}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1969070244
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1969070242}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 287935f946f356444b9331848b823b59, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!43 &1971594969
 Mesh:
   m_ObjectHideFlags: 0
@@ -50507,6 +51220,50 @@ Mesh:
     offset: 0
     size: 0
     path: 
+--- !u!1 &1978207480
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1978207481}
+  - component: {fileID: 1978207482}
+  m_Layer: 0
+  m_Name: TrashMobSMG_4
+  m_TagString: Untagged
+  m_Icon: {fileID: 2800000, guid: 571b0055f9fa48142812038b095e2abf, type: 3}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1978207481
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1978207480}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 17.299992, y: 6.100006, z: -8.300002}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 707347956}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1978207482
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1978207480}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 287935f946f356444b9331848b823b59, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!43 &1989540546
 Mesh:
   m_ObjectHideFlags: 0
@@ -51470,9 +52227,9 @@ GameObject:
   - component: {fileID: 2033409797}
   - component: {fileID: 2033409798}
   m_Layer: 0
-  m_Name: TrashMobSMG_1
+  m_Name: TrashMob_1
   m_TagString: Untagged
-  m_Icon: {fileID: 2800000, guid: 571b0055f9fa48142812038b095e2abf, type: 3}
+  m_Icon: {fileID: 2800000, guid: 26b3a285bd12885428695d8344a1476d, type: 3}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
@@ -51485,7 +52242,7 @@ Transform:
   m_GameObject: {fileID: 2033409796}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 22.270012, y: 14.799988, z: -3.4799907}
+  m_LocalPosition: {x: 22.270014, y: 14.799988, z: -3.4800515}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -52519,7 +53276,7 @@ Transform:
   m_GameObject: {fileID: 2115506752}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 2.3400095, y: 0.07998657, z: -3.620043}
+  m_LocalPosition: {x: -42.73999, y: 7.619995, z: -20.20998}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -52936,7 +53693,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &2131033120
 Transform:
   m_ObjectHideFlags: 0
@@ -52951,6 +53708,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1193504851}
+  - {fileID: 672794292}
   m_Father: {fileID: 2020265195}
   m_LocalEulerAnglesHint: {x: 0, y: 28.01, z: 0}
 --- !u!114 &2131033121
@@ -52972,12 +53730,19 @@ MonoBehaviour:
     - {x: -168.12013, y: -107.53, z: -504.07794}
     - {x: -119.02214, y: -107.91, z: -478.3411}
     - {x: -189.8475, y: -107.53998, z: -459.89914}
-    - {x: -156.36536, y: -110.42999, z: -467.26633}
-    - {x: -96.32869, y: -104.91998, z: -446.8159}
-    - {x: -124.800964, y: -109.79999, z: -427.94382}
-    - {x: -162.72308, y: -108.92999, z: -424.9203}
+    - {x: -103.401024, y: -103.649994, z: -444.67355}
+    - {x: -154.4873, y: -107.91, z: -468.18607}
+  - positions:
+    - {x: -122.14363, y: -111.79999, z: -453.12094}
+    - {x: -145.38799, y: -111.79999, z: -434.4926}
+    - {x: -171.8257, y: -111.79999, z: -453.95663}
+    - {x: -141.09663, y: -111.79999, z: -480.7233}
+    - {x: -138.65161, y: -103.379974, z: -517.32947}
+    - {x: -96.81706, y: -103.379974, z: -445.6046}
+    - {x: -163.06671, y: -108.79999, z: -428.07886}
   waves:
   - {fileID: 1193504851}
+  - {fileID: 672794292}
   arenaUnlockedDoors: []
   key: {fileID: 0}
 --- !u!65 &2131033122
@@ -53001,7 +53766,7 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 94.04585, y: 12.9748535, z: 108.2276}
   m_Center: {x: 16.198902, y: 3.9874268, z: -13.569407}
---- !u!1 &2132121959
+--- !u!1 &2138045454
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -53009,125 +53774,37 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 2132121960}
-  - component: {fileID: 2132121961}
+  - component: {fileID: 2138045455}
+  - component: {fileID: 2138045456}
   m_Layer: 0
-  m_Name: TrashMobSMG_2
+  m_Name: TrashMob_2
   m_TagString: Untagged
-  m_Icon: {fileID: 2800000, guid: 571b0055f9fa48142812038b095e2abf, type: 3}
+  m_Icon: {fileID: 2800000, guid: 26b3a285bd12885428695d8344a1476d, type: 3}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &2132121960
+--- !u!4 &2138045455
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2132121959}
+  m_GameObject: {fileID: 2138045454}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -24.180002, y: 0, z: 1.4100094}
+  m_LocalPosition: {x: 10.700022, y: -1.7200012, z: -53.799995}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 986319216}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &2132121961
+--- !u!114 &2138045456
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2132121959}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 287935f946f356444b9331848b823b59, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!1 &2133769611
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 2133769612}
-  - component: {fileID: 2133769613}
-  m_Layer: 0
-  m_Name: TrashMobSMG_0
-  m_TagString: Untagged
-  m_Icon: {fileID: 2800000, guid: 571b0055f9fa48142812038b095e2abf, type: 3}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &2133769612
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2133769611}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 11.839993, y: 10.540009, z: -11.480032}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 707347956}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &2133769613
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2133769611}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 287935f946f356444b9331848b823b59, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!1 &2134396822
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 2134396823}
-  - component: {fileID: 2134396824}
-  m_Layer: 0
-  m_Name: TrashMobSMG_4
-  m_TagString: Untagged
-  m_Icon: {fileID: 2800000, guid: 571b0055f9fa48142812038b095e2abf, type: 3}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &2134396823
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2134396822}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -26.70997, y: 0, z: -38.04001}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 986319216}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &2134396824
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2134396822}
+  m_GameObject: {fileID: 2138045454}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 287935f946f356444b9331848b823b59, type: 3}
