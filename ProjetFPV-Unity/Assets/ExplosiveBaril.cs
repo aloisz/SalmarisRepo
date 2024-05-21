@@ -21,6 +21,7 @@ public class ExplosiveBaril : MonoBehaviour, IExplosion, IDamage
         _explosion.SetWhoIsTarget(explosionMask);
         _explosion.SetDoPlayerDamage(true);
         _explosion.SetDamage(damage);
+        _explosion.SetParticleIndex(1);
     }
 
     public void HitScanExplosion(LayerMask newTarget)
