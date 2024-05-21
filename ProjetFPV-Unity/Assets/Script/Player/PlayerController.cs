@@ -68,6 +68,7 @@ namespace Player
         public bool isDashing;
         public bool isOnSlope;
         public bool isSlopeClimbing;
+        public bool isUnderCeiling;
 
         internal PlayerActionStates currentActionState;
         
@@ -96,6 +97,8 @@ namespace Player
         private RaycastHit _raycastGroundLeft;
         private RaycastHit _raycastGroundForward;
         private RaycastHit _raycastGroundBack;
+        
+        private RaycastHit _raycastCeiling;
         
         private RaycastHit _raycastSlope;
         private RaycastHit _raycastSlopeFront;
@@ -443,6 +446,9 @@ namespace Player
             var isOnGroundTempBack = Physics.Raycast(posCheckBack, Vector3.down * playerScriptable.groundDetectionLenght, out _raycastGroundBack, 
                 playerScriptable.groundDetectionLenght, groundLayer);
 
+            var posCeilingCheck = cameraAttachPosition.position;
+            isUnderCeiling = Physics.Raycast(posCeilingCheck, Vector3.up * 5f, out _raycastCeiling, 5f, groundLayer);
+
             if (isOnGroundTempRight || isOnGroundTempLeft || isOnGroundTempForward || isOnGroundTempBack)
             {
                 if (!isOnGround)
@@ -730,6 +736,13 @@ namespace Player
         {
             _canDash = PlayerInputs.Instance.isReceivingDashInputs && !isDashing && 
                        PlayerStamina.Instance.HasEnoughStamina(1) && _timerBeforeReDash < 0.1f;
+
+            if (isUnderCeiling && isSliding)
+            {
+                isSliding = true;
+                return;
+            }
+            
             _canJump = canDoubleJump ? _amountOfJumps < 2 : (isOnGround && !isJumping);
             
             isSliding = PlayerInputs.Instance.isReceivingSlideInputs && isOnGround;
