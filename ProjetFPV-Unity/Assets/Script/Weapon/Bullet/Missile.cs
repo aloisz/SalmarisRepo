@@ -69,6 +69,7 @@ public class Missile : BulletBehavior,IExplosion
         explosion.SetWhoIsTarget(enemyMask);
         this.explosion.SetDamage(bullet.damage);
         this.explosion.SetDoPlayerDamage(true);
+        explosion.SetParticleIndex(1);
     }
 
     public virtual void HitScanExplosion(LayerMask newTarget)
@@ -80,6 +81,7 @@ public class Missile : BulletBehavior,IExplosion
         explosion.SetWhoIsTarget(newTarget);
         this.explosion.SetDamage(bullet.damage);
         this.explosion.SetDoPlayerDamage(true);
+        explosion.SetParticleIndex(1);
         
         Pooling.instance.DelayedDePop(bullet.PoolingKeyName, gameObject, 0.05f); // DePop Missile
     }

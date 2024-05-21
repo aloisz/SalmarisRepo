@@ -7,6 +7,7 @@ using Player;
 using Unity.VisualScripting;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class Explosion : MonoBehaviour
 {
@@ -19,7 +20,10 @@ public class Explosion : MonoBehaviour
     
     public float explosionRadius;
     public float explosionForce;
-    public ParticleSystem particle;
+    
+    //particles 
+    private int particlesIndex;
+    [SerializeField]private List<ParticleSystem> particles;
     
     private float rocketJumpForceApplied;
 
@@ -60,7 +64,8 @@ public class Explosion : MonoBehaviour
             Vector3.Distance(PlayerController.Instance.transform.position, transform.position));
         
         Explode();
-        particle.Play();
+        
+        particles[particlesIndex].Play();
     }
 
 
@@ -142,6 +147,11 @@ public class Explosion : MonoBehaviour
     public float SetDamage(float value)
     {
         return damageInflicted = value;
+    }
+
+    public int SetParticleIndex(int value)
+    {
+        return particlesIndex = value;
     }
 
     #if UNITY_EDITOR
