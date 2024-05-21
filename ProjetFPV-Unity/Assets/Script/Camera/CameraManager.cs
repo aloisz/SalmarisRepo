@@ -87,14 +87,14 @@ namespace CameraBehavior
         {
             if (!mustAvoid)
             {
-                var YImpact = (cameraJumping.jumpingImpactOnLanding.Evaluate(PlayerController.Instance._rb.velocity.y) );
+                //var YImpact = (cameraJumping.jumpingImpactOnLanding.Evaluate(PlayerController.Instance._rb.velocity.y) );
                 
                 transform.position = Vector3.Lerp(transform.position, playerTransform.position, 
-                    Time.deltaTime * (so_Camera.positionOffSetSmooth - YImpact));
+                    Time.deltaTime * (so_Camera.positionOffSetSmooth));
                 
                 transform.rotation = Quaternion.Euler(transform.eulerAngles.x , playerTransform.eulerAngles.y,transform.eulerAngles.z );
                 
-                cameraJumping.ImpactWhenLanding();
+                
             }
             else
             {
@@ -155,6 +155,7 @@ namespace CameraBehavior
             cameraJumping.DisplayCameraShake();
 
             handSwing.CameraImpact();
+            cameraJumping.ImpactWhenLanding();
 
             // Fix the different rotation smoothness
             if (Math.Abs(actualglobalCameraRot - globalCameraRot) > 0.1f) 
@@ -240,8 +241,8 @@ namespace CameraBehavior
         
         private void MovingTransitionParent()
         {
-            /*transitionParent.position = Vector3.Lerp(transitionParent.position, playerTransform.position, 
-                Time.deltaTime * so_Camera.positionOffSetSmooth); */
+            transitionParent.position = Vector3.Lerp(transitionParent.position, playerTransform.position, 
+                Time.deltaTime * so_Camera.positionOffSetSmooth); 
             
             // Rotation
             float xValue = 0;
