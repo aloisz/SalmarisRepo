@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using AI;
+using CameraBehavior;
 using Player;
 using UnityEngine;
 using UnityEngine.Serialization;
@@ -10,10 +11,12 @@ public class PlayerHealth : GenericSingletonClass<PlayerHealth>, IDamage
 {
     [SerializeField] private float explosionRadius, explosionForce;
     [SerializeField] private LayerMask explosionMask;
+    
+    [SerializeField] private AnimationCurve healthCamShakeCurve;
 
     public Vector3 lastEnemyPosition;
     
-    [HideInInspector]public float _health;
+    [HideInInspector] public float _health;
     public float Health
     {
         get => _health;
