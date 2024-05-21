@@ -46,8 +46,6 @@ namespace Player
         //---------------------------------------
 
         [Header("Momentum")] 
-        public Vector3 shotgunExternalForce;
-        
         private float _dashTimerSpeedAdd;
         private float _speedMultiplierFromDash = 1f;
         private float _slideAccelerateTimer;
@@ -167,13 +165,18 @@ namespace Player
             //Set the current input values to the direction.
             var dirFromInputs = PlayerInputs.Instance.moveValue;
             direction = new Vector3(dirFromInputs.x, 0, dirFromInputs.y).normalized;
+            if (isSliding && !isSlopeClimbing)
+                direction = new Vector3(direction.x, direction.y, Mathf.Abs(direction.z));
             
             //If the direction isn't null, set the direction not reset to direction.
             if (direction.magnitude > playerScriptable.moveThreshold) directionNotReset = direction;
             
             _rb.AddForce(GetOverallMomentumVector(), ForceMode.Impulse);
 
-            if (_rb.velocity.magnitude > playerScriptable.maxRigidbodyVelocity) 
+            if (_rb.velocity.magnitude > playerScriptable.rigidbodyClampSlide && isSliding) 
+                _rb.velocity = Vector3.ClampMagnitude(_rb.velocity, playerScriptable.rigidbodyClampSlide);
+
+            if (_rb.velocity.magnitude > playerScriptable.maxRigidbodyVelocity)
                 _rb.velocity = Vector3.ClampMagnitude(_rb.velocity, playerScriptable.maxRigidbodyVelocity);
         }
         
@@ -183,21 +186,20 @@ namespace Player
         /// <returns></returns>
         private Vector3 GetOverallMomentumVector()
         {
-            var dividerOnSlopeClimbing = (isSlopeClimbing && isSliding ? playerScriptable.decelerationMultiplierSlideInSlopeUp : 1f);
             var dividerOnSlope = (!isSlopeClimbing && isSliding ? playerScriptable.slopeSpeedDivider : 1f);
             var accelerating = _rb.velocity.magnitude < playerScriptable.speedMaxToAccelerate && !isSliding;
-            var vectorMove = DirectionFromCamera(direction).normalized * 
-                             (_moveSpeed * _speedMultiplierFromDash * (accelerating ? playerScriptable.accelerationMultiplier : 1f))
-                             / dividerOnSlopeClimbing;
-            
-            var slopeDirection = new Vector3(_raycastSlope.normal.x, 0, _raycastSlope.normal.z).normalized;
-            var vectorSlideDown = Vector3.down * (playerScriptable.slidingInSlopeDownForce) / dividerOnSlopeClimbing;
-            var vectorSlideForward = (slopeDirection * (_actualSlopeAngle / playerScriptable.slopeAngleDivider)) / dividerOnSlopeClimbing;
-            var vectorSlide = vectorSlideDown + ((vectorSlideForward * playerScriptable.slopeForwardBoost) / dividerOnSlope);
+            var vectorMove = DirectionFromCamera(direction).normalized * (_moveSpeed * _speedMultiplierFromDash * (accelerating ? playerScriptable.accelerationMultiplier : 1f));
 
-            var finalVector = (isMoving ? vectorMove : Vector3.zero) + 
-                              (isOnSlope && isSliding && !isSlopeClimbing ? vectorSlide : Vector3.zero)
-                              + shotgunExternalForce;
+            var slopeDirection = new Vector3(_raycastSlope.normal.x, 0, _raycastSlope.normal.z).normalized;
+
+            var vectorSlideDown = Vector3.down * (playerScriptable.slidingInSlopeDownForce);
+            var vectorSlideForward = (slopeDirection * (_actualSlopeAngle / playerScriptable.slopeAngleDivider));
+            var vectorSlide = vectorSlideDown + ((vectorSlideForward * playerScriptable.slopeForwardBoost));
+
+            var finalVector = ((isMoving ? vectorMove : Vector3.zero) +
+                              (isOnSlope && isSliding && !isSlopeClimbing
+                                  ? vectorSlide
+                                  : Vector3.zero)) / dividerOnSlope;
 
             var slideBoostValue = (isSliding ? _slideBoost : 1f);
             var tempFinalVectorX = finalVector.x * slideBoostValue;
@@ -205,10 +207,8 @@ namespace Player
 
             finalVector = new Vector3(tempFinalVectorX, finalVector.y, tempFinalVectorZ);
 
-            overallMomentum = finalVector / (isSliding && isMoving && isOnSlope
-                ? playerScriptable.overallMomentumLimiterMoveSlideInSlope
-                : 1f);
-            
+            overallMomentum = finalVector / (isSlopeClimbing && isSliding ? playerScriptable.decelerationMultiplierSlideInSlopeUp : 1f);
+
             return overallMomentum;
         }
         
@@ -390,6 +390,7 @@ namespace Player
             {
                 // 0f
                 _rb.drag = drags[3];
+                _rb.velocity /= 1.2f;
             }
             else if (isOnSlope && !isSliding)
             {
@@ -406,7 +407,7 @@ namespace Player
             }
             else
             {
-                _rb.drag = playerScriptable.airDrag;
+                _rb.drag = _rb.velocity.magnitude >= 50f ? 0.8f : playerScriptable.airDrag;
             }
         }
 
@@ -473,6 +474,8 @@ namespace Player
             _canApplyGravity = false;
 
             _jumpFacilityForce = 0f;
+
+            if (_rb.velocity.magnitude >= 50f) _rb.velocity *= 1.25f;
 
             yield return new WaitForSeconds(0.025f);
             
@@ -645,12 +648,15 @@ namespace Player
                 isJumping = true;
             }
 
-            var forwardMomentumVector = GetDirectionXZ(_rb.velocity) / (playerScriptable.maxRigidbodyVelocity / 0.75f);
+            var forwardMomentumVector = GetDirectionXZ(_rb.velocity) / (playerScriptable.maxRigidbodyVelocity / playerScriptable.jumpMomentumDivider);
             
-            _rb.AddForce((_amountOfJumps < 2 ? 
+            _rb.AddForce(
+                (_amountOfJumps < 2 ? 
                 playerScriptable.jumpForce : 
-                playerScriptable.jumpForce * Mathf.Lerp(0.75f, playerScriptable.secondaryJumpMultiplierFromYVel, 
-                    Mathf.Abs(_rb.velocity.y / playerScriptable.maxRigidbodyVelocity))) * (Vector3.up + new Vector3(forwardMomentumVector.x, 0, forwardMomentumVector.y)), ForceMode.Impulse);
+                playerScriptable.jumpForce * 
+                Mathf.Lerp(0.75f, playerScriptable.secondaryJumpMultiplierFromYVel, 
+                    Mathf.Abs(_rb.velocity.y / playerScriptable.maxRigidbodyVelocity))) * 
+                (Vector3.up + new Vector3(forwardMomentumVector.x, 0, forwardMomentumVector.y)), ForceMode.Impulse);
         }
         
         /// <summary>
@@ -661,7 +667,7 @@ namespace Player
             var rot = PlayerInputs.Instance.rotateValue;
             
             _rotationX += -rot.y * playerScriptable.sensibility;
-            _rotationX = Mathf.Clamp(_rotationX, -playerScriptable.lookLimitY, playerScriptable.lookLimitY);
+            _rotationX = Mathf.Clamp(_rotationX, -playerScriptable.lookLimitY, playerScriptable.lookLimitY); 
             cameraAttachPosition.localRotation = Quaternion.Euler(_rotationX, 0, 0);
             transform.rotation *= Quaternion.Euler(0, rot.x * playerScriptable.sensibility, 0);
         }
@@ -729,9 +735,9 @@ namespace Player
             isSliding = PlayerInputs.Instance.isReceivingSlideInputs && isOnGround;
             isMoving = direction.magnitude > playerScriptable.moveThreshold;
             
-            if (isMoving && !isSliding && !isJumping && !isDashing) currentActionState = PlayerActionStates.Moving;
+            if(isSliding && !isJumping && !isDashing) currentActionState = PlayerActionStates.Sliding;
             
-            else if(isSliding && !isJumping && !isDashing) currentActionState = PlayerActionStates.Sliding;
+            else if (isMoving && !isSliding && !isJumping && !isDashing && !PlayerInputs.Instance.isReceivingSlideInputs) currentActionState = PlayerActionStates.Moving;
             
             else if (!isSliding && isJumping && !isDashing) currentActionState = PlayerActionStates.Jumping;
                 
@@ -934,8 +940,6 @@ namespace Player
             GUI.Label(rect10, $"Rigidbody Drag : {_rb.drag}", style);
             
             GUI.Label(rect11, $"Is Slope Climbing : {isSlopeClimbing}", BoolStyle(isSlopeClimbing));
-            
-            GUI.Label(rect12, $"Shotgun force : {shotgunExternalForce}", style);
         }
 
         GUIStyle BoolStyle(bool value)

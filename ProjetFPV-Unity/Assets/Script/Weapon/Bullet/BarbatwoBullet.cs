@@ -102,6 +102,7 @@ public class BarbatwoBullet : BulletBehavior
         this.explosion.SetDamage(bullet.damage);
         this.explosion.SetRocketForce(rocketJumpForceApplied);
         this.explosion.SetWhoIsTarget(whoIsTheTarget);
+        explosion.SetParticleIndex(0);
     }
 
     public void WhoIsTheTarget(LayerMask value)

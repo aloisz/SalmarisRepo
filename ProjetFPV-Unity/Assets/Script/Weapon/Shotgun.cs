@@ -40,8 +40,6 @@ public class Shotgun : ShootingLogicModule
         Vector3 shotgunImpulseVector = ((PlayerController.transform.position + Vector3.up) - hitPoint).normalized *
                                        so_Weapon.weaponMode[(int)actualWeaponModeIndex].rocketJumpForceApplied;
         
-        PlayerController.shotgunExternalForce = isRocketJumping ? shotgunImpulseVector : Vector3.zero;
-        
         if(!isRocketJumping) return;
         isRocketJumping = false;
     }

@@ -30,7 +30,10 @@ public static class Helper
 
     public static Vector3 ConvertToV3Int(Vector3 v)
     {
-        var vector = new Vector3(Mathf.RoundToInt(v.x), Mathf.RoundToInt(v.y), Mathf.RoundToInt(v.z));
+        var x = v.x > 0f ? 1f : 0f;
+        var y = v.y > 0f ? 1f : 0f;
+        var z = v.z > 0f ? 1f : 0f;
+        var vector = new Vector3(x, y, z);
         return vector;
     }
 
@@ -102,6 +105,11 @@ public static class Helper
                 resultList.Add((T)((System.Object)mb));
             }
         }
+    }
+
+    public static Vector3 Vector3Abs(Vector3 v)
+    {
+        return new Vector3(Mathf.Abs(v.x), Mathf.Abs(v.y), Mathf.Abs(v.z));
     }
 
     public static void RandomInList<T>(out T randomObject, List<T> referenceList) where T : class
