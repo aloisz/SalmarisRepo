@@ -20,11 +20,13 @@ namespace AI
             pawn = GetComponentInParent<AI_Pawn>();
         }
 
+        #if UNITY_EDITOR
         private void OnDrawGizmos()
         {
             Helper.DrawWireCapsule(transform.position, transform.rotation, GetComponent<CapsuleCollider>().radius, 
                 GetComponent<CapsuleCollider>().height, color,tickness);
         }
+        #endif
 
         public void Hit(float damageInflicted)
         {

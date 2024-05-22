@@ -44,6 +44,7 @@ public class EnemyToSpawn
         TrashMob,
         TrashMobSMG,
         TrashMobMissile,
-        AirSack
+        AirSack,
+        Smasher
     }
 }
