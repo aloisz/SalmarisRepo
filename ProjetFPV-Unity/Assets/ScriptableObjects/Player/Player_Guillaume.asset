@@ -12,15 +12,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0a71b2abe57b72a4da7599e067bad271, type: 3}
   m_Name: Player_Guillaume
   m_EditorClassIdentifier: 
-  moveSpeed: 3
+  moveSpeed: 2.7
   moveSpeedInAirDivider: 10
   moveThreshold: 0.1
   jumpForce: 35
   secondaryJumpMultiplierFromYVel: 4
   moveAirMultiplier: 0.75
   dashForce: 60
-  dashDuration: 0.145
-  dashLagDuration: 0.15
+  dashDuration: 0.135
+  dashLagDuration: 0.35
   dashSpeedMultiplier: 1.25
   dashSpeedMultiplierDuration: 1.25
   dashSpeedMultiplierResetDuration: 1.5
@@ -28,16 +28,17 @@ MonoBehaviour:
   accelerationMultiplier: 2
   slidingInSlopeDownForce: 2
   slopeAngleDivider: 2
-  slopeSpeedDivider: 10
-  overallMomentumLimiterMoveSlideInSlope: 10
-  decelerationMultiplierSlideInSlopeUp: 1000
+  slopeSpeedDivider: 1
+  slopeForwardBoost: 1
+  jumpMomentumDivider: 0.1
+  decelerationMultiplierSlideInSlopeUp: 1.25
   jumpEdgeImpulseForce: 700
   slideBoostCurve:
     serializedVersion: 2
     m_Curve:
     - serializedVersion: 3
-      time: 0
-      value: 2.3009377
+      time: -0.0010441965
+      value: 0.45113838
       inSlope: -0.0066812756
       outSlope: -49.755764
       tangentMode: 1
@@ -45,26 +46,17 @@ MonoBehaviour:
       inWeight: 0.33333334
       outWeight: 0.060356483
     - serializedVersion: 3
-      time: 0.119678155
-      value: 2.2936394
+      time: 0.11863395
+      value: 0.4475938
       inSlope: Infinity
-      outSlope: -43.68471
+      outSlope: -2.2776265
       tangentMode: 1
       weightedMode: 0
       inWeight: 0
-      outWeight: 0.33333334
+      outWeight: 0.046089616
     - serializedVersion: 3
-      time: 0.25434148
-      value: 0.66663957
-      inSlope: -6.4440894
-      outSlope: -1.4315184
-      tangentMode: 1
-      weightedMode: 0
-      inWeight: 0.31582743
-      outWeight: 0.29026693
-    - serializedVersion: 3
-      time: 0.44813842
-      value: 0.21886596
+      time: 0.45020187
+      value: 0.11303282
       inSlope: 0.000010616636
       outSlope: 0.000010616636
       tangentMode: 0
@@ -77,11 +69,14 @@ MonoBehaviour:
   staminaPerSecond: 0.0025
   gravityMultiplier: 65
   groundDrag: 7
-  airDrag: 1.8
+  airDrag: 1.2
+  timeToReachFrictionWhenSlidingOnGround: 2
+  timeToReachFrictionWhenSliding: 2
   maxRigidbodyVelocity: 100
+  rigidbodyClampSlide: 52
   groundDetectionLenght: 2.8
   raycastLenghtSlopeDetection: 2
-  groundDetectionForwardOffset: 0.25
+  groundDetectionForwardOffset: 0.5
   groundDetectionUpOffset: 0
   minSlopeDegrees: 3
   edgeDetectionLenght: 3
@@ -91,12 +86,11 @@ MonoBehaviour:
   edgeDetectionOffsetLenght: 0.25
   maxHeightToJumpFacility: 20
   minMaxJumpFacility: {x: 1.8, y: 10}
-  enableAutoJumpEdge: 1
+  enableAutoJumpEdge: 0
   sensibility: 0.1
   lookLimitY: 90
   frictionMaterial: {fileID: 13400000, guid: 66462d3f498916c45b06fcf1b1aa7596, type: 2}
-  wallMaterial: {fileID: 13400000, guid: 394c912cc7e142549ba3f2b085deeae4, type: 2}
   movingMaterial: {fileID: 13400000, guid: 394c912cc7e142549ba3f2b085deeae4, type: 2}
   timeBeforeDetectedIdle: 0.06
   maxPlayerHealth: 100
-  maxPlayerShield: 50
+  maxPlayerShield: 100
