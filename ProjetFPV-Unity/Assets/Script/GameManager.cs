@@ -10,6 +10,7 @@ public class GameManager : GenericSingletonClass<GameManager>
 {
     public List<AI_Pawn> aiPawnsAvailable;
     public int currentLevelIndex;
+    public int currentCheckpointIndex;
     
     public Action OnLevelCompleted;
 
