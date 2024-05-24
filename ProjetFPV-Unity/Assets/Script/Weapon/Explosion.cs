@@ -89,14 +89,17 @@ public class Explosion : MonoBehaviour
             if (obj.transform.gameObject.CompareTag("Player")) // if is player then add rocketJump value
             {
                 if (PlayerController.Instance.isUnderCeiling) return;
-                
+
                 Vector3 dir = PlayerController.Instance.GetDirectionXZ(
                     PlayerController.Instance.DirectionFromCamera(
-                        Helper.ConvertToV3Int(PlayerController.Instance.direction)) * 
-                    (!PlayerController.Instance.isOnGround ? 2f : 0.5f));
+                        Helper.ConvertToV3Int(PlayerController.Instance.direction)));
 
                 Vector3 shotgunImpulseVector = Vector3.up * rocketJumpForceApplied + dir;
 
+                var rbVelocity = PlayerController.Instance._rb.velocity;
+                rbVelocity.y = 0;
+                PlayerController.Instance._rb.velocity = rbVelocity;
+                
                 PlayerController.Instance._rb.AddForce(
                     shotgunImpulseVector, ForceMode.Impulse);
                 

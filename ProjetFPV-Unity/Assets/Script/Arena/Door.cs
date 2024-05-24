@@ -29,7 +29,7 @@ public class Door : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-            if (neededKey != null && neededKey.isPickedUp)
+            if (neededKey != null && neededKey.isPickedUp && neededKey.arenaTrigger.isCompleted)
             {
                 DeactivateDoor();
                 Destroy(neededKey.gameObject);

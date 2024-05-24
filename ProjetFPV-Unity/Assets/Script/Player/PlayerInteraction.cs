@@ -20,6 +20,8 @@ public class PlayerInteraction : MonoBehaviour
     {
         if (PlayerInputs.Instance.isReceivingInteractInputs.performed)
         {
+            Debug.Log("F");
+            
             var nearestColliders = Physics.OverlapSphere(transform.position, interactionRadius);
             var colliderListInterface = new List<Collider>();
             

@@ -10,6 +10,7 @@ public class PlayerKillStreak : GenericSingletonClass<PlayerKillStreak>
     [Header("Overall")]
     public float maxKillStreak = 100f;
     public bool isInRageMode;
+    public bool hasInfiniteAmmo;
     
     public float KillStreak
     {

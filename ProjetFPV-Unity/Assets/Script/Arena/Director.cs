@@ -243,6 +243,8 @@ public class Director : GenericSingletonClass<Director>
     private void NotifyArenaCompleted()
     {
         _currentArenaFinished = true;
+        GetActualArenaTrigger().isCompleted = true;
+        
         _hasStartedWave = false;
         currentWaveIndex = -1;
 
