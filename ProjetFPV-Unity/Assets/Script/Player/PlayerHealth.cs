@@ -23,7 +23,7 @@ public class PlayerHealth : GenericSingletonClass<PlayerHealth>, IDamage
         private set => _health = Mathf.Clamp(value, 0f, maxHealth);
     }
     
-    [HideInInspector]public float _shield;
+    [HideInInspector] public float _shield;
     public float Shield
     {
         get => _shield;
@@ -31,6 +31,7 @@ public class PlayerHealth : GenericSingletonClass<PlayerHealth>, IDamage
     }
 
     public Action onHit;
+    public Action onDeath;
 
     public float maxHealth;
     public float maxShield;
@@ -40,6 +41,7 @@ public class PlayerHealth : GenericSingletonClass<PlayerHealth>, IDamage
     void Start()
     {
         InitValues();
+        onDeath += CareTaker.Instance.LoadGameState;
     }
 
     private void InitValues()
@@ -102,7 +104,7 @@ public class PlayerHealth : GenericSingletonClass<PlayerHealth>, IDamage
         // Check if health drops below 0
         if (Health <= 0)
         {
-            //Die();
+            onDeath.Invoke();
         }
         
         onHit?.Invoke();
