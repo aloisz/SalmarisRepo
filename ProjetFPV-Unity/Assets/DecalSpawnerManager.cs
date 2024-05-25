@@ -17,7 +17,7 @@ public class DecalSpawnerManager : GenericSingletonClass<DecalSpawnerManager>
 
     public void SpawnDecal(Vector3 pos, Vector3 normal, possibleDecals index)
     {
-        GameObject spawnedObject = Instantiate(decals[(int)index], pos, Quaternion.identity);
+        GameObject spawnedObject = Instantiate(decals[(int)index], pos, Quaternion.identity, transform);
         
         // Create the rotation to align the decal to the surface normal
         Quaternion lookRotation = Quaternion.LookRotation(-normal);
