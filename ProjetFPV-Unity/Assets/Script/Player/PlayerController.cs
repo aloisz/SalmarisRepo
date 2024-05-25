@@ -91,7 +91,7 @@ namespace Player
         //---------------------------------------
 
         [Header("Detection")] 
-        [SerializeField] private LayerMask groundLayer;
+        public LayerMask groundLayer;
 
         private RaycastHit _raycastGroundRight;
         private RaycastHit _raycastGroundLeft;

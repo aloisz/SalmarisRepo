@@ -151,11 +151,13 @@ MonoBehaviour:
   walkableMask:
     serializedVersion: 2
     m_Bits: 64
-  enemyMask:
+  playerMask:
     serializedVersion: 2
     m_Bits: 128
   bulletLifeTime: 4
   drag: 5
+  meshRenderer: {fileID: 8395214840331547342}
+  baseMat: {fileID: 2100000, guid: f164e54848fe61149857cd7cf6234e96, type: 2}
 --- !u!136 &7698758456860808799
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -176,7 +178,7 @@ CapsuleCollider:
   m_Enabled: 1
   serializedVersion: 2
   m_Radius: 0.5
-  m_Height: 2
+  m_Height: 0.5
   m_Direction: 2
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!96 &3500464492643065134
@@ -392,6 +394,12 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 51a2a16b25b2f294eb96fc043f2d6f2d, type: 3}
+--- !u!23 &8395214840331547342 stripped
+MeshRenderer:
+  m_CorrespondingSourceObject: {fileID: 4887854886562508614, guid: 51a2a16b25b2f294eb96fc043f2d6f2d,
+    type: 3}
+  m_PrefabInstance: {fileID: 3987072659853385096}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &8642887103151598442 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4658227739790964450, guid: 51a2a16b25b2f294eb96fc043f2d6f2d,

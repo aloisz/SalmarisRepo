@@ -9,7 +9,7 @@ public class BulletBehavior : MonoBehaviour, IBulletBehavior
 {
     public Bullet bullet;
     public LayerMask walkableMask;
-    public LayerMask enemyMask;
+    public LayerMask playerMask;
     
     [SerializeField] protected float bulletLifeTime;
     protected float timerBulletLifeTime = 0;
@@ -26,6 +26,10 @@ public class BulletBehavior : MonoBehaviour, IBulletBehavior
     protected virtual void OnEnable()
     {
         trailRenderer.enabled = true;
+        
+        transform.position = Vector3.zero;
+        transform.rotation = Quaternion.identity;
+        timerBulletLifeTime = 0;
     }
 
     protected virtual void OnDisable()
@@ -58,7 +62,7 @@ public class BulletBehavior : MonoBehaviour, IBulletBehavior
 
     protected virtual void Update()
     {
-        timerBulletLifeTime += Time.deltaTime * 1;
+        timerBulletLifeTime += Time.deltaTime;
         if (timerBulletLifeTime >= bulletLifeTime)
         {
             timerBulletLifeTime = 0;
@@ -76,9 +80,9 @@ public class BulletBehavior : MonoBehaviour, IBulletBehavior
             CollideWithWalkableMask(collision);
         }
         
-        if (LayerMask.GetMask(LayerMask.LayerToName(collision.gameObject.layer)) == enemyMask)
+        if (LayerMask.GetMask(LayerMask.LayerToName(collision.gameObject.layer)) == playerMask)
         {
-            CollideWithEnemyMask(collision);
+            CollideWithPlayerMask(collision);
         }
     }
 
@@ -89,7 +93,7 @@ public class BulletBehavior : MonoBehaviour, IBulletBehavior
     }
     
     // Here put following logic when bullet collide with enemyMask
-    protected virtual void CollideWithEnemyMask(Collision collision)
+    protected virtual void CollideWithPlayerMask(Collision collision)
     {
         collision.transform.GetComponent<IDamage>().Hit(bullet.damage);
         Pooling.instance.DePop(bullet.PoolingKeyName, gameObject);

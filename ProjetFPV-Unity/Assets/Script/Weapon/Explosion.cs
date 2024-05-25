@@ -8,6 +8,7 @@ using Unity.VisualScripting;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.Serialization;
+using Random = UnityEngine.Random;
 
 public class Explosion : MonoBehaviour
 {
@@ -22,8 +23,8 @@ public class Explosion : MonoBehaviour
     public float explosionForce;
     
     //particles 
-    private int particlesIndex;
-    [SerializeField]private List<ParticleSystem> particles;
+    public int particlesIndex;
+    public List<ParticleSystem> particles;
     
     private float rocketJumpForceApplied;
 
