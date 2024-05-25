@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using Player;
 using UnityEngine;
 using Weapon;
+using Random = UnityEngine.Random;
 
 public class BarbatwoBullet : BulletBehavior
 {
@@ -13,6 +14,7 @@ public class BarbatwoBullet : BulletBehavior
 
     private ProjectileType projectileType;
     private int bounceNbr;
+
     protected virtual void OnDisable()
     {
         base.OnDisable();
@@ -27,6 +29,7 @@ public class BarbatwoBullet : BulletBehavior
         switch (projectileType)
         {
             case ProjectileType.Simple:
+                DecalSpawnerManager.Instance.SpawnDecal(transform.position, collision.contacts[0].normal, (DecalSpawnerManager.possibleDecals)Random.Range(2,4));
                 SimpleLogic();
                 break;
             case ProjectileType.Bounce:
@@ -65,7 +68,7 @@ public class BarbatwoBullet : BulletBehavior
     }
     
     // Here put following logic when bullet collide with enemyMask
-    protected override void CollideWithEnemyMask(Collision collision)
+    protected override void CollideWithPlayerMask(Collision collision)
     {
         Explosion();
         trailRenderer.enabled = false;

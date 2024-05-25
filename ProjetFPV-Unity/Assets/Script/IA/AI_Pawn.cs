@@ -39,7 +39,8 @@ namespace AI
         [HideInInspector] public Rigidbody rb;
         [Header("Vision Module")]
         [SerializeField] protected SphereCollider visionDetector;
-        
+
+
         protected virtual void Start()
         {
             navMeshAgent = GetComponent<NavMeshAgent>();
@@ -115,6 +116,11 @@ namespace AI
             if (actualPawnHealth <= 0)
             {
                 DestroyLogic();
+
+                RaycastHit hit;
+                Physics.Raycast(transform.position, Vector3.down, out hit, 500, PlayerController.Instance.groundLayer);
+                DecalSpawnerManager.Instance.SpawnDecal(hit.point, hit.normal, DecalSpawnerManager.possibleDecals.deathEnemy);
+                
                 if(Director.Instance) Director.Instance.TryAddingValueFromLastKilledEnemy(enemyWeight);
                 if(PlayerKillStreak.Instance) PlayerKillStreak.Instance.NotifyEnemyKilled(mobType);
             }
