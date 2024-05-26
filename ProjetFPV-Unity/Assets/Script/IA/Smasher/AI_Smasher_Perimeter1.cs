@@ -56,8 +56,8 @@ namespace AI
                 Attack();
                 aiSmasher.IsPhysicNavMesh(false); // disable pawn Physics 
             }
-                
-            if (isAttacking || isPreparingDash)
+            
+            if (!isAttacking || isPreparingDash)
             {
                 transform.DOLookAt(PlayerController.Instance.transform.position + Vector3.up, 0.2f, AxisConstraint.Y);
             }
