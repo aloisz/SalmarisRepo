@@ -121,6 +121,7 @@ namespace Weapon
         [field:SerializeField] internal LayerMask whoIsTheTarget { get; private set; }
         [field:SerializeField] internal float dragApply { get; private set; }
         [field:SerializeField] internal float gravityApplied { get; private set; }
+        [field:SerializeField] internal float vectorUpApplied { get; private set; }
         
         
         [field: Header("-----Pooling-----")] 
