@@ -143,7 +143,7 @@ public class ShootingLogicModule : WeaponManager, IShootRaycast, IShootSphereCas
     
     #region SphereCast
 
-    public void SphereCastSingleHitScan(float maxDistance, float radius)
+    public virtual  void SphereCastSingleHitScan(float maxDistance, float radius)
     {
         RaycastHit hit;
         if (Physics.SphereCast(camera.transform.position, radius, camera.transform.forward, out hit, maxDistance, so_Weapon.hitLayer))

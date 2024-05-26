@@ -110,6 +110,7 @@ namespace AI
 
         IEnumerator BeginDash(float delayedTime)
         {
+            aiSmasher.aiSmasherAnimator.ChangeState(aiSmasher.aiSmasherAnimator.ESTOC);
             float distToPlayer = Vector3.Distance(PlayerController.Instance.transform.position, impulse.position);
             float time = timeToDash.Evaluate(distToPlayer);
             RaycastHit hit;

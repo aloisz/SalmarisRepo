@@ -9,7 +9,7 @@ using Weapon;
 
 public class AI_AirSack : AI_Pawn
 {
-    [Header("--- AI_TrashMob ---")] 
+    [Header("--- AI_AirSack ---")] 
     [SerializeField] protected AirSackMobState airSackMobState; 
     
     [Space]
@@ -106,10 +106,13 @@ public class AI_AirSack : AI_Pawn
     protected override void OnDrawGizmos()
     {
         base.OnDrawGizmos();
-        if(!Application.isPlaying) return;
-        Handles.Label(transform.position + new Vector3(0,1,0), $"airSackMobState : {airSackMobState}");
-        Handles.Label(transform.position + new Vector3(0,0,0), $"is shooting : {isShooting}");
-        Handles.Label(transform.position + new Vector3(0,2,0), $"Actual Health : {actualPawnHealth}");
+        if(Application.isPlaying)
+        {
+            Handles.Label(transform.position + new Vector3(0,1,0), $"airSackMobState : {airSackMobState}");
+            Handles.Label(transform.position + new Vector3(0,0,0), $"is shooting : {isShooting}");
+            Handles.Label(transform.position + new Vector3(0,2,0), $"Actual Health : {actualPawnHealth}");
+        }
+        
             
         var tr = transform;
         var pos = tr.position;  

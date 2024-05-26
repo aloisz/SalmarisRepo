@@ -16,6 +16,7 @@ public class AI_Smasher : AI_Pawn
     [Header("Component")] 
     [SerializeField] protected AI_Smasher_Perimeter0 _aiSmasherPerimeter0;
     [SerializeField] protected AI_Smasher_Perimeter1 _aiSmasherPerimeter1;
+    internal AI_SmasherAnimator aiSmasherAnimator;
 
     [Header("Debugging")] 
     [SerializeField] private bool enableDebugging;
@@ -27,6 +28,12 @@ public class AI_Smasher : AI_Pawn
         Perimeter_1,
         Perimeter_2,
         Perimeter_3
+    }
+
+    protected override void Start()
+    {
+        base.Start();
+        aiSmasherAnimator = GetComponent<AI_SmasherAnimator>();
     }
     
     public SmasherMobState ChangeState(SmasherMobState state)
