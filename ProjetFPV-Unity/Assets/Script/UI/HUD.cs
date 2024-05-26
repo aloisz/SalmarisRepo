@@ -15,7 +15,7 @@ public class HUD : GenericSingletonClass<HUD>
     [SerializeField] private Vector2 giggleMultiplierBackground;
     [SerializeField] private Vector2 giggleMultiplier;
     [SerializeField] private Vector2 crosshairImpulseMinMax;
-    [SerializeField] [Range(0f,1f)] private float damageMaxIntensity;
+    [SerializeField] [Range(0f,3f)] private float damageMaxIntensity;
     [CurveRange(0,0,1,1)][SerializeField] private AnimationCurve crosshairAnimation;
     [CurveRange(0,0,1,1)][SerializeField] private AnimationCurve crosshairBombAnimation;
     [CurveRange(0,0,1,1)][SerializeField] private AnimationCurve crosshairBombScaleAnimation;
@@ -277,10 +277,11 @@ public class HUD : GenericSingletonClass<HUD>
         // Damage from front or back v == 0
 
         float vNormalized = (v + 1f) / 2f; // Normalize t to range from 0 to 1
-        _crossProductDamageLeft = Mathf.Lerp(0, damageMaxIntensity, vNormalized);
-        _crossProductDamageRight = Mathf.Lerp(damageMaxIntensity, 0, vNormalized);
+        _crossProductDamageRight = Mathf.Lerp(0, damageMaxIntensity, vNormalized);
+        _crossProductDamageLeft = Mathf.Lerp(damageMaxIntensity, 0, vNormalized);
         
-        deform.material.SetFloat("_ShatteredMaskAlpha", Mathf.Lerp(0, 1, PlayerHealth.Instance.Health / PlayerHealth.Instance.maxHealth));
+        deform.material.SetFloat("_ShatteredMaskAlpha", Mathf.Lerp(0, 1, (PlayerHealth.Instance.Health + PlayerHealth.Instance.Shield) 
+                                                                         / (PlayerHealth.Instance.maxHealth + PlayerHealth.Instance.maxShield)));
     }
 
     private void UpdateDashDots()

@@ -144,7 +144,7 @@ public class Barbatos : Shotgun
         }
         
         bulletProjectile.SetTheBulletDir(Vector3.zero);
-        bulletProjectile.SetTheBulletDir(GetTheAimDirection());
+        bulletProjectile.SetTheBulletDir(GetTheAimDirection() );
     }
 
 
