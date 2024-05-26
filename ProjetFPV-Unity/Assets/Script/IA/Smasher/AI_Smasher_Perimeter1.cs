@@ -174,7 +174,7 @@ namespace AI
         {
             yield return null;
             isAttacking = false;
-            aiSmasher.GetPawnPersonnalInformation();
+            aiSmasher.IsPhysicNavMesh(true);
         }
         #endregion
 
