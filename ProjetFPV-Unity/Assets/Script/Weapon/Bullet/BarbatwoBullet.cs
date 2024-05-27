@@ -29,8 +29,8 @@ public class BarbatwoBullet : BulletBehavior
         switch (projectileType)
         {
             case ProjectileType.Simple:
-                SimpleLogic();
                 DecalSpawnerManager.Instance.SpawnDecal(transform.position, collision.contacts[0].normal, (DecalSpawnerManager.possibleDecals)Random.Range(2,4));
+                SimpleLogic();
                 break;
             case ProjectileType.Bounce:
                 BounceLogic();
