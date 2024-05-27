@@ -41,6 +41,7 @@ public class AI_Smasher_Perimeter0 : MonoBehaviour
         if (timeElapsedForCacAttack > aiSmasher.perimeters[0].timeSpentInPerimeter)
         {
             timeElapsedForCacAttack = 0;
+            aiSmasher.aiSmasherAnimator.ChangeState(aiSmasher.aiSmasherAnimator.ATTACK);
             CacAttackPerimeter0();
         }
         else isCacAttacking = false;

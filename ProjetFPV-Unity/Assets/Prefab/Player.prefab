@@ -73,6 +73,7 @@ MonoBehaviour:
   isDashing: 0
   isOnSlope: 0
   isSlopeClimbing: 0
+  isUnderCeiling: 0
   groundLayer:
     serializedVersion: 2
     m_Bits: 64
@@ -215,6 +216,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxKillStreak: 100
   isInRageMode: 0
+  hasInfiniteAmmo: 1
   staminaBoost: 0
   reloadBoost: 0
   fireRateBoost: 0
@@ -404,7 +406,19 @@ MonoBehaviour:
     m_ActionId: eff964e1-bfe1-4e97-ab6c-e98cade1e28f
     m_ActionName: Barbatos/Reload[/Keyboard/r]
   - m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 5313092729534710420}
+        m_TargetAssemblyTypeName: PlayerInputs, Assembly-CSharp
+        m_MethodName: InteractInputs
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_ActionId: e89c27cd-453e-4f60-8a25-3ef428d28ab9
     m_ActionName: Player/Interact[/Keyboard/f]
   m_NeverAutoSwitchControlSchemes: 0

@@ -56,8 +56,8 @@ namespace AI
                 Attack();
                 aiSmasher.IsPhysicNavMesh(false); // disable pawn Physics 
             }
-                
-            if (isAttacking || isPreparingDash)
+            
+            if (!isAttacking || isPreparingDash)
             {
                 transform.DOLookAt(PlayerController.Instance.transform.position + Vector3.up, 0.2f, AxisConstraint.Y);
             }
@@ -110,9 +110,14 @@ namespace AI
 
         IEnumerator BeginDash(float delayedTime)
         {
+            aiSmasher.aiSmasherAnimator.ChangeState(aiSmasher.aiSmasherAnimator.ESTOC);
             float distToPlayer = Vector3.Distance(PlayerController.Instance.transform.position, impulse.position);
             float time = timeToDash.Evaluate(distToPlayer);
-            landingPos = PlayerController.Instance.transform.position;
+            RaycastHit hit;
+            if (Physics.Raycast(PlayerController.Instance.transform.position, -PlayerController.Instance.transform.up, out hit, 1000))
+            {
+                landingPos = hit.point;
+            }
             
             yield return new WaitForSeconds(delayedTime);
             DashInPlayerDir(time, landingPos);
@@ -170,7 +175,7 @@ namespace AI
         {
             yield return null;
             isAttacking = false;
-            aiSmasher.GetPawnPersonnalInformation();
+            aiSmasher.IsPhysicNavMesh(true);
         }
         #endregion
 

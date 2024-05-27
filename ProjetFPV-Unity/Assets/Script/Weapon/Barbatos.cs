@@ -144,7 +144,7 @@ public class Barbatos : Shotgun
         }
         
         bulletProjectile.SetTheBulletDir(Vector3.zero);
-        bulletProjectile.SetTheBulletDir(GetTheAimDirection());
+        bulletProjectile.SetTheBulletDir(GetTheAimDirection() );
     }
 
 
@@ -164,6 +164,8 @@ public class Barbatos : Shotgun
         particle.transform.position = hit.point;
         particle.transform.up = hit.normal;
         Pooling.instance.DelayedDePop("BulletImpact", particle,3);
+        
+        DecalSpawnerManager.Instance.SpawnDecal(hit.point, hit.normal, DecalSpawnerManager.possibleDecals.shotgunImpact);
         
         if (so_Weapon.weaponMode[(int)actualWeaponModeIndex].doExplosion)
         {

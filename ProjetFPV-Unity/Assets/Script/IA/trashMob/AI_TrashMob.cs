@@ -71,7 +71,6 @@ namespace AI
         
         protected override void DestroyLogic()
         {
-            GameManager.Instance.aiPawnsAvailable.Remove(this);
             Pooling.instance.DePop(so_IA.poolingName, gameObject);
         }
         

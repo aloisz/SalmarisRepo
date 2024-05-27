@@ -91,7 +91,7 @@ namespace Player
         //---------------------------------------
 
         [Header("Detection")] 
-        [SerializeField] private LayerMask groundLayer;
+        public LayerMask groundLayer;
 
         private RaycastHit _raycastGroundRight;
         private RaycastHit _raycastGroundLeft;
@@ -117,6 +117,12 @@ namespace Player
             
             Cursor.lockState = CursorLockMode.Locked;
         }
+
+        private void Start()
+        {
+            CareTaker.Instance.SaveGameState();
+        }
+
         private void Update()
         {
             PlayerStateMachine();
@@ -612,6 +618,8 @@ namespace Player
 
         public AI_Pawn DetectNearestEnemy()
         {
+            return null;
+            
             float distance = 99999f;
             AI_Pawn nearest = null;
             foreach (AI_Pawn ai in FindObjectsOfType<AI_Pawn>())

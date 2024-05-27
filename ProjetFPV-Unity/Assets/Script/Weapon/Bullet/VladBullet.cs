@@ -34,7 +34,7 @@ public class VladBullet : BulletBehavior, IExplosion
         Pooling.instance.DelayedDePop(bullet.PoolingKeyName, gameObject,7);
     }
     
-    protected override void CollideWithEnemyMask(Collision collision)
+    protected override void CollideWithPlayerMask(Collision collision)
     {
         collision.transform.GetComponent<IDamage>().Hit(bullet.damage);
         Pooling.instance.DePop(bullet.PoolingKeyName, gameObject);

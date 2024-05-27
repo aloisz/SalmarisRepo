@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6759126634690647225}
   - component: {fileID: 2089723384313418810}
+  - component: {fileID: 6420141128474147071}
   m_Layer: 0
   m_Name: DCL_DeathEnemy
   m_TagString: Untagged
@@ -47,12 +48,34 @@ MonoBehaviour:
   m_Material: {fileID: 2100000, guid: 6fb8313281e4c0e48acfd50555acd5c1, type: 2}
   m_DrawDistance: 1000
   m_FadeScale: 0.9
-  m_StartAngleFade: 180
-  m_EndAngleFade: 180
+  m_StartAngleFade: 0
+  m_EndAngleFade: 1.3478923
   m_UVScale: {x: 1, y: 1}
   m_UVBias: {x: 0, y: 0}
   m_DecalLayerMask: 1
   m_ScaleMode: 0
-  m_Offset: {x: 0, y: 0, z: 0.5762927}
-  m_Size: {x: 10, y: 10, z: 1.1525854}
+  m_Offset: {x: 0, y: 0, z: 0}
+  m_Size: {x: 10, y: 10, z: 10}
   m_FadeFactor: 1
+--- !u!114 &6420141128474147071
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 639008864957443724}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa4f6c694de4734489705f2f99ca2737, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  property:
+  - propertyName: _Alpha
+    animDuration: 1.5
+    delayBeforeFinalValue: 12
+    finalValue: 0
+    fadeIn: 1
+    propertyNameFade: _Alpha
+    animDurationFade: 0.25
+    delayBeforeFinalValueFade: 0
+    finalValueFade: 1

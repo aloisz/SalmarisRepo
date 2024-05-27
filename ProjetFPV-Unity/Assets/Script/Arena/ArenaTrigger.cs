@@ -17,6 +17,8 @@ public class ArenaTrigger : MonoBehaviour
     
     public Door[] arenaUnlockedDoors;
     public Key key;
+
+    public bool isCompleted;
     
     private BoxCollider _box;
 
