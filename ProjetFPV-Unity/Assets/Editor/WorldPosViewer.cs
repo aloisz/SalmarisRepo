@@ -1,13 +1,13 @@
 using UnityEditor;
 using UnityEngine;
 
-[CustomEditor(typeof(Transform))]
-public class WorldPosViewer : Editor 
+//[CustomEditor(typeof(Transform))]
+public class WorldPosViewer : MonoBehaviour
 {
-    public override void OnInspectorGUI()
+    public /*override*/ void OnInspectorGUI()
     {
-        base.OnInspectorGUI();
-        
+        //base.OnInspectorGUI();
+        /*
         EditorGUILayout.BeginHorizontal ();
         EditorGUILayout.Separator();
         EditorGUILayout.Separator();
@@ -28,6 +28,6 @@ public class WorldPosViewer : Editor
         
         EditorGUILayout.BeginHorizontal ();
         EditorGUILayout.IntField("Child Count", t.childCount);
-        EditorGUILayout.EndHorizontal ();
+        EditorGUILayout.EndHorizontal ();*/
     }
 }
