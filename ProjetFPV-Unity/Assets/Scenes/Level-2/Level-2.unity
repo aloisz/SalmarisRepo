@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.18666436, g: 1.1224706, b: 0.8830125, a: 1}
+  m_IndirectSpecularColor: {r: 0.18672778, g: 1.1224574, b: 0.8830248, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -2325,6 +2325,7 @@ MonoBehaviour:
   waves: []
   arenaUnlockedDoors: []
   key: {fileID: 0}
+  isCompleted: 0
 --- !u!65 &166586147
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -11475,6 +11476,7 @@ MonoBehaviour:
   - {fileID: 1298808813}
   arenaUnlockedDoors: []
   key: {fileID: 0}
+  isCompleted: 0
 --- !u!65 &448925120
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -12988,6 +12990,7 @@ MonoBehaviour:
   waves: []
   arenaUnlockedDoors: []
   key: {fileID: 0}
+  isCompleted: 0
 --- !u!65 &577633279
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -25042,6 +25045,7 @@ MonoBehaviour:
   waves: []
   arenaUnlockedDoors: []
   key: {fileID: 0}
+  isCompleted: 0
 --- !u!65 &1124486294
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -42428,6 +42432,7 @@ MonoBehaviour:
   waves: []
   arenaUnlockedDoors: []
   key: {fileID: 0}
+  isCompleted: 0
 --- !u!65 &1479898250
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -55287,6 +55292,7 @@ MonoBehaviour:
   waves: []
   arenaUnlockedDoors: []
   key: {fileID: 0}
+  isCompleted: 0
 --- !u!65 &1848610048
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -55638,6 +55644,74 @@ Mesh:
     offset: 0
     size: 0
     path: 
+--- !u!1001 &1873078769
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 1436590638175104914, guid: 808aa57fd6d09004dade627b1f35ab08,
+        type: 3}
+      propertyPath: m_Name
+      value: DecalSpawnerManager
+      objectReference: {fileID: 0}
+    - target: {fileID: 2923691351484394378, guid: 808aa57fd6d09004dade627b1f35ab08,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -273.97314
+      objectReference: {fileID: 0}
+    - target: {fileID: 2923691351484394378, guid: 808aa57fd6d09004dade627b1f35ab08,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -43.573235
+      objectReference: {fileID: 0}
+    - target: {fileID: 2923691351484394378, guid: 808aa57fd6d09004dade627b1f35ab08,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 535.62415
+      objectReference: {fileID: 0}
+    - target: {fileID: 2923691351484394378, guid: 808aa57fd6d09004dade627b1f35ab08,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2923691351484394378, guid: 808aa57fd6d09004dade627b1f35ab08,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2923691351484394378, guid: 808aa57fd6d09004dade627b1f35ab08,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2923691351484394378, guid: 808aa57fd6d09004dade627b1f35ab08,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2923691351484394378, guid: 808aa57fd6d09004dade627b1f35ab08,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2923691351484394378, guid: 808aa57fd6d09004dade627b1f35ab08,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2923691351484394378, guid: 808aa57fd6d09004dade627b1f35ab08,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 808aa57fd6d09004dade627b1f35ab08, type: 3}
 --- !u!43 &1875289458
 Mesh:
   m_ObjectHideFlags: 0
@@ -56632,6 +56706,7 @@ MonoBehaviour:
   waves: []
   arenaUnlockedDoors: []
   key: {fileID: 0}
+  isCompleted: 0
 --- !u!65 &1912762638
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -63688,6 +63763,7 @@ SceneRoots:
   - {fileID: 1908393244}
   - {fileID: 362683670}
   - {fileID: 1762957937}
+  - {fileID: 1873078769}
   - {fileID: 1947110419}
   - {fileID: 1071625936}
   - {fileID: 27373274}
