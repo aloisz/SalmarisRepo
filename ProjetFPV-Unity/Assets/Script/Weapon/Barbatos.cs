@@ -1,11 +1,8 @@
-using System;
-using System.Collections;
 using System.Collections.Generic;
-using NaughtyAttributes;
+using UnityEditor;
 using UnityEngine;
 using Weapon;
 using Weapon.Interface;
-using Object = UnityEngine.Object;
 
 public class Barbatos : Shotgun
 {
@@ -16,10 +13,15 @@ public class Barbatos : Shotgun
     private float lastTimeFired_1; // secondary
     private bool isPrimary;
 
+    private BarbatosShootVFX shootVFX;
+
     protected override void Start()
     {
         base.Start();
+        
         barbatosInput = GetComponent<BarbatosInput>();
+        shootVFX = GetComponent<BarbatosShootVFX>();
+        
         WeaponState.Instance.barbatos.OnHudShoot += UpdateLastTimeFired;
     }
 
@@ -70,6 +72,8 @@ public class Barbatos : Shotgun
             isFirstBulletGone = true;
             explosion.HitScanExplosion(so_Weapon.weaponMode[(int)actualWeaponModeIndex].whoIsTheTarget);
         }
+
+        CheckTexturesOfHitMesh(hit);
     }
 
     private void UpdateLastTimeFired()
@@ -173,6 +177,66 @@ public class Barbatos : Shotgun
             GameObject explosion = Pooling.instance.Pop("ExplosionImpact");
             explosion.transform.position = hit.point;
         }
+    }
+
+    private void CheckTexturesOfHitMesh(RaycastHit hit)
+    {
+        MeshRenderer meshRenderer = hit.collider.GetComponentInChildren<MeshRenderer>();
+
+        if (meshRenderer == null) return;
+
+        Shader shader = meshRenderer.material.shader;
+        int propertyCount = ShaderUtil.GetPropertyCount(shader);
+        List<Texture> textures = new List<Texture>();
+
+        for (int index = 0; index < propertyCount; index++)
+        {
+            if (ShaderUtil.GetPropertyType(shader, index) == ShaderUtil.ShaderPropertyType.TexEnv)
+            {
+                textures.Add(meshRenderer.material.GetTexture(ShaderUtil.GetPropertyName(shader, index)));
+            }
+        }
+
+        List<Color32> colors = new List<Color32>();
+        Vector2 textureCoord = hit.textureCoord;
+
+        foreach (Texture tex in textures)
+        {
+            if (tex is Texture2D tex2D)
+            {
+                if(tex.isReadable) colors.Add(GetTextureColor(tex2D, textureCoord));
+            }
+        }
+
+        if (colors.Count != 0)
+        {
+            float sumR = 0f, sumG = 0f, sumB = 0f;
+
+            foreach (Color32 c in colors)
+            {
+                sumR += c.r;
+                sumG += c.g;
+                sumB += c.b;
+            }
+
+            Color32 finalValue = new Color32(
+                (byte)(sumR / colors.Count), 
+                (byte)(sumG / colors.Count), 
+                (byte)(sumB / colors.Count), 
+                255
+            );
+            
+            shootVFX.SpawnShootVFX(finalValue, hit.point, hit.normal);
+        }
+        else
+        {
+            shootVFX.SpawnShootVFX(1, hit.point, hit.normal);
+        }
+    }
+
+    private Color32 GetTextureColor(Texture2D tex, Vector2 uv)
+    {
+        return tex.GetPixelBilinear(uv.x, uv.y);
     }
 }
 
