@@ -70,6 +70,7 @@ public class BarbatwoBullet : BulletBehavior
     // Here put following logic when bullet collide with enemyMask
     protected override void CollideWithPlayerMask(Collision collision)
     {
+        Debug.Log("qdqsd");
         Explosion();
         trailRenderer.enabled = false;
         collision.transform.GetComponent<IDamage>().Hit(bullet.damage);
