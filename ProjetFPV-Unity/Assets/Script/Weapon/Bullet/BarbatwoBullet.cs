@@ -29,8 +29,8 @@ public class BarbatwoBullet : BulletBehavior
         switch (projectileType)
         {
             case ProjectileType.Simple:
-                DecalSpawnerManager.Instance.SpawnDecal(transform.position, collision.contacts[0].normal, (DecalSpawnerManager.possibleDecals)Random.Range(2,4));
                 SimpleLogic();
+                DecalSpawnerManager.Instance.SpawnDecal(transform.position, collision.contacts[0].normal, (DecalSpawnerManager.possibleDecals)Random.Range(2,4));
                 break;
             case ProjectileType.Bounce:
                 BounceLogic();
@@ -70,6 +70,7 @@ public class BarbatwoBullet : BulletBehavior
     // Here put following logic when bullet collide with enemyMask
     protected override void CollideWithPlayerMask(Collision collision)
     {
+        Debug.Log("qdqsd");
         Explosion();
         trailRenderer.enabled = false;
         collision.transform.GetComponent<IDamage>().Hit(bullet.damage);

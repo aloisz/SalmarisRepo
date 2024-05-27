@@ -66,6 +66,7 @@ public class Barbatos : Shotgun
         if(isFirstBulletGone) return;
         if (hit.transform.TryGetComponent<IExplosion>(out IExplosion explosion))
         {
+            Debug.Log(hit.transform.name);
             isFirstBulletGone = true;
             explosion.HitScanExplosion(so_Weapon.weaponMode[(int)actualWeaponModeIndex].whoIsTheTarget);
         }

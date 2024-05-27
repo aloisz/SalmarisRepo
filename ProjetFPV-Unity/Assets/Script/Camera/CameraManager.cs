@@ -32,15 +32,13 @@ namespace CameraBehavior
         
         internal float currentFov;  
         internal Quaternion smoothOffset;
-
-        private Plane[] cameraFrustum;
-        private Bounds bounds;
         
         // Get All Camera Component
         internal CameraSliding cameraSliding;
         internal CameraJumping cameraJumping;
         private CameraDash cameraDash;
         internal HandSwing handSwing;
+        internal CameraFrustumCulling cameraFrustumCulling;
 
         private bool isCommingBackFromEffect;
         internal float timer = 0;
@@ -55,6 +53,7 @@ namespace CameraBehavior
             camera = GetComponentInChildren<Camera>();
             cameraTransform = camera.GetComponent<Transform>();
             handSwing = GetComponentInChildren<HandSwing>();
+            cameraFrustumCulling = GetComponent<CameraFrustumCulling>();
 
             Instance = this;
             
@@ -62,8 +61,6 @@ namespace CameraBehavior
             camera.fieldOfView = currentFov;
 
             actualglobalCameraRot = globalCameraRot;
-
-            //bounds = GetComponent<Collider>().bounds;
         }
         
         private void LateUpdate()
@@ -298,16 +295,6 @@ namespace CameraBehavior
         }
 
         #endregion
-
-
-        private void CalculateFrustum()
-        {
-            /*cameraFrustum = GeometryUtility.CalculateFrustumPlanes(camera);
-            if(GeometryUtility.TestPlanesAABB(cameraFrustum, bounds)
-            {
-                
-            }*/
-        }
         
     }
 }
