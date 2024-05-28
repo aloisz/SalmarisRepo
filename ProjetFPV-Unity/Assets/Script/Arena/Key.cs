@@ -16,6 +16,7 @@ public class Key : MonoBehaviour
     private void Start()
     {
         _collider = GetComponent<SphereCollider>();
+        _collider.isTrigger = true;
     }
 
     public void DeactivateKey()
