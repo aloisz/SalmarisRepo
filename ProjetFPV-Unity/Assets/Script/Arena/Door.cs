@@ -12,6 +12,7 @@ public class Door : MonoBehaviour
 
     private void Start()
     {
+        if (GetComponent<SphereCollider>()) GetComponent<SphereCollider>().isTrigger = true;
         if(neededKey == null) DeactivateDoor();
     }
 
