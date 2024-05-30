@@ -7,8 +7,9 @@ using UnityEngine;
 [RequireComponent(typeof(SphereCollider))]
 public class Key : MonoBehaviour
 {
+    public bool DEBUG_DONT_NEED_ARNEA_CLEARED;
     public int keyID;
-    [HideInInspector] public ArenaTrigger arenaTrigger;
+    public ArenaTrigger arenaTrigger;
     [HideInInspector] public bool isPickedUp;
 
     private SphereCollider _collider;
