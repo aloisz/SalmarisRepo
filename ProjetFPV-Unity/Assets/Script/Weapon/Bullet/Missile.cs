@@ -134,9 +134,11 @@ public class Missile : BulletBehavior,IExplosion
         return mat;
     }
 
+    #if UNITY_EDITOR
     private void OnDrawGizmos()
     {
         if(Application.isPlaying) 
             Handles.Label(transform.position, meshRenderer.material.GetFloat("_Blink").ToString("F3") + $"\n{timerBulletLifeTime:F1}", new GUIStyle(){fontSize = 30});
     }
+    #endif
 }
