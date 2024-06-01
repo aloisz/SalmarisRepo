@@ -66,8 +66,8 @@ public class HUD : GenericSingletonClass<HUD>
         
         WeaponState.Instance.barbatos.OnHudShoot += CrosshairShoot;
 
-        _basePositionHealthBar = healthBar.rectTransform.anchoredPosition;
-        _basePositionShieldBar = shieldBar.rectTransform.anchoredPosition;
+        _basePositionHealthBar = healthBar.transform.localPosition;
+        _basePositionShieldBar = shieldBar.transform.localPosition;
 
         InitCrosshairBorders();
     }
@@ -162,15 +162,19 @@ public class HUD : GenericSingletonClass<HUD>
             case <= 0:
             {
                 var value = Mathf.Lerp(10f, 3f, PlayerHealth.Instance.Health / PlayerHealth.Instance.maxHealth);
-                healthBar.rectTransform.anchoredPosition = _basePositionHealthBar;
-                healthBar.transform.DOShakePosition(0.5f, Vector3.one * value, 120);
+                healthBar.transform.DOShakePosition(0.5f, Vector3.one * value, 120).OnComplete(() =>
+                {
+                    healthBar.transform.DOLocalMove(_basePositionHealthBar, 0.1f);
+                });
                 break;
             }
             case > 0:
             {
                 var value = Mathf.Lerp(3f, 0.5f, PlayerHealth.Instance.Shield / PlayerHealth.Instance.maxShield);
-                shieldBar.rectTransform.anchoredPosition = _basePositionShieldBar;
-                shieldBar.transform.DOShakePosition(0.5f, Vector3.one * value, 120);
+                shieldBar.transform.DOShakePosition(0.5f, Vector3.one * value, 120).OnComplete(() =>
+                {
+                    shieldBar.transform.DOLocalMove(_basePositionShieldBar, 0.1f);
+                });
                 break;
             }
         }
