@@ -8,9 +8,12 @@ using UnityEngine.Serialization;
 
 public class Director : GenericSingletonClass<Director>
 {
+    [SerializeField] private bool DEBUG_DRAW_GUI;
+    [SerializeField] private bool DEBUG_DONT_NEED_PREVIOUS_ARENAS_CLEARED;
+    
     public float levelTimer;
     
-    [SerializeField] private bool DEBUG;
+    
     [SerializeField] private float playerPerformanceComparisonDelay = 0.25f;
     [SerializeField] private List<ArenaTrigger> arenas = new List<ArenaTrigger>();
 
@@ -66,7 +69,7 @@ public class Director : GenericSingletonClass<Director>
     /// <param name="arenaID">The Arena ID to start wave of.</param>
     public void EnteringNewArena(int arenaID)
     {
-        if (!_currentArenaFinished || arenaID <= currentArenaIndex) return;
+        if (!_currentArenaFinished || arenaID <= currentArenaIndex || (!DEBUG_DONT_NEED_PREVIOUS_ARENAS_CLEARED && arenaID != currentArenaIndex + 1)) return;
 
         _currentRemainingEnemies = 0;
 
@@ -321,7 +324,7 @@ public class Director : GenericSingletonClass<Director>
 
     private void OnGUI()
     {
-        if (!DEBUG) return;
+        if (!DEBUG_DRAW_GUI) return;
 
         // Set up GUI style for the text
         GUIStyle style = new GUIStyle
