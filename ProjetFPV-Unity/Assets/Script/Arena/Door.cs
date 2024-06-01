@@ -10,6 +10,8 @@ public class Door : MonoBehaviour
     public int doorID;
     public Key neededKey;
 
+    [SerializeField] private Animator animator;
+
     private void Start()
     {
         if (GetComponent<SphereCollider>()) GetComponent<SphereCollider>().isTrigger = true;
@@ -18,12 +20,12 @@ public class Door : MonoBehaviour
 
     public void DeactivateDoor()
     {
-        gameObject.SetActive(false);
+        animator.SetTrigger("Open");
     }
 
     public void ActivateDoor()
     {
-        gameObject.SetActive(true);
+        animator.SetTrigger("Close");
     }
 
     private void OnTriggerEnter(Collider other)
