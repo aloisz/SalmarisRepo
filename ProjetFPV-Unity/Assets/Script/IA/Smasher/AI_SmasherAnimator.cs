@@ -8,7 +8,8 @@ namespace AI
     public class AI_SmasherAnimator : MonoBehaviour
     {
         [SerializeField] private Animator animator;
-        
+        [SerializeField] private GameObject mesh;
+        [SerializeField] private Vector3 normal;
         //component
         private AI_Pawn aiPawn;
         
@@ -27,6 +28,8 @@ namespace AI
 
         private void Update()
         {
+            //MeshRotator();
+            
             if (isAnimationPlaying(animator, ESTOC)) return;
             if (isAnimationPlaying(animator, ATTACK)) return;
             
@@ -41,10 +44,27 @@ namespace AI
             currentState = newState;
         }
 
-        public bool isAnimationPlaying(Animator animator, string stateName)
+        private bool isAnimationPlaying(Animator animator, string stateName)
         {
             return animator.GetCurrentAnimatorStateInfo(0).IsName(stateName) &&
                    animator.GetCurrentAnimatorStateInfo(0).normalizedTime < 1.0f;
+        }
+
+        /// <summary>
+        /// Rotate the mesh by the ground normal
+        /// </summary>
+        private void MeshRotator()
+        {
+            RaycastHit hit;
+            if (Physics.Raycast(transform.position, -transform.up, out hit, 1000))
+            {
+                if (hit.transform.TryGetComponent<Collider>(out Collider coll))
+                {
+                    normal = hit.normal;
+                }
+            }
+
+            //transform.eulerAngles = normal;
         }
     }
 }
