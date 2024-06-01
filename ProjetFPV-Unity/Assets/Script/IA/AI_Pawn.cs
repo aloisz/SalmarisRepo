@@ -189,7 +189,7 @@ namespace AI
         /// </summary>
         /// <param name="condition">if true navmesh true, rb kinematic enable
         /// if false navmesg disable, rb kinematic disable </param>
-        public void IsPhysicNavMesh(bool condition)
+        public virtual void IsPhysicNavMesh(bool condition)
         {
             if (condition)
             {
