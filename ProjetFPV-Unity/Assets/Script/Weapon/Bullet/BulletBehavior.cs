@@ -46,6 +46,7 @@ public class BulletBehavior : MonoBehaviour, IBulletBehavior
         AddDamage(0);
         SetTheBulletDir(Vector3.zero);
 
+        rb.isKinematic = false;
         rb.velocity = Vector3.zero;
         rb.rotation = Quaternion.identity;
         
@@ -89,6 +90,8 @@ public class BulletBehavior : MonoBehaviour, IBulletBehavior
         if (LayerMask.GetMask(LayerMask.LayerToName(collision.gameObject.layer)) == bulletMask) // bullet layers
         {
             CollideWithWalkableMask(collision);
+            AddVelocity(0);
+            rb.isKinematic = true;
         }
     }
 
