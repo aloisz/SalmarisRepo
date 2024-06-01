@@ -163,11 +163,11 @@ namespace Weapon
         protected virtual void BurstSelectiveFire()
         {
             StartCoroutine(BurstCoroutine());
-            canFire = false;
         }
         
         private IEnumerator BurstCoroutine()
         {
+            canFire = false;
             int burstFireAmount = 0;
             burstFireAmount = 
                 so_Weapon.weaponMode[(int)actualWeaponModeIndex].burstAmount > actualNumberOfBullet ? 
@@ -180,6 +180,7 @@ namespace Weapon
                 WichTypeMunitionIsGettingShot();
                 yield return new WaitForSeconds(so_Weapon.weaponMode[(int)actualWeaponModeIndex].burstTime / PlayerKillStreak.Instance.fireRateBoost);
             }
+            canFire = true;
         }
         
         
