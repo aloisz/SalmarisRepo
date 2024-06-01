@@ -275,22 +275,49 @@ public class HUD : GenericSingletonClass<HUD>
 
         _timerDamageDisplay = damageDisplayDuration;
         
-        var dmgCasterDir = PlayerHealth.Instance.lastEnemyPosition;
+        var cross = CheckDamageDirection(Camera.main.transform, PlayerHealth.Instance.lastEnemyPosition);
         
-        var v = Vector3.Cross(RemoveYValue(dmgCasterDir).normalized, 
-            RemoveYValue(Camera.main.transform.forward)).y;
-
-        // Damage from right v == -1
-        // Damage from left v == 1
-        
-        // Damage from front or back v == 0
-
-        float vNormalized = (v + 1f) / 2f; // Normalize t to range from 0 to 1
+        float vNormalized = (cross + 1f) / 2f; // Normalize t to range from 0 to 1
         _crossProductDamageRight = Mathf.Lerp(0, damageMaxIntensity, vNormalized);
         _crossProductDamageLeft = Mathf.Lerp(damageMaxIntensity, 0, vNormalized);
         
         deform.material.SetFloat("_ShatteredMaskAlpha", Mathf.Lerp(0, 1, (PlayerHealth.Instance.Health + PlayerHealth.Instance.Shield) 
                                                                          / (PlayerHealth.Instance.maxHealth + PlayerHealth.Instance.maxShield)));
+    }
+    
+    // This function checks the relative position of the 'damageSource' relative to the camera's forward direction
+    public float CheckDamageDirection(Transform cameraTransform, Vector3 damageSource)
+    {
+        // Get the direction the camera is facing
+        Vector3 cameraForward = cameraTransform.forward;
+        
+        // Calculate the vector from the camera to the damage source
+        Vector3 toDamageSource = damageSource - cameraTransform.position;
+        
+        // Ignore vertical differences by setting y to 0
+        cameraForward.y = 0;
+        toDamageSource.y = 0;
+
+        // Normalize the direction vectors
+        cameraForward.Normalize();
+        toDamageSource.Normalize();
+
+        // Get the cross product of the camera's forward direction and the vector to the damage source
+        Vector3 crossProduct = Vector3.Cross(cameraForward, toDamageSource);
+
+        // Calculate the angle between the forward direction and the direction to the damage source
+        float angle = Vector3.Angle(cameraForward, toDamageSource);
+
+        // Determine the sign based on the cross product
+        float sign = Mathf.Sign(crossProduct.y);
+
+        // Combine the sign and angle to get a signed angle between -180 and 180 degrees
+        float signedAngle = sign * angle;
+
+        // Normalize the signed angle to be between -1 and 1
+        float result = signedAngle / 180.0f;
+
+        return result;
     }
 
     private void UpdateDashDots()
