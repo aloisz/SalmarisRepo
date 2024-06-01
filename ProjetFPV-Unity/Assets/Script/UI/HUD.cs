@@ -28,6 +28,7 @@ public class HUD : GenericSingletonClass<HUD>
     [SerializeField] private Image crosshairBombDropdown;
     [SerializeField] private Image deform;
     [SerializeField] private Image vitals;
+    [SerializeField] private Image speedEffect;
 
     [SerializeField] private TextMeshProUGUI infos1, infos2;
 
@@ -56,6 +57,7 @@ public class HUD : GenericSingletonClass<HUD>
         CreateMaterialInstance(crosshairBombDropdown);
         CreateMaterialInstance(deform);
         CreateMaterialInstance(vitals);
+        CreateMaterialInstance(speedEffect);
         
         foreach(var cb in crosshairBorders) CreateMaterialInstance(cb);
 
@@ -118,10 +120,13 @@ public class HUD : GenericSingletonClass<HUD>
 
         var dangerProximity = PlayerController.Instance.DetectNearestEnemy() ? (int)Vector3.Distance(PlayerController.Instance.transform.position,
             PlayerController.Instance.DetectNearestEnemy().transform.position) : 0;
-        var dangerText = dangerProximity != 0 ? dangerProximity.ToString() + " m" : "None";
+        var dangerText = dangerProximity != 0 ? dangerProximity + " m" : "None";
         
         infos2.text = $"{(PlayerController.Instance._rb.velocity.magnitude * 3.6f):F1} Km/h" +
                       $"<br>Danger Proximity : {dangerText}";
+        
+        speedEffect.material.SetFloat("_Alpha", Mathf.Lerp(0f,0.4f, 
+            (PlayerController.Instance._rb.velocity.magnitude - 15f) / (PlayerController.Instance.playerScriptable.maxRigidbodyVelocity)));
     }
 
     private void UIGiggle(Material mat, Vector2 multiplier)
