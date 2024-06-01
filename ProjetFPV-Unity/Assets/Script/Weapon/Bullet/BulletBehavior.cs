@@ -10,6 +10,7 @@ public class BulletBehavior : MonoBehaviour, IBulletBehavior
     public Bullet bullet;
     public LayerMask walkableMask;
     public LayerMask playerMask;
+    public LayerMask bulletMask;
     
     [SerializeField] protected float bulletLifeTime;
     protected float timerBulletLifeTime = 0;
@@ -83,6 +84,11 @@ public class BulletBehavior : MonoBehaviour, IBulletBehavior
         if (LayerMask.GetMask(LayerMask.LayerToName(collision.gameObject.layer)) == playerMask)
         {
             CollideWithPlayerMask(collision);
+        }
+
+        if (LayerMask.GetMask(LayerMask.LayerToName(collision.gameObject.layer)) == bulletMask) // bullet layers
+        {
+            CollideWithWalkableMask(collision);
         }
     }
 
