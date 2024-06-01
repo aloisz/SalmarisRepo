@@ -21,6 +21,7 @@ namespace AI
         {
             base.Start();
             weapon = GetComponent<WeaponManager>();
+            if (isPawnStatic) agentLinkMover.enabled = false;
         }
 
         protected override void Update()

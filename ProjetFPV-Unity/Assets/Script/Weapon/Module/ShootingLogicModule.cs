@@ -57,7 +57,7 @@ public class ShootingLogicModule : WeaponManager, IShootRaycast, IShootSphereCas
         if (hit.transform.GetComponent<IDamage>() != null)
         {
             hit.transform.GetComponent<IDamage>().Hit(so_Weapon.weaponMode[(int)actualWeaponModeIndex].bulletDamage);
-            Debug.Log(hit.collider);
+            //Debug.Log(hit.collider);
         }
     }
 
