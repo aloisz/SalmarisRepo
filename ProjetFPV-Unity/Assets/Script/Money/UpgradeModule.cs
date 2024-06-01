@@ -85,6 +85,8 @@ public class UpgradeModule : GenericSingletonClass<UpgradeModule>
         Cursor.visible = true;
         Cursor.lockState = CursorLockMode.Confined;
         
+        PlayerHealth.Instance.RestoreShield(999);
+        
         PlayerInputs.Instance.EnablePlayerInputs(false);
     }
     
