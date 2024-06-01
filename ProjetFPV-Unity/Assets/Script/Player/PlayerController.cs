@@ -284,12 +284,7 @@ namespace Player
         /// </summary>
         private void RechargeStamina()
         {
-            if(!isDashing && !isJumping)
-                PlayerStamina.Instance.GenerateStaminaStep(playerScriptable.staminaPerSecond * PlayerKillStreak.Instance.staminaBoost);
-            
-            else if(isJumping)
-                //Generate two times less stamina when in this airs.
-                PlayerStamina.Instance.GenerateStaminaStep(playerScriptable.staminaPerSecond * PlayerKillStreak.Instance.staminaBoost / 2f);
+            PlayerStamina.Instance.GenerateStaminaStep(playerScriptable.staminaPerSecond * PlayerKillStreak.Instance.staminaBoost);
         }
 
         #endregion

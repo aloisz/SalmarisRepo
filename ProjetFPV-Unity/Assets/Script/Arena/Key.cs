@@ -10,7 +10,7 @@ public class Key : MonoBehaviour
     public bool DEBUG_DONT_NEED_ARNEA_CLEARED;
     public int keyID;
     public ArenaTrigger arenaTrigger;
-    [HideInInspector] public bool isPickedUp;
+    public bool isPickedUp;
 
     private SphereCollider _collider;
 

@@ -30,7 +30,7 @@ public class Door : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-            if (neededKey != null && neededKey.isPickedUp && !neededKey.DEBUG_DONT_NEED_ARNEA_CLEARED ? neededKey.arenaTrigger.isCompleted : true)
+            if (neededKey != null && neededKey.isPickedUp && (!neededKey.DEBUG_DONT_NEED_ARNEA_CLEARED ? neededKey.arenaTrigger.isCompleted : true))
             {
                 DeactivateDoor();
                 Destroy(neededKey.gameObject);
