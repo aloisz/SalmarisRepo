@@ -20,12 +20,14 @@ public class Door : MonoBehaviour
 
     public void DeactivateDoor()
     {
-        animator.SetTrigger("Open");
+        if(animator) animator.SetTrigger("Open");
+        else gameObject.SetActive(false);
     }
 
     public void ActivateDoor()
     {
-        animator.SetTrigger("Close");
+        if(animator) animator.SetTrigger("Close");
+        else gameObject.SetActive(true);
     }
 
     private void OnTriggerEnter(Collider other)
