@@ -57,6 +57,9 @@ public class Memento
     private bool _hasFinishSpawningEnemies;
     private bool _hasStartedWave;
     
+    //--------------------------------------
+    // DOOR
+    
     /// <summary>
     /// Constructor
     /// </summary>
