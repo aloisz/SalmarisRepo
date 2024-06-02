@@ -14,12 +14,7 @@ public class Key : MonoBehaviour
 
     [SerializeField] private MeshRenderer mesh;
     private SphereCollider _collider;
-
-    public Key(bool pu)
-    {
-        isPickedUp = pu;
-    }
-
+    
     private void Start()
     {
         _collider = GetComponent<SphereCollider>();
