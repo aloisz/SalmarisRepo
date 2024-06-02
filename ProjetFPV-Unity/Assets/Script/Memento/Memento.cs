@@ -1,14 +1,18 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using JetBrains.Annotations;
 using UnityEngine;
 using UnityEngine.Serialization;
+using Weapon;
 
 
 [Serializable]
 public class Memento
 {
     
+    //--------------------------------------
+    // PLAYER
     // Player Position
     private float playerPosX;
     private float playerPosY;
@@ -24,16 +28,28 @@ public class Memento
     private float playerHealth;
     private float playerShield;
     
+    //--------------------------------------
+    // GUN
+    private SO_WeaponMode[] soWeaponMode = new SO_WeaponMode[2];
+    
+    
     // Constructor
-    public Memento(Transform playerTransform, PlayerHealth playerHealth)
+    public Memento(Transform playerTransform, PlayerHealth playerHealth, WeaponManager barbatos)
     {
+        // PLAYER
         SetPlayerPosition(playerTransform.position);
         SetPlayerDirection(playerTransform.rotation);
         
         SetPlayerHealth(playerHealth.Health);
         SetPlayerShield(playerHealth.Shield);
+        
+        // GUN
+        SetSOWeaponMode(0, barbatos.so_Weapon.weaponMode[0]);
+        SetSOWeaponMode(1, barbatos.so_Weapon.weaponMode[1]);
     }
-    
+
+    #region PLAYER ----------------
+
     // Player Position ________________
     private void SetPlayerPosition(Vector3 position)
     {
@@ -78,5 +94,23 @@ public class Memento
     {
         return playerShield;
     }
+
+    #endregion
+
+    #region GUN ----------------
+
+    // Gun Actual SO  ________________
+
+    private void SetSOWeaponMode(int modeIndex, SO_WeaponMode mode)
+    {
+        this.soWeaponMode[modeIndex] = mode;
+    }
+    
+    public SO_WeaponMode GetSOWeaponMode(int modeIndex)
+    {
+        return this.soWeaponMode[modeIndex];
+    }
+
+    #endregion
 }
 
