@@ -32,22 +32,22 @@ public class Director : GenericSingletonClass<Director>
     
     private List<AI_Pawn> _spawnedEnemies = new List<AI_Pawn>();
 
-    private float _currentWaveIntensity;
-    private float _playerPerformance;
-    private float _dynamicNextWaveValue;
+    [HideInInspector]public float _currentWaveIntensity;
+    [HideInInspector]public float _playerPerformance;
+    [HideInInspector]public float _dynamicNextWaveValue;
     
-    private int _currentRemainingEnemies;
-    private float _timerToCheckPlayerPerformance;
-    private float _lastKilledEnemiesValue;
+    [HideInInspector]public int _currentRemainingEnemies;
+    [HideInInspector]public float _timerToCheckPlayerPerformance;
+    [HideInInspector]public float _lastKilledEnemiesValue;
 
-    private bool _currentArenaFinished = true;
+    [HideInInspector]public bool _currentArenaFinished = true;
 
-    private bool _isInAArena;
-    private bool _isInAWave;
-    private bool _hasFinishSpawningEnemies;
-    private bool _hasStartedWave;
+    [HideInInspector]public bool _isInAArena;
+    [HideInInspector]public bool _isInAWave;
+    [HideInInspector]public bool _hasFinishSpawningEnemies;
+    [HideInInspector]public bool _hasStartedWave;
 
-    private int _arenaAmount;
+    [HideInInspector]public int _arenaAmount;
 
     //---------------------------------------
 
@@ -57,7 +57,7 @@ public class Director : GenericSingletonClass<Director>
         EnteringNewLevel();
         PlayerController.Instance.onDeath = () => numberOfDeath += 1;
     }
-
+    
     private void EnteringNewLevel()
     {
         foreach (ArenaTrigger at in FindObjectsOfType<ArenaTrigger>()) _arenaAmount++;
