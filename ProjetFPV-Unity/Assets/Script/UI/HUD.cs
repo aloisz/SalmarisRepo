@@ -12,27 +12,39 @@ using Weapon;
 
 public class HUD : GenericSingletonClass<HUD>
 {
+    [Header("Values")]
     [SerializeField] private Vector2 giggleMultiplierBackground;
     [SerializeField] private Vector2 giggleMultiplier;
     [SerializeField] private Vector2 crosshairImpulseMinMax;
     [SerializeField] [Range(0f,3f)] private float damageMaxIntensity;
+    [SerializeField] private float damageDisplayDuration;
+    [SerializeField] private float dispersionDividerBasedOnWepSettings = 3f;
+    
+    [Header("Curves")]
     [CurveRange(0,0,1,1)][SerializeField] private AnimationCurve crosshairAnimation;
     [CurveRange(0,0,1,1)][SerializeField] private AnimationCurve crosshairBombAnimation;
     [CurveRange(0,0,1,1)][SerializeField] private AnimationCurve crosshairBombScaleAnimation;
     [CurveRange(0,0,1,1)][SerializeField] private AnimationCurve crosshairBombDropDownAnimation;
-    [SerializeField] private float damageDisplayDuration;
-    
-    [SerializeField] private Image UIBackground, shieldBar, healthBar, dashBar, rageBar;
-    [SerializeField] private List<Image> crosshairBorders = new List<Image>();
+
+    [Header("Components")]
+    [SerializeField] private Image UIBackground;
+    [SerializeField] private Image shieldBar;
+    [SerializeField] private Image healthBar;
+    [SerializeField] private Image dashBar;
+    [SerializeField] private Image rageBar;
     [SerializeField] private Image crosshairDots;
     [SerializeField] private Image crosshairBombDropdown;
     [SerializeField] private Image deform;
     [SerializeField] private Image vitals;
     [SerializeField] private Image speedEffect;
+    [SerializeField] private TextMeshProUGUI infos1;
+    [SerializeField] private TextMeshProUGUI infos2;
 
-    [SerializeField] private TextMeshProUGUI infos1, infos2;
-
+    [Header("Components Lists")]
+    [SerializeField] private List<Image> crosshairBorders = new List<Image>();
     [SerializeField] private Image[] dotsDashes;
+    [SerializeField] private ParticleSystem[] dashParticleSystems;
+    [SerializeField] private ParticleSystem[] dashParticleSystemsDots;
 
     private float _giggleX;
     private float _giggleY;
@@ -155,6 +167,11 @@ public class HUD : GenericSingletonClass<HUD>
             "_AlertMode", 0.1f);
     }
 
+    public void PlayDashVFX(int index)
+    {
+        dashParticleSystems[index].Play();
+    }
+
     private void DamageBarEffect()
     {
         switch (PlayerHealth.Instance.Shield)
@@ -195,7 +212,7 @@ public class HUD : GenericSingletonClass<HUD>
             {
                 var averageY = wepPrimary.yAxisDispersion.magnitude;
                 var averageZ = wepPrimary.zAxisDispersion.magnitude;
-                var dispersion = (averageY + averageZ) / 2f;
+                var dispersion = (averageY + averageZ) / dispersionDividerBasedOnWepSettings;
 
                 var maxDispersion = 30f;
                 
@@ -234,7 +251,7 @@ public class HUD : GenericSingletonClass<HUD>
             {
                 var averageY = wepPrimary.yAxisDispersion.magnitude;
                 var averageZ = wepPrimary.zAxisDispersion.magnitude;
-                var dispersion = (averageY + averageZ) / 2f;
+                var dispersion = (averageY + averageZ) / dispersionDividerBasedOnWepSettings;
 
                 var maxDispersion = 30f;
                 
