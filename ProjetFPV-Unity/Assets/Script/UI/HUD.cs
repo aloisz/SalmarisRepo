@@ -12,26 +12,39 @@ using Weapon;
 
 public class HUD : GenericSingletonClass<HUD>
 {
+    [Header("Values")]
     [SerializeField] private Vector2 giggleMultiplierBackground;
     [SerializeField] private Vector2 giggleMultiplier;
     [SerializeField] private Vector2 crosshairImpulseMinMax;
     [SerializeField] [Range(0f,3f)] private float damageMaxIntensity;
+    [SerializeField] private float damageDisplayDuration;
+    [SerializeField] private float dispersionDividerBasedOnWepSettings = 3f;
+    
+    [Header("Curves")]
     [CurveRange(0,0,1,1)][SerializeField] private AnimationCurve crosshairAnimation;
     [CurveRange(0,0,1,1)][SerializeField] private AnimationCurve crosshairBombAnimation;
     [CurveRange(0,0,1,1)][SerializeField] private AnimationCurve crosshairBombScaleAnimation;
     [CurveRange(0,0,1,1)][SerializeField] private AnimationCurve crosshairBombDropDownAnimation;
-    [SerializeField] private float damageDisplayDuration;
-    
-    [SerializeField] private Image UIBackground, shieldBar, healthBar, dashBar, rageBar;
-    [SerializeField] private List<Image> crosshairBorders = new List<Image>();
+
+    [Header("Components")]
+    [SerializeField] private Image UIBackground;
+    [SerializeField] private Image shieldBar;
+    [SerializeField] private Image healthBar;
+    [SerializeField] private Image dashBar;
+    [SerializeField] private Image rageBar;
     [SerializeField] private Image crosshairDots;
     [SerializeField] private Image crosshairBombDropdown;
     [SerializeField] private Image deform;
     [SerializeField] private Image vitals;
+    [SerializeField] private Image speedEffect;
+    [SerializeField] private TextMeshProUGUI infos1;
+    [SerializeField] private TextMeshProUGUI infos2;
 
-    [SerializeField] private TextMeshProUGUI infos1, infos2;
-
+    [Header("Components Lists")]
+    [SerializeField] private List<Image> crosshairBorders = new List<Image>();
     [SerializeField] private Image[] dotsDashes;
+    [SerializeField] private ParticleSystem[] dashParticleSystems;
+    [SerializeField] private ParticleSystem[] dashParticleSystemsDots;
 
     private float _giggleX;
     private float _giggleY;
@@ -56,6 +69,7 @@ public class HUD : GenericSingletonClass<HUD>
         CreateMaterialInstance(crosshairBombDropdown);
         CreateMaterialInstance(deform);
         CreateMaterialInstance(vitals);
+        CreateMaterialInstance(speedEffect);
         
         foreach(var cb in crosshairBorders) CreateMaterialInstance(cb);
 
@@ -64,8 +78,8 @@ public class HUD : GenericSingletonClass<HUD>
         
         WeaponState.Instance.barbatos.OnHudShoot += CrosshairShoot;
 
-        _basePositionHealthBar = healthBar.rectTransform.anchoredPosition;
-        _basePositionShieldBar = shieldBar.rectTransform.anchoredPosition;
+        _basePositionHealthBar = healthBar.transform.localPosition;
+        _basePositionShieldBar = shieldBar.transform.localPosition;
 
         InitCrosshairBorders();
     }
@@ -118,10 +132,13 @@ public class HUD : GenericSingletonClass<HUD>
 
         var dangerProximity = PlayerController.Instance.DetectNearestEnemy() ? (int)Vector3.Distance(PlayerController.Instance.transform.position,
             PlayerController.Instance.DetectNearestEnemy().transform.position) : 0;
-        var dangerText = dangerProximity != 0 ? dangerProximity.ToString() + " m" : "None";
+        var dangerText = dangerProximity != 0 ? dangerProximity + " m" : "None";
         
         infos2.text = $"{(PlayerController.Instance._rb.velocity.magnitude * 3.6f):F1} Km/h" +
                       $"<br>Danger Proximity : {dangerText}";
+        
+        speedEffect.material.SetFloat("_Alpha", Mathf.Lerp(0f,0.4f, 
+            (PlayerController.Instance._rb.velocity.magnitude - 15f) / (PlayerController.Instance.playerScriptable.maxRigidbodyVelocity)));
     }
 
     private void UIGiggle(Material mat, Vector2 multiplier)
@@ -150,6 +167,11 @@ public class HUD : GenericSingletonClass<HUD>
             "_AlertMode", 0.1f);
     }
 
+    public void PlayDashVFX(int index)
+    {
+        dashParticleSystems[index].Play();
+    }
+
     private void DamageBarEffect()
     {
         switch (PlayerHealth.Instance.Shield)
@@ -157,15 +179,19 @@ public class HUD : GenericSingletonClass<HUD>
             case <= 0:
             {
                 var value = Mathf.Lerp(10f, 3f, PlayerHealth.Instance.Health / PlayerHealth.Instance.maxHealth);
-                healthBar.rectTransform.anchoredPosition = _basePositionHealthBar;
-                healthBar.transform.DOShakePosition(0.5f, Vector3.one * value, 120);
+                healthBar.transform.DOShakePosition(0.5f, Vector3.one * value, 120).OnComplete(() =>
+                {
+                    healthBar.transform.DOLocalMove(_basePositionHealthBar, 0.1f);
+                });
                 break;
             }
             case > 0:
             {
                 var value = Mathf.Lerp(3f, 0.5f, PlayerHealth.Instance.Shield / PlayerHealth.Instance.maxShield);
-                shieldBar.rectTransform.anchoredPosition = _basePositionShieldBar;
-                shieldBar.transform.DOShakePosition(0.5f, Vector3.one * value, 120);
+                shieldBar.transform.DOShakePosition(0.5f, Vector3.one * value, 120).OnComplete(() =>
+                {
+                    shieldBar.transform.DOLocalMove(_basePositionShieldBar, 0.1f);
+                });
                 break;
             }
         }
@@ -186,7 +212,7 @@ public class HUD : GenericSingletonClass<HUD>
             {
                 var averageY = wepPrimary.yAxisDispersion.magnitude;
                 var averageZ = wepPrimary.zAxisDispersion.magnitude;
-                var dispersion = (averageY + averageZ) / 2f;
+                var dispersion = (averageY + averageZ) / dispersionDividerBasedOnWepSettings;
 
                 var maxDispersion = 30f;
                 
@@ -225,7 +251,7 @@ public class HUD : GenericSingletonClass<HUD>
             {
                 var averageY = wepPrimary.yAxisDispersion.magnitude;
                 var averageZ = wepPrimary.zAxisDispersion.magnitude;
-                var dispersion = (averageY + averageZ) / 2f;
+                var dispersion = (averageY + averageZ) / dispersionDividerBasedOnWepSettings;
 
                 var maxDispersion = 30f;
                 
@@ -266,22 +292,49 @@ public class HUD : GenericSingletonClass<HUD>
 
         _timerDamageDisplay = damageDisplayDuration;
         
-        var dmgCasterDir = PlayerHealth.Instance.lastEnemyPosition;
+        var cross = CheckDamageDirection(Camera.main.transform, PlayerHealth.Instance.lastEnemyPosition);
         
-        var v = Vector3.Cross(RemoveYValue(dmgCasterDir).normalized, 
-            RemoveYValue(Camera.main.transform.forward)).y;
-
-        // Damage from right v == -1
-        // Damage from left v == 1
-        
-        // Damage from front or back v == 0
-
-        float vNormalized = (v + 1f) / 2f; // Normalize t to range from 0 to 1
+        float vNormalized = (cross + 1f) / 2f; // Normalize t to range from 0 to 1
         _crossProductDamageRight = Mathf.Lerp(0, damageMaxIntensity, vNormalized);
         _crossProductDamageLeft = Mathf.Lerp(damageMaxIntensity, 0, vNormalized);
         
         deform.material.SetFloat("_ShatteredMaskAlpha", Mathf.Lerp(0, 1, (PlayerHealth.Instance.Health + PlayerHealth.Instance.Shield) 
                                                                          / (PlayerHealth.Instance.maxHealth + PlayerHealth.Instance.maxShield)));
+    }
+    
+    // This function checks the relative position of the 'damageSource' relative to the camera's forward direction
+    public float CheckDamageDirection(Transform cameraTransform, Vector3 damageSource)
+    {
+        // Get the direction the camera is facing
+        Vector3 cameraForward = cameraTransform.forward;
+        
+        // Calculate the vector from the camera to the damage source
+        Vector3 toDamageSource = damageSource - cameraTransform.position;
+        
+        // Ignore vertical differences by setting y to 0
+        cameraForward.y = 0;
+        toDamageSource.y = 0;
+
+        // Normalize the direction vectors
+        cameraForward.Normalize();
+        toDamageSource.Normalize();
+
+        // Get the cross product of the camera's forward direction and the vector to the damage source
+        Vector3 crossProduct = Vector3.Cross(cameraForward, toDamageSource);
+
+        // Calculate the angle between the forward direction and the direction to the damage source
+        float angle = Vector3.Angle(cameraForward, toDamageSource);
+
+        // Determine the sign based on the cross product
+        float sign = Mathf.Sign(crossProduct.y);
+
+        // Combine the sign and angle to get a signed angle between -180 and 180 degrees
+        float signedAngle = sign * angle;
+
+        // Normalize the signed angle to be between -1 and 1
+        float result = signedAngle / 180.0f;
+
+        return result;
     }
 
     private void UpdateDashDots()

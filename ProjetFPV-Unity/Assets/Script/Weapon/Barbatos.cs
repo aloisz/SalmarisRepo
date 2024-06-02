@@ -41,7 +41,7 @@ public class Barbatos : Shotgun
         else
         {
             isShooting = false;
-            canFire = true;
+            //canFire = true;
         }
 
         if (barbatosInput.isReceivingSecondary) Secondary();

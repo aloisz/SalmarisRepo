@@ -10,6 +10,8 @@ public class Door : MonoBehaviour
     public int doorID;
     public Key neededKey;
 
+    [SerializeField] private Animator animator;
+
     private void Start()
     {
         if (GetComponent<SphereCollider>()) GetComponent<SphereCollider>().isTrigger = true;
@@ -18,19 +20,21 @@ public class Door : MonoBehaviour
 
     public void DeactivateDoor()
     {
-        gameObject.SetActive(false);
+        if(animator) animator.SetTrigger("Open");
+        else gameObject.SetActive(false);
     }
 
     public void ActivateDoor()
     {
-        gameObject.SetActive(true);
+        if(animator) animator.SetTrigger("Close");
+        else gameObject.SetActive(true);
     }
 
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Player"))
         {
-            if (neededKey != null && neededKey.isPickedUp && !neededKey.DEBUG_DONT_NEED_ARNEA_CLEARED ? neededKey.arenaTrigger.isCompleted : true)
+            if (neededKey != null && neededKey.isPickedUp && (!neededKey.DEBUG_DONT_NEED_ARNEA_CLEARED ? neededKey.arenaTrigger.isCompleted : true))
             {
                 DeactivateDoor();
                 Destroy(neededKey.gameObject);

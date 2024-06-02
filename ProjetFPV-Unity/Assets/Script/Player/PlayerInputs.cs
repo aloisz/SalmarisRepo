@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using Player;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using Weapon;
 
 public class PlayerInputs : GenericSingletonClass<PlayerInputs>
 {

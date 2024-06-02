@@ -10704,7 +10704,7 @@ ParticleSystem:
   ringBufferMode: 0
   ringBufferLoopRange: {x: 0, y: 1}
   emitterVelocityMode: 1
-  looping: 1
+  looping: 0
   prewarm: 0
   playOnAwake: 1
   useUnscaledTime: 0
@@ -15592,7 +15592,7 @@ ParticleSystem:
   ringBufferMode: 0
   ringBufferLoopRange: {x: 0, y: 1}
   emitterVelocityMode: 1
-  looping: 1
+  looping: 0
   prewarm: 0
   playOnAwake: 1
   useUnscaledTime: 0
@@ -20761,7 +20761,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &7307711879709943976
 RectTransform:
   m_ObjectHideFlags: 0
@@ -30899,7 +30899,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &100260159986958932
 RectTransform:
   m_ObjectHideFlags: 0
@@ -31157,7 +31157,9 @@ MonoBehaviour:
   giggleMultiplierBackground: {x: 0.15, y: 0.45}
   giggleMultiplier: {x: 0.35, y: 1.25}
   crosshairImpulseMinMax: {x: 0.02, y: 0.15}
-  damageMaxIntensity: 1
+  damageMaxIntensity: 0.4
+  damageDisplayDuration: 1
+  dispersionDividerBasedOnWepSettings: 3
   crosshairAnimation:
     serializedVersion: 2
     m_Curve:
@@ -31326,24 +31328,29 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  damageDisplayDuration: 0.4
   UIBackground: {fileID: 1116006129322678347}
   shieldBar: {fileID: 172331270362332253}
   healthBar: {fileID: 8587402323512215560}
   dashBar: {fileID: 4039095008115995987}
   rageBar: {fileID: 2425174315641276052}
+  crosshairDots: {fileID: 2664776761620238420}
+  crosshairBombDropdown: {fileID: 7118725977423668329}
+  deform: {fileID: 6141632573751004017}
+  vitals: {fileID: 2004166970019841520}
+  speedEffect: {fileID: 6319954801100441644}
+  infos1: {fileID: 4370704963598755}
+  infos2: {fileID: 7333197991320930678}
   crosshairBorders:
   - {fileID: 5231141440020606349}
   - {fileID: 2795039868911831994}
   - {fileID: 2814193715448065153}
   - {fileID: 2991194578247945785}
-  crosshairDots: {fileID: 2664776761620238420}
-  crosshairBombDropdown: {fileID: 7118725977423668329}
-  deform: {fileID: 6141632573751004017}
-  vitals: {fileID: 2004166970019841520}
-  infos1: {fileID: 4370704963598755}
-  infos2: {fileID: 7333197991320930678}
   dotsDashes: []
+  dashParticleSystems:
+  - {fileID: 23385463094372360}
+  - {fileID: 7673890515165981078}
+  - {fileID: 2548354431363421148}
+  dashParticleSystemsDots: []
 --- !u!1 &4852999294358899059
 GameObject:
   m_ObjectHideFlags: 0
@@ -37402,7 +37409,7 @@ Transform:
   m_GameObject: {fileID: 8099572919240156816}
   serializedVersion: 2
   m_LocalRotation: {x: -0.7071068, y: -0, z: -0, w: 0.7071068}
-  m_LocalPosition: {x: -0.033949155, y: -0.017538516, z: 0}
+  m_LocalPosition: {x: -0.03393936, y: -0.017528439, z: 0}
   m_LocalScale: {x: 1.0823, y: 1.0823, z: 1.0823}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -37423,7 +37430,7 @@ ParticleSystem:
   ringBufferMode: 0
   ringBufferLoopRange: {x: 0, y: 1}
   emitterVelocityMode: 1
-  looping: 1
+  looping: 0
   prewarm: 0
   playOnAwake: 1
   useUnscaledTime: 0

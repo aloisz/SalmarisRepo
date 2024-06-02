@@ -88,9 +88,9 @@ public class AI_AirSack : AI_Pawn
     }
     
     
-    public override void DisableAgent()
+    public override void IsPhysicNavMesh(bool condition)
     {
-        base.DisableAgent();
+        navMeshAgent.enabled = condition;
     }
     
     protected override void DestroyLogic()

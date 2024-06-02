@@ -30,8 +30,8 @@ namespace AI
 
         public void Hit(float damageInflicted)
         {
-            Debug.Log(damageInflicted);
             pawn.actualPawnHealth -= damageInflicted * damageMultiplier;
+            PlayerKillStreak.Instance.NotifyDamageInflicted();
         }
     }
 
