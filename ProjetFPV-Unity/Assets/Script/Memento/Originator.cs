@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using AI;
 using Player;
 using UnityEngine;
 using UnityEngine.Playables;
@@ -9,9 +10,15 @@ public class Originator : MonoBehaviour
 {
     public Memento Save()
     {
+        List<bool> keysPickedUp = new List<bool>();
+        foreach (Key b in FindObjectsOfType<Key>().ToList())
+        {
+            keysPickedUp.Add(b.isPickedUp);
+        }
+        
         //Player
         return new Memento(PlayerController.Instance.transform, PlayerHealth.Instance,
-            WeaponState.Instance.barbatos, Director.Instance);
+            WeaponState.Instance.barbatos, Director.Instance, keysPickedUp);
     }
 
     public void Restore(Memento memento)
@@ -19,6 +26,9 @@ public class Originator : MonoBehaviour
         ResetPlayer(memento);
         RestoreGun(memento);
         RestoreDirector(memento);
+        SetAllDoorsState();
+        ReturnAllEnemiesInPool();
+        SetKeyData(memento);
     }
 
     /// <summary>
@@ -95,4 +105,28 @@ public class Originator : MonoBehaviour
         director._hasStartedWave = memento.GetHasStartedWave();
     }
     
+    private void SetAllDoorsState()
+    {
+        Door[] doors = FindObjectsOfType<Door>();
+        foreach (Door d in doors)
+        {
+            if(d.neededKey != null && d.neededKey.isPickedUp) d.ActivateDoor();
+            else d.DeactivateDoor();
+        }
+    }
+
+    private void ReturnAllEnemiesInPool()
+    {
+        AI_Pawn[] pawns = FindObjectsOfType<AI_Pawn>();
+        foreach(AI_Pawn p in pawns) p.DestroyLogic();
+    }
+
+    private void SetKeyData(Memento memento)
+    {
+        int i = 0;
+        foreach (Key k in FindObjectsOfType<Key>())
+        {
+            k.SetKeyData(memento.GetKeysPickedUp()[i]);
+        }
+    }
 }

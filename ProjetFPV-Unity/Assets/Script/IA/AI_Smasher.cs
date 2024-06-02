@@ -117,7 +117,7 @@ public class AI_Smasher : AI_Pawn
         base.Hit(damageInflicted);
     }
     
-    protected override void DestroyLogic()
+    public override void DestroyLogic()
     {
         Pooling.instance.DePop(so_IA.poolingName, gameObject);
     }
