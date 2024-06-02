@@ -59,6 +59,9 @@ public class Memento
 
     private List<bool> keysPickedUp = new List<bool>();
     
+    //--------------------------------------
+    // DOOR
+    
     /// <summary>
     /// Constructor
     /// </summary>

@@ -53,7 +53,8 @@ public class AI_AirSack : AI_Pawn
                 weapon.ShootingAction();
                 break;
             case AirSackMobState.RunningAway:
-                isShooting = false;
+                isShooting = true;
+                weapon.ShootingAction();
                 break;
         }
         CheckDistance();
@@ -87,6 +88,21 @@ public class AI_AirSack : AI_Pawn
         
     }
     
+    protected override void SetTarget (Vector3 targetToFollow)
+    {
+        switch (airSackMobState)
+        {
+            case AirSackMobState.Idle:
+                navMeshAgent.SetDestination(targetToFollow);
+                break;
+            case AirSackMobState.MovingTowardPlayer:
+                navMeshAgent.SetDestination(targetToFollow);
+                break;
+            case AirSackMobState.RunningAway:
+                navMeshAgent.SetDestination(Player.PlayerController.Instance.transform.position + transform.position);
+                break;
+        }
+    }
     
     public override void IsPhysicNavMesh(bool condition)
     {
