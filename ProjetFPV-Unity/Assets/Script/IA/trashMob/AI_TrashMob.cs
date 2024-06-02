@@ -69,7 +69,7 @@ namespace AI
             }
         }
         
-        protected override void DestroyLogic()
+        public override void DestroyLogic()
         {
             Pooling.instance.DePop(so_IA.poolingName, gameObject);
         }

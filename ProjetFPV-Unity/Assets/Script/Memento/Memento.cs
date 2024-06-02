@@ -56,6 +56,8 @@ public class Memento
     private bool _isInAWave;
     private bool _hasFinishSpawningEnemies;
     private bool _hasStartedWave;
+
+    private List<bool> keysPickedUp = new List<bool>();
     
     /// <summary>
     /// Constructor
@@ -63,11 +65,11 @@ public class Memento
     /// <param name="playerTransform"></param>
     /// <param name="playerHealth"></param>
     /// <param name="barbatos"></param>
-    public Memento(Transform playerTransform, PlayerHealth playerHealth, WeaponManager barbatos, Director director)
+    public Memento(Transform playerTransform, PlayerHealth playerHealth, WeaponManager barbatos, Director director, List<bool> keysPickedUp)
     {
         // PLAYER
         SetPlayerPosition(playerTransform.position);
-        SetPlayerDirection(playerTransform.rotation);
+        SetPlayerRotation(playerTransform.rotation);
         
         SetPlayerHealth(playerHealth.Health);
         SetPlayerShield(playerHealth.Shield);
@@ -97,6 +99,8 @@ public class Memento
         SetIsInAWave(director._isInAWave);
         SetHasFinishSpawningEnemies(director._hasFinishSpawningEnemies);
         SetHasStartedWave(director._hasStartedWave);
+
+        this.keysPickedUp = keysPickedUp;
     }
 
     #region PLAYER ----------------
@@ -115,7 +119,7 @@ public class Memento
 
     
     // Player Rotation ________________
-    private void SetPlayerDirection(Quaternion rotation)
+    private void SetPlayerRotation(Quaternion rotation)
     {
         this.playerRotX = rotation.x;
         this.playerRotY = rotation.y;
@@ -276,6 +280,12 @@ public class Memento
         this._hasStartedWave = _hasStartedWave;
     }
     public bool GetHasStartedWave() => _hasStartedWave;
+
+    #endregion
+    
+    #region DOORS ----------------
+
+    public List<bool> GetKeysPickedUp() => keysPickedUp;
 
     #endregion
 }

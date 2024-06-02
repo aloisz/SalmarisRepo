@@ -125,7 +125,7 @@ namespace AI
                 if(PlayerKillStreak.Instance) PlayerKillStreak.Instance.NotifyEnemyKilled(mobType);
             }
         }
-        protected virtual void DestroyLogic(){}
+        public virtual void DestroyLogic(){}
 
         #region Avoidance Module
 
