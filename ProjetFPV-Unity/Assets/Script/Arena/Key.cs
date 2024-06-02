@@ -12,8 +12,9 @@ public class Key : MonoBehaviour
     public ArenaTrigger arenaTrigger;
     public bool isPickedUp;
 
+    [SerializeField] private MeshRenderer mesh;
     private SphereCollider _collider;
-
+    
     private void Start()
     {
         _collider = GetComponent<SphereCollider>();
@@ -22,12 +23,14 @@ public class Key : MonoBehaviour
 
     public void DeactivateKey()
     {
-        gameObject.SetActive(false);
+        mesh.enabled = false;
+        _collider.enabled = false;
     }
     
     public void ActivateKey()
     {
-        gameObject.SetActive(true);
+        mesh.enabled = true;
+        _collider.enabled = true;
     }
 
     private void OnTriggerEnter(Collider other)
@@ -37,6 +40,13 @@ public class Key : MonoBehaviour
             isPickedUp = true;
             DeactivateKey();
         }
+    }
+
+    public void SetKeyData(bool isPickedUp)
+    {
+        this.isPickedUp = isPickedUp;
+        if(isPickedUp) DeactivateKey();
+        else ActivateKey();
     }
     
     #if UNITY_EDITOR
