@@ -28,12 +28,7 @@ public class Originator : MonoBehaviour
         RestoreDirector(memento);
         SetAllDoorsState();
         ReturnAllEnemiesInPool();
-
-        int i = 0;
-        foreach (Key k in FindObjectsOfType<Key>())
-        {
-            k.SetKeyData(memento.GetKeysPickedUp()[i]);
-        }
+        SetKeyData(memento);
     }
 
     /// <summary>
@@ -124,5 +119,14 @@ public class Originator : MonoBehaviour
     {
         AI_Pawn[] pawns = FindObjectsOfType<AI_Pawn>();
         foreach(AI_Pawn p in pawns) p.DestroyLogic();
+    }
+
+    private void SetKeyData(Memento memento)
+    {
+        int i = 0;
+        foreach (Key k in FindObjectsOfType<Key>())
+        {
+            k.SetKeyData(memento.GetKeysPickedUp()[i]);
+        }
     }
 }
