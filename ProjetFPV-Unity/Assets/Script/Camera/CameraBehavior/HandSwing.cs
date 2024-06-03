@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using DG.Tweening;
+using NaughtyAttributes;
 using Unity.Mathematics;
 using UnityEngine;
 using Weapon;
@@ -13,13 +14,28 @@ namespace CameraBehavior
     {
         private CameraManager cameraManager;
         private Vector3 basePos;
-        internal float JumpingOffSetY;
+        [SerializeField]internal float JumpingOffSetY;
         
-        // Gun
+        // Gun  
         private float lastfired;
         [SerializeField] private WeaponManager weapon;
+        
+        [Header("Sliding Rotation")]
         [SerializeField] private float slidingRotX = 25;
         [SerializeField] private float slidingRotY = 25;
+
+        [Header("Sliding Shaking")] 
+        [SerializeField] private float shakeTimer;
+        [SerializeField] private float shakeTimerSpeed;
+        
+        [SerializeField] [MinMaxSlider(-2, 2)]
+        private Vector2 slidingShakePosX;
+        
+        [SerializeField] [MinMaxSlider(-2, 2)]
+        private Vector2 slidingShakePosY;
+        
+        [SerializeField] [MinMaxSlider(-2, 2)]
+        private Vector2 slidingShakePosZ;
         
         private void Awake()
         {
@@ -54,9 +70,11 @@ namespace CameraBehavior
                 Quaternion.Slerp(transform.localRotation, targetRotation, cameraManager.so_Camera.weaponSwaySmooth * Time.deltaTime );
             
             // weapon position
-            transform.localPosition = Vector3.Lerp(transform.localPosition, basePos + new Vector3(0,JumpingOffSetY,0), cameraManager.so_Camera.weaponSwaySmooth * Time.deltaTime);
+            transform.localPosition = Vector3.Lerp(transform.localPosition, 
+                basePos + new Vector3(0  ,JumpingOffSetY ,0) + GetShakingVector3(), 
+                cameraManager.so_Camera.weaponSwaySmooth * Time.deltaTime);
             
-        }
+        }   
 
         private void Shoot()
         {
@@ -153,6 +171,64 @@ namespace CameraBehavior
             transform.localPosition = 
                 Vector3.Lerp(transform.localPosition, transform.localPosition + new Vector3(0,0,-zRecoil), cameraManager.so_Camera.positionOffSetSmooth * Time.deltaTime);//cameraManager.so_Camera.positionOffSetSmooth * Time.deltaTime
 */
+        }
+
+
+        private float timeElaspedSlidingShake;
+        private float shakePosX;
+        private float shakePosY;
+        private float shakePosz;
+
+        private Vector3 GetShakingVector3()
+        {
+            return new Vector3(GetShakingSlidingX(), GetShakingSlidingY(), GetShakingSlidingZ());
+        }
+        
+        private float GetShakingSlidingX()
+        {
+            if(cameraManager.cameraSliding.timeElapsed <= 0) return 0f;
+            
+            timeElaspedSlidingShake += Time.deltaTime * 1;
+            
+            if ((shakeTimer < timeElaspedSlidingShake)) timeElaspedSlidingShake = 0;
+            
+            float posX = Random.Range(slidingShakePosX.x,
+                slidingShakePosX.y);
+
+            shakePosX = shakeTimer > timeElaspedSlidingShake / 2 ? 
+                Mathf.Lerp(shakePosX, posX, Time.deltaTime * shakeTimerSpeed) : 
+                Mathf.Lerp(0, shakePosX, Time.deltaTime);
+
+
+            return shakePosX;
+        }
+
+        private float GetShakingSlidingY()
+        {
+            if(cameraManager.cameraSliding.timeElapsed <= 0) return 0f;
+            
+            float posY = Random.Range(slidingShakePosY.x,
+                slidingShakePosY.y);
+            
+            shakePosY = shakeTimer > timeElaspedSlidingShake / 2 ? 
+                Mathf.Lerp(shakePosY, posY, Time.deltaTime * shakeTimerSpeed) : 
+                Mathf.Lerp(0, shakePosY, Time.deltaTime);
+
+            return shakePosY;
+        }
+        
+        private float GetShakingSlidingZ()
+        {
+            if(cameraManager.cameraSliding.timeElapsed <= 0) return 0f;
+            
+            float posZ = Random.Range(slidingShakePosZ.x,
+                slidingShakePosZ.y);
+                
+            shakePosz = shakeTimer > timeElaspedSlidingShake / 2 ? 
+                Mathf.Lerp(shakePosz, posZ, Time.deltaTime * shakeTimerSpeed) : 
+                Mathf.Lerp(0, shakePosz, Time.deltaTime);
+
+            return shakePosz;
         }
     }
 }

@@ -101,7 +101,8 @@ namespace CameraBehavior
                         .rotationOffSetSmooth); // PlayerController.Instance.playerScriptable.smoothCameraRot
 
                 // weapon smooth
-                cameraManager.handSwing.JumpingOffSetY = jumpingImpactHandSwing.Evaluate(PlayerController.Instance._rb.velocity.y);
+                cameraManager.handSwing.JumpingOffSetY = Mathf.Lerp(cameraManager.handSwing.JumpingOffSetY,
+                    jumpingImpactHandSwing.Evaluate(PlayerController.Instance._rb.velocity.y), Time.deltaTime * 5f);
             }
             else cameraManager.handSwing.JumpingOffSetY = 0f; // weapon smooth
         }
