@@ -13,11 +13,10 @@ public class Key : MonoBehaviour
     public bool isPickedUp;
 
     [SerializeField] private MeshRenderer mesh;
-    private SphereCollider _collider;
+    [SerializeField] private SphereCollider _collider;
     
     private void Start()
     {
-        _collider = GetComponent<SphereCollider>();
         _collider.isTrigger = true;
     }
 
