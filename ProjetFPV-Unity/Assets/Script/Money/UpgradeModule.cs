@@ -6,6 +6,7 @@ using NaughtyAttributes;
 using UnityEditor;
 using UnityEngine;
 using Weapon;
+using Random = UnityEngine.Random;
 
 public class UpgradeModule : GenericSingletonClass<UpgradeModule>
 {
@@ -92,13 +93,29 @@ public class UpgradeModule : GenericSingletonClass<UpgradeModule>
     
     private void GenerateUpgradeOffers()
     {
+        StartCoroutine(GetRandomInList(upgradeOffersAmount));
+        
         for (int i = 0; i < upgradeOffersAmount; i++)
         {
             var newObject = Instantiate(upgradeButtonReference, upgradeOffersTransform);
-            
-            Helper.RandomInList(out var obj, _currentAvailableUpgrades);
-            newObject.InitUpgradeButton(obj);
+            newObject.InitUpgradeButton(soWeaponModes[i]);
         }
+    }
+
+    private List<SO_WeaponMode> soWeaponModes = new List<SO_WeaponMode>();
+    private IEnumerator GetRandomInList(int amount)
+    {
+        soWeaponModes.Clear();
+        
+        for (int i = 0; i < amount; i++)
+        {
+            var random = _currentAvailableUpgrades[Random.Range(0, _currentAvailableUpgrades.Count)];
+            while(soWeaponModes.Contains(random)) random = _currentAvailableUpgrades[Random.Range(0, _currentAvailableUpgrades.Count)];
+            
+            soWeaponModes.Add(random);
+        }
+
+        yield break;
     }
 
     public void QuitMenu()

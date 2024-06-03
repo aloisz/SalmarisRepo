@@ -9,6 +9,8 @@ using UnityEngine.Serialization;
 [ExecuteAlways]
 public class ArenaTrigger : MonoBehaviour
 {
+    public bool DEBUG_CALL_SHOP_AT_START;
+    
     public int arenaID;
     [Expandable] public ArenaData arenaData;
     
@@ -38,6 +40,11 @@ public class ArenaTrigger : MonoBehaviour
             key.arenaTrigger = this;
             key.ActivateKey();
         }
+    }
+
+    private void Start()
+    {
+        if(DEBUG_CALL_SHOP_AT_START && UpgradeModule.Instance) UpgradeModule.Instance.InitModule(arenaData.shopOrbitalPosition, arenaData.possibleUpgrades);
     }
 
     private void OnTriggerEnter(Collider other)
