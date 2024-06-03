@@ -19,6 +19,8 @@ namespace CameraBehavior
         [SerializeField] internal Transform maxcameraPos;
         [SerializeField] private float YImpact;
         [SerializeField] private float YImpactDeMultiplier;
+        [SerializeField] private float jumpHandSwingSpeed = 0.5f;
+        
         private void Awake()
         {
             cameraManager = GetComponent<CameraManager>();
@@ -102,7 +104,8 @@ namespace CameraBehavior
 
                 // weapon smooth
                 cameraManager.handSwing.JumpingOffSetY = Mathf.Lerp(cameraManager.handSwing.JumpingOffSetY,
-                    jumpingImpactHandSwing.Evaluate(PlayerController.Instance._rb.velocity.y), Time.deltaTime * 5f);
+                    jumpingImpactHandSwing.Evaluate(PlayerController.Instance._rb.velocity.y), 
+                    Time.deltaTime * jumpHandSwingSpeed);
             }
             else cameraManager.handSwing.JumpingOffSetY = 0f; // weapon smooth
         }

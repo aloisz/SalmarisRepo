@@ -83,11 +83,11 @@ MonoBehaviour:
   weapon: {fileID: 6364967691326366049}
   slidingRotX: 25
   slidingRotY: -3
-  shakeTimer: 0.1
-  shakeTimerSpeed: 5
-  slidingShakePosX: {x: -0.2, y: 0.2}
+  shakeTimer: 0.05
+  shakeTimerSpeed: 20
+  slidingShakePosX: {x: -0.02, y: 0.02}
   slidingShakePosY: {x: 0, y: 0}
-  slidingShakePosZ: {x: -0.1, y: 0.1}
+  slidingShakePosZ: {x: -0.02, y: 0.02}
 --- !u!1 &6828706350314435878
 GameObject:
   m_ObjectHideFlags: 0
@@ -306,20 +306,20 @@ MonoBehaviour:
     - serializedVersion: 3
       time: 0
       value: -0.05
-      inSlope: 0.022775015
-      outSlope: 0.022775015
+      inSlope: 0.009001768
+      outSlope: 0.009001768
       tangentMode: 0
       weightedMode: 0
       inWeight: 0
-      outWeight: 0.028325124
+      outWeight: 0.044334978
     - serializedVersion: 3
-      time: 50
-      value: 0.4
-      inSlope: 0.023659687
-      outSlope: 0.023659687
+      time: 49.81543
+      value: 0.22115326
+      inSlope: 0.017411351
+      outSlope: 0.017411351
       tangentMode: 0
       weightedMode: 0
-      inWeight: 0.03325119
+      inWeight: 0.029593037
       outWeight: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
@@ -329,6 +329,7 @@ MonoBehaviour:
   maxcameraPos: {fileID: 0}
   YImpact: 0
   YImpactDeMultiplier: 2
+  jumpHandSwingSpeed: 15
 --- !u!114 &4593806786542784810
 MonoBehaviour:
   m_ObjectHideFlags: 0
