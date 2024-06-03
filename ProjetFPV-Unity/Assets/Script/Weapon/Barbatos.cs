@@ -73,7 +73,7 @@ public class Barbatos : Shotgun
             explosion.HitScanExplosion(so_Weapon.weaponMode[(int)actualWeaponModeIndex].whoIsTheTarget);
         }
 
-        CheckTexturesOfHitMesh(hit);
+        //CheckTexturesOfHitMesh(hit);
     }
 
     private void UpdateLastTimeFired()
@@ -179,6 +179,7 @@ public class Barbatos : Shotgun
         }
     }
 
+    /*
     private void CheckTexturesOfHitMesh(RaycastHit hit)
     {
         MeshRenderer meshRenderer = hit.collider.GetComponentInChildren<MeshRenderer>();
@@ -237,6 +238,6 @@ public class Barbatos : Shotgun
     private Color32 GetTextureColor(Texture2D tex, Vector2 uv)
     {
         return tex.GetPixelBilinear(uv.x, uv.y);
-    }
+    }*/
 }
 
