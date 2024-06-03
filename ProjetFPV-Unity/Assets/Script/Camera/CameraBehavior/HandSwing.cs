@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using DG.Tweening;
 using NaughtyAttributes;
+using Player;
 using Unity.Mathematics;
 using UnityEngine;
 using Weapon;
@@ -181,7 +182,8 @@ namespace CameraBehavior
 
         private Vector3 GetShakingVector3()
         {
-            return new Vector3(GetShakingSlidingX(), GetShakingSlidingY(), GetShakingSlidingZ());
+            var speed = PlayerController.Instance._rb.velocity.magnitude;
+            return new Vector3(GetShakingSlidingX(), GetShakingSlidingY(), GetShakingSlidingZ()) * (speed / 50);
         }
         
         private float GetShakingSlidingX()
