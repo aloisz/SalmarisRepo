@@ -19,7 +19,7 @@ namespace CameraBehavior
         /// Bobbing
         /// </summary>
         [field: BoxGroup("---Bobbing---")][field: Range(0, 20)] [field:SerializeField] internal float walkingBobbingSpeed { get; private set; }
-        [field: BoxGroup("---Bobbing---")][field: Range(-.01f, .01f)] [field:SerializeField] internal float cameraBobbingAmount { get; private set; }
+        [field: BoxGroup("---Bobbing---")][field: Range(-.05f, .05f)] [field:SerializeField] internal float cameraBobbingAmount { get; private set; }
         [field: BoxGroup("---Bobbing---")][field: Range(-.03f, .03f)] [field:SerializeField] internal float weaponBobbingAmount { get; private set; }
         
         

@@ -18,7 +18,8 @@ namespace CameraBehavior
         // Gun
         private float lastfired;
         [SerializeField] private WeaponManager weapon;
-        
+        [SerializeField] private float slidingRotX = 25;
+        [SerializeField] private float slidingRotY = 25;
         
         private void Awake()
         {
@@ -48,7 +49,8 @@ namespace CameraBehavior
 
             // weapon rotation 
             transform.localRotation = cameraManager.cameraSliding.timeElapsed > 0 ? 
-                Quaternion.Slerp(transform.localRotation, targetRotation * Quaternion.AngleAxis(40, Vector3.forward), cameraManager.so_Camera.weaponSwaySmooth * Time.deltaTime ) : 
+                Quaternion.Slerp(transform.localRotation, targetRotation * Quaternion.AngleAxis(slidingRotX, Vector3.forward) * 
+                                                          Quaternion.AngleAxis(slidingRotY, Vector3.up), cameraManager.so_Camera.weaponSwaySmooth * Time.deltaTime ) : 
                 Quaternion.Slerp(transform.localRotation, targetRotation, cameraManager.so_Camera.weaponSwaySmooth * Time.deltaTime );
             
             // weapon position
