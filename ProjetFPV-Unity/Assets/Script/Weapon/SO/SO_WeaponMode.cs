@@ -134,9 +134,9 @@ namespace Weapon
         [field: SerializeField] [field: MinMaxSlider(-15, 15)] internal Vector2 weaponRecoilPosZ{ get; private set; }
         
         [field: Space]
-        [field: SerializeField] [field: MinMaxSlider(-15, 15)] internal Vector2 weaponRecoilRotx{ get; private set; } 
-        [field: SerializeField] [field: MinMaxSlider(-15, 15)] internal Vector2 weaponRecoilRotY{ get; private set; }
-        [field: SerializeField] [field: MinMaxSlider(-15, 15)] internal Vector2 weaponRecoilRotZ{ get; private set; }
+        [field: SerializeField] [field: MinMaxSlider(-180, 180)] internal Vector2 weaponRecoilRotx{ get; private set; } 
+        [field: SerializeField] [field: MinMaxSlider(-180, 180)] internal Vector2 weaponRecoilRotY{ get; private set; }
+        [field: SerializeField] [field: MinMaxSlider(-180, 180)] internal Vector2 weaponRecoilRotZ{ get; private set; }
         
         [field: Space]
         [field: SerializeField] internal Vector3 weaponRecoilCameraOffset{ get; private set; }
