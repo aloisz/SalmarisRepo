@@ -78,7 +78,7 @@ namespace AI
 
         protected virtual void Update()
         {
-            if (!navMeshAgent.isOnNavMesh) return;
+            //if (!navMeshAgent.isOnNavMesh) return;
             
             CheckIfIsStillAlive();
             //PawnAvoidance();
