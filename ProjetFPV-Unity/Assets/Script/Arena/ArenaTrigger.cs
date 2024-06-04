@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using NaughtyAttributes;
+using Player;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.Serialization;
@@ -10,6 +11,7 @@ using UnityEngine.Serialization;
 public class ArenaTrigger : MonoBehaviour
 {
     public bool DEBUG_CALL_SHOP_AT_START;
+    public bool DEBUG_CALL_TP_PLAYER_AT_START;
     
     public int arenaID;
     [Expandable] public ArenaData arenaData;
@@ -45,6 +47,8 @@ public class ArenaTrigger : MonoBehaviour
     private void Start()
     {
         if(DEBUG_CALL_SHOP_AT_START && UpgradeModule.Instance) UpgradeModule.Instance.InitModule(arenaData.shopOrbitalPosition, arenaData.possibleUpgrades);
+        if (DEBUG_CALL_TP_PLAYER_AT_START)
+            PlayerController.Instance.transform.position = transform.position + new Vector3(0, 50, 0);
     }
 
     private void OnTriggerEnter(Collider other)

@@ -24,6 +24,8 @@ namespace CameraBehavior
         [Header("Sliding Rotation")]
         [SerializeField] private float slidingRotX = 25;
         [SerializeField] private float slidingRotY = 25;
+        [SerializeField] private float slidingRotFromDirection = 25;
+        [SerializeField] private float slidingRotFromDirectionMultiplierAbsX = 4;
 
         [Header("Sliding Shaking")] 
         [SerializeField] private float shakeTimer;
@@ -62,12 +64,19 @@ namespace CameraBehavior
             Quaternion rotationX = Quaternion.AngleAxis(-mouseY, Vector3.right);
             Quaternion rotationY = Quaternion.AngleAxis(mouseX, Vector3.up);
 
+            float playerDirX = PlayerController.Instance.direction.x;
+            Quaternion rotationSwayDirection = PlayerController.Instance.isSliding ?
+                Quaternion.Euler(0,0, playerDirX * (slidingRotFromDirection * (playerDirX > 0.5f ? slidingRotFromDirectionMultiplierAbsX : 1f))) : Quaternion.Euler(0,0,0);
+
             Quaternion targetRotation = rotationX * rotationY;
 
             // weapon rotation 
             transform.localRotation = cameraManager.cameraSliding.timeElapsed > 0 ? 
-                Quaternion.Slerp(transform.localRotation, targetRotation * Quaternion.AngleAxis(slidingRotX, Vector3.forward) * 
-                                                          Quaternion.AngleAxis(slidingRotY, Vector3.up), cameraManager.so_Camera.weaponSwaySmooth * Time.deltaTime ) : 
+                
+                Quaternion.Slerp(transform.localRotation, 
+                    targetRotation * Quaternion.AngleAxis(slidingRotX, Vector3.forward)
+                                   * Quaternion.AngleAxis(slidingRotY, Vector3.up) * rotationSwayDirection, cameraManager.so_Camera.weaponSwaySmooth * Time.deltaTime ) : 
+                
                 Quaternion.Slerp(transform.localRotation, targetRotation, cameraManager.so_Camera.weaponSwaySmooth * Time.deltaTime );
             
             // weapon position

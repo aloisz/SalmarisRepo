@@ -40,7 +40,7 @@ namespace AI
         {
             if(newState == currentState) return;
             currentState = newState;
-            animator.Play(currentState);
+            animator.CrossFade(currentState, 0.25f);
         }
 
         private bool isAnimationPlaying(Animator animator, string stateName)
