@@ -39,8 +39,7 @@ namespace AI
         [HideInInspector] public Rigidbody rb;
         [Header("Vision Module")]
         [SerializeField] protected SphereCollider visionDetector;
-
-
+        
         protected virtual void Start()
         {
             navMeshAgent = GetComponent<NavMeshAgent>();
@@ -48,9 +47,10 @@ namespace AI
             rb = GetComponent<Rigidbody>();
             
             GetPawnPersonnalInformation();
+            
             GameManager.Instance.aiPawnsAvailable.Add(this);
         }
-
+        
         public virtual void GetPawnPersonnalInformation()
         {
             navMeshAgent.enabled = true;
@@ -78,6 +78,8 @@ namespace AI
 
         protected virtual void Update()
         {
+            //if (!navMeshAgent.isOnNavMesh) return;
+            
             CheckIfIsStillAlive();
             //PawnAvoidance();
             TickHandler();
@@ -211,7 +213,17 @@ namespace AI
 
         public void EnableNavMesh(bool enabled)
         {
-            if(navMeshAgent)navMeshAgent.enabled = enabled;
+            if(navMeshAgent) navMeshAgent.enabled = enabled;
+        }
+        
+        public void EnableNavMeshWithDelay(bool enabled, float delay = 0f)
+        {
+            StartCoroutine(Routine(enabled, delay));
+        }
+        IEnumerator Routine(bool enabled, float delay = 0f)
+        {
+            yield return new WaitForSeconds(delay);
+            if(navMeshAgent) navMeshAgent.enabled = enabled;
         }
 
         #if UNITY_EDITOR
