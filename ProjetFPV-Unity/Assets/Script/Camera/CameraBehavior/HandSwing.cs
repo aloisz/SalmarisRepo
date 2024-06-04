@@ -39,7 +39,10 @@ namespace CameraBehavior
         
         [SerializeField] [MinMaxSlider(-2, 2)]
         private Vector2 slidingShakePosZ;
-        
+
+        [Header("Weapon reloading")]
+        [SerializeField] private float reloadingRotX;
+        [SerializeField] private float reloadingRotY;
         private void Awake()
         {
             cameraManager = GetComponentInParent<CameraManager>();
@@ -54,7 +57,6 @@ namespace CameraBehavior
         public void LateUpdate()
         {
             if (!cameraManager.doCameraFeel)return;
-
             if (!PlayerInputs.Instance.weaponInputs.enabled) return;
             
             float mouseX = Input.GetAxisRaw("Mouse X") * -cameraManager.so_Camera.weaponSwaymultiplier;
@@ -71,13 +73,14 @@ namespace CameraBehavior
             Quaternion targetRotation = rotationX * rotationY;
 
             // weapon rotation 
-            transform.localRotation = cameraManager.cameraSliding.timeElapsed > 0 ? 
-                
+            transform.localRotation = cameraManager.cameraSliding.timeElapsed > 0 && !weapon.isReloading ? 
                 Quaternion.Slerp(transform.localRotation, 
-                    targetRotation * Quaternion.AngleAxis(slidingRotX, Vector3.forward)
-                                   * Quaternion.AngleAxis(slidingRotY, Vector3.up) * rotationSwayDirection, cameraManager.so_Camera.weaponSwaySmooth * Time.deltaTime ) : 
+                    targetRotation * Quaternion.AngleAxis(slidingRotX, Vector3.forward) * Quaternion.AngleAxis(slidingRotY, Vector3.up) * rotationSwayDirection, 
+                    cameraManager.so_Camera.weaponSwaySmooth * Time.deltaTime ) :
                 
                 Quaternion.Slerp(transform.localRotation, targetRotation, cameraManager.so_Camera.weaponSwaySmooth * Time.deltaTime );
+            
+            AnimateWeaponReloading();
             
             // weapon position
             transform.localPosition = Vector3.Lerp(transform.localPosition, 
@@ -241,5 +244,15 @@ namespace CameraBehavior
 
             return shakePosz;
         }
+
+
+        private void AnimateWeaponReloading()
+        {
+            if(!weapon.isReloading) return;
+            transform.localRotation = Quaternion.Slerp(transform.localRotation,
+                    Quaternion.AngleAxis(reloadingRotX, Vector3.forward) * Quaternion.AngleAxis(reloadingRotY, Vector3.up),
+                    cameraManager.so_Camera.weaponSwaySmooth * Time.deltaTime);
+        }
     }
+    
 }
