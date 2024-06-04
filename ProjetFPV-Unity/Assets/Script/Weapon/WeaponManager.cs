@@ -31,6 +31,7 @@ namespace Weapon
         
         public Action OnShoot;
         public Action OnHudShoot;
+        public Action OnLooseAmmo;
         
         protected virtual void Start()
         {
@@ -218,9 +219,11 @@ namespace Weapon
             {
                 case MunitionType.Raycast:
                     Raycast();
+                    OnLooseAmmo.Invoke();
                     break;
                 case MunitionType.Projectile:
                     Projectile();
+                    OnLooseAmmo.Invoke();
                     break;
             }
         }

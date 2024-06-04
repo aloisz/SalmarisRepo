@@ -11,6 +11,7 @@ public class Barbatos : Shotgun
     
     private float lastTimeFired_0; // primary
     private float lastTimeFired_1; // secondary
+    
     private bool isPrimary;
 
     private BarbatosShootVFX shootVFX;
