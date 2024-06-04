@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using AI;
 using DG.Tweening;
 using Player;
 using UnityEngine;
@@ -15,12 +16,13 @@ namespace Weapon.EnemyWeapon
 
         private PlayerController player;
         private Vector3 playerPos;
+        private AI_TrashMob_Shooter trashMobShooter;
         protected override void Start()
         {
             base.Start();
             actualWeaponModeIndex = WeaponMode.Primary;
             player = Player.PlayerController.Instance;
-            
+            trashMobShooter = GetComponent<AI_TrashMob_Shooter>();
         }
 
         private Vector3 playerHitPos;
@@ -49,6 +51,11 @@ namespace Weapon.EnemyWeapon
             
             bulletProjectile.AddDamage(so_Weapon.weaponMode[(int)actualWeaponModeIndex].bulletDamage);
             bulletProjectile.PoolingKeyName(so_Weapon.weaponMode[(int)actualWeaponModeIndex].poolingPopKey);
+            
+            
+            //Animator
+            if(trashMobShooter.isPawnDead) return;
+            trashMobShooter.animatorTrashShooter.ChangeState(trashMobShooter.animatorTrashShooter.ATTACK, .3f);
         }
         
     }

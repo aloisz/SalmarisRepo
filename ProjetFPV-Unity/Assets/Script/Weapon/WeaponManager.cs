@@ -64,6 +64,16 @@ namespace Weapon
        
         protected virtual void Update()
         {
+            if (isReloading)
+            {
+                timeElapsed += Time.deltaTime * 1;
+                if ((so_Weapon.weaponMode[0].timeToReload / PlayerKillStreak.Instance.reloadBoost) < timeElapsed)
+                {
+                    timeElapsed = 0;
+                    TimeToReload();
+                }
+            }
+            
             if(!so_Weapon.isWeaponPossessByPlayer) return;
             GetAllInput();
         }
@@ -111,7 +121,8 @@ namespace Weapon
             {
                 if (actualNumberOfBullet <= 0 || isReloading || !canFire) return;
             }
-            else if (!canFire) return;
+            if (!canFire) return;
+            
             switch (so_Weapon.weaponMode[(int)actualWeaponModeIndex].selectiveFireState)
             {
                 case SelectiveFireType.Single:
@@ -234,15 +245,18 @@ namespace Weapon
 
         public virtual void Reload()
         {
+            if(actualNumberOfBullet == so_Weapon.weaponMode[0].numberOfBullet) return;
             isReloading = true;
-            StartCoroutine(TimeToReload());
+            canFire = false;
         }
+        
 
-        private IEnumerator TimeToReload()
+        private float timeElapsed = 0;
+        private void TimeToReload()
         {
-            yield return new WaitForSeconds(so_Weapon.weaponMode[(int)actualWeaponModeIndex].timeToReload / PlayerKillStreak.Instance.reloadBoost);
-            actualNumberOfBullet = so_Weapon.weaponMode[(int)actualWeaponModeIndex].numberOfBullet;
+            actualNumberOfBullet = so_Weapon.weaponMode[0].numberOfBullet;
             isReloading = false;
+            canFire = true;
         }
 
         #endregion

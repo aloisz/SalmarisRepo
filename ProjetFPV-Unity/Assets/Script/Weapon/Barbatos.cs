@@ -93,6 +93,7 @@ public class Barbatos : Shotgun
     public override void Reload()
     {
         base.Reload();
+        if(actualNumberOfBullet == so_Weapon.weaponMode[0].numberOfBullet) return;
         ParticleSystem particle = Instantiate(so_Weapon.weaponMode[(int)actualWeaponModeIndex].reloadParticle,
             vfxPos[2].position, gunBarrelPos.transform.rotation, transform);
         particle.Play();

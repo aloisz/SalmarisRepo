@@ -5,6 +5,7 @@ using AI;
 using Player;
 using UnityEngine;
 using UnityEngine.Playables;
+using UnityEngine.Rendering.Universal;
 
 public class Originator : MonoBehaviour
 {
@@ -29,6 +30,7 @@ public class Originator : MonoBehaviour
         SetAllDoorsState();
         ReturnAllEnemiesInPool();
         SetKeyData(memento);
+        ReturnAllDecalsInPool();
     }
 
     /// <summary>
@@ -119,6 +121,15 @@ public class Originator : MonoBehaviour
     {
         AI_Pawn[] pawns = FindObjectsOfType<AI_Pawn>();
         foreach(AI_Pawn p in pawns) p.DestroyLogic();
+    }
+
+    private void ReturnAllDecalsInPool()
+    {
+        DecalProjector[] decalProjectors = FindObjectsOfType<DecalProjector>();
+        foreach (DecalProjector dp in decalProjectors)
+        {
+            Destroy(dp);
+        }
     }
 
     private void SetKeyData(Memento memento)
