@@ -24,7 +24,6 @@ namespace AI
 
         private void Update()
         {
-            
             if (isAnimationPlaying(animator, SPAWN)) return;
             if (isAnimationPlaying(animator, DEATH)) return;
             if (isAnimationPlaying(animator, ATTACK)) return;
@@ -35,8 +34,14 @@ namespace AI
 
         public void ChangeState(string newState, float crossFadeDuration)
         {
+            if (animator.GetNextAnimatorStateInfo(0).IsName(newState) ||
+                animator.GetCurrentAnimatorStateInfo(0).IsName(newState)) return;
+            
             currentState = newState;
-            animator.Play(currentState);
+            animator.CrossFade(currentState, crossFadeDuration);
+ 
+            //animator.CrossFadeInFixedTime(currentState, crossFadeDuration);
+
         }
 
         private bool isAnimationPlaying(Animator animator, string stateName)

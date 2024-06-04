@@ -98,7 +98,7 @@ namespace AI
         public override void DestroyLogic()
         {
             base.DestroyLogic();
-            animatorTrashShooter.ChangeState(animatorTrashShooter.DEATH, .1f);
+            animatorTrashShooter.ChangeState(animatorTrashShooter.DEATH, .5f);
         }
 
 #if UNITY_EDITOR

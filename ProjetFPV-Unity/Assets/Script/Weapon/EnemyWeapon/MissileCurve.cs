@@ -55,7 +55,7 @@ namespace Weapon.EnemyWeapon
             
             //Animator
             if(trashMobShooter.isPawnDead) return;
-            trashMobShooter.animatorTrashShooter.ChangeState(trashMobShooter.animatorTrashShooter.ATTACK, .1f);
+            trashMobShooter.animatorTrashShooter.ChangeState(trashMobShooter.animatorTrashShooter.ATTACK, .3f);
         }
         
     }
