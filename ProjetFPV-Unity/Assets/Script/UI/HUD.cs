@@ -95,6 +95,7 @@ public class HUD : GenericSingletonClass<HUD>
         
         UIStamina();
         UIHealthShield();
+        UpdateShatteredMask();
 
         rageBar.fillAmount = PlayerKillStreak.Instance.KillStreak / PlayerKillStreak.Instance.maxKillStreak;
         rageBar.color = PlayerKillStreak.Instance.isInRageMode ? Color.red : Color.white;
@@ -297,7 +298,10 @@ public class HUD : GenericSingletonClass<HUD>
         float vNormalized = (cross + 1f) / 2f; // Normalize t to range from 0 to 1
         _crossProductDamageRight = Mathf.Lerp(0, damageMaxIntensity, vNormalized);
         _crossProductDamageLeft = Mathf.Lerp(damageMaxIntensity, 0, vNormalized);
-        
+    }
+
+    private void UpdateShatteredMask()
+    {
         deform.material.SetFloat("_ShatteredMaskAlpha", Mathf.Lerp(0, 1, (PlayerHealth.Instance.Health + PlayerHealth.Instance.Shield) 
                                                                          / (PlayerHealth.Instance.maxHealth + PlayerHealth.Instance.maxShield)));
     }
