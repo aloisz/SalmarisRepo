@@ -9467,6 +9467,74 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 287935f946f356444b9331848b823b59, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1001 &397628267
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 6159587722465297484, guid: 71f951629bed9f0468abebcf5f737845,
+        type: 3}
+      propertyPath: m_Name
+      value: IA_TrashMob_Cac
+      objectReference: {fileID: 0}
+    - target: {fileID: 7670129111412073086, guid: 71f951629bed9f0468abebcf5f737845,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -297.88727
+      objectReference: {fileID: 0}
+    - target: {fileID: 7670129111412073086, guid: 71f951629bed9f0468abebcf5f737845,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -41.128548
+      objectReference: {fileID: 0}
+    - target: {fileID: 7670129111412073086, guid: 71f951629bed9f0468abebcf5f737845,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 562.3482
+      objectReference: {fileID: 0}
+    - target: {fileID: 7670129111412073086, guid: 71f951629bed9f0468abebcf5f737845,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7670129111412073086, guid: 71f951629bed9f0468abebcf5f737845,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7670129111412073086, guid: 71f951629bed9f0468abebcf5f737845,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7670129111412073086, guid: 71f951629bed9f0468abebcf5f737845,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7670129111412073086, guid: 71f951629bed9f0468abebcf5f737845,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7670129111412073086, guid: 71f951629bed9f0468abebcf5f737845,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7670129111412073086, guid: 71f951629bed9f0468abebcf5f737845,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 71f951629bed9f0468abebcf5f737845, type: 3}
 --- !u!1 &401584296
 GameObject:
   m_ObjectHideFlags: 0
@@ -13190,6 +13258,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   DEBUG_CALL_SHOP_AT_START: 1
+  DEBUG_CALL_TP_PLAYER_AT_START: 0
   arenaID: 0
   arenaData: {fileID: 11400000, guid: f3feeb3b2b4a7ed4b9f9648330eff657, type: 2}
   enemiesPositions:
@@ -20718,6 +20787,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   DEBUG_CALL_SHOP_AT_START: 0
+  DEBUG_CALL_TP_PLAYER_AT_START: 0
   arenaID: 4
   arenaData: {fileID: 11400000, guid: 84e8ccc9ae14ec94b9bf9cc86f89ad25, type: 2}
   enemiesPositions:
@@ -38640,6 +38710,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   DEBUG_CALL_SHOP_AT_START: 0
+  DEBUG_CALL_TP_PLAYER_AT_START: 0
   arenaID: 3
   arenaData: {fileID: 11400000, guid: 535ec261491f3cb459b051755c04b784, type: 2}
   enemiesPositions:
@@ -38740,9 +38811,9 @@ GameObject:
   - component: {fileID: 1483975473}
   - component: {fileID: 1483975474}
   m_Layer: 0
-  m_Name: AirSack_1
+  m_Name: TrashMob_1
   m_TagString: Untagged
-  m_Icon: {fileID: 2800000, guid: 9c454e916246b9e4f81fc81f4778ca31, type: 3}
+  m_Icon: {fileID: 2800000, guid: 26b3a285bd12885428695d8344a1476d, type: 3}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
@@ -46339,6 +46410,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   DEBUG_CALL_SHOP_AT_START: 0
+  DEBUG_CALL_TP_PLAYER_AT_START: 0
   arenaID: 2
   arenaData: {fileID: 11400000, guid: 8673b93c333ba334d85593a347a4d706, type: 2}
   enemiesPositions:
@@ -48709,6 +48781,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   DEBUG_CALL_SHOP_AT_START: 0
+  DEBUG_CALL_TP_PLAYER_AT_START: 0
   arenaID: 0
   arenaData: {fileID: 11400000, guid: 9afb906a59646dc4580b39e8f467a86f, type: 2}
   enemiesPositions:
@@ -49082,6 +49155,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   DEBUG_CALL_SHOP_AT_START: 0
+  DEBUG_CALL_TP_PLAYER_AT_START: 0
   arenaID: 5
   arenaData: {fileID: 11400000, guid: 1c0092959d7447449bc6c28f22b8372a, type: 2}
   enemiesPositions:
@@ -50481,6 +50555,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   DEBUG_CALL_SHOP_AT_START: 0
+  DEBUG_CALL_TP_PLAYER_AT_START: 0
   arenaID: 6
   arenaData: {fileID: 11400000, guid: 314d3bf796cc4b74c9eb30c93af92ce4, type: 2}
   enemiesPositions:
@@ -51687,6 +51762,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   DEBUG_CALL_SHOP_AT_START: 0
+  DEBUG_CALL_TP_PLAYER_AT_START: 0
   arenaID: 1
   arenaData: {fileID: 11400000, guid: 103c159e5a44dbd40bcc88db209be1ff, type: 2}
   enemiesPositions:
@@ -52880,3 +52956,4 @@ SceneRoots:
   - {fileID: 1368478403}
   - {fileID: 739954116}
   - {fileID: 1035342162}
+  - {fileID: 397628267}
