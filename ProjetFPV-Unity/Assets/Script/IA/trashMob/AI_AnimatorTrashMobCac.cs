@@ -33,14 +33,15 @@ namespace AI
             if (isAnimationPlaying(animator, ATTACK)) return;
             
             if(aiPawn.isPawnDead) return;
-            ChangeState(aiPawn.navMeshAgent.speed > 1 ? WALK : IDLE);
+            ChangeState(aiPawn.navMeshAgent.speed > 1 ? WALK : IDLE, .2f);
         }
 
-        public void ChangeState(string newState)
+        public void ChangeState(string newState, float crossFadeDuration)
         {
-            if(newState == currentState) return;
+            if (animator.GetNextAnimatorStateInfo(0).IsName(newState) ||
+                animator.GetCurrentAnimatorStateInfo(0).IsName(newState)) return;
             currentState = newState;
-            animator.CrossFade(currentState, 0.25f);
+            animator.CrossFade(currentState, crossFadeDuration);
         }
 
         private bool isAnimationPlaying(Animator animator, string stateName)
