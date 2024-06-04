@@ -16,11 +16,13 @@ namespace AI
         
         protected WeaponManager weapon;
         protected bool isShooting;
+        internal Ai_AnimatorTrashShooter animatorTrashShooter;
         
         protected override void Start()
         {
             base.Start();
             weapon = GetComponent<WeaponManager>();
+            animatorTrashShooter = GetComponent<Ai_AnimatorTrashShooter>();
             if (isPawnStatic) agentLinkMover.enabled = false;
         }
 
@@ -28,7 +30,7 @@ namespace AI
         {
             base.Update();
             ChangeStateWhenReloading();
-            if(trashMobState == TrashMobState.Idle) 
+            if(trashMobState == TrashMobState.Idle && !isPawnDead) 
                 transform.DOLookAt(PlayerController.Instance.transform.position + Vector3.up, 0.2f, AxisConstraint.Y);
             
             switch (Vector3.Distance(PlayerController.Instance.transform.position, transform.position))
@@ -91,6 +93,12 @@ namespace AI
         protected override void CheckDistance()
         {
             base.CheckDistance();
+        }
+        
+        public override void DestroyLogic()
+        {
+            base.DestroyLogic();
+            animatorTrashShooter.ChangeState(animatorTrashShooter.DEATH, .1f);
         }
 
 #if UNITY_EDITOR
