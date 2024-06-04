@@ -479,8 +479,9 @@ namespace Player
         IEnumerator OnLand()
         {
             _canApplyGravity = false;
-
             _jumpFacilityForce = 0f;
+            
+            PlayerVFX.Instance.SpawnLandSmoke();
 
             if (_rb.velocity.magnitude >= 50f) _rb.velocity *= 1.25f;
 

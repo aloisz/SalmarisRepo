@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.18729645, g: 1.12309, b: 0.8834449, a: 1}
+  m_IndirectSpecularColor: {r: 0.1922465, g: 1.1278204, b: 0.8874113, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -4981,18 +4981,6 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 148919055}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &148919057 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 1859758097976847124, guid: 195faa22a7b98ff4f85394544887fa60,
-    type: 3}
-  m_PrefabInstance: {fileID: 148919055}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a9a813715113c6c4ba8ca3ac50ce7ad4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &149304543
 GameObject:
   m_ObjectHideFlags: 0
@@ -9171,6 +9159,11 @@ PrefabInstance:
       propertyPath: arenas.Array.data[6]
       value: 
       objectReference: {fileID: 2042250297}
+    - target: {fileID: 200090335711378035, guid: 71e0be70f0d990647aab1b9819ac3f97,
+        type: 3}
+      propertyPath: DEBUG_DONT_NEED_PREVIOUS_ARENAS_CLEARED
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2639629527627537057, guid: 71e0be70f0d990647aab1b9819ac3f97,
         type: 3}
       propertyPath: m_Name
@@ -13830,6 +13823,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1792e76dd7561aa48b79bd4f3613cdf9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  DEBUG_CALL_SHOP_AT_START: 0
   arenaID: 0
   arenaData: {fileID: 11400000, guid: f3feeb3b2b4a7ed4b9f9648330eff657, type: 2}
   enemiesPositions:
@@ -18318,7 +18312,7 @@ Transform:
   m_GameObject: {fileID: 671652164}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 31.900032, y: -1.5100095, z: -30.900024}
+  m_LocalPosition: {x: 29.72, y: -0.79, z: -27.49}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -21882,6 +21876,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1792e76dd7561aa48b79bd4f3613cdf9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  DEBUG_CALL_SHOP_AT_START: 0
   arenaID: 4
   arenaData: {fileID: 11400000, guid: 84e8ccc9ae14ec94b9bf9cc86f89ad25, type: 2}
   enemiesPositions:
@@ -22721,7 +22716,7 @@ Transform:
   m_GameObject: {fileID: 857341494}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 6.999998, y: 14.219997, z: 45.760002}
+  m_LocalPosition: {x: 7.11, y: 14.22, z: 47.81}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -22765,7 +22760,7 @@ Transform:
   m_GameObject: {fileID: 859322062}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -23.000017, y: 2.3999937, z: 25.800016}
+  m_LocalPosition: {x: -8.68, y: 2.4, z: 16.74}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -24326,6 +24321,8 @@ MonoBehaviour:
   keyID: 11
   arenaTrigger: {fileID: 826618020}
   isPickedUp: 0
+  mesh: {fileID: 985863807}
+  _collider: {fileID: 985863805}
 --- !u!135 &985863805
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -26441,17 +26438,17 @@ PrefabInstance:
     - target: {fileID: 7372045558108116486, guid: b8b6c0fdf0c4fdc45a7a779e068e839d,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -267
+      value: -228
       objectReference: {fileID: 0}
     - target: {fileID: 7372045558108116486, guid: b8b6c0fdf0c4fdc45a7a779e068e839d,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: -37.53
+      value: -72.00001
       objectReference: {fileID: 0}
     - target: {fileID: 7372045558108116486, guid: b8b6c0fdf0c4fdc45a7a779e068e839d,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 523
+      value: -1012
       objectReference: {fileID: 0}
     - target: {fileID: 7372045558108116486, guid: b8b6c0fdf0c4fdc45a7a779e068e839d,
         type: 3}
@@ -40805,6 +40802,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1792e76dd7561aa48b79bd4f3613cdf9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  DEBUG_CALL_SHOP_AT_START: 0
   arenaID: 3
   arenaData: {fileID: 11400000, guid: 535ec261491f3cb459b051755c04b784, type: 2}
   enemiesPositions:
@@ -49949,6 +49947,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1792e76dd7561aa48b79bd4f3613cdf9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  DEBUG_CALL_SHOP_AT_START: 0
   arenaID: 2
   arenaData: {fileID: 11400000, guid: 8673b93c333ba334d85593a347a4d706, type: 2}
   enemiesPositions:
@@ -52453,6 +52452,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1792e76dd7561aa48b79bd4f3613cdf9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  DEBUG_CALL_SHOP_AT_START: 0
   arenaID: 0
   arenaData: {fileID: 11400000, guid: 9afb906a59646dc4580b39e8f467a86f, type: 2}
   enemiesPositions:
@@ -52683,17 +52683,17 @@ PrefabInstance:
     - target: {fileID: 8561856535418673292, guid: 9294123db3fc3a54b89f62907126f122,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -270
+      value: -231
       objectReference: {fileID: 0}
     - target: {fileID: 8561856535418673292, guid: 9294123db3fc3a54b89f62907126f122,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: -37.529995
+      value: -72
       objectReference: {fileID: 0}
     - target: {fileID: 8561856535418673292, guid: 9294123db3fc3a54b89f62907126f122,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 537
+      value: -998
       objectReference: {fileID: 0}
     - target: {fileID: 8561856535418673292, guid: 9294123db3fc3a54b89f62907126f122,
         type: 3}
@@ -52806,6 +52806,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1792e76dd7561aa48b79bd4f3613cdf9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  DEBUG_CALL_SHOP_AT_START: 0
   arenaID: 5
   arenaData: {fileID: 11400000, guid: 1c0092959d7447449bc6c28f22b8372a, type: 2}
   enemiesPositions:
@@ -52832,7 +52833,7 @@ MonoBehaviour:
   arenaUnlockedDoors:
   - {fileID: 1277627174}
   - {fileID: 218711682}
-  key: {fileID: 148919057}
+  key: {fileID: 0}
   isCompleted: 0
 --- !u!65 &1948280460
 BoxCollider:
@@ -54292,12 +54293,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1792e76dd7561aa48b79bd4f3613cdf9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  DEBUG_CALL_SHOP_AT_START: 0
   arenaID: 6
   arenaData: {fileID: 11400000, guid: 314d3bf796cc4b74c9eb30c93af92ce4, type: 2}
   enemiesPositions:
   - positions:
     - {x: -218.4703, y: -101.49997, z: -1021.9696}
-    - {x: -225.6695, y: -102.29999, z: -962.27686}
+    - {x: -219.12341, y: -102.29999, z: -977.9068}
     - {x: -209.04474, y: -98.78998, z: -1058.7191}
     - {x: -250.34569, y: -103.76999, z: -1034.6681}
     - {x: -163.30145, y: -98.349976, z: -974.6392}
@@ -54311,12 +54313,12 @@ MonoBehaviour:
     - {x: -265.93738, y: -92.56998, z: -1039.606}
     - {x: -280.90112, y: -94.81, z: -1015.09045}
     - {x: -210.51392, y: -92.879974, z: -1077.0184}
-    - {x: -189.64568, y: -90.47998, z: -963.1053}
+    - {x: -188.38101, y: -90.47998, z: -961.4881}
     - {x: -219.36621, y: -100.369995, z: -1002.48065}
   - positions:
     - {x: -201.6773, y: -101.29999, z: -970.0193}
     - {x: -224.46947, y: -102.49997, z: -980.8071}
-    - {x: -213.15793, y: -106.20999, z: -1040.2023}
+    - {x: -212.991, y: -105.48999, z: -1036.1584}
     - {x: -263.10205, y: -104.17999, z: -993.22327}
     - {x: -245.06476, y: -93.79999, z: -943.5947}
     - {x: -273.51352, y: -95.22998, z: -1022.2555}
@@ -55395,6 +55397,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1792e76dd7561aa48b79bd4f3613cdf9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  DEBUG_CALL_SHOP_AT_START: 0
   arenaID: 1
   arenaData: {fileID: 11400000, guid: 103c159e5a44dbd40bcc88db209be1ff, type: 2}
   enemiesPositions:
