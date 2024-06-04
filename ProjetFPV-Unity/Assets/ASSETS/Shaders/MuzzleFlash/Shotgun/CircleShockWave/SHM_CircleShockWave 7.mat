@@ -23,6 +23,7 @@ Material:
     RenderType: Transparent
   disabledShaderPasses:
   - DepthOnly
+  - SHADOWCASTER
   m_LockedProperties: 
   m_SavedProperties:
     serializedVersion: 3
@@ -36,7 +37,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _Texture2D:
-        m_Texture: {fileID: 2800000, guid: a8775932bc692fc43b3981b8133a3109, type: 3}
+        m_Texture: {fileID: 2800000, guid: 5efc8a94d42e4cc45be74d34b1aac3f4, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - unity_Lightmaps:
@@ -56,13 +57,13 @@ Material:
     - _Alpha: 0.1
     - _AlphaClip: 0
     - _AlphaToMask: 0
-    - _Blend: 0
-    - _CastShadows: 1
+    - _Blend: 2
+    - _CastShadows: 0
     - _Cull: 2
-    - _DstBlend: 10
+    - _DstBlend: 1
     - _NoisePower: 1.04
-    - _NoiseScale: 19.4
-    - _NoiseSpeed: 0.48
+    - _NoiseScale: 9.27
+    - _NoiseSpeed: 0.02
     - _QueueControl: 0
     - _QueueOffset: 0
     - _SrcBlend: 5
@@ -71,7 +72,7 @@ Material:
     - _ZWrite: 0
     - _ZWriteControl: 0
     m_Colors:
-    - _Color: {r: 16.84684, g: 11.813317, b: 7.7082243, a: 1}
+    - _Color: {r: 0.18867922, g: 0.09789959, b: 0.057849765, a: 1}
   m_BuildTextureStacks: []
 --- !u!114 &1467006338155283033
 MonoBehaviour:
