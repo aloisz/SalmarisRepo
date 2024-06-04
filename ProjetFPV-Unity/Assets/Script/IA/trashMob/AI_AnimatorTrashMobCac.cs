@@ -26,7 +26,6 @@ namespace AI
 
         private void Update()
         {
-            
             if (isAnimationPlaying(animator, SPAWN)) return;
             if (isAnimationPlaying(animator, DEATH)) return;
             if (isAnimationPlaying(animator, JUMP)) return;

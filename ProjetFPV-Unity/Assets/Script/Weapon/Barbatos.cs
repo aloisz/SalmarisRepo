@@ -8,6 +8,7 @@ public class Barbatos : Shotgun
 {
     private BarbatosInput barbatosInput;
     [SerializeField] protected List<Transform> vfxPos;
+    [SerializeField] protected float falloffDivider = 10f;
     
     private float lastTimeFired_0; // primary
     private float lastTimeFired_1; // secondary
@@ -65,7 +66,16 @@ public class Barbatos : Shotgun
 
     protected override void HitScanLogic(RaycastHit hit)
     {
-        base.HitScanLogic(hit);
+        if (hit.transform.GetComponent<Collider>() != null)
+        {
+            InstantiateBulletImpact(hit);
+        }
+        if (hit.transform.GetComponent<IDamage>() != null)
+        {
+            hit.transform.GetComponent<IDamage>().Hit(so_Weapon.weaponMode[(int)actualWeaponModeIndex].bulletDamage 
+                / (int)actualWeaponModeIndex == 0 ? (Vector3.Distance(PlayerController.transform.position, hit.point) / falloffDivider) : 1f);
+        }
+        
         if(isFirstBulletGone) return;
         if (hit.transform.TryGetComponent<IExplosion>(out IExplosion explosion))
         {
@@ -181,6 +191,11 @@ public class Barbatos : Shotgun
         }
     }
 
+    protected override void WichTypeMunitionIsGettingShot()
+    {
+        base.WichTypeMunitionIsGettingShot();
+        OnLooseAmmo.Invoke();
+    }
     /*
     private void CheckTexturesOfHitMesh(RaycastHit hit)
     {

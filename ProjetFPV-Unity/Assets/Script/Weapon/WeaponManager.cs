@@ -219,11 +219,9 @@ namespace Weapon
             {
                 case MunitionType.Raycast:
                     Raycast();
-                    OnLooseAmmo.Invoke();
                     break;
                 case MunitionType.Projectile:
                     Projectile();
-                    OnLooseAmmo.Invoke();
                     break;
             }
         }
