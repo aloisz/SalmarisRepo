@@ -20,7 +20,7 @@ namespace Weapon
         internal bool isReloading;
         
         protected float lastTimefired;
-        [HideInInspector] public int actualNumberOfBullet; 
+        public int actualNumberOfBullet; 
         [HideInInspector] public WeaponMode actualWeaponModeIndex;
         protected bool isChangingActualWeaponModeIndex;
         
@@ -137,9 +137,13 @@ namespace Weapon
             lastTimefired = Time.time;
             //Debug.Log($"Mode {so_Weapon.weaponMode[(int)actualWeaponModeIndex]}  lastTimefired {lastTimefired}");
             HudShootingAction();
-            if(!so_Weapon.weaponMode[(int)actualWeaponModeIndex].isBulletInfinite || 
-               (!PlayerKillStreak.Instance.hasInfiniteAmmo && 
-               !PlayerKillStreak.Instance.isInRageMode)) actualNumberOfBullet--;
+            if (!so_Weapon.weaponMode[(int)actualWeaponModeIndex].isBulletInfinite ||
+                !PlayerKillStreak.Instance.hasInfiniteAmmo &&
+                !PlayerKillStreak.Instance.isInRageMode)
+            {
+                Debug.Log("Shoot pew pew");
+                actualNumberOfBullet--;
+            }
             if(actualNumberOfBullet == 0) Reload();
         }
 

@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using AI;
 using Player;
 using UnityEngine;
+using UnityEngine.AI;
 using UnityEngine.Serialization;
 
 public class Director : GenericSingletonClass<Director>
@@ -131,8 +132,16 @@ public class Director : GenericSingletonClass<Director>
         {
             GameObject mob = Pooling.instance.Pop(Enum.GetName(typeof(EnemyToSpawn.EnemyKeys), e.enemyKey));
             AI_Pawn p = mob.GetComponent<AI_Pawn>();
+
+            RaycastHit hit;
+            Physics.Raycast(GetActualArenaTrigger().enemiesPositions[currentWaveIndex].positions[i],
+                Vector3.down, out hit, 500f);
             
-            mob.transform.position = GetActualArenaTrigger().enemiesPositions[currentWaveIndex].positions[i];
+            NavMeshHit navMeshHit;
+            if (NavMesh.SamplePosition(hit.point, out navMeshHit, 1.0f, NavMesh.AllAreas))
+            {
+                mob.transform.position = navMeshHit.position;
+            }
             
             _spawnedEnemies.Add(p);
 
