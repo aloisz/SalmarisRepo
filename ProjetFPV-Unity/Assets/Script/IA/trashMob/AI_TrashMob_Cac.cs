@@ -86,7 +86,7 @@ namespace AI
         protected override void FixedUpdate()
         {
             base.FixedUpdate();
-            if (isPerformingDashPhysics)
+            if (isPerformingDashPhysics && !isPawnDead)
             {
                 isPerformingDashPhysics = false;
                 Vector3 attackDir = PlayerController.Instance.transform.position - transform.position;
@@ -125,7 +125,7 @@ namespace AI
         {
             base.DestroyLogic();
             StopCoroutine(DashAttack());
-            animatorTrashMobCac.ChangeState(animatorTrashMobCac.DEATH);
+            animatorTrashMobCac.ChangeState(animatorTrashMobCac.DEATH,.2f);
         }
         
         
@@ -135,8 +135,9 @@ namespace AI
         private void CacAttackPerimeter0()
         {
             if(!isCacAttacking) return;
+            if(isPawnDead) return;
             Collider[] colliders = Physics.OverlapSphere(cacAttackPos.position, cacAttackSphereRadius, targetMask);
-            animatorTrashMobCac.ChangeState(animatorTrashMobCac.ATTACK);
+            animatorTrashMobCac.ChangeState(animatorTrashMobCac.ATTACK,.2f);
             foreach (var obj in colliders)
             {
                 if (obj.transform.CompareTag("Player"))
