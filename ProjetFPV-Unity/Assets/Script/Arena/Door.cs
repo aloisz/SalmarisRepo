@@ -10,6 +10,8 @@ public class Door : MonoBehaviour
     public int doorID;
     public Key neededKey;
 
+    private bool isDeactivated;
+
     [SerializeField] private Animator animator;
 
     private void Start()
@@ -22,19 +24,23 @@ public class Door : MonoBehaviour
     {
         if(animator) animator.SetTrigger("Open");
         else gameObject.SetActive(false);
+
+        isDeactivated = true;
     }
 
     public void ActivateDoor()
     {
         if(animator) animator.SetTrigger("Close");
         else gameObject.SetActive(true);
+
+        isDeactivated = false;
     }
 
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Player"))
         {
-            if (neededKey != null && neededKey.isPickedUp && (!neededKey.DEBUG_DONT_NEED_ARNEA_CLEARED ? neededKey.arenaTrigger.isCompleted : true))
+            if (neededKey != null && neededKey.isPickedUp && !isDeactivated && (!neededKey.DEBUG_DONT_NEED_ARNEA_CLEARED ? neededKey.arenaTrigger.isCompleted : true))
             {
                 DeactivateDoor();
             }

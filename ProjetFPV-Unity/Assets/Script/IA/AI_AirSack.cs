@@ -111,7 +111,6 @@ public class AI_AirSack : AI_Pawn
     
     public override void DestroyLogic()
     {
-        //TODO : Implement Pooling Depop 
         Pooling.instance.DePop(so_IA.poolingName, gameObject);
     }
     
