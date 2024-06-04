@@ -10,8 +10,6 @@ namespace AI
 {
     public class AI_TrashMob_Cac: AI_TrashMob
     { 
-        
-        
         [SerializeField] protected float agentDashSpeed = 500;
         private int actualCountBeforeAttack = 0;
         
@@ -23,12 +21,20 @@ namespace AI
         [ReadOnly] [SerializeField] protected bool isCacAttacking = false;
         [SerializeField] protected float damageApplied;
         
+        // Component
+        protected internal AI_AnimatorTrashMobCac animatorTrashMobCac;
+
+        protected override void Start()
+        {
+            base.Start();
+            animatorTrashMobCac = GetComponent<AI_AnimatorTrashMobCac>();
+        }
+        
         protected override void PawnBehavior()
         {
             base.PawnBehavior();
             CheckDistance();
         }
-        
         
         protected virtual void CheckDistance()
         {
@@ -58,11 +64,13 @@ namespace AI
                 
                 case var value when value < perimeters[2].distToEnemy:
                     navMeshAgent.speed = so_IA.walkingSpeed;
+                    isCacAttacking = false;
                     break;
                 
                 case var value when value < perimeters[3].distToEnemy:
                     navMeshAgent.speed = agentSpeedWhenIsToFar;
                     ChangeState(TrashMobState.Moving);
+                    isCacAttacking = false;
                     break;
             }
             base.CheckDistance();
@@ -97,6 +105,7 @@ namespace AI
         {
             isInDashAttackCoroutine = true;
             navMeshAgent.speed = 0;
+            //animatorTrashMobCac.ChangeState(animatorTrashMobCac.JUMP);
 
             yield return new WaitForSeconds(1f);
             IsPhysicNavMesh(false);
@@ -108,6 +117,15 @@ namespace AI
             ChangeState(TrashMobState.Moving);
             actualCountBeforeAttack = 0;
             isInDashAttackCoroutine = false;
+            isCacAttacking = false;
+        }
+        
+        
+        public override void DestroyLogic()
+        {
+            base.DestroyLogic();
+            StopCoroutine(DashAttack());
+            animatorTrashMobCac.ChangeState(animatorTrashMobCac.DEATH);
         }
         
         
@@ -118,7 +136,7 @@ namespace AI
         {
             if(!isCacAttacking) return;
             Collider[] colliders = Physics.OverlapSphere(cacAttackPos.position, cacAttackSphereRadius, targetMask);
-
+            animatorTrashMobCac.ChangeState(animatorTrashMobCac.ATTACK);
             foreach (var obj in colliders)
             {
                 if (obj.transform.CompareTag("Player"))

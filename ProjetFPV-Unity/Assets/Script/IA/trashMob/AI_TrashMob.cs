@@ -35,7 +35,7 @@ namespace AI
         protected override void Update()
         {
             base.Update();
-            if(trashMobState == TrashMobState.AttackingCloseRange) 
+            if(trashMobState == TrashMobState.AttackingCloseRange && !isPawnDead) 
                 transform.DOLookAt(PlayerController.Instance.transform.position + Vector3.up, 0.2f, AxisConstraint.Y);
         }
 
@@ -71,7 +71,7 @@ namespace AI
         
         public override void DestroyLogic()
         {
-            Pooling.instance.DePop(so_IA.poolingName, gameObject);
+            Pooling.instance.DelayedDePop(so_IA.poolingName, gameObject, 2);
         }
         
 

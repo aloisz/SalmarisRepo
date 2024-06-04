@@ -32,6 +32,8 @@ namespace AI
         
         [Header("--- Perimeter ---")] 
         public List<Perimeters> perimeters;
+
+        internal bool isPawnDead = false;
         
         //Component----------------------
         internal NavMeshAgent navMeshAgent;
@@ -63,6 +65,7 @@ namespace AI
             navMeshAgent.angularSpeed = so_IA.angularSpeed;
 
             actualPawnHealth = so_IA.health;
+            isPawnDead = false;
 
             visionDetector.isTrigger = true;
             visionDetector.radius = so_IA.visionDetectorRadius;
@@ -78,7 +81,7 @@ namespace AI
 
         protected virtual void Update()
         {
-            //if (!navMeshAgent.isOnNavMesh) return;
+            if (isPawnDead) return;
             
             CheckIfIsStillAlive();
             //PawnAvoidance();
@@ -117,6 +120,7 @@ namespace AI
         {
             if (actualPawnHealth <= 0)
             {
+                isPawnDead = true;
                 DestroyLogic();
 
                 RaycastHit hit;
@@ -125,6 +129,10 @@ namespace AI
                 
                 if(Director.Instance) Director.Instance.TryAddingValueFromLastKilledEnemy(enemyWeight);
                 if(PlayerKillStreak.Instance) PlayerKillStreak.Instance.NotifyEnemyKilled(mobType);
+            }
+            else
+            {
+                isPawnDead = false;
             }
         }
         public virtual void DestroyLogic(){}
