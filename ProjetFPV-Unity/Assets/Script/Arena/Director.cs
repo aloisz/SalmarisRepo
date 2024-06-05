@@ -143,6 +143,7 @@ public class Director : GenericSingletonClass<Director>
                 mob.transform.position = navMeshHit.position;
             }
             
+            p.SpawnVFX();
             _spawnedEnemies.Add(p);
 
             yield return new WaitForSeconds(GetActualWave().delayBetweenEachEnemySpawn);

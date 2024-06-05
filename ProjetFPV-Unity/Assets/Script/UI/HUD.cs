@@ -40,6 +40,7 @@ public class HUD : GenericSingletonClass<HUD>
     [SerializeField] private Image deform;
     [SerializeField] private Image vitals;
     [SerializeField] private Image speedEffect;
+    [SerializeField] private Image slideEffect;
     [SerializeField] private TextMeshProUGUI infos1;
     [SerializeField] private TextMeshProUGUI infos2;
 
@@ -48,6 +49,7 @@ public class HUD : GenericSingletonClass<HUD>
     [SerializeField] private Image[] dotsDashes;
     [SerializeField] private ParticleSystem[] dashParticleSystems;
     [SerializeField] private ParticleSystem[] dashParticleSystemsDots;
+    [SerializeField] private Image[] dashDots;
     [SerializeField] private UIParticle[] hitmarkerParticleSystems;
 
     private float _giggleX;
@@ -74,6 +76,7 @@ public class HUD : GenericSingletonClass<HUD>
         CreateMaterialInstance(deform);
         CreateMaterialInstance(vitals);
         CreateMaterialInstance(speedEffect);
+        CreateMaterialInstance(slideEffect);
 
         HitMarkerSetupPosition(hitMarkerOffset);
         
@@ -103,6 +106,8 @@ public class HUD : GenericSingletonClass<HUD>
         UIStamina();
         UIHealthShield();
         UpdateShatteredMask();
+        SlideEffect();
+        UpdateDashDots();
 
         rageBar.fillAmount = PlayerKillStreak.Instance.KillStreak / PlayerKillStreak.Instance.maxKillStreak;
         rageBar.color = PlayerKillStreak.Instance.isInRageMode ? Color.red : Color.white;
@@ -116,34 +121,6 @@ public class HUD : GenericSingletonClass<HUD>
         
         vitals.material.SetFloat("_AlertMode", 
             Mathf.Lerp(1, 0, PlayerHealth.Instance.Health / PlayerHealth.Instance.maxHealth));
-
-        var vitalsValue = PlayerHealth.Instance.Health + PlayerHealth.Instance.Shield;
-        var state = "Good";
-        switch (vitalsValue)
-        {
-            case > 150 : 
-                state = "Good";
-                break;
-            case > 100 and < 150 : 
-                state = "Damaged";
-                break;
-            case > 50 and < 100 : 
-                state = "Very Damaged";
-                break;
-            case < 50 : 
-                state = "Critical";
-                break;
-        }
-
-        infos1.text = $"Current State : {PlayerController.Instance.currentActionState}" +
-                      $"<br>Current Vitals : {state}";
-
-        var dangerProximity = PlayerController.Instance.DetectNearestEnemy() ? (int)Vector3.Distance(PlayerController.Instance.transform.position,
-            PlayerController.Instance.DetectNearestEnemy().transform.position) : 0;
-        var dangerText = dangerProximity != 0 ? dangerProximity + " m" : "None";
-        
-        infos2.text = $"{(PlayerController.Instance._rb.velocity.magnitude * 3.6f):F1} Km/h" +
-                      $"<br>Danger Proximity : {dangerText}";
         
         speedEffect.material.SetFloat("_Alpha", Mathf.Lerp(0f,0.4f, 
             (PlayerController.Instance._rb.velocity.magnitude - 15f) / (PlayerController.Instance.playerScriptable.maxRigidbodyVelocity)));
@@ -152,7 +129,8 @@ public class HUD : GenericSingletonClass<HUD>
     private void UIGiggle(Material mat, Vector2 multiplier)
     {
         _giggleX = Mathf.Lerp(_giggleX, PlayerInputs.Instance.rotateValue.x / 540f, Time.deltaTime * 1f);
-        _giggleY = Mathf.Lerp(_giggleY, (PlayerInputs.Instance.rotateValue.y / 540f) + (-PlayerController.Instance._rb.velocity.y * multiplier.y) / 700f, Time.deltaTime * 1f);
+        _giggleY = Mathf.Lerp(_giggleY, (PlayerInputs.Instance.rotateValue.y / 540f) + 
+                                        (-PlayerController.Instance._rb.velocity.y * multiplier.y) / 700f, Time.deltaTime * 1f);
         
         mat.SetFloat(ScreenGiggleX, -_giggleX * multiplier.x);
         mat.SetFloat(ScreenGiggleY, -_giggleY * multiplier.y);
@@ -175,9 +153,31 @@ public class HUD : GenericSingletonClass<HUD>
             "_AlertMode", 0.1f);
     }
 
-    public void PlayDashVFX(int index)
+    public void PlayDashVFX()
     {
+        int index = 0;
+        float stamina = PlayerStamina.Instance.staminaValue;
+        
+        if (Mathf.RoundToInt(stamina) < 33)
+        {
+            index = 0;
+        }
+
+        if (Mathf.RoundToInt(stamina) is > 33 and < 66)
+        {
+            index = 1;
+        }
+
+        if (Mathf.RoundToInt(stamina) is > 66 and < 100)
+        {
+            index = 2;
+        }
+
+        dashParticleSystems[index].Stop();
         dashParticleSystems[index].Play();
+        
+        dashParticleSystemsDots[index].Stop();
+        dashParticleSystemsDots[index].Play();
     }
 
     private void DamageBarEffect()
@@ -365,13 +365,26 @@ public class HUD : GenericSingletonClass<HUD>
         hitmarkerParticleSystems[3].rectTransform.anchoredPosition = new Vector2(offset, -offset);
     }
 
+    private void SlideEffect()
+    {
+        if (!PlayerController.Instance.isSliding)
+        {
+            slideEffect.material.SetFloat("_Alpha", 0f);
+            return;
+        }
+        slideEffect.material.SetFloat("_Alpha", Mathf.Lerp(0,1,PlayerController.Instance._rb.velocity.magnitude
+                                                               / (PlayerController.Instance.playerScriptable.maxRigidbodyVelocity / 2f)));
+        slideEffect.material.SetFloat("_Speed", Mathf.Lerp(0,1,PlayerController.Instance._rb.velocity.magnitude
+                                                               / (PlayerController.Instance.playerScriptable.maxRigidbodyVelocity / 2f)));
+    }
+
     private void UpdateDashDots()
     {
-        int i = 0;
         float stamina = PlayerStamina.Instance.staminaValue;
-        foreach (Image img in dotsDashes)
-        {
-            
-        }
+        Color disabledColor = new Color(1, 1, 1, 0.02f);
+
+        dashDots[0].color = (stamina < 33) ? disabledColor : Color.white;
+        dashDots[1].color = (stamina < 66) ? disabledColor : Color.white;
+        dashDots[2].color = (stamina < 98) ? disabledColor : Color.white;
     }
 }

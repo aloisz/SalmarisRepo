@@ -140,12 +140,20 @@ namespace CameraBehavior
         {
             if (timeElapsed < weaponSO.weaponRecoilDuration / 1.5f)
             {
-                cameraManager.smoothOffset = Quaternion.Slerp(cameraManager.smoothOffset, 
-                    Quaternion.Euler(-13 * weaponSO.weaponRecoilCameraOffsetRot, 0, -1 * weaponSO.weaponRecoilCameraOffsetRot),
+                cameraManager.smoothOffset = Quaternion.Slerp(
+                        
+                    cameraManager.smoothOffset, 
+                    
+                    Quaternion.Euler(
+                        -1 * weaponSO.weaponRecoilCameraOffsetRotXYZ.x, 
+                        weaponSO.weaponRecoilCameraOffsetRotXYZ.y, 
+                        -1 * weaponSO.weaponRecoilCameraOffsetRotXYZ.z),
+                    
                     Time.deltaTime * cameraManager.so_Camera.rotationOffSetSmooth);
             }
-            cameraManager.cameraTransform.rotation = Quaternion.Slerp(cameraManager.cameraTransform.rotation, cameraManager.smoothOffset, 
-                Time.deltaTime * 1); 
+            
+            cameraManager.cameraTransform.localRotation = Quaternion.Slerp(cameraManager.cameraTransform.localRotation, cameraManager.smoothOffset, 
+                Time.deltaTime); 
         }
 
         private void WeaponImpact(SO_WeaponMode weaponSo)
