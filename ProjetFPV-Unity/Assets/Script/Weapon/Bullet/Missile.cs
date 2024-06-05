@@ -17,6 +17,7 @@ public class Missile : BulletBehavior,IExplosion
 
     private Material _bulletMat;
     private float timer;
+    private bool alreadySpawnedDecal;
 
     protected override void Start()
     {
@@ -25,17 +26,18 @@ public class Missile : BulletBehavior,IExplosion
 
     protected override void OnEnable()
     {
-        _bulletMat = CreateMaterialInstance(baseMat);
-        meshRenderer.material = _bulletMat;
-        meshRenderer.material.SetFloat("_Blink", 0.1f);
-        
         base.OnEnable();
     }
 
     protected override void OnDisable()
     {
-        meshRenderer.material.SetFloat("_Blink", 0.1f);
         base.OnDisable();
+
+        alreadySpawnedDecal = false;
+        
+        _bulletMat = CreateMaterialInstance(baseMat);
+        meshRenderer.material = _bulletMat;
+        meshRenderer.material.SetFloat("_Blink", 0.1f);
     }
 
     protected override void Update()
@@ -45,11 +47,15 @@ public class Missile : BulletBehavior,IExplosion
         meshRenderer.material.SetFloat("_Blink", timer / bulletLifeTime);
         base.Update();
     }
-
+    
     protected override void OnCollisionEnter(Collision collision)
     {
-        DecalSpawnerManager.Instance.SpawnDecal(transform.position, collision.contacts[0].normal, DecalSpawnerManager.possibleDecals.explosionEnemy);
+        int bulletLayer = LayerMask.NameToLayer("Bullet");
         base.OnCollisionEnter(collision);
+
+        if (collision.gameObject.layer == bulletLayer || alreadySpawnedDecal) return;
+        DecalSpawnerManager.Instance.SpawnDecal(transform.position, collision.contacts[0].normal, DecalSpawnerManager.possibleDecals.explosionEnemy);
+        alreadySpawnedDecal = true;
     }
 
     // Here put following logic when bullet collide with walkableMask
@@ -124,6 +130,8 @@ public class Missile : BulletBehavior,IExplosion
         this.explosion.SetDoPlayerDamage(true);
         explosion.SetParticleIndex(1);
         explosion.particles[explosion.particlesIndex].Play();
+        
+        Debug.Log("Hit");
         
         Pooling.instance.DelayedDePop(bullet.PoolingKeyName, gameObject, 0.05f); // DePop Missile
     }
