@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
@@ -16,6 +17,8 @@ public class Barbatos : Shotgun
     private bool isPrimary;
 
     private BarbatosShootVFX shootVFX;
+
+    public Action onHitEnemy;
 
     protected override void Start()
     {
@@ -72,6 +75,7 @@ public class Barbatos : Shotgun
         }
         if (hit.transform.GetComponent<IDamage>() != null)
         {
+            onHitEnemy.Invoke();
             hit.transform.GetComponent<IDamage>().Hit(so_Weapon.weaponMode[(int)actualWeaponModeIndex].bulletDamage 
                 / (int)actualWeaponModeIndex == 0 ? (Vector3.Distance(PlayerController.transform.position, hit.point) / falloffDivider) : 1f);
         }

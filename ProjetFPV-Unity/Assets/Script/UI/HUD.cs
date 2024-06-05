@@ -1,12 +1,14 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Coffee.UIExtensions;
 using DG.Tweening;
 using NaughtyAttributes;
 using Player;
 using TMPro;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.Serialization;
 using UnityEngine.UI;
 using Weapon;
 
@@ -19,6 +21,7 @@ public class HUD : GenericSingletonClass<HUD>
     [SerializeField] [Range(0f,3f)] private float damageMaxIntensity;
     [SerializeField] private float damageDisplayDuration;
     [SerializeField] private float dispersionDividerBasedOnWepSettings = 3f;
+    [SerializeField] private float hitMarkerOffset = 3f;
     
     [Header("Curves")]
     [CurveRange(0,0,1,1)][SerializeField] private AnimationCurve crosshairAnimation;
@@ -45,6 +48,7 @@ public class HUD : GenericSingletonClass<HUD>
     [SerializeField] private Image[] dotsDashes;
     [SerializeField] private ParticleSystem[] dashParticleSystems;
     [SerializeField] private ParticleSystem[] dashParticleSystemsDots;
+    [SerializeField] private UIParticle[] hitmarkerParticleSystems;
 
     private float _giggleX;
     private float _giggleY;
@@ -70,6 +74,8 @@ public class HUD : GenericSingletonClass<HUD>
         CreateMaterialInstance(deform);
         CreateMaterialInstance(vitals);
         CreateMaterialInstance(speedEffect);
+
+        HitMarkerSetupPosition(hitMarkerOffset);
         
         foreach(var cb in crosshairBorders) CreateMaterialInstance(cb);
 
@@ -77,6 +83,7 @@ public class HUD : GenericSingletonClass<HUD>
         PlayerHealth.Instance.onHit += UpdateDamageUI;
         
         WeaponState.Instance.barbatos.OnHudShoot += CrosshairShoot;
+        WeaponState.Instance.barbatos.onHitEnemy += HitMarkerPlay;
 
         _basePositionHealthBar = healthBar.transform.localPosition;
         _basePositionShieldBar = shieldBar.transform.localPosition;
@@ -296,8 +303,8 @@ public class HUD : GenericSingletonClass<HUD>
         var cross = CheckDamageDirection(Camera.main.transform, PlayerHealth.Instance.lastEnemyPosition);
         
         float vNormalized = (cross + 1f) / 2f; // Normalize t to range from 0 to 1
-        _crossProductDamageRight = Mathf.Lerp(0, damageMaxIntensity, vNormalized);
-        _crossProductDamageLeft = Mathf.Lerp(damageMaxIntensity, 0, vNormalized);
+        _crossProductDamageRight = Mathf.Lerp(damageMaxIntensity, 0, vNormalized);
+        _crossProductDamageLeft = Mathf.Lerp(0, damageMaxIntensity, vNormalized);
     }
 
     private void UpdateShatteredMask()
@@ -341,6 +348,23 @@ public class HUD : GenericSingletonClass<HUD>
         return result;
     }
 
+    private void HitMarkerPlay()
+    {
+        foreach (var ps in hitmarkerParticleSystems)
+        {
+            ps.Stop();
+            ps.Play();
+        }
+    }
+    
+    private void HitMarkerSetupPosition(float offset)
+    {
+        hitmarkerParticleSystems[0].rectTransform.anchoredPosition = new Vector2(offset, offset);
+        hitmarkerParticleSystems[1].rectTransform.anchoredPosition = new Vector2(-offset, -offset);
+        hitmarkerParticleSystems[2].rectTransform.anchoredPosition = new Vector2(-offset, offset);
+        hitmarkerParticleSystems[3].rectTransform.anchoredPosition = new Vector2(offset, -offset);
+    }
+
     private void UpdateDashDots()
     {
         int i = 0;
@@ -350,6 +374,4 @@ public class HUD : GenericSingletonClass<HUD>
             
         }
     }
-
-    private Vector3 RemoveYValue(Vector3 v) => new (v.x, 0, v.z);
 }
