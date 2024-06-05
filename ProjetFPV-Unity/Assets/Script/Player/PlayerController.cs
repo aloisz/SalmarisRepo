@@ -197,7 +197,9 @@ namespace Player
         {
             var dividerOnSlope = (!isSlopeClimbing && isSliding ? playerScriptable.slopeSpeedDivider : 1f);
             var accelerating = _rb.velocity.magnitude < playerScriptable.speedMaxToAccelerate && !isSliding;
-            var vectorMove = DirectionFromCamera(direction).normalized * (_moveSpeed * _speedMultiplierFromDash * (accelerating ? playerScriptable.accelerationMultiplier : 1f));
+            var vectorMove = DirectionFromCamera(direction).normalized * 
+                             (_moveSpeed * _speedMultiplierFromDash * (accelerating ? playerScriptable.accelerationMultiplier : 1f)
+                                 * (isSliding ? playerScriptable.slopeClimbingSpeedMultiplier : 1f)) ;
 
             var slopeDirection = new Vector3(_raycastSlope.normal.x, 0, _raycastSlope.normal.z).normalized;
 

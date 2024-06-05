@@ -76,6 +76,8 @@ namespace Player
         [Tooltip("")]
         public AnimationCurve slideBoostCurve;
 
+        public float slopeClimbingSpeedMultiplier = 1f;
+
         //----------------------------------------------------
         
         [Header("Stamina")]
