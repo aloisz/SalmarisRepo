@@ -40,6 +40,7 @@ public class HUD : GenericSingletonClass<HUD>
     [SerializeField] private Image deform;
     [SerializeField] private Image vitals;
     [SerializeField] private Image speedEffect;
+    [SerializeField] private Image slideEffect;
     [SerializeField] private TextMeshProUGUI infos1;
     [SerializeField] private TextMeshProUGUI infos2;
 
@@ -74,6 +75,7 @@ public class HUD : GenericSingletonClass<HUD>
         CreateMaterialInstance(deform);
         CreateMaterialInstance(vitals);
         CreateMaterialInstance(speedEffect);
+        CreateMaterialInstance(slideEffect);
 
         HitMarkerSetupPosition(hitMarkerOffset);
         
@@ -103,6 +105,7 @@ public class HUD : GenericSingletonClass<HUD>
         UIStamina();
         UIHealthShield();
         UpdateShatteredMask();
+        SlideEffect();
 
         rageBar.fillAmount = PlayerKillStreak.Instance.KillStreak / PlayerKillStreak.Instance.maxKillStreak;
         rageBar.color = PlayerKillStreak.Instance.isInRageMode ? Color.red : Color.white;
@@ -152,7 +155,8 @@ public class HUD : GenericSingletonClass<HUD>
     private void UIGiggle(Material mat, Vector2 multiplier)
     {
         _giggleX = Mathf.Lerp(_giggleX, PlayerInputs.Instance.rotateValue.x / 540f, Time.deltaTime * 1f);
-        _giggleY = Mathf.Lerp(_giggleY, (PlayerInputs.Instance.rotateValue.y / 540f) + (-PlayerController.Instance._rb.velocity.y * multiplier.y) / 700f, Time.deltaTime * 1f);
+        _giggleY = Mathf.Lerp(_giggleY, (PlayerInputs.Instance.rotateValue.y / 540f) + 
+                                        (-PlayerController.Instance._rb.velocity.y * multiplier.y) / 700f, Time.deltaTime * 1f);
         
         mat.SetFloat(ScreenGiggleX, -_giggleX * multiplier.x);
         mat.SetFloat(ScreenGiggleY, -_giggleY * multiplier.y);
@@ -177,6 +181,7 @@ public class HUD : GenericSingletonClass<HUD>
 
     public void PlayDashVFX(int index)
     {
+        dashParticleSystems[index].Stop();
         dashParticleSystems[index].Play();
     }
 
@@ -363,6 +368,19 @@ public class HUD : GenericSingletonClass<HUD>
         hitmarkerParticleSystems[1].rectTransform.anchoredPosition = new Vector2(-offset, -offset);
         hitmarkerParticleSystems[2].rectTransform.anchoredPosition = new Vector2(-offset, offset);
         hitmarkerParticleSystems[3].rectTransform.anchoredPosition = new Vector2(offset, -offset);
+    }
+
+    private void SlideEffect()
+    {
+        if (!PlayerController.Instance.isSliding)
+        {
+            slideEffect.material.SetFloat("_Alpha", 0f);
+            return;
+        }
+        slideEffect.material.SetFloat("_Alpha", Mathf.Lerp(0,1,PlayerController.Instance._rb.velocity.magnitude
+                                                               / (PlayerController.Instance.playerScriptable.maxRigidbodyVelocity / 2f)));
+        slideEffect.material.SetFloat("_Speed", Mathf.Lerp(0,1,PlayerController.Instance._rb.velocity.magnitude
+                                                               / (PlayerController.Instance.playerScriptable.maxRigidbodyVelocity / 2f)));
     }
 
     private void UpdateDashDots()

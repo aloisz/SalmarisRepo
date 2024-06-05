@@ -41,6 +41,9 @@ namespace AI
         [HideInInspector] public Rigidbody rb;
         [Header("Vision Module")]
         [SerializeField] protected SphereCollider visionDetector;
+
+        [Header("VFX")] 
+        [SerializeField] private ParticleSystem VFXSpawn;
         
         protected virtual void Start()
         {
@@ -52,7 +55,19 @@ namespace AI
             
             GameManager.Instance.aiPawnsAvailable.Add(this);
         }
-        
+
+        public void SpawnVFX()
+        {
+            RaycastHit hit;
+            Physics.Raycast(transform.position, Vector3.down, out hit, 500f, PlayerController.Instance.groundLayer);
+            var pos = hit.point;
+
+            var vfx = Instantiate(VFXSpawn);
+            vfx.transform.position = pos;
+            vfx.transform.localScale *= 2f;
+            vfx.Play();
+        }
+
         public virtual void GetPawnPersonnalInformation()
         {
             navMeshAgent.enabled = true;
