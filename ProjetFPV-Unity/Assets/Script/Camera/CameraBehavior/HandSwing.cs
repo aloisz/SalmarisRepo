@@ -129,8 +129,23 @@ namespace CameraBehavior
                 heightZ = Mathf.Lerp(transitionParentPos.z, 0, heightTime);
             }
             
-            cameraManager.cameraTransform.localPosition = new Vector3(heightX,heightY, heightZ);
+            //cameraManager.cameraTransform.localPosition = new Vector3(heightX,heightY, heightZ);
+
+            Rotation(weaponSO);
+            
             WeaponImpact(weaponSO);
+        }
+        
+        private void Rotation(SO_WeaponMode weaponSO)
+        {
+            if (timeElapsed < weaponSO.weaponRecoilDuration / 1.5f)
+            {
+                cameraManager.smoothOffset = Quaternion.Slerp(cameraManager.smoothOffset, 
+                    Quaternion.Euler(-13 * weaponSO.weaponRecoilCameraOffsetRot, 0, -1 * weaponSO.weaponRecoilCameraOffsetRot),
+                    Time.deltaTime * cameraManager.so_Camera.rotationOffSetSmooth);
+            }
+            cameraManager.cameraTransform.rotation = Quaternion.Slerp(cameraManager.cameraTransform.rotation, cameraManager.smoothOffset, 
+                Time.deltaTime * 1); 
         }
 
         private void WeaponImpact(SO_WeaponMode weaponSo)

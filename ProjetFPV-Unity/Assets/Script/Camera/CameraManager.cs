@@ -172,7 +172,11 @@ namespace CameraBehavior
         private void Idle()
         {
             timer = 0;
-            smoothOffset = Quaternion.identity;
+            //smoothOffset = Quaternion.identity;
+            smoothOffset = Quaternion.Slerp(smoothOffset, Quaternion.Euler(0, so_Camera.rotationOffSet.y,
+                    -PlayerController.Instance.direction.x * so_Camera.rotationOffSet.z),
+                Time.deltaTime * so_Camera.rotationOffSetSmooth);
+            
             transitionParent.rotation = Quaternion.Slerp(transitionParent.rotation, playerTransform.rotation * smoothOffset , Time.deltaTime * actualglobalCameraRot); 
         }
 

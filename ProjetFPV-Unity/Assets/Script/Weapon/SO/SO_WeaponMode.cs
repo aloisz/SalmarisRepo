@@ -140,6 +140,7 @@ namespace Weapon
         
         [field: Space]
         [field: SerializeField] internal Vector3 weaponRecoilCameraOffset{ get; private set; }
+        [field: SerializeField][field:Range(1, 20)] internal float weaponRecoilCameraOffsetRot{ get; private set; }
         [field: SerializeField] internal AnimationCurve weaponRecoilCameraOffsetCurve{ get; private set; }
         [field: SerializeField] internal float weaponRecoilDuration{ get; private set; }
         
