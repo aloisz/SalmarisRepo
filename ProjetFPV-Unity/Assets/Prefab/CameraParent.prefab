@@ -29,8 +29,8 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 612950091941730897}
-  m_Father: {fileID: 171656782851687573}
+  - {fileID: 171656782851687573}
+  m_Father: {fileID: 8561856535418673292}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &3375880369610840122
 GameObject:
@@ -147,13 +147,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7394336622551369086}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 3575910731196181252}
-  m_Father: {fileID: 8561856535418673292}
+  - {fileID: 612950091941730897}
+  m_Father: {fileID: 3575910731196181252}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &8108733499738347442
 GameObject:
@@ -191,7 +191,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 171656782851687573}
+  - {fileID: 3575910731196181252}
   - {fileID: 3545947993598188687}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -409,9 +409,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 67e257a1ee374e188b7c79708076ce9f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  shakeDuration: 0
-  shakeMagnitude: 0
-  shakeFrequency: 0
+  shakeDuration: 0.2
+  shakeMagnitude: 0.43
+  shakeFrequency: 0.21
+  power: 4
+  shakeRot: {x: 0, y: 0, z: 0.2}
+  cameraShakePos: {fileID: 171656782851687573}
 --- !u!1 &8530161856192465735
 GameObject:
   m_ObjectHideFlags: 0
@@ -445,7 +448,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 7597889783967174112}
-  m_Father: {fileID: 3575910731196181252}
+  m_Father: {fileID: 171656782851687573}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!20 &1219454692140418237
 Camera:
