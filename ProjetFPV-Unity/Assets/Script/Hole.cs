@@ -7,9 +7,9 @@ public class Hole : MonoBehaviour
 {
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Player"))
+        if (other.GetComponent<IDamage>() != null)
         {
-            PlayerHealth.Instance.Hit(999);
+            other.GetComponent<IDamage>().Hit(999);
         }
     }
 }
