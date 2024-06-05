@@ -149,7 +149,7 @@ namespace CameraBehavior
                     break;
             }
             cameraJumping.HandlesHighSpeed();
-            cameraJumping.DisplayCameraShake();
+            //cameraJumping.DisplayCameraShake();
 
             handSwing.CameraImpact();
             cameraJumping.ImpactWhenLanding();

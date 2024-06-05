@@ -129,7 +129,7 @@ namespace CameraBehavior
                 heightZ = Mathf.Lerp(transitionParentPos.z, 0, heightTime);
             }
             
-            //cameraManager.cameraTransform.localPosition = new Vector3(heightX,heightY, heightZ);
+            cameraManager.cameraTransform.localPosition = new Vector3(heightX,heightY, heightZ);
 
             Rotation(weaponSO);
             

@@ -61,8 +61,8 @@ public class Explosion : MonoBehaviour
         damageRepartition.AddKey(0, damageInflicted);
         damageRepartition.AddKey(explosionRadius, damageInflicted / explosionRadius);
 
-        CameraManager.Instance.cameraJumping.CameraShake(7, .5f, camShakeRepartition,
-            Vector3.Distance(PlayerController.Instance.transform.position, transform.position));
+        /*CameraManager.Instance.cameraJumping.CameraShake(7, 2, camShakeRepartition,
+            Vector3.Distance(PlayerController.Instance.transform.position, transform.position));*/
         
         Explode();
         

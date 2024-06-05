@@ -53,7 +53,7 @@ namespace CameraBehavior
                 Vector3.Lerp(cameraPos.position,  baseCameraPos.position + offSet, 
                     Time.deltaTime * (cameraManager.so_Camera.positionOffSetSmooth));
         }
-        
+
         public void Jumping()
         {
             if(!PlayerController.Instance.isMoving)
@@ -108,48 +108,6 @@ namespace CameraBehavior
                     Time.deltaTime * jumpHandSwingSpeed);
             }
             else cameraManager.handSwing.JumpingOffSetY = 0f; // weapon smooth
-        }
-
-        internal float strenght;
-        internal float duration;
-        private float shakeTimer;
-        internal AnimationCurve shakeCurve;
-        internal float distToObject;
-        
-        internal void DisplayCameraShake()
-        {
-            if (shakeTimer < duration)
-            {
-                shakeTimer += Time.deltaTime * cameraManager.so_Camera.JumpingBobbingSpeed;
-                
-                cameraManager.smoothOffset =
-                    Quaternion.Slerp(cameraManager.smoothOffset, Quaternion.Euler(0, cameraManager.so_Camera.rotationOffSet.y,
-                            cameraManager.so_Camera.rotationOffSet.z * (Mathf.Cos(shakeTimer) * (strenght *
-                                shakeCurve.Evaluate((distToObject))))),
-                        shakeTimer * cameraManager.so_Camera.rotationOffSetSmooth);
-
-
-                cameraManager.transitionParent.rotation = Quaternion.Slerp(cameraManager.transitionParent.rotation,
-                    cameraManager.playerTransform.rotation * cameraManager.smoothOffset,
-                    shakeTimer * cameraManager.so_Camera.rotationOffSetSmooth);
-                
-            }
-            else
-            {
-                shakeTimer = 0;
-                this.strenght = 0;
-                this.duration = 0;
-                this.shakeCurve = null;
-                this.distToObject = 0;
-            }
-        }
-
-        public void CameraShake(float strenght, float duration, AnimationCurve curveToEvaluate, float distToObject)
-        {
-            this.strenght = strenght;
-            this.duration = duration;
-            this.shakeCurve = curveToEvaluate;
-            this.distToObject = distToObject;
         }
 
 
