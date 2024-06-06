@@ -14,7 +14,6 @@ public class Director : GenericSingletonClass<Director>
     
     public float levelTimer;
     
-    
     [SerializeField] private float playerPerformanceComparisonDelay = 0.25f;
     [SerializeField] private List<ArenaTrigger> arenas = new List<ArenaTrigger>();
 
@@ -270,7 +269,11 @@ public class Director : GenericSingletonClass<Director>
         
         if (GetActualArenaTrigger().arenaUnlockedDoors.Length > 0)
         {
-            foreach(Door d in GetActualArenaTrigger().arenaUnlockedDoors) d.DeactivateDoor();
+            foreach (Door d in GetActualArenaTrigger().arenaUnlockedDoors)
+            {
+                d.DeactivateDoor();
+                d.ActivateLockedDoor();
+            }
         }
 
         if(GetActualArenaData().shouldSpawnShopAtTheEnd) 
