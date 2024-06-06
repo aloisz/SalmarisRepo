@@ -137,6 +137,9 @@ namespace AI
             {
                 isPawnDead = true;
                 DestroyLogic();
+                
+                GetComponent<Rigidbody>().velocity = Vector3.zero;
+                GetComponent<NavMeshAgent>().enabled = false;
 
                 RaycastHit hit;
                 Physics.Raycast(transform.position, Vector3.down, out hit, 500, PlayerController.Instance.groundLayer);

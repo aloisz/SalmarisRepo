@@ -148,6 +148,16 @@ namespace Weapon
         [field: Header("-----VFX-----")] 
         [field: SerializeField] internal ParticleSystem weaponParticle{ get; private set; }
         [field: SerializeField] internal ParticleSystem reloadParticle{ get; private set; }
+
+        [field: Header("-----Shake-----")]
+        
+        [field: SerializeField] internal float shakeDuration { get; private set; }
+        [field: SerializeField] internal float shakeMagnitude { get; private set; }
+        [field: SerializeField] internal float shakeMagnitudeRot { get; private set; }
+        [field: SerializeField] internal float shakeMagnitudeFrequency { get; private set; }
+        [field: SerializeField] internal bool shakeApplyFadeOut { get; private set; }
+        [field: SerializeField] internal float shakePower { get; private set; }
+
         #endregion
     }
     

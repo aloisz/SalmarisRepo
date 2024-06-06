@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using CameraBehavior;
 using UnityEditor;
 using UnityEngine;
 using Weapon;
@@ -65,8 +66,6 @@ public class Barbatos : Shotgun
         ShootingAction();
     }
     
-
-
     protected override void HitScanLogic(RaycastHit hit)
     {
         if (hit.transform.GetComponent<Collider>() != null)
@@ -77,7 +76,8 @@ public class Barbatos : Shotgun
         {
             onHitEnemy.Invoke();
             hit.transform.GetComponent<IDamage>().Hit(so_Weapon.weaponMode[(int)actualWeaponModeIndex].bulletDamage 
-                / (int)actualWeaponModeIndex == 0 ? (Vector3.Distance(PlayerController.transform.position, hit.point) / falloffDivider) : 1f);
+                / (int)actualWeaponModeIndex == 0 ? (Vector3.Distance(PlayerController.transform.position
+                    + PlayerController.transform.forward * 4f, hit.point) / falloffDivider) : 1f);
         }
         
         if(isFirstBulletGone) return;
@@ -112,8 +112,6 @@ public class Barbatos : Shotgun
         ParticleSystem particle = Instantiate(so_Weapon.weaponMode[(int)actualWeaponModeIndex].reloadParticle,
             vfxPos[2].position, gunBarrelPos.transform.rotation, transform);
         particle.Play();
-        
-        
     }
 
     private void PlayParticle()
@@ -199,7 +197,29 @@ public class Barbatos : Shotgun
     {
         base.WichTypeMunitionIsGettingShot();
         OnLooseAmmo.Invoke();
+
+        GenerateCamShakeOnShoot();
     }
+    
+    void GenerateCamShakeOnShoot()
+    {
+        var mode = so_Weapon.weaponMode[(int)actualWeaponModeIndex];
+        switch (actualWeaponModeIndex)
+        {
+            case WeaponMode.Primary:
+                
+                CameraShake.Instance.ShakeCamera(mode.shakeDuration, mode.shakeMagnitude, mode.shakeMagnitudeRot, mode.shakeMagnitudeFrequency, 
+                    mode.shakeApplyFadeOut, mode.shakePower);
+                
+                break;
+            case WeaponMode.Secondary:
+                
+                break;
+            default:
+                throw new ArgumentOutOfRangeException();
+        }
+    }
+    
     /*
     private void CheckTexturesOfHitMesh(RaycastHit hit)
     {
