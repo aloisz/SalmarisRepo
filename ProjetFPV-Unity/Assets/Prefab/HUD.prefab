@@ -4920,10 +4920,10 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 1862569040812754032}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 1920, y: 1080.3}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &5627000072944895435
 CanvasRenderer:
@@ -41328,7 +41328,7 @@ MonoBehaviour:
   damageMaxIntensity: 0.4
   damageDisplayDuration: 1
   dispersionDividerBasedOnWepSettings: 3
-  hitMarkerOffset: 3
+  hitMarkerOffset: 20
   crosshairAnimation:
     serializedVersion: 2
     m_Curve:
@@ -41507,15 +41507,12 @@ MonoBehaviour:
   deform: {fileID: 6141632573751004017}
   vitals: {fileID: 2004166970019841520}
   speedEffect: {fileID: 6319954801100441644}
-  slideEffect: {fileID: 0}
-  infos1: {fileID: 4370704963598755}
-  infos2: {fileID: 7333197991320930678}
+  slideEffect: {fileID: 4773171049605199131}
   crosshairBorders:
   - {fileID: 5231141440020606349}
   - {fileID: 2795039868911831994}
   - {fileID: 2814193715448065153}
   - {fileID: 2991194578247945785}
-  dotsDashes: []
   dashParticleSystems:
   - {fileID: 23385463094372360}
   - {fileID: 7673890515165981078}
@@ -41524,8 +41521,15 @@ MonoBehaviour:
   - {fileID: 2376413842227863919}
   - {fileID: 9121285098641872347}
   - {fileID: 6363331644035406173}
-  dashDots: []
-  hitmarkerParticleSystems: []
+  dashDots:
+  - {fileID: 7203286866685412230}
+  - {fileID: 5693589393684832389}
+  - {fileID: 5561220617117311712}
+  hitmarkerParticleSystems:
+  - {fileID: 3989519025196046168}
+  - {fileID: 6115771682174936874}
+  - {fileID: 7836651197228837315}
+  - {fileID: 5038858570712634370}
 --- !u!1 &4852999294358899059
 GameObject:
   m_ObjectHideFlags: 0
