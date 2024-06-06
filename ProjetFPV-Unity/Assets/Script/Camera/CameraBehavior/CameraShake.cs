@@ -15,9 +15,8 @@ namespace CameraBehavior
         public float shakeMagnitude;
         public float shakeFrequency;
         public float power;
-        
-        [Header("Rot")]
-        public Vector3 shakeRot;
+
+        public float shakeMagnitudeRot;
 
         public Transform cameraShakePos;
 
@@ -37,24 +36,93 @@ namespace CameraBehavior
         {
             if (Input.GetKeyDown(KeyCode.Tab))
             {
-                ShakeCamera(shakeDuration, shakeMagnitude, shakeFrequency, true, power);
+                ShakeCamera(shakeDuration, shakeMagnitude, shakeMagnitudeRot, shakeFrequency, true, power);
             }
             cameraShakePos.position = Vector3.Lerp(cameraShakePos.position, cameraManager.transitionParent.position, Time.deltaTime * 100);
-            
-            /*cameraShakePos.localRotation *=   
-                Quaternion.Slerp(cameraShakePos.localRotation, 
-                    Quaternion.Euler(0, cameraManager.so_Camera.rotationOffSet.y, cameraManager.so_Camera.rotationOffSet.z),
-                    Time.deltaTime * 100);*/
         }
 
-        public void ShakeCamera(float shakeDuration, float shakeMagnitude, float shakeFrequency, bool applyFadeOut, float power)
+        /// <summary>
+        /// Shake Camera Position or Rotation 
+        /// </summary>
+        /// <param name="isPos">is either Position or Rotation affected</param>
+        /// <param name="shakeDuration"></param>
+        /// <param name="shakeMagnitude"></param>
+        /// <param name="shakeFrequency"></param>
+        /// <param name="applyFadeOut"></param>
+        /// <param name="power"></param>
+        public void ShakeCamera(bool isPos, float shakeDuration, float shakeMagnitude, float shakeFrequency, bool applyFadeOut, float power)
         {
             StopAllCoroutines();
-            StartCoroutine(Shake(shakeDuration, shakeMagnitude, shakeFrequency, applyFadeOut, power));
+            StartCoroutine(isPos
+                ? ShakePos(shakeDuration, shakeMagnitude, shakeFrequency, applyFadeOut, power)
+                : ShakeRot(shakeDuration, shakeMagnitude, shakeFrequency, applyFadeOut, power));
+        }
+        
+        /// <summary>
+        /// Shake Camera Position and Rotation 
+        /// </summary>
+        /// <param name="shakeDuration"></param>
+        /// <param name="shakeMagnitude"></param>
+        /// <param name="shakeFrequency"></param>
+        /// <param name="applyFadeOut"></param>
+        /// <param name="power"></param>
+        /// <param name="isPos"></param>
+        public void ShakeCamera(float shakeDuration, float shakeMagnitude, float shakeMagnitudeRot, float shakeFrequency, bool applyFadeOut, float power)
+        {
+            StopAllCoroutines();
+            StartCoroutine(ShakePosRot(shakeDuration, shakeMagnitude, shakeMagnitudeRot, shakeFrequency, applyFadeOut, power));
         }
         
         
-        private IEnumerator Shake(float shakeDuration, float shakeMagnitude, float shakeFrequency, bool applyFadeOut, float power)
+        private IEnumerator ShakePos(float shakeDuration, float shakeMagnitude, float shakeFrequency, bool applyFadeOut, float power)
+        {
+            float elapsed = 0.0f;
+            while (elapsed < shakeDuration)
+            {
+                float percentComplete = elapsed / shakeDuration;
+                float damper = applyFadeOut ? Mathf.Exp(-power * percentComplete) : 1.0f;
+                float x = Random.Range(-1f, 1f) * shakeMagnitude * damper ;
+                float y = Random.Range(-1f, 1f) * shakeMagnitude * damper;
+                float z = Random.Range(-1f, 1f) * shakeMagnitude * damper;
+
+                cameraShakePos.position = Vector3.Lerp( cameraManager.camera.transform.position, cameraShakePos.position + new Vector3(x, y, 0), percentComplete);
+                cameraManager.handSwing.transform.position = 
+                    Vector3.Lerp( cameraManager.handSwing.transform.position, cameraManager.handSwing.transform.position + new Vector3(x/10, y/10, z/10), percentComplete);
+
+                elapsed += Time.deltaTime * shakeFrequency;
+
+                yield return null;
+            }
+        }
+        
+        private IEnumerator ShakeRot(float shakeDuration, float shakeMagnitudeRot, float shakeFrequency, bool applyFadeOut, float power)
+        {
+            float elapsed = 0.0f;
+            while (elapsed < shakeDuration)
+            {
+                float percentComplete = elapsed / shakeDuration;
+                float damper = applyFadeOut ? Mathf.Exp(-power * percentComplete) : 1.0f;
+                float rotX = Random.Range(-1f, 1f) * (shakeMagnitudeRot) * damper;
+                float rotY = Random.Range(-1f, 1f) * (shakeMagnitudeRot) * damper;
+                float rotZ = Random.Range(-1f, 1f) * (shakeMagnitudeRot) * damper;
+                
+                cameraManager.smoothOffset =
+                    Quaternion.Slerp(cameraManager.smoothOffset, Quaternion.Euler(rotX, rotY,
+                            rotZ * (Mathf.Cos(elapsed))),
+
+                        Time.deltaTime * cameraManager.so_Camera.rotationOffSetSmooth);
+                
+                cameraShakePos.rotation = Quaternion.Slerp(cameraShakePos.rotation,
+                    cameraManager.playerTransform.rotation * cameraManager.smoothOffset,
+                    Time.deltaTime * cameraManager.so_Camera.rotationOffSetSmooth);
+
+                elapsed += Time.deltaTime * shakeFrequency;
+
+                yield return null;
+            }
+        }
+        
+        private IEnumerator ShakePosRot(float shakeDuration, float shakeMagnitude, float shakeMagnitudeRot, float shakeFrequency, bool applyFadeOut, float power)
         {
             float elapsed = 0.0f;
             while (elapsed < shakeDuration)
@@ -69,9 +137,20 @@ namespace CameraBehavior
                 cameraManager.handSwing.transform.position = 
                     Vector3.Lerp( cameraManager.handSwing.transform.position, cameraManager.handSwing.transform.position + new Vector3(x/10, y/10, z/10), percentComplete);
                 
-                /*cameraShakePos.localRotation *=   
-                    Quaternion.Slerp(cameraShakePos.localRotation, Quaternion.Euler(x, shakeRot.y, y),
-                        percentComplete);*/
+                
+                float rotX = Random.Range(-1f, 1f) * (shakeMagnitudeRot) * damper ;
+                float rotY = Random.Range(-1f, 1f) * (shakeMagnitudeRot) * damper;
+                float rotZ = Random.Range(-1f, 1f) * (shakeMagnitudeRot) * damper;
+                
+                cameraManager.smoothOffset =
+                    Quaternion.Slerp(cameraManager.smoothOffset, Quaternion.Euler(rotX, rotY,
+                            rotZ * (Mathf.Cos(elapsed))),
+
+                        Time.deltaTime * cameraManager.so_Camera.rotationOffSetSmooth);
+                
+                cameraShakePos.rotation = Quaternion.Slerp(cameraShakePos.rotation,
+                    cameraManager.playerTransform.rotation * cameraManager.smoothOffset,
+                    Time.deltaTime * cameraManager.so_Camera.rotationOffSetSmooth);
 
                 elapsed += Time.deltaTime * shakeFrequency;
 
