@@ -103,6 +103,7 @@ namespace CameraBehavior
         public void CameraImpact()
         {
             if(!isShooting) return;
+            
             var weaponSO = weapon.so_Weapon.weaponMode[(int)weapon.actualWeaponModeIndex];
             
             if (timeElapsed > weaponSO.weaponRecoilDuration)
