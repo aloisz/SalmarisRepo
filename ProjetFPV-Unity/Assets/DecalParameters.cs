@@ -9,15 +9,18 @@ using Random = UnityEngine.Random;
 
 public class DecalParameters : MonoBehaviour
 {
+    [SerializeField] private bool justUseAlphaFade;
+
+    [ShowIf("justUseAlphaFade")] [SerializeField]
+    private float alphaFadeDelay;
+    
     [SerializeField] private PropertyDissolve[] property;
 
     private DecalProjector decal;
-    private Material mat;
 
     private void Awake()
     {
         decal = GetComponent<DecalProjector>();
-        mat = decal.material;
         CreateMaterialInstance(decal);
     }
 
@@ -29,6 +32,8 @@ public class DecalParameters : MonoBehaviour
 
     private void OnEnable()
     {
+        decal.fadeFactor = 1f;
+        
         foreach (PropertyDissolve p in property)
         {
             decal.material.SetFloat(p.propertyNameFade, 1f);
@@ -38,6 +43,13 @@ public class DecalParameters : MonoBehaviour
 
     public void SpawnDecal(string key)
     {
+        if (justUseAlphaFade)
+        {
+            StartCoroutine(FadeDecal(alphaFadeDelay));
+            Pooling.instance.DelayedDePop(key, gameObject, alphaFadeDelay);
+            return;
+        }
+        
         var lifeTime = 0f;
         
         foreach (PropertyDissolve p in property)
@@ -55,6 +67,20 @@ public class DecalParameters : MonoBehaviour
         }
         
         Pooling.instance.DelayedDePop(key, gameObject, lifeTime);
+    }
+
+    IEnumerator FadeDecal(float fadeDuration)
+    {
+        float elapsedTime = 0f;
+        while (elapsedTime < fadeDuration)
+        {
+            elapsedTime += Time.deltaTime;
+            float alpha = Mathf.Lerp(1f, 0, elapsedTime / fadeDuration);
+
+            decal.fadeFactor = alpha;
+
+            yield return null;
+        }
     }
 }
 
