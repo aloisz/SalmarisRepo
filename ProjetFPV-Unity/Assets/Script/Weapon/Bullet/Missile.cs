@@ -54,7 +54,7 @@ public class Missile : BulletBehavior,IExplosion
         base.OnCollisionEnter(collision);
 
         if (collision.gameObject.layer == bulletLayer || alreadySpawnedDecal) return;
-        DecalSpawnerManager.Instance.SpawnDecal(transform.position, collision.contacts[0].normal, DecalSpawnerManager.possibleDecals.explosionEnemy);
+        DecalSpawnerManager.Instance.SpawnDecal(transform.position, collision.contacts[0].normal, "Explosion_Enemy_Decal");
         alreadySpawnedDecal = true;
     }
 

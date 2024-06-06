@@ -155,14 +155,11 @@ float3 ComputeSSGI(float2 uv)
         return sceneColor;
     }
     
-    
-    
     const float3 rayOrigin = float3((uv * 2.0) - 1.0, sceneDepth);
     float3 accumulatedColor = float3(0, 0, 0);
     int hitMask = 0;
     float sum = 0.0;
-
-
+    
     float t = (_Time.y * 60.0) % 60.0;
     float2 p = uv.xy * _ScreenParams.xy;
     [loop]
