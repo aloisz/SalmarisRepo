@@ -41,12 +41,9 @@ public class HUD : GenericSingletonClass<HUD>
     [SerializeField] private Image vitals;
     [SerializeField] private Image speedEffect;
     [SerializeField] private Image slideEffect;
-    [SerializeField] private TextMeshProUGUI infos1;
-    [SerializeField] private TextMeshProUGUI infos2;
 
     [Header("Components Lists")]
     [SerializeField] private List<Image> crosshairBorders = new List<Image>();
-    [SerializeField] private Image[] dotsDashes;
     [SerializeField] private ParticleSystem[] dashParticleSystems;
     [SerializeField] private ParticleSystem[] dashParticleSystemsDots;
     [SerializeField] private Image[] dashDots;
