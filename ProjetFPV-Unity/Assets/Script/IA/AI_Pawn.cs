@@ -140,7 +140,7 @@ namespace AI
 
                 RaycastHit hit;
                 Physics.Raycast(transform.position, Vector3.down, out hit, 500, PlayerController.Instance.groundLayer);
-                DecalSpawnerManager.Instance.SpawnDecal(hit.point, hit.normal, DecalSpawnerManager.possibleDecals.deathEnemy);
+                DecalSpawnerManager.Instance.SpawnDecal(hit.point, hit.normal, "Enemy_Death_Decal");
                 
                 if(Director.Instance) Director.Instance.TryAddingValueFromLastKilledEnemy(enemyWeight);
                 if(PlayerKillStreak.Instance) PlayerKillStreak.Instance.NotifyEnemyKilled(mobType);

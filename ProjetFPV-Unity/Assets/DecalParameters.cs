@@ -12,14 +12,32 @@ public class DecalParameters : MonoBehaviour
     [SerializeField] private PropertyDissolve[] property;
 
     private DecalProjector decal;
-    
-    // Start is called before the first frame update
-    void Start()
+    private Material mat;
+
+    private void Awake()
     {
         decal = GetComponent<DecalProjector>();
-        
+        mat = decal.material;
         CreateMaterialInstance(decal);
+    }
 
+    private void CreateMaterialInstance(DecalProjector decalToGetMaterialFrom)
+    {
+        var material = Instantiate(decalToGetMaterialFrom.material);
+        decalToGetMaterialFrom.material = material;
+    }
+
+    private void OnEnable()
+    {
+        foreach (PropertyDissolve p in property)
+        {
+            decal.material.SetFloat(p.propertyNameFade, 1f);
+            decal.material.SetFloat(p.propertyName, 1f);
+        }
+    }
+
+    public void SpawnDecal(string key)
+    {
         var lifeTime = 0f;
         
         foreach (PropertyDissolve p in property)
@@ -35,14 +53,8 @@ public class DecalParameters : MonoBehaviour
             decal.material.DOFloat(p.finalValue, p.propertyName, p.animDuration * rand).SetDelay(p.delayBeforeFinalValue + p.delayBeforeFinalValueFade);
             lifeTime += p.animDuration * rand + p.delayBeforeFinalValue;
         }
-
-        Destroy(gameObject, lifeTime);
-    }
-    
-    private void CreateMaterialInstance(DecalProjector decalToGetMaterialFrom)
-    {
-        var mat = Instantiate(decalToGetMaterialFrom.material);
-        decalToGetMaterialFrom.material = mat;
+        
+        Pooling.instance.DelayedDePop(key, gameObject, lifeTime);
     }
 }
 
