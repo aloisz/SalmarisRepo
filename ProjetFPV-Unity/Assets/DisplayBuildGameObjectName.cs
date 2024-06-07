@@ -6,7 +6,7 @@ using UnityEngine;
 public class DisplayBuildGameObjectName : MonoBehaviour
 {
     // Start is called before the first frame update
-    void Start()
+    void Update()
     {
         GetComponent<TextMeshPro>().text = gameObject.transform.parent.name;
     }
