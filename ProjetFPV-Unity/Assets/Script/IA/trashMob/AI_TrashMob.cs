@@ -27,9 +27,9 @@ namespace AI
             AttackingCloseRange
         }
 
-        protected virtual void Start()
+        protected virtual void Awake()
         {
-            base.Start();
+            base.Awake();
         }
         
         protected override void Update()

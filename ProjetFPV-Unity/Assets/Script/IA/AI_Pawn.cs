@@ -45,15 +45,14 @@ namespace AI
         [Header("VFX")] 
         [SerializeField] private ParticleSystem VFXSpawn;
         
-        protected virtual void Start()
+        protected virtual void Awake()
         {
             navMeshAgent = GetComponent<NavMeshAgent>();
             agentLinkMover = GetComponent<AgentLinkMover>();
             rb = GetComponent<Rigidbody>();
             
-            GetPawnPersonnalInformation();
-            
-            GameManager.Instance.aiPawnsAvailable.Add(this);
+            //GetPawnPersonnalInformation();
+            //GameManager.Instance.aiPawnsAvailable.Add(this);
         }
 
         public void SpawnVFX()

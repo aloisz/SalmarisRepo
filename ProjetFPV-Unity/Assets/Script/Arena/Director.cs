@@ -123,6 +123,8 @@ public class Director : GenericSingletonClass<Director>
     {
         int i = 0;
         _hasFinishSpawningEnemies = false;
+        
+        Debug.LogError("START SPAWN");
 
         foreach (EnemyToSpawn e in GetActualWave().enemiesToSpawn)
         {
@@ -131,8 +133,6 @@ public class Director : GenericSingletonClass<Director>
             mob.name = $"{Enum.GetName(typeof(EnemyToSpawn.EnemyKeys), e.enemyKey)}<br>Arena : {currentArenaIndex}<br>Wave : {currentWaveIndex}";
             
             AI_Pawn p = mob.GetComponent<AI_Pawn>();
-            p.GetPawnPersonnalInformation();
-
             RaycastHit hit;
             Physics.Raycast(GetActualArenaTrigger().enemiesPositions[currentWaveIndex].positions[i],
                 Vector3.down, out hit, 500f);
@@ -145,12 +145,14 @@ public class Director : GenericSingletonClass<Director>
             
             p.SpawnVFX();
             _spawnedEnemies.Add(p);
+            
+            p.GetPawnPersonnalInformation();
 
             yield return new WaitForSeconds(GetActualWave().delayBetweenEachEnemySpawn);
 
             i++;
         }
-        
+        Debug.LogError("END SPAWN");
         _hasFinishSpawningEnemies = true;
         _hasStartedWave = false;
     }

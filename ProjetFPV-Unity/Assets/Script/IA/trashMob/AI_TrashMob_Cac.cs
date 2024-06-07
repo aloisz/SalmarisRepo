@@ -24,9 +24,9 @@ namespace AI
         // Component
         protected internal AI_AnimatorTrashMobCac animatorTrashMobCac;
 
-        protected override void Start()
+        protected override void Awake()
         {
-            base.Start();
+            base.Awake();
             animatorTrashMobCac = GetComponent<AI_AnimatorTrashMobCac>();
         }
         

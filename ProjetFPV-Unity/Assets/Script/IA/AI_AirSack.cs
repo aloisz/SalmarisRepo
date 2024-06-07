@@ -29,9 +29,9 @@ public class AI_AirSack : AI_Pawn
         RunningAway
     }
 
-    protected override void Start()
+    protected override void Awake()
     {
-        base.Start();
+        base.Awake();
         weapon = GetComponent<WeaponManager>();
     }
     

@@ -30,9 +30,9 @@ public class AI_Smasher : AI_Pawn
         Perimeter_3
     }
 
-    protected override void Start()
+    protected override void Awake()
     {
-        base.Start();
+        base.Awake();
         aiSmasherAnimator = GetComponent<AI_SmasherAnimator>();
     }
     

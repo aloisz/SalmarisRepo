@@ -18,9 +18,9 @@ namespace AI
         protected bool isShooting;
         internal Ai_AnimatorTrashShooter animatorTrashShooter;
         
-        protected override void Start()
+        protected override void Awake()
         {
-            base.Start();
+            base.Awake();
             weapon = GetComponent<WeaponManager>();
             animatorTrashShooter = GetComponent<Ai_AnimatorTrashShooter>();
             if (isPawnStatic) agentLinkMover.enabled = false;
