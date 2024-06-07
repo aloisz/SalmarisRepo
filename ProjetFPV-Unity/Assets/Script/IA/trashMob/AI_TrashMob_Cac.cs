@@ -38,6 +38,7 @@ namespace AI
         
         protected virtual void CheckDistance()
         {
+            return;
             switch (Vector3.Distance(PlayerController.Instance.transform.position, transform.position))
             {
                 case var value when value < perimeters[0].distToEnemy:
