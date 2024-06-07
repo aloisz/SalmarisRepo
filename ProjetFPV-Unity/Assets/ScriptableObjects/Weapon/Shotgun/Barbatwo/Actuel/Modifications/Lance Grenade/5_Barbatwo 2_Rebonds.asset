@@ -10,23 +10,22 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e3b10aa3250894e4cba4310054138f27, type: 3}
-  m_Name: 7_Barbatwo_PluieDeGrenades
+  m_Name: 5_Barbatwo 2_Rebonds
   m_EditorClassIdentifier: 
-  <selectiveFireState>k__BackingField: 1
+  <selectiveFireState>k__BackingField: 2
   <munitionTypeState>k__BackingField: 1
   modeName: Rebonds
   modeIndex: 1
-  modeCostToBuy: 25
+  modeCostToBuy: 0
   modeIcon: {fileID: 0}
-  modeDescription: "Tire 3 projectiles \xE0 la suite mais diminue leur port\xE9e
-    maximale."
+  modeDescription: "Le projectile rebondit d\xE9sormais et explose \xE0 chaque impact."
   <isBulletInfinite>k__BackingField: 1
   <numberOfBullet>k__BackingField: 6
   <timeToReload>k__BackingField: 0
   <bulletDamage>k__BackingField: 25
   <fireRate>k__BackingField: 0.675
-  <burstAmount>k__BackingField: 3
-  <burstTime>k__BackingField: 0.25
+  <burstAmount>k__BackingField: 6
+  <burstTime>k__BackingField: 0
   <isRayDistanceNotInfinte>k__BackingField: 0
   <RayDistance>k__BackingField: 1000
   <raycastType>k__BackingField: 0
@@ -53,13 +52,13 @@ MonoBehaviour:
   <doExplosion>k__BackingField: 0
   <explosionRadius>k__BackingField: {x: 0, y: 0}
   <explosionDamage>k__BackingField: {x: 0, y: 0}
-  <projectileType>k__BackingField: 0
-  <bounceNbr>k__BackingField: 1
+  <projectileType>k__BackingField: 1
+  <bounceNbr>k__BackingField: 3
   <whoIsTheTarget>k__BackingField:
     serializedVersion: 2
     m_Bits: 448
-  <dragApply>k__BackingField: 0.8
-  <gravityApplied>k__BackingField: 120
+  <dragApply>k__BackingField: 0.5
+  <gravityApplied>k__BackingField: 80
   <vectorUpApplied>k__BackingField: 0
   <poolingPopKey>k__BackingField: BarbatwoBullet
   <weaponRecoilPosX>k__BackingField: {x: 0, y: 0}
@@ -99,3 +98,9 @@ MonoBehaviour:
     type: 3}
   <reloadParticle>k__BackingField: {fileID: 2694217312978912468, guid: cc7b8b2a57a169548a1b34045c7b4003,
     type: 3}
+  <shakeDuration>k__BackingField: 0
+  <shakeMagnitude>k__BackingField: 0
+  <shakeMagnitudeRot>k__BackingField: 0
+  <shakeMagnitudeFrequency>k__BackingField: 0
+  <shakeApplyFadeOut>k__BackingField: 0
+  <shakePower>k__BackingField: 0
