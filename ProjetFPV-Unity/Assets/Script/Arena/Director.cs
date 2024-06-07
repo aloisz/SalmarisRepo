@@ -127,6 +127,7 @@ public class Director : GenericSingletonClass<Director>
         foreach (EnemyToSpawn e in GetActualWave().enemiesToSpawn)
         {
             GameObject mob = Pooling.instance.Pop(Enum.GetName(typeof(EnemyToSpawn.EnemyKeys), e.enemyKey));
+            mob.name = $"{Enum.GetName(typeof(EnemyToSpawn.EnemyKeys), e.enemyKey)}<br>Arena : {currentArenaIndex}<br>Wave : {currentWaveIndex}";
             AI_Pawn p = mob.GetComponent<AI_Pawn>();
 
             RaycastHit hit;

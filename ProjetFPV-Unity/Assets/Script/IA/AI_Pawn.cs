@@ -15,7 +15,7 @@ namespace AI
     public class AI_Pawn : MonoBehaviour, IDamage
     {
         [SerializeField] protected Transform targetToFollow;
-        [SerializeField] protected SO_IA so_IA;
+        [SerializeField] public SO_IA so_IA;
         
         [Header("Pawn Properties")]
         public LayerMask targetMask;
@@ -138,7 +138,7 @@ namespace AI
                 isPawnDead = true;
                 DestroyLogic();
                 
-                GetComponent<Rigidbody>().velocity = Vector3.zero;
+                if(!GetComponent<Rigidbody>().isKinematic) GetComponent<Rigidbody>().velocity = Vector3.zero;
                 GetComponent<Rigidbody>().useGravity = false;
                 GetComponent<NavMeshAgent>().enabled = false;
 

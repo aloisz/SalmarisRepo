@@ -120,7 +120,11 @@ public class Originator : MonoBehaviour
     private void ReturnAllEnemiesInPool()
     {
         AI_Pawn[] pawns = FindObjectsOfType<AI_Pawn>();
-        foreach(AI_Pawn p in pawns) p.DestroyLogic();
+        foreach (AI_Pawn p in pawns)
+        {
+            p.navMeshAgent.enabled = false;
+            Pooling.instance.DePop(p.so_IA.poolingName, p.gameObject);
+        }
     }
 
     private void ReturnAllDecalsInPool()

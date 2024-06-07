@@ -81,7 +81,7 @@ namespace AI
             base.OnDrawGizmos();
             if(Application.isPlaying)
             {
-                Handles.Label(transform.position + Vector3.up, navMeshAgent.enabled.ToString(), new GUIStyle(){fontSize = 80});
+                //Handles.Label(transform.position + Vector3.up, navMeshAgent.enabled.ToString(), new GUIStyle(){fontSize = 80});
             }
         }
         #endif  
