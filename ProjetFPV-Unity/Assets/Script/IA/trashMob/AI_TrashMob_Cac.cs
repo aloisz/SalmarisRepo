@@ -137,6 +137,8 @@ namespace AI
         {
             if(!isCacAttacking) return;
             if(isPawnDead) return;
+            isCacAttacking = false;
+            
             Collider[] colliders = Physics.OverlapSphere(cacAttackPos.position, cacAttackSphereRadius, targetMask);
             animatorTrashMobCac.ChangeState(animatorTrashMobCac.ATTACK,.2f);
             foreach (var obj in colliders)
@@ -146,7 +148,6 @@ namespace AI
                     if (obj.transform.TryGetComponent(out pl))
                     {
                         pl.Hit(damageApplied);
-                        isCacAttacking = false;
                     }
                 }
             }
