@@ -106,7 +106,7 @@ namespace AI
         {
             isInDashAttackCoroutine = true;
             navMeshAgent.speed = 0;
-            //animatorTrashMobCac.ChangeState(animatorTrashMobCac.JUMP);
+            animatorTrashMobCac.ChangeState(animatorTrashMobCac.JUMP, 2f);
 
             yield return new WaitForSeconds(1f);
             IsPhysicNavMesh(false);

@@ -32,7 +32,7 @@ namespace AI
             if (isAnimationPlaying(animator, ATTACK)) return;
             
             if(aiPawn.isPawnDead) return;
-            ChangeState(aiPawn.navMeshAgent.speed > 1 ? WALK : IDLE, .2f);
+            ChangeState(aiPawn.navMeshAgent.enabled ? WALK : IDLE, .2f);
         }
 
         public void ChangeState(string newState, float crossFadeDuration)
