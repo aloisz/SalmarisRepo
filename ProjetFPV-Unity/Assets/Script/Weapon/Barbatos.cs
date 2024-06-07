@@ -116,6 +116,7 @@ public class Barbatos : Shotgun
 
     private void PlayParticle()
     {
+        GenerateCamShakeOnShoot();
         if(so_Weapon.weaponMode[(int)actualWeaponModeIndex].weaponParticle == null) return;
 
         if (isPrimary)
@@ -197,8 +198,6 @@ public class Barbatos : Shotgun
     {
         base.WichTypeMunitionIsGettingShot();
         OnLooseAmmo.Invoke();
-
-        GenerateCamShakeOnShoot();
     }
     
     void GenerateCamShakeOnShoot()

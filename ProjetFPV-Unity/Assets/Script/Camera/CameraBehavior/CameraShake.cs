@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
 using Random = UnityEngine.Random;
 
 namespace CameraBehavior
@@ -10,12 +11,15 @@ namespace CameraBehavior
     {
         private CameraManager cameraManager;
 
-        [Header("Pos")]
+        [Header("Global")]
         public float shakeDuration;
-        public float shakeMagnitude;
         public float shakeFrequency;
         public float power;
+        
+        [FormerlySerializedAs("shakeMagnitude")] [Header("Pos")]
+        public float shakeMagnitudePos;
 
+        [Header("Rot")]
         public float shakeMagnitudeRot;
 
         public Transform cameraShakePos;
@@ -36,7 +40,7 @@ namespace CameraBehavior
         {
             if (Input.GetKeyDown(KeyCode.Tab))
             {
-                ShakeCamera(shakeDuration, shakeMagnitude, shakeMagnitudeRot, shakeFrequency, true, power);
+                ShakeCamera(shakeDuration, shakeMagnitudePos, shakeMagnitudeRot, shakeFrequency, true, power);
             }
             cameraShakePos.position = Vector3.Lerp(cameraShakePos.position, cameraManager.transitionParent.position, Time.deltaTime * 100);
         }
@@ -67,10 +71,10 @@ namespace CameraBehavior
         /// <param name="applyFadeOut"></param>
         /// <param name="power"></param>
         /// <param name="isPos"></param>
-        public void ShakeCamera(float shakeDuration, float shakeMagnitude, float shakeMagnitudeRot, float shakeFrequency, bool applyFadeOut, float power)
+        public void ShakeCamera(float shakeDuration, float shakeMagnitudePos, float shakeMagnitudeRot, float shakeFrequency, bool applyFadeOut, float power)
         {
             StopAllCoroutines();
-            StartCoroutine(ShakePosRot(shakeDuration, shakeMagnitude, shakeMagnitudeRot, shakeFrequency, applyFadeOut, power));
+            StartCoroutine(ShakePosRot(shakeDuration, shakeMagnitudePos, shakeMagnitudeRot, shakeFrequency, applyFadeOut, power));
         }
         
         
@@ -122,16 +126,16 @@ namespace CameraBehavior
             }
         }
         
-        private IEnumerator ShakePosRot(float shakeDuration, float shakeMagnitude, float shakeMagnitudeRot, float shakeFrequency, bool applyFadeOut, float power)
+        private IEnumerator ShakePosRot(float shakeDuration, float shakeMagnitudePos, float shakeMagnitudeRot, float shakeFrequency, bool applyFadeOut, float power)
         {
             float elapsed = 0.0f;
             while (elapsed < shakeDuration)
             {
                 float percentComplete = elapsed / shakeDuration;
                 float damper = applyFadeOut ? Mathf.Exp(-power * percentComplete) : 1.0f;
-                float x = Random.Range(-1f, 1f) * shakeMagnitude * damper ;
-                float y = Random.Range(-1f, 1f) * shakeMagnitude * damper;
-                float z = Random.Range(-1f, 1f) * shakeMagnitude * damper;
+                float x = Random.Range(-1f, 1f) * shakeMagnitudePos * damper ;
+                float y = Random.Range(-1f, 1f) * shakeMagnitudePos * damper;
+                float z = Random.Range(-1f, 1f) * shakeMagnitudePos * damper;
 
                 cameraShakePos.position = Vector3.Lerp( cameraManager.camera.transform.position, cameraShakePos.position + new Vector3(x, y, 0), percentComplete);
                 cameraManager.handSwing.transform.position = 
