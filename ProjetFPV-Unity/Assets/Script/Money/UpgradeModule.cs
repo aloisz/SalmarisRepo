@@ -60,6 +60,8 @@ public class UpgradeModule : GenericSingletonClass<UpgradeModule>
 
         _currentAvailableUpgrades = list;
         GenerateUpgradeOffers();
+
+        GetComponent<UpgradeModuleInteraction>().alreadyInteracted = false;
         
         Announcements.Instance.GenerateAnnouncement("Shop incoming !");
     }

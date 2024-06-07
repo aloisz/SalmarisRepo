@@ -98,9 +98,6 @@ public class Director : GenericSingletonClass<Director>
         yield return new WaitUntil(() => !GetActualArenaTrigger().key || GetActualArenaTrigger().key.isPickedUp);
         
         currentWaveIndex++;
-        
-        Debug.Log(currentWaveIndex);
-        Debug.Log(GetActualWave());
 
         _currentArenaFinished = false;
         _hasStartedWave = true;
@@ -130,6 +127,7 @@ public class Director : GenericSingletonClass<Director>
         foreach (EnemyToSpawn e in GetActualWave().enemiesToSpawn)
         {
             GameObject mob = Pooling.instance.Pop(Enum.GetName(typeof(EnemyToSpawn.EnemyKeys), e.enemyKey));
+            mob.name = $"{Enum.GetName(typeof(EnemyToSpawn.EnemyKeys), e.enemyKey)}<br>Arena : {currentArenaIndex}<br>Wave : {currentWaveIndex}";
             AI_Pawn p = mob.GetComponent<AI_Pawn>();
 
             RaycastHit hit;
@@ -139,7 +137,7 @@ public class Director : GenericSingletonClass<Director>
             NavMeshHit navMeshHit;
             if (NavMesh.SamplePosition(hit.point, out navMeshHit, 1.0f, NavMesh.AllAreas))
             {
-                mob.transform.position = navMeshHit.position;
+                mob.transform.position = navMeshHit.position + new Vector3(0,2,0);
             }
             
             p.SpawnVFX();

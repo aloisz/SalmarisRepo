@@ -74,8 +74,6 @@ namespace AI
             Pooling.instance.DelayedDePop(so_IA.poolingName, gameObject, 2);
         }
         
-
-        
         // Debug -------------------------
         #if UNITY_EDITOR
         protected override void OnDrawGizmos()
@@ -83,7 +81,7 @@ namespace AI
             base.OnDrawGizmos();
             if(Application.isPlaying)
             {
-                //Handles.Label(transform.position + Vector3.up, $"walkingSpeed {navMeshAgent.speed}");
+                //Handles.Label(transform.position + Vector3.up, navMeshAgent.enabled.ToString(), new GUIStyle(){fontSize = 80});
             }
         }
         #endif  

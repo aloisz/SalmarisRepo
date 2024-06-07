@@ -31,7 +31,6 @@ public class ScoringSystem : GenericSingletonClass<ScoringSystem>
     private void ScoreEndArena()
     {
         PlayerMoney.Instance.Money += CalculateEndArenaScore();
-        Debug.Log(CalculateEndArenaScore());
     }
 
     private int CalculateEndLevelScore()

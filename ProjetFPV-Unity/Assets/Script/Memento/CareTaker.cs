@@ -13,13 +13,11 @@ public class CareTaker : GenericSingletonClass<CareTaker>
     public void SaveGameState()
     {
         this.savedMemento = originator.Save();
-        Debug.Log("SAVE");
     }
 
     [ContextMenu("Restore State")]
     public void LoadGameState()
     {
         originator.Restore(savedMemento);
-        Debug.Log("RESTORE");
     }
 }

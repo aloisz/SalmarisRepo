@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using CameraBehavior;
+using DG.Tweening;
 using UnityEditor;
 using UnityEngine;
 using Weapon;
@@ -117,6 +118,7 @@ public class Barbatos : Shotgun
     private void PlayParticle()
     {
         GenerateCamShakeOnShoot();
+        
         if(so_Weapon.weaponMode[(int)actualWeaponModeIndex].weaponParticle == null) return;
 
         if (isPrimary)
