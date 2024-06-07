@@ -146,7 +146,7 @@ public class Director : GenericSingletonClass<Director>
             p.SpawnVFX();
             _spawnedEnemies.Add(p);
             
-            p.GetPawnPersonnalInformation();
+            p.ResetAgent();
 
             yield return new WaitForSeconds(GetActualWave().delayBetweenEachEnemySpawn);
 

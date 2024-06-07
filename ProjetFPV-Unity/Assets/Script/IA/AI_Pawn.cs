@@ -50,9 +50,31 @@ namespace AI
             navMeshAgent = GetComponent<NavMeshAgent>();
             agentLinkMover = GetComponent<AgentLinkMover>();
             rb = GetComponent<Rigidbody>();
-            
-            //GetPawnPersonnalInformation();
+
+            ResetAgent();
             //GameManager.Instance.aiPawnsAvailable.Add(this);
+        }
+        
+        private void OnDisable()
+        {
+            navMeshAgent.enabled = false;
+            rb.isKinematic = false;
+
+            navMeshAgent.speed = so_IA.walkingSpeed;
+            navMeshAgent.stoppingDistance = so_IA.stoppingDistance;
+            navMeshAgent.acceleration = so_IA.accelerationSpeed;
+            navMeshAgent.radius = so_IA.avoidanceDistance;
+            navMeshAgent.angularSpeed = so_IA.angularSpeed;
+            
+            pawnState = PawnState.Disable;
+            
+            actualPawnHealth = so_IA.health;
+            isPawnDead = true;
+
+            visionDetector.isTrigger = false;
+            visionDetector.radius = so_IA.visionDetectorRadius;
+            
+            agentLinkMover.StopAllCoroutines();
         }
 
         public void SpawnVFX()
@@ -67,7 +89,7 @@ namespace AI
             vfx.Play();
         }
 
-        public virtual void GetPawnPersonnalInformation()
+        public virtual void ResetAgent()
         {
             navMeshAgent.enabled = true;
             rb.isKinematic = true;
@@ -78,19 +100,26 @@ namespace AI
             navMeshAgent.radius = so_IA.avoidanceDistance;
             navMeshAgent.angularSpeed = so_IA.angularSpeed;
 
+            pawnState = PawnState.Enable;
+            
             actualPawnHealth = so_IA.health;
             isPawnDead = false;
 
             visionDetector.isTrigger = true;
             visionDetector.radius = so_IA.visionDetectorRadius;
+            
+            navMeshAgent.ResetPath();
+            navMeshAgent.CompleteOffMeshLink();
+
+            agentLinkMover.StartLinkerVerif();
         }
 
-        protected virtual void ResetAgent()
+        protected virtual void OldResetAgent()
         {
             transform.position = Vector3.zero;
             transform.rotation = Quaternion.identity;
             
-            GetPawnPersonnalInformation();
+            ResetAgent();
         }
 
         protected virtual void Update()
@@ -110,25 +139,19 @@ namespace AI
         private float timer = 0;
         protected void TickHandler()
         {
+            if(pawnState == PawnState.Disable) return;
             if (timer < tickVerification)
             {
                 timer += Time.deltaTime;
                 if (timer > tickVerification)
                 {
                     timer = 0; 
-                    
-                    if(pawnState == PawnState.Disable) return;
                     if(!isFleeing) FollowTarget();
                     PawnBehavior();
                 }
             }
         }
         protected virtual void PawnBehavior(){ }
-
-        private void OnDisable()
-        {
-            targetToFollow = null;
-        }
 
         private void CheckIfIsStillAlive()
         {
@@ -137,9 +160,9 @@ namespace AI
                 isPawnDead = true;
                 DestroyLogic();
                 
-                if(!GetComponent<Rigidbody>().isKinematic) GetComponent<Rigidbody>().velocity = Vector3.zero;
+                /*if(!GetComponent<Rigidbody>().isKinematic) GetComponent<Rigidbody>().velocity = Vector3.zero;
                 GetComponent<Rigidbody>().useGravity = false;
-                GetComponent<NavMeshAgent>().enabled = false;
+                GetComponent<NavMeshAgent>().enabled = false;*/
 
                 RaycastHit hit;
                 Physics.Raycast(transform.position, Vector3.down, out hit, 500, PlayerController.Instance.groundLayer);

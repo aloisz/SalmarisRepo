@@ -10,7 +10,7 @@ public class AgentLinkMover : MonoBehaviour
     public float tickVerification = 0.1f;
     public Quaternion linkerDirection;
 
-    IEnumerator Start()
+    public IEnumerator StartLinkerVerif()
     {
         NavMeshAgent agent = GetComponent<NavMeshAgent>();
         agent.autoTraverseOffMeshLink = false;
@@ -20,17 +20,6 @@ public class AgentLinkMover : MonoBehaviour
             {
                 yield return StartCoroutine(Curve(agent, duration));
                 agent.CompleteOffMeshLink();
-                
-                RaycastHit hit;
-                Physics.Raycast( agent.transform.position + (Vector3.up * 3), Vector3.down, out hit, 500f);
-                NavMeshHit navMeshHit;
-                if (NavMesh.SamplePosition(hit.point, out navMeshHit, 1.0f, NavMesh.AllAreas))
-                {
-                    agent.transform.position = Vector3.Lerp(agent.transform.position, navMeshHit.position, Time.deltaTime * 1);
-                    agent.transform.rotation = Quaternion.Slerp(agent.transform.rotation, 
-                        Quaternion.LookRotation(navMeshHit.position - agent.transform.position), 
-                        Time.deltaTime * 1);
-                }
             }
             yield return new WaitForSeconds(tickVerification);
         }
