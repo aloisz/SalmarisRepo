@@ -59,8 +59,6 @@ public class ArenaTrigger : MonoBehaviour
         {
             //Start new wave in the director.
             Director.Instance.EnteringNewArena(arenaID);
-            
-            Debug.Log(other);
         }
     }
 

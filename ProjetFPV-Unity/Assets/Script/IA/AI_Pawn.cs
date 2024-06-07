@@ -139,6 +139,7 @@ namespace AI
                 DestroyLogic();
                 
                 GetComponent<Rigidbody>().velocity = Vector3.zero;
+                GetComponent<Rigidbody>().useGravity = false;
                 GetComponent<NavMeshAgent>().enabled = false;
 
                 RaycastHit hit;

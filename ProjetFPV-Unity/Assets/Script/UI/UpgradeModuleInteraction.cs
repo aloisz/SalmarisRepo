@@ -9,7 +9,7 @@ public class UpgradeModuleInteraction : MonoBehaviour, IInteract
     private bool _isInInteraction;
     private UpgradeModule _upgradeModule;
     
-    private bool _alreadyInteracted;
+    public bool alreadyInteracted;
 
     private void Awake()
     {
@@ -19,9 +19,9 @@ public class UpgradeModuleInteraction : MonoBehaviour, IInteract
     
     public void Interact()
     {
-        if (_isInInteraction || _alreadyInteracted) return;
+        if (_isInInteraction || alreadyInteracted) return;
         
         _upgradeModule.InitMenu();
-        _alreadyInteracted = true;
+        alreadyInteracted = true;
     }
 }
