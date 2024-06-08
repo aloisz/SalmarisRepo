@@ -84,27 +84,27 @@ public class Originator : MonoBehaviour
         director.numberOfDeath = memento.GetNumberOfDeath();
         director.currentArenaIndex = memento.GetCurrentArenaIndex();
         director.currentWaveIndex = memento.GetCurrentWaveIndex();
-        director.playerOverPerfomAmount = memento.GetPlayerOverPerfomAmount();
-        director._currentRemainingEnemies = memento.GetCurrentRemainingEnemies();
-        director._arenaAmount = memento.GetArenaAmount();
+        director.playerOverPerformAmount = memento.GetPlayerOverPerfomAmount();
+        director.currentRemainingEnemies = memento.GetCurrentRemainingEnemies();
+        director.arenaAmount = memento.GetArenaAmount();
     }
 
     private void DirectorFloatSection(Memento memento, Director director)
     {
-        director._currentWaveIntensity = memento.GetCurrentWaveIntensity();
-        director._playerPerformance = memento.GetPlayerPerformance();
-        director._dynamicNextWaveValue = memento.GetDynamicNextWaveValue();
-        director._timerToCheckPlayerPerformance = memento.GetTimerToCheckPlayerPerformance();
-        director._lastKilledEnemiesValue = memento.GetLastKilledEnemiesValue();
+        director.currentWaveIntensity = memento.GetCurrentWaveIntensity();
+        director.playerPerformance = memento.GetPlayerPerformance();
+        director.dynamicNextWaveValue = memento.GetDynamicNextWaveValue();
+        director.timerToCheckPlayerPerformance = memento.GetTimerToCheckPlayerPerformance();
+        director.lastKilledEnemiesValue = memento.GetLastKilledEnemiesValue();
     }
 
     private void DirectorBoolSection(Memento memento, Director director)
     {
-        director._currentArenaFinished = memento.GetCurrentArenaFinished();
-        director._isInAArena = memento.GetIsInAArena();
-        director._isInAWave = memento.GetIsInAWave();
-        director._hasFinishSpawningEnemies = memento.GetHasFinishSpawningEnemies();
-        director._hasStartedWave = memento.GetHasStartedWave();
+        director.currentArenaFinished = memento.GetCurrentArenaFinished();
+        director.isInAArena = memento.GetIsInAArena();
+        director.isInAWave = memento.GetIsInAWave();
+        director.hasFinishSpawningEnemies = memento.GetHasFinishSpawningEnemies();
+        director.hasStartedWave = memento.GetHasStartedWave();
     }
     
     private void SetAllDoorsState()

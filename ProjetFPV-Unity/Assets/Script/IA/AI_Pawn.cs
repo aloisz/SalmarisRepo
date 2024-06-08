@@ -152,16 +152,16 @@ namespace AI
             {
                 isPawnDead = true;
                 DestroyLogic();
-                
-                /*if(!GetComponent<Rigidbody>().isKinematic) GetComponent<Rigidbody>().velocity = Vector3.zero;
-                GetComponent<Rigidbody>().useGravity = false;
-                GetComponent<NavMeshAgent>().enabled = false;*/
 
                 RaycastHit hit;
                 Physics.Raycast(transform.position, Vector3.down, out hit, 500, PlayerController.Instance.groundLayer);
                 DecalSpawnerManager.Instance.SpawnDecal(hit.point, hit.normal, "Enemy_Death_Decal");
-                
-                if(Director.Instance) Director.Instance.TryAddingValueFromLastKilledEnemy(enemyWeight);
+
+                if (Director.Instance)
+                {
+                    Director.Instance.TryAddingValueFromLastKilledEnemy(enemyWeight);
+                    Director.Instance.currentWaveIntensity -= enemyWeight;
+                }
                 if(PlayerKillStreak.Instance) PlayerKillStreak.Instance.NotifyEnemyKilled(mobType);
             }
             else

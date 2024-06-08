@@ -87,21 +87,21 @@ public class Memento
         SetNumberOfDeath(director.numberOfDeath);
         SetCurrentArenaIndex(director.currentArenaIndex);
         SetCurrentWaveIndex(director.currentWaveIndex);
-        SetPlayerOverPerfomAmount(director.playerOverPerfomAmount);
-        SetCurrentRemainingEnemies(director._currentRemainingEnemies);
-        SetArenaAmount(director._arenaAmount);
+        SetPlayerOverPerfomAmount(director.playerOverPerformAmount);
+        SetCurrentRemainingEnemies(director.currentRemainingEnemies);
+        SetArenaAmount(director.arenaAmount);
         
-        SetCurrentWaveIntensity(director._currentWaveIntensity);
-        SetPlayerPerformance(director._playerPerformance);
-        SetDynamicNextWaveValue(director._dynamicNextWaveValue);
-        SetTimerToCheckPlayerPerformance(director._timerToCheckPlayerPerformance);
-        SetLastKilledEnemiesValue(director._lastKilledEnemiesValue);
+        SetCurrentWaveIntensity(director.currentWaveIntensity);
+        SetPlayerPerformance(director.playerPerformance);
+        SetDynamicNextWaveValue(director.dynamicNextWaveValue);
+        SetTimerToCheckPlayerPerformance(director.timerToCheckPlayerPerformance);
+        SetLastKilledEnemiesValue(director.lastKilledEnemiesValue);
         
-        SetCurrentArenaFinished(director._currentArenaFinished);
-        SetIsInAArena(director._isInAArena);
-        SetIsInAWave(director._isInAWave);
-        SetHasFinishSpawningEnemies(director._hasFinishSpawningEnemies);
-        SetHasStartedWave(director._hasStartedWave);
+        SetCurrentArenaFinished(director.currentArenaFinished);
+        SetIsInAArena(director.isInAArena);
+        SetIsInAWave(director.isInAWave);
+        SetHasFinishSpawningEnemies(director.hasFinishSpawningEnemies);
+        SetHasStartedWave(director.hasStartedWave);
 
         this.keysPickedUp = keysPickedUp;
     }
