@@ -99,6 +99,7 @@ namespace AI
         {
             base.DestroyLogic();
             animatorTrashShooter.ChangeState(animatorTrashShooter.DEATH, .5f);
+            if(gameObject.activeSelf) agentLinkMover.StopCoroutine(agentLinkMover.StartLinkerVerif());
         }
 
 #if UNITY_EDITOR

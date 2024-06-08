@@ -131,6 +131,7 @@ namespace AI
         
         public override void DestroyLogic()
         {
+            if(gameObject.activeSelf) agentLinkMover.StopCoroutine(agentLinkMover.StartLinkerVerif());
             base.DestroyLogic();
             StopCoroutine(DashAttack());
             animatorTrashMobCac.ChangeState(animatorTrashMobCac.DEATH,.2f);

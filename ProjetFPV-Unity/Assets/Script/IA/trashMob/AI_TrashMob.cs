@@ -35,7 +35,7 @@ namespace AI
         protected override void OnDisable()
         {
             base.OnDisable();
-            agentLinkMover.StopAllCoroutines();
+            //agentLinkMover.StopCoroutine(agentLinkMover.StartLinkerVerif());
         }
 
         public override void ResetAgent()
@@ -45,7 +45,7 @@ namespace AI
             navMeshAgent.ResetPath();
             navMeshAgent.CompleteOffMeshLink();
 
-            agentLinkMover.StartLinkerVerif();
+            if(gameObject.activeSelf) agentLinkMover.StartCoroutine(agentLinkMover.StartLinkerVerif());
         }
         
         protected override void Update()

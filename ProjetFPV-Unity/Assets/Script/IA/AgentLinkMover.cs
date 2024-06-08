@@ -10,9 +10,17 @@ public class AgentLinkMover : MonoBehaviour
     public float tickVerification = 0.1f;
     public Quaternion linkerDirection;
 
+    private NavMeshAgent agent;
+    
+    private void Awake()
+    {
+        agent = GetComponent<NavMeshAgent>();
+    }
+
     public IEnumerator StartLinkerVerif()
     {
-        NavMeshAgent agent = GetComponent<NavMeshAgent>();
+        if (gameObject.activeSelf) yield return null;
+        Debug.Log("Linker");
         agent.autoTraverseOffMeshLink = false;
         while (true)
         {

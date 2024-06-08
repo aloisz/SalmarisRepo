@@ -39,7 +39,7 @@ public class AI_Smasher : AI_Pawn
     protected override void OnDisable()
     {
         base.OnDisable();
-        agentLinkMover.StopAllCoroutines();
+        //agentLinkMover.StopCoroutine(agentLinkMover.StartLinkerVerif());
     }
 
     public override void ResetAgent()
@@ -49,7 +49,7 @@ public class AI_Smasher : AI_Pawn
         navMeshAgent.ResetPath();
         navMeshAgent.CompleteOffMeshLink();
 
-        agentLinkMover.StartLinkerVerif();
+        if(gameObject.activeSelf) agentLinkMover.StartCoroutine(agentLinkMover.StartLinkerVerif());
     }
     
     public SmasherMobState ChangeState(SmasherMobState state)
@@ -135,6 +135,7 @@ public class AI_Smasher : AI_Pawn
     
     public override void DestroyLogic()
     {
+        if(gameObject.activeSelf) agentLinkMover.StopCoroutine(agentLinkMover.StartLinkerVerif());
         Pooling.instance.DePop(so_IA.poolingName, gameObject);
     }
     
