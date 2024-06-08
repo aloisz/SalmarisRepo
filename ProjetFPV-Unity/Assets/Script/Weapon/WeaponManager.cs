@@ -176,7 +176,12 @@ namespace Weapon
         /// </summary>
         protected virtual void BurstSelectiveFire()
         {
-            StartCoroutine(BurstCoroutine());
+            if (Time.time - lastTimefired > 1 / (so_Weapon.weaponMode[(int)actualWeaponModeIndex].fireRate *
+                                                 PlayerKillStreak.Instance.fireRateBoost))
+            {
+                StartCoroutine(BurstCoroutine());
+            }
+            
         }
         
         private IEnumerator BurstCoroutine()
