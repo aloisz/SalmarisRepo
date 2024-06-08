@@ -31,6 +31,22 @@ namespace AI
         {
             base.Awake();
         }
+
+        protected override void OnDisable()
+        {
+            base.OnDisable();
+            agentLinkMover.StopAllCoroutines();
+        }
+
+        public override void ResetAgent()
+        {
+            base.ResetAgent();
+            if(!navMeshAgent.isOnNavMesh) return; 
+            navMeshAgent.ResetPath();
+            navMeshAgent.CompleteOffMeshLink();
+
+            agentLinkMover.StartLinkerVerif();
+        }
         
         protected override void Update()
         {

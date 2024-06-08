@@ -36,6 +36,22 @@ public class AI_Smasher : AI_Pawn
         aiSmasherAnimator = GetComponent<AI_SmasherAnimator>();
     }
     
+    protected override void OnDisable()
+    {
+        base.OnDisable();
+        agentLinkMover.StopAllCoroutines();
+    }
+
+    public override void ResetAgent()
+    {
+        base.ResetAgent();
+        if(!navMeshAgent.isOnNavMesh) return; 
+        navMeshAgent.ResetPath();
+        navMeshAgent.CompleteOffMeshLink();
+
+        agentLinkMover.StartLinkerVerif();
+    }
+    
     public SmasherMobState ChangeState(SmasherMobState state)
     {
         return this.smasherMobState = state;

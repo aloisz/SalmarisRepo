@@ -21,7 +21,7 @@ public class Pooling : MonoBehaviour
 
     private void Start()
     {
-        //InitRefresh();
+        InitRefresh();
     }
 
     private void InitiPools()
@@ -93,19 +93,19 @@ public class Pooling : MonoBehaviour
     {
         foreach (var keyPool in keyPools)
         {
-            //StartCoroutine(RefreshPoolCoroutine(keyPool.pool, keyPool.pool.refreshSpeed));
+            StartCoroutine(RefreshPoolCoroutine(keyPool.pool, keyPool.pool.refreshSpeed));
         }
     }
 
     IEnumerator RefreshPoolCoroutine(Pool pool, float time)
     {
         yield return new WaitForSeconds(time);
-        /*if (pool.queue.Count < pool.baseCount)
+        if (pool.queue.Count < pool.baseCount)
         {
             AddInstance(pool);
             pool.refreshSpeed = pool.baseRefreshSpeed * pool.queue.Count / pool.baseCount;
         }
-        StartCoroutine(RefreshPoolCoroutine(pool, pool.refreshSpeed));*/
+        StartCoroutine(RefreshPoolCoroutine(pool, pool.refreshSpeed));
     }
     
 

@@ -55,7 +55,7 @@ namespace AI
             //GameManager.Instance.aiPawnsAvailable.Add(this);
         }
         
-        private void OnDisable()
+        protected virtual void OnDisable()
         {
             navMeshAgent.enabled = false;
             rb.isKinematic = false;
@@ -73,8 +73,6 @@ namespace AI
 
             visionDetector.isTrigger = false;
             visionDetector.radius = so_IA.visionDetectorRadius;
-            
-            agentLinkMover.StopAllCoroutines();
         }
 
         public void SpawnVFX()
@@ -107,11 +105,6 @@ namespace AI
 
             visionDetector.isTrigger = true;
             visionDetector.radius = so_IA.visionDetectorRadius;
-            
-            navMeshAgent.ResetPath();
-            navMeshAgent.CompleteOffMeshLink();
-
-            agentLinkMover.StartLinkerVerif();
         }
 
         protected virtual void OldResetAgent()
