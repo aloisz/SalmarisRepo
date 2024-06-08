@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using CameraBehavior;
 using UnityEngine;
 using UnityEngine.Serialization;
 using Weapon.Interface;
@@ -14,6 +15,13 @@ public class BulletBehavior : MonoBehaviour, IBulletBehavior
     
     [SerializeField] protected float bulletLifeTime;
     protected float timerBulletLifeTime = 0;
+
+    [Header("Camera Shake when hit")] 
+    [SerializeField] private float shakeDuration = .1f;
+    [SerializeField] private float shakeMagnitude = 20f;
+    [SerializeField] private float shakeFrequency = .5f;
+    [SerializeField] private float power = 4;
+    
     // Components
     protected Rigidbody rb;
     protected TrailRenderer trailRenderer;
@@ -106,6 +114,7 @@ public class BulletBehavior : MonoBehaviour, IBulletBehavior
     {
         collision.transform.GetComponent<IDamage>().Hit(bullet.damage);
         Pooling.instance.DePop(bullet.PoolingKeyName, gameObject);
+        CameraShake.Instance.ShakeCamera(false, shakeDuration, shakeMagnitude, shakeFrequency, true, power);
     }
     
     public virtual bool EnableMovement(bool logic)

@@ -63,7 +63,7 @@ public class Pooling : MonoBehaviour
         if (pools[key].queue.Count == 0)
         {
             Debug.LogWarning("Pool of " + key + " is empty");
-            //AddInstance(pools[key]);
+            AddInstance(pools[key]);
         }
         obj = pools[key].queue.Dequeue();
         obj.SetActive(true);

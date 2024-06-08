@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using CameraBehavior;
 using NaughtyAttributes;
 using Player;
 using UnityEditor;
@@ -20,6 +21,12 @@ namespace AI
         [SerializeField] [Range(0,20)] protected float cacAttackSphereRadius;
         [ReadOnly] [SerializeField] protected bool isCacAttacking = false;
         [SerializeField] protected float damageApplied;
+        
+        [Header("Camera Shake when hit")] 
+        [SerializeField] private float shakeDuration = .1f;
+        [SerializeField] private float shakeMagnitude = 20f;
+        [SerializeField] private float shakeFrequency = .5f;
+        [SerializeField] private float power = 4;
         
         // Component
         protected internal AI_AnimatorTrashMobCac animatorTrashMobCac;
@@ -141,6 +148,7 @@ namespace AI
             
             Collider[] colliders = Physics.OverlapSphere(cacAttackPos.position, cacAttackSphereRadius, targetMask);
             animatorTrashMobCac.ChangeState(animatorTrashMobCac.ATTACK,.2f);
+            CameraShake.Instance.ShakeCamera(false, shakeDuration, shakeMagnitude, shakeFrequency, true, power);
             foreach (var obj in colliders)
             {
                 if (obj.transform.CompareTag("Player"))
