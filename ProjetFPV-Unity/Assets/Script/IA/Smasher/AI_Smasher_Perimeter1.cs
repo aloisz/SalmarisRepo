@@ -49,6 +49,7 @@ namespace AI
         private void Update()
         {
             if (aiSmasher.pawnState != PawnState.Enable) return;
+            aiSmasher.EnableNavMesh(!hasLanded);
             
             if(isPreparingDash) PreparingDash();
             if (isAttacking)
