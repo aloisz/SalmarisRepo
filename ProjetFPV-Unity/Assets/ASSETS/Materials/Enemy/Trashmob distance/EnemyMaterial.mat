@@ -32,6 +32,10 @@ Material:
         m_Texture: {fileID: 2800000, guid: 18d052dbe43e3af4eaa969ef40face33, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _Belly:
+        m_Texture: {fileID: 2800000, guid: 4c97e1d53cf8b5c45ae6b51518a1c396, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _Emissive:
         m_Texture: {fileID: 2800000, guid: d2af123a3dd97b441b93a1b10af8809f, type: 3}
         m_Scale: {x: 1, y: 1}
@@ -46,6 +50,10 @@ Material:
         m_Offset: {x: 0, y: 0}
     - _SampleTexture2D_7440a61d7d1442188770971570568fe6_Texture_1_Texture2D:
         m_Texture: {fileID: 2800000, guid: 613c45670a49b8649916e6b15770d722, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _SampleTexture2D_e6833cb021f7416e88430962819a1cd2_Texture_1_Texture2D:
+        m_Texture: {fileID: 2800000, guid: 97ae97afb04a5de428ec1e125d8ac3df, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _SampleTexture2D_e975bafe3d1f45aea895d112e0cd36f8_Texture_1_Texture2D:
@@ -64,6 +72,18 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _TriplanarPattern:
+        m_Texture: {fileID: 2800000, guid: a40fdf2a521b1054c8b93c7e7886eeb3, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Triplanar_129570a74f234063962ae47e036469a6_Texture_1_Texture2D:
+        m_Texture: {fileID: 2800000, guid: 97ae97afb04a5de428ec1e125d8ac3df, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Triplanar_f04f11d98ffd4ae4b1110ab9a311ff24_Texture_1_Texture2D:
+        m_Texture: {fileID: 2800000, guid: bd16ff0a77626654fabf9ebeef49364c, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - unity_Lightmaps:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
@@ -78,14 +98,15 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _BellyVFX: 1
     - _BlinkPower: 1.18
     - _BlinkSpeed: 0
-    - _Contrast: 0
-    - _Distance: 16.91
+    - _Contrast: 1
+    - _Distance: 0
     - _DistanceMax: 10
     - _DistanceMin: 5
     - _Float: 12.76
-    - _Float_1: 0
+    - _Float_1: 7.98
     - _Float_2: 0
     - _FresnelPower: 2.48
     - _Hue: 0
@@ -93,10 +114,13 @@ Material:
     - _QueueControl: 0
     - _QueueOffset: 0
     - _Saturation: 1
-    - _Value: 1
+    - _TriplanarAlpha: 0.558
+    - _TriplanarTile: -0.3
+    - _Value: 1.1
     m_Colors:
-    - _Color: {r: 0, g: 0, b: 0, a: 1}
-    - _EmissiveColor: {r: 0, g: 0, b: 0, a: 0}
+    - _Color: {r: 25.688936, g: 0, b: 0, a: 1}
+    - _EmissiveColor: {r: 0, g: 72.659294, b: 52.542286, a: 0}
+    - _TriplanarColor: {r: 0.39020184, g: 0.6603774, b: 0, a: 1}
     - _Vector3: {r: 0, g: 0, b: 0, a: 0}
   m_BuildTextureStacks: []
 --- !u!114 &470430041793318464

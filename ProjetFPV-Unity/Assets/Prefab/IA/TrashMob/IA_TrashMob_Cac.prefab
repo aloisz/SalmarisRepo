@@ -253,6 +253,10 @@ MonoBehaviour:
   cacAttackSphereRadius: 1.5
   isCacAttacking: 0
   damageApplied: 6
+  shakeDuration: 0.1
+  shakeMagnitude: 20
+  shakeFrequency: 0.5
+  power: 4
 --- !u!114 &8506461778801699736
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -844,6 +848,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 55.02016
       objectReference: {fileID: 0}
+    - target: {fileID: -4175875230830554798, guid: 0042ee771a9547443996329b371e707b,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 16ce13f731afc594a8aa34e951ef1842, type: 2}
     - target: {fileID: -3752871828728181510, guid: 0042ee771a9547443996329b371e707b,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
