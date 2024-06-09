@@ -24,12 +24,15 @@ public class GameManager : GenericSingletonClass<GameManager>
     }
     
     
-    public int avgFrameRate;
+    private  int avgFrameRate;
+    private int frameRate;
     public void Update ()
     {
         float current = 0;
         current = Time.frameCount / Time.time;
         avgFrameRate = (int)current;
+        
+        frameRate = (int) (1f / Time.deltaTime);
     }
     
     private void OnGUI()
@@ -38,6 +41,8 @@ public class GameManager : GenericSingletonClass<GameManager>
         font.fontSize = 50;
         font.fontStyle = FontStyle.Bold;
         //font.font.material.color = Color.white;
-        GUI.Label(new Rect(5, 40, 100, 25), "FPS: " + Mathf.Round(avgFrameRate), font);
+        GUI.Label(new Rect(5, 40, 100, 25), "Average FPS: " + Mathf.Round(avgFrameRate), font);
+        
+        GUI.Label(new Rect(5, 90, 100, 25), "FPS: " + Mathf.Round(frameRate), font);
     }
 }
