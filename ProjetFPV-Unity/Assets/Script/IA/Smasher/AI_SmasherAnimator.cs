@@ -33,7 +33,7 @@ namespace AI
             if (isAnimationPlaying(animator, ESTOC)) return;
             if (isAnimationPlaying(animator, ATTACK)) return;
             
-            ChangeState(aiPawn.navMeshAgent.speed > 1 ? WALK : IDLE);
+            ChangeState(aiPawn.navMeshAgent.enabled ? WALK : IDLE);
         }
 
 

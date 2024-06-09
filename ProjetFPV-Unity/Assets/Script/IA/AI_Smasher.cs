@@ -30,10 +30,26 @@ public class AI_Smasher : AI_Pawn
         Perimeter_3
     }
 
-    protected override void Start()
+    protected override void Awake()
     {
-        base.Start();
+        base.Awake();
         aiSmasherAnimator = GetComponent<AI_SmasherAnimator>();
+    }
+    
+    protected override void OnDisable()
+    {
+        base.OnDisable();
+        //agentLinkMover.StopCoroutine(agentLinkMover.StartLinkerVerif());
+    }
+
+    public override void ResetAgent()
+    {
+        base.ResetAgent();
+        if(!navMeshAgent.isOnNavMesh) return; 
+        navMeshAgent.ResetPath();
+        navMeshAgent.CompleteOffMeshLink();
+
+        if(gameObject.activeSelf) agentLinkMover.StartCoroutine(agentLinkMover.StartLinkerVerif());
     }
     
     public SmasherMobState ChangeState(SmasherMobState state)
@@ -119,6 +135,7 @@ public class AI_Smasher : AI_Pawn
     
     public override void DestroyLogic()
     {
+        if(gameObject.activeSelf) agentLinkMover.StopCoroutine(agentLinkMover.StartLinkerVerif());
         Pooling.instance.DePop(so_IA.poolingName, gameObject);
     }
     

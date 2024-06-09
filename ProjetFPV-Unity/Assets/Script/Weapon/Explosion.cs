@@ -22,6 +22,12 @@ public class Explosion : MonoBehaviour
     public float explosionRadius;
     public float explosionForce;
     
+    
+    [Header("Camera Shake when hit")] 
+    [SerializeField] private float shakeDuration = .1f;
+    [SerializeField] private float shakeFrequency = .5f;
+    [SerializeField] private float power = 4;
+    
     //particles 
     public int particlesIndex;
     public List<ParticleSystem> particles;
@@ -63,6 +69,9 @@ public class Explosion : MonoBehaviour
 
         /*CameraManager.Instance.cameraJumping.CameraShake(7, 2, camShakeRepartition,
             Vector3.Distance(PlayerController.Instance.transform.position, transform.position));*/
+        CameraShake.Instance.ShakeCamera(false, shakeDuration, 
+            camShakeRepartition.Evaluate(Vector3.Distance(PlayerController.Instance.transform.position, transform.position))
+            , shakeFrequency, true, power);
         
         Explode();
         

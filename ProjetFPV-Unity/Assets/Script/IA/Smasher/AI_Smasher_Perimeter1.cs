@@ -49,12 +49,13 @@ namespace AI
         private void Update()
         {
             if (aiSmasher.pawnState != PawnState.Enable) return;
+            aiSmasher.EnableNavMesh(!hasLanded);
             
             if(isPreparingDash) PreparingDash();
             if (isAttacking)
             {
                 Attack();
-                aiSmasher.IsPhysicNavMesh(false); // disable pawn Physics 
+                //aiSmasher.IsPhysicNavMesh(false); // disable pawn Physics 
             }
             
             if (!isAttacking || isPreparingDash)
@@ -145,7 +146,7 @@ namespace AI
             timeSinceLanded = 0;
             hasLanded = false;
             isAttacking = false;
-            aiSmasher.IsPhysicNavMesh(true);
+            //aiSmasher.IsPhysicNavMesh(true);
         }
 
 
@@ -175,7 +176,7 @@ namespace AI
         {
             yield return null;
             isAttacking = false;
-            aiSmasher.IsPhysicNavMesh(true);
+            //aiSmasher.IsPhysicNavMesh(true);
         }
         #endregion
 

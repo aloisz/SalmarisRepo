@@ -46,7 +46,7 @@ public class ScoringSystem : GenericSingletonClass<ScoringSystem>
     {
         var totalInt = Director.Instance.totalIntensityValue;
         var deaths = GetDeathScore();
-        var overPerf = Director.Instance.playerOverPerfomAmount;
+        var overPerf = Director.Instance.playerOverPerformAmount;
 
         var value = totalInt + deaths + arbitraryValueDebug;
         

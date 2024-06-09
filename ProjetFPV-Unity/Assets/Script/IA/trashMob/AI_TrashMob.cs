@@ -27,9 +27,25 @@ namespace AI
             AttackingCloseRange
         }
 
-        protected virtual void Start()
+        protected virtual void Awake()
         {
-            base.Start();
+            base.Awake();
+        }
+
+        protected override void OnDisable()
+        {
+            base.OnDisable();
+            //agentLinkMover.StopCoroutine(agentLinkMover.StartLinkerVerif());
+        }
+
+        public override void ResetAgent()
+        {
+            base.ResetAgent();
+            if(!navMeshAgent.isOnNavMesh) return; 
+            navMeshAgent.ResetPath();
+            navMeshAgent.CompleteOffMeshLink();
+
+            if(gameObject.activeSelf) agentLinkMover.StartCoroutine(agentLinkMover.StartLinkerVerif());
         }
         
         protected override void Update()

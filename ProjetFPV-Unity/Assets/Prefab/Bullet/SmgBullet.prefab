@@ -4850,10 +4850,10 @@ GameObject:
   - component: {fileID: 4644413147991742032}
   - component: {fileID: 3511961788620709798}
   - component: {fileID: 6468471549731880164}
-  - component: {fileID: 3955180333502210139}
   - component: {fileID: 3296083595800386014}
   - component: {fileID: 9002847346377989868}
   - component: {fileID: 1443625910613640079}
+  - component: {fileID: 4179019876222661292}
   m_Layer: 9
   m_Name: SmgBullet
   m_TagString: Untagged
@@ -4927,35 +4927,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!114 &3955180333502210139
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 838785612912124729}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cb3af1c382894ac40b313e8ee3172543, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  bullet:
-    PoolingKeyName: 
-    bulletDir: {x: 0, y: 0, z: 0}
-    isMoving: 0
-    speed: 0
-    damage: 0
-    gravityApplied: 0
-  walkableMask:
-    serializedVersion: 2
-    m_Bits: 64
-  playerMask:
-    serializedVersion: 2
-    m_Bits: 128
-  bulletMask:
-    serializedVersion: 2
-    m_Bits: 512
-  bulletLifeTime: 5
 --- !u!135 &3296083595800386014
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -5108,6 +5079,35 @@ TrailRenderer:
   m_Autodestruct: 0
   m_Emitting: 1
   m_ApplyActiveColorSpace: 1
+--- !u!114 &4179019876222661292
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 838785612912124729}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0155e496ec6cc0f488169fbe2df7e911, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bullet:
+    PoolingKeyName: 
+    bulletDir: {x: 0, y: 0, z: 0}
+    isMoving: 0
+    speed: 0
+    damage: 0
+    gravityApplied: 0
+  walkableMask:
+    serializedVersion: 2
+    m_Bits: 64
+  playerMask:
+    serializedVersion: 2
+    m_Bits: 128
+  bulletMask:
+    serializedVersion: 2
+    m_Bits: 512
+  bulletLifeTime: 5
 --- !u!1 &3182630672891394392
 GameObject:
   m_ObjectHideFlags: 0

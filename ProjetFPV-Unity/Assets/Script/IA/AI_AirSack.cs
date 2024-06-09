@@ -22,6 +22,10 @@ public class AI_AirSack : AI_Pawn
     [SerializeField] protected float agentSpeedGettingAway = 50;
     [SerializeField] protected float agentShootingRadius = 5;
     
+    
+    // Component
+    protected internal AI_Animator_AirSack animatorAirSack;
+    
     protected enum AirSackMobState
     {
         Idle,
@@ -29,10 +33,11 @@ public class AI_AirSack : AI_Pawn
         RunningAway
     }
 
-    protected override void Start()
+    protected override void Awake()
     {
-        base.Start();
+        base.Awake();
         weapon = GetComponent<WeaponManager>();
+        animatorAirSack = GetComponent<AI_Animator_AirSack>();
     }
     
     protected AirSackMobState ChangeState(AirSackMobState state)
@@ -111,7 +116,8 @@ public class AI_AirSack : AI_Pawn
     
     public override void DestroyLogic()
     {
-        Pooling.instance.DePop(so_IA.poolingName, gameObject);
+        Pooling.instance.DelayedDePop(so_IA.poolingName, gameObject, 2f);
+        animatorAirSack.ChangeState(animatorAirSack.DEATH,.2f);
     }
     
     

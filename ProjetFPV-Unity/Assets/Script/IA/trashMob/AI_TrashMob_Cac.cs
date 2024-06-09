@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using CameraBehavior;
 using NaughtyAttributes;
 using Player;
 using UnityEditor;
@@ -21,12 +22,18 @@ namespace AI
         [ReadOnly] [SerializeField] protected bool isCacAttacking = false;
         [SerializeField] protected float damageApplied;
         
+        [Header("Camera Shake when hit")] 
+        [SerializeField] private float shakeDuration = .1f;
+        [SerializeField] private float shakeMagnitude = 20f;
+        [SerializeField] private float shakeFrequency = .5f;
+        [SerializeField] private float power = 4;
+        
         // Component
         protected internal AI_AnimatorTrashMobCac animatorTrashMobCac;
 
-        protected override void Start()
+        protected override void Awake()
         {
-            base.Start();
+            base.Awake();
             animatorTrashMobCac = GetComponent<AI_AnimatorTrashMobCac>();
         }
         
@@ -38,6 +45,7 @@ namespace AI
         
         protected virtual void CheckDistance()
         {
+            
             switch (Vector3.Distance(PlayerController.Instance.transform.position, transform.position))
             {
                 case var value when value < perimeters[0].distToEnemy:
@@ -105,7 +113,7 @@ namespace AI
         {
             isInDashAttackCoroutine = true;
             navMeshAgent.speed = 0;
-            //animatorTrashMobCac.ChangeState(animatorTrashMobCac.JUMP);
+            animatorTrashMobCac.ChangeState(animatorTrashMobCac.JUMP, 2f);
 
             yield return new WaitForSeconds(1f);
             IsPhysicNavMesh(false);
@@ -123,6 +131,7 @@ namespace AI
         
         public override void DestroyLogic()
         {
+            if(gameObject.activeSelf) agentLinkMover.StopCoroutine(agentLinkMover.StartLinkerVerif());
             base.DestroyLogic();
             StopCoroutine(DashAttack());
             animatorTrashMobCac.ChangeState(animatorTrashMobCac.DEATH,.2f);
@@ -136,8 +145,11 @@ namespace AI
         {
             if(!isCacAttacking) return;
             if(isPawnDead) return;
+            isCacAttacking = false;
+            
             Collider[] colliders = Physics.OverlapSphere(cacAttackPos.position, cacAttackSphereRadius, targetMask);
             animatorTrashMobCac.ChangeState(animatorTrashMobCac.ATTACK,.2f);
+            CameraShake.Instance.ShakeCamera(false, shakeDuration, shakeMagnitude, shakeFrequency, true, power);
             foreach (var obj in colliders)
             {
                 if (obj.transform.CompareTag("Player"))
@@ -145,7 +157,6 @@ namespace AI
                     if (obj.transform.TryGetComponent(out pl))
                     {
                         pl.Hit(damageApplied);
-                        isCacAttacking = false;
                     }
                 }
             }
