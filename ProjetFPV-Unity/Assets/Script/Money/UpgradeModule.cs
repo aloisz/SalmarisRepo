@@ -95,8 +95,13 @@ public class UpgradeModule : GenericSingletonClass<UpgradeModule>
     
     private void GenerateUpgradeOffers()
     {
-        StartCoroutine(GetRandomInList(upgradeOffersAmount));
+        foreach (Transform t in upgradeOffersTransform.GetComponentsInChildren<Transform>())
+        {
+            if(t != upgradeOffersTransform) Destroy(t);
+        }
         
+        StartCoroutine(GetRandomInList(upgradeOffersAmount));
+
         for (int i = 0; i < upgradeOffersAmount; i++)
         {
             var newObject = Instantiate(upgradeButtonReference, upgradeOffersTransform);
