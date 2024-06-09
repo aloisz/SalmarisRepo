@@ -31,17 +31,24 @@ public class HUD : GenericSingletonClass<HUD>
 
     [Header("Components")]
     [SerializeField] private Image UIBackground;
+    
     [SerializeField] private Image shieldBar;
     [SerializeField] private Image healthBar;
     [SerializeField] private Image dashBar;
     [SerializeField] private Image rageBar;
+    
     [SerializeField] private Image crosshairDots;
     [SerializeField] private Image crosshairBombDropdown;
+    [SerializeField] private GameObject crosshairParent;
+    
     [SerializeField] private Image deform;
     [SerializeField] private Image vitals;
+    
     [SerializeField] private Image speedEffect;
     [SerializeField] private Image slideEffect;
-
+    
+    [SerializeField] private Image reload;
+    
     [Header("Components Lists")]
     [SerializeField] private List<Image> crosshairBorders = new List<Image>();
     [SerializeField] private ParticleSystem[] dashParticleSystems;
@@ -105,6 +112,7 @@ public class HUD : GenericSingletonClass<HUD>
         UpdateShatteredMask();
         SlideEffect();
         UpdateDashDots();
+        UpdateReloadCircle();
 
         rageBar.fillAmount = PlayerKillStreak.Instance.KillStreak / PlayerKillStreak.Instance.maxKillStreak;
         rageBar.color = PlayerKillStreak.Instance.isInRageMode ? Color.red : Color.white;
@@ -383,5 +391,20 @@ public class HUD : GenericSingletonClass<HUD>
         dashDots[0].color = (stamina < 33) ? disabledColor : Color.white;
         dashDots[1].color = (stamina < 66) ? disabledColor : Color.white;
         dashDots[2].color = (stamina < 98) ? disabledColor : Color.white;
+    }
+
+    private void UpdateReloadCircle()
+    {
+        var wep = WeaponState.Instance.defaultWeapon;
+        var wepManager = WeaponState.Instance.barbatos;
+        var wepPrimary = wep.weaponMode[0];
+
+        if (wepManager.isReloading)
+        {
+            reload.fillAmount = Mathf.Lerp(0, 1, wepManager.timeElapsedReload / (wepPrimary.timeToReload / PlayerKillStreak.Instance.reloadBoost));
+        }
+        
+        crosshairParent.SetActive(reload.fillAmount > 0.99f);
+        reload.enabled = reload.fillAmount < 0.99f;
     }
 }

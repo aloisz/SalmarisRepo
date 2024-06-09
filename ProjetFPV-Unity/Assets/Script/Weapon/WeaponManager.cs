@@ -33,6 +33,8 @@ namespace Weapon
         public Action OnHudShoot;
         public Action OnLooseAmmo;
         
+        public float timeElapsedReload = 0;
+        
         protected virtual void Start()
         {
             PlayerController = PlayerController.Instance;
@@ -67,10 +69,10 @@ namespace Weapon
         {
             if (isReloading)
             {
-                timeElapsed += Time.deltaTime * 1;
-                if ((so_Weapon.weaponMode[0].timeToReload / PlayerKillStreak.Instance.reloadBoost) < timeElapsed)
+                timeElapsedReload += Time.deltaTime * 1;
+                if ((so_Weapon.weaponMode[0].timeToReload / PlayerKillStreak.Instance.reloadBoost) < timeElapsedReload)
                 {
-                    timeElapsed = 0;
+                    timeElapsedReload = 0;
                     TimeToReload();
                 }
             }
@@ -256,8 +258,7 @@ namespace Weapon
             canFire = false;
         }
         
-
-        private float timeElapsed = 0;
+        
         private void TimeToReload()
         {
             actualNumberOfBullet = so_Weapon.weaponMode[0].numberOfBullet;
