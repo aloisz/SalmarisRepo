@@ -38,7 +38,10 @@ namespace Weapon.EnemyWeapon
 
         private Vector3 GetThePlayerDirection()
         {
-            Vector3 aimDir = ((Player.PlayerController.Instance.transform.position + new Vector3(0,.5f,0) ) - gunBarrelPos.transform.position).normalized;
+            Vector3 aimDir = Vector3.zero;
+            aimDir = !PlayerController.isSliding ? 
+                ((Player.PlayerController.Instance.transform.position + new Vector3(0,1.5f,0) ) - gunBarrelPos.transform.position).normalized : 
+                ((Player.PlayerController.Instance.transform.position + new Vector3(0,.6f,0) ) - gunBarrelPos.transform.position).normalized;
             return aimDir;
         }
     }
