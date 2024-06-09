@@ -32,6 +32,8 @@ public class UpgradeModule : GenericSingletonClass<UpgradeModule>
     private Vector3 _baseScale;
     private List<SO_WeaponMode> _currentAvailableUpgrades = new List<SO_WeaponMode>();
 
+    private bool _alreadyland;
+
     private void Start()
     {
         _baseScale = transform.localScale;
@@ -40,10 +42,12 @@ public class UpgradeModule : GenericSingletonClass<UpgradeModule>
 
     public void InitModule(Vector3 position, List<SO_WeaponMode> list)
     {
-        orbitPosition = position;
-
-        var t = transform;
+        UpgradeModuleVFX.Instance.StartLanding();
         
+        _alreadyland = false;
+
+        orbitPosition = position;
+        var t = transform;
         t.position = orbitPosition;
         t.localScale = Vector3.zero;
         
@@ -51,9 +55,10 @@ public class UpgradeModule : GenericSingletonClass<UpgradeModule>
         
         if (_hitGroundLanding.collider is null) 
             throw new Exception("Cannot land the module because it can't found the ground.");
-        
-        t.DOMove(_hitGroundLanding.point + new Vector3(0, offsetLandingY, 0), 
+
+        t.DOMove(_hitGroundLanding.point + new Vector3(0, offsetLandingY, 0),
             landingDuration).SetEase(landingCurve);
+        
         t.DOScale(_baseScale, landingDuration).SetEase(landingCurve);
         t.DORotate(new Vector3(0, 360f * fullRotateAmount, 0), landingDuration, 
             RotateMode.FastBeyond360).SetEase(landingCurve);
@@ -66,6 +71,18 @@ public class UpgradeModule : GenericSingletonClass<UpgradeModule>
         Announcements.Instance.GenerateAnnouncement("Shop incoming !");
     }
 
+    private void Update()
+    {
+        if (_hitGroundLanding.collider is null) 
+            throw new Exception("Cannot land the module because it can't found the ground.");
+
+        if (Vector3.Distance(_hitGroundLanding.point + new Vector3(0, offsetLandingY, 0), transform.position) < 2f && !_alreadyland)
+        {
+            UpgradeModuleVFX.Instance.LandVFX();
+            _alreadyland = true;
+        }
+    }
+
     public void LeftModule()
     {
         var t = transform;
@@ -74,6 +91,8 @@ public class UpgradeModule : GenericSingletonClass<UpgradeModule>
         t.DOScale(Vector3.zero, leaveDuration).SetEase(leaveCurve);
         t.DORotate(new Vector3(0, -360f * fullRotateAmount, 0), leaveDuration, 
             RotateMode.FastBeyond360).SetEase(leaveCurve);
+        
+        UpgradeModuleVFX.Instance.GoAwayVFX();
     }
 
     private void CheckGroundLandingPosition()
@@ -97,7 +116,10 @@ public class UpgradeModule : GenericSingletonClass<UpgradeModule>
     {
         foreach (Transform t in upgradeOffersTransform.GetComponentsInChildren<Transform>())
         {
-            if(t != upgradeOffersTransform) Destroy(t);
+            if (t != upgradeOffersTransform)
+            {
+                Destroy(t.gameObject);
+            }
         }
         
         StartCoroutine(GetRandomInList(upgradeOffersAmount));

@@ -155,6 +155,8 @@ public class Director : GenericSingletonClass<Director>
         
         hasFinishSpawningEnemies = true;
         hasStartedWave = false;
+
+        StartCoroutine(nameof(SpawnSecurityCheck));
     }
 
     /// <summary>
@@ -316,6 +318,22 @@ public class Director : GenericSingletonClass<Director>
     }
 
     private bool CanGoToNextWave() => currentWaveIndex != GetActualArenaData().arenaWaves.Length - 1;
+
+    IEnumerator SpawnSecurityCheck()
+    {
+        yield return new WaitForSeconds(5f);
+
+        foreach (AI_Pawn ai in _spawnedEnemies)
+        {
+            if (Vector3.Distance(ai.transform.position, PlayerController.Instance.transform.position) > 250f)
+            {
+                Debug.Log($"<color=red><b>Killed a mob</b></color> at {ai.transform.position}.");
+                currentRemainingEnemies--;
+                currentWaveIntensity -= ai.enemyWeight;
+                ai.DestroyLogic();
+            }
+        }
+    }
 
     private void OnGUI()
     {

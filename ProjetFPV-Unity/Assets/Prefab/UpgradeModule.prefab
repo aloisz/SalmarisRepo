@@ -146,6 +146,7 @@ GameObject:
   - component: {fileID: 4270965290989781308}
   - component: {fileID: 1396894685737231037}
   - component: {fileID: 6633573978521185087}
+  - component: {fileID: 484746384658013415}
   - component: {fileID: 2360637770702921572}
   m_Layer: 0
   m_Name: UpgradeModule
@@ -276,6 +277,128 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d6b52d8c1addcdf4da4d5f8956753cec, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  alreadyInteracted: 0
+--- !u!114 &484746384658013415
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 388974921009344816}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: deac573338ae99a4bac4190d59888027, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  reactors:
+  - {fileID: 5746898287851381157}
+  - {fileID: 6455941088539615884}
+  - {fileID: 6575510740642657221}
+  - {fileID: 1445591721350789218}
+  - {fileID: 4047632927927351687}
+  - {fileID: 2141223399669493445}
+  trails:
+  - {fileID: 321089198092973778}
+  - {fileID: 4510406429865396616}
+  landVFX: {fileID: 5511308480015353734, guid: 6af7e6236b0b8e749b5e5be0e862a610, type: 3}
+  balise: {fileID: 4697766103536625822}
+  screen: {fileID: 5800221975689431599}
+  screenCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: Infinity
+      outSlope: Infinity
+      tangentMode: 103
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 0.07526979
+      value: 1.0023575
+      inSlope: 4.148469
+      outSlope: 4.148469
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 0.23445702
+      value: 0.20324951
+      inSlope: Infinity
+      outSlope: Infinity
+      tangentMode: 1
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 0.33733767
+      value: 0.9882202
+      inSlope: Infinity
+      outSlope: Infinity
+      tangentMode: 103
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0
+    - serializedVersion: 3
+      time: 0.43152452
+      value: 0.4090203
+      inSlope: Infinity
+      outSlope: Infinity
+      tangentMode: 103
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 0.51303375
+      value: 0.97639847
+      inSlope: Infinity
+      outSlope: Infinity
+      tangentMode: 103
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 0.60718477
+      value: 0.009508312
+      inSlope: Infinity
+      outSlope: Infinity
+      tangentMode: 103
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 0.7013755
+      value: 0.7210865
+      inSlope: Infinity
+      outSlope: Infinity
+      tangentMode: 103
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 0.8259277
+      value: 0.0071442723
+      inSlope: Infinity
+      outSlope: Infinity
+      tangentMode: 103
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 0.941076
+      value: 0.9905847
+      inSlope: Infinity
+      outSlope: Infinity
+      tangentMode: 103
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!136 &2360637770702921572
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -801,7 +924,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1827849664356515443}
   m_Layer: 0
-  m_Name: GameObject
+  m_Name: Shape3D
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1137,9 +1260,69 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 53952dcd3bdb16841969d78ee3b10ca6, type: 3}
+--- !u!198 &321089198092973778 stripped
+ParticleSystem:
+  m_CorrespondingSourceObject: {fileID: 2818738164869713248, guid: 53952dcd3bdb16841969d78ee3b10ca6,
+    type: 3}
+  m_PrefabInstance: {fileID: 2552018721823439794}
+  m_PrefabAsset: {fileID: 0}
+--- !u!198 &1445591721350789218 stripped
+ParticleSystem:
+  m_CorrespondingSourceObject: {fileID: 3991686269682140112, guid: 53952dcd3bdb16841969d78ee3b10ca6,
+    type: 3}
+  m_PrefabInstance: {fileID: 2552018721823439794}
+  m_PrefabAsset: {fileID: 0}
+--- !u!198 &2141223399669493445 stripped
+ParticleSystem:
+  m_CorrespondingSourceObject: {fileID: 4529971240963888503, guid: 53952dcd3bdb16841969d78ee3b10ca6,
+    type: 3}
+  m_PrefabInstance: {fileID: 2552018721823439794}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &3021081313418341571 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 758749829381773169, guid: 53952dcd3bdb16841969d78ee3b10ca6,
+    type: 3}
+  m_PrefabInstance: {fileID: 2552018721823439794}
+  m_PrefabAsset: {fileID: 0}
+--- !u!198 &4047632927927351687 stripped
+ParticleSystem:
+  m_CorrespondingSourceObject: {fileID: 1965402540248269365, guid: 53952dcd3bdb16841969d78ee3b10ca6,
+    type: 3}
+  m_PrefabInstance: {fileID: 2552018721823439794}
+  m_PrefabAsset: {fileID: 0}
+--- !u!198 &4510406429865396616 stripped
+ParticleSystem:
+  m_CorrespondingSourceObject: {fileID: 2157990863151395386, guid: 53952dcd3bdb16841969d78ee3b10ca6,
+    type: 3}
+  m_PrefabInstance: {fileID: 2552018721823439794}
+  m_PrefabAsset: {fileID: 0}
+--- !u!198 &4697766103536625822 stripped
+ParticleSystem:
+  m_CorrespondingSourceObject: {fileID: 7087336366505546540, guid: 53952dcd3bdb16841969d78ee3b10ca6,
+    type: 3}
+  m_PrefabInstance: {fileID: 2552018721823439794}
+  m_PrefabAsset: {fileID: 0}
+--- !u!198 &5746898287851381157 stripped
+ParticleSystem:
+  m_CorrespondingSourceObject: {fileID: 7830495359825615383, guid: 53952dcd3bdb16841969d78ee3b10ca6,
+    type: 3}
+  m_PrefabInstance: {fileID: 2552018721823439794}
+  m_PrefabAsset: {fileID: 0}
+--- !u!23 &5800221975689431599 stripped
+MeshRenderer:
+  m_CorrespondingSourceObject: {fileID: 8292271120943198621, guid: 53952dcd3bdb16841969d78ee3b10ca6,
+    type: 3}
+  m_PrefabInstance: {fileID: 2552018721823439794}
+  m_PrefabAsset: {fileID: 0}
+--- !u!198 &6455941088539615884 stripped
+ParticleSystem:
+  m_CorrespondingSourceObject: {fileID: 8859297033327876414, guid: 53952dcd3bdb16841969d78ee3b10ca6,
+    type: 3}
+  m_PrefabInstance: {fileID: 2552018721823439794}
+  m_PrefabAsset: {fileID: 0}
+--- !u!198 &6575510740642657221 stripped
+ParticleSystem:
+  m_CorrespondingSourceObject: {fileID: 8658873625428609143, guid: 53952dcd3bdb16841969d78ee3b10ca6,
     type: 3}
   m_PrefabInstance: {fileID: 2552018721823439794}
   m_PrefabAsset: {fileID: 0}

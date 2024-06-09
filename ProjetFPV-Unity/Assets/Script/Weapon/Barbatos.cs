@@ -187,7 +187,7 @@ public class Barbatos : Shotgun
         particle.transform.up = hit.normal;
         Pooling.instance.DelayedDePop("BulletImpact", particle,3);
         
-        DecalSpawnerManager.Instance.SpawnDecal(hit.point, hit.normal, "Impact_Shotgun_Decal");
+        //DecalSpawnerManager.Instance.SpawnDecal(hit.point, hit.normal, "Impact_Shotgun_Decal");
         
         if (so_Weapon.weaponMode[(int)actualWeaponModeIndex].doExplosion)
         {
