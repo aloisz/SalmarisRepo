@@ -8,6 +8,7 @@ using UnityEngine;
 using UnityEngine.Serialization;
 using Random = UnityEngine.Random;
 using Player;
+using UnityEditor;
 
 namespace CameraBehavior
 {
@@ -67,6 +68,7 @@ namespace CameraBehavior
         {
             MovingCameraManager();
             CameraStateManagamement();
+            CheckForCameraBounds();
         }
 
         public void Update()
@@ -299,7 +301,44 @@ namespace CameraBehavior
         }
 
         #endregion
-        
+
+
+        #region MyRegion
+
+        [Header("Camera Bounds")] 
+        [SerializeField] [MinMaxSlider(-10, 10)] private Vector2 xBounds;
+        [SerializeField] [MinMaxSlider(-10, 10)] private Vector2 yBounds;
+        [SerializeField] [MinMaxSlider(-10, 10)] private Vector2 zBounds;
+
+        private void CheckForCameraBounds()
+        {
+            /*Vector3 clampedPosition = cameraTransform.localPosition;
+            clampedPosition.x = Mathf.Clamp(clampedPosition.x, xBounds.x, xBounds.y);
+            clampedPosition.y = Mathf.Clamp(clampedPosition.y, yBounds.x, yBounds.y);
+            clampedPosition.z = Mathf.Clamp(clampedPosition.z, zBounds.x, zBounds.y);
+
+            cameraTransform.localPosition = clampedPosition;*/
+        }
+
+        #if UNITY_EDITOR
+        private void OnDrawGizmos()
+        {
+            float x = (xBounds.x + xBounds.y) / 2;
+            float y = (yBounds.x + yBounds.y) / 2;
+            float z = (zBounds.x + zBounds.y) / 2;
+
+            Vector3 center = new Vector3(x, y, z);
+            
+            Handles.color = Color.red;
+            Handles.DrawWireCube(transform.position, center);
+
+            Gizmos.color = new Color32(80, 0, 0, 100);
+            Gizmos.DrawCube(transform.position, center);
+        }
+        #endif
+
+        #endregion
+
     }
 }
 
