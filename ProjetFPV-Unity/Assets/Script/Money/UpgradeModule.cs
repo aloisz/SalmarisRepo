@@ -26,6 +26,8 @@ public class UpgradeModule : GenericSingletonClass<UpgradeModule>
     [SerializeField] private Transform upgradeOffersTransform;
     [SerializeField] private int upgradeOffersAmount;
     [SerializeField] UpgradeButton upgradeButtonReference;
+    [SerializeField] Transform keyboard;
+    [SerializeField] Vector3 keyboardOffset;
 
     private RaycastHit _hitGroundLanding;
     private Vector3 orbitPosition;
@@ -33,11 +35,14 @@ public class UpgradeModule : GenericSingletonClass<UpgradeModule>
     private List<SO_WeaponMode> _currentAvailableUpgrades = new List<SO_WeaponMode>();
 
     private bool _alreadyland;
+    private Vector3 baseKeyboardPosition;
 
     private void Start()
     {
         _baseScale = transform.localScale;
         transform.localScale = Vector3.zero;
+
+        baseKeyboardPosition = keyboard.transform.localPosition;
     }
 
     public void InitModule(Vector3 position, List<SO_WeaponMode> list)
@@ -57,7 +62,11 @@ public class UpgradeModule : GenericSingletonClass<UpgradeModule>
             throw new Exception("Cannot land the module because it can't found the ground.");
 
         t.DOMove(_hitGroundLanding.point + new Vector3(0, offsetLandingY, 0),
-            landingDuration).SetEase(landingCurve);
+            landingDuration).SetEase(landingCurve).OnComplete(() =>
+        {
+            keyboard.DOLocalMove(baseKeyboardPosition + new Vector3(keyboardOffset.x, keyboardOffset.y, keyboardOffset.z),
+                1f);
+        });
         
         t.DOScale(_baseScale, landingDuration).SetEase(landingCurve);
         t.DORotate(new Vector3(0, 360f * fullRotateAmount, 0), landingDuration, 
@@ -73,8 +82,7 @@ public class UpgradeModule : GenericSingletonClass<UpgradeModule>
 
     private void Update()
     {
-        if (_hitGroundLanding.collider is null) 
-            throw new Exception("Cannot land the module because it can't found the ground.");
+        if (_hitGroundLanding.collider is null) return;
 
         if (Vector3.Distance(_hitGroundLanding.point + new Vector3(0, offsetLandingY, 0), transform.position) < 2f && !_alreadyland)
         {
@@ -91,6 +99,8 @@ public class UpgradeModule : GenericSingletonClass<UpgradeModule>
         t.DOScale(Vector3.zero, leaveDuration).SetEase(leaveCurve);
         t.DORotate(new Vector3(0, -360f * fullRotateAmount, 0), leaveDuration, 
             RotateMode.FastBeyond360).SetEase(leaveCurve);
+        
+        keyboard.DOLocalMove(baseKeyboardPosition, 0.25f);
         
         UpgradeModuleVFX.Instance.GoAwayVFX();
     }
