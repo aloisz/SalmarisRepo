@@ -45,7 +45,7 @@ namespace AI
 
         [Header("VFX")] 
         [SerializeField] private ParticleSystem VFXSpawn;
-        private AI_Material _aiMaterial;
+        private AI_Material[] _aiMaterials;
         
         protected virtual void Awake()
         {
@@ -53,7 +53,7 @@ namespace AI
             agentLinkMover = GetComponent<AgentLinkMover>();
             rb = GetComponent<Rigidbody>();
 
-            _aiMaterial = GetComponentInChildren<AI_Material>();
+            _aiMaterials = GetComponentsInChildren<AI_Material>();
             
             ResetAgent();
             //GameManager.Instance.aiPawnsAvailable.Add(this);
@@ -104,9 +104,9 @@ namespace AI
 
             pawnState = PawnState.Enable;
 
-            if (_aiMaterial)
+            if (_aiMaterials.Length > 0)
             {
-                _aiMaterial.Reset();
+                foreach(AI_Material aiMaterial in _aiMaterials) aiMaterial.Reset();
             }
             
             actualPawnHealth = so_IA.health;
@@ -173,10 +173,13 @@ namespace AI
                 }
                 if(PlayerKillStreak.Instance) PlayerKillStreak.Instance.NotifyEnemyKilled(mobType);
 
-                if (_aiMaterial)
+                if (_aiMaterials.Length > 0)
                 {
-                    deathDelay = _aiMaterial.deathDuration + _aiMaterial.deathDissolveDuration + _aiMaterial.dissolveDelay;
-                    _aiMaterial.Death();
+                    deathDelay = _aiMaterials[0].deathDuration + _aiMaterials[0].deathDissolveDuration + _aiMaterials[0].dissolveDelay;
+                    foreach (AI_Material aiMaterial in _aiMaterials)
+                    {
+                        aiMaterial.Death();
+                    }
                 }
             }
             else
