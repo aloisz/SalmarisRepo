@@ -188,16 +188,16 @@ namespace CameraBehavior
                     Quaternion.Slerp(transform.localRotation, shootingRot, cameraManager.so_Camera.rotationOffSetSmooth * Time.deltaTime);
                 
                 transform.localPosition = 
-                    Vector3.Lerp(transform.localPosition, transform.localPosition + new Vector3(posX,posY,posZ), timeElapsed);//cameraManager.so_Camera.positionOffSetSmooth * Time.deltaTime
+                    Vector3.Lerp(transform.localPosition, transform.localPosition + new Vector3(posX,posY,posZ), cameraManager.so_Camera.positionOffSetSmooth);//cameraManager.so_Camera.positionOffSetSmooth * Time.deltaTime
 
             }
             else
             {
                 transform.localRotation = 
-                    Quaternion.Slerp(transform.localRotation, Quaternion.identity, timeElapsed);
+                    Quaternion.Slerp(transform.localRotation, Quaternion.identity, cameraManager.so_Camera.rotationOffSetSmooth * Time.deltaTime);
                 
                 transform.localPosition = 
-                    Vector3.Lerp(transform.localPosition, basePos, timeElapsed);
+                    Vector3.Lerp(transform.localPosition, basePos, cameraManager.so_Camera.positionOffSetSmooth);
             }
             
             /*Quaternion shootingRot = transform.localRotation * Quaternion.Euler(-angleX, angleZ, 0);
