@@ -3706,6 +3706,11 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 5927227267297739774, guid: 71f951629bed9f0468abebcf5f737845,
+        type: 3}
+      propertyPath: m_DirtyAABB
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6159587722465297484, guid: 71f951629bed9f0468abebcf5f737845,
         type: 3}
       propertyPath: m_Name
@@ -3769,11 +3774,7 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 7967284844134879770, guid: 71f951629bed9f0468abebcf5f737845,
-        type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 0}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 71f951629bed9f0468abebcf5f737845, type: 3}
 --- !u!43 &121906443
 Mesh:
@@ -9356,6 +9357,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Managers
       objectReference: {fileID: 0}
+    - target: {fileID: 5765004365616516968, guid: 71e0be70f0d990647aab1b9819ac3f97,
+        type: 3}
+      propertyPath: keyPools.Array.data[0].pool.baseCount
+      value: 7
+      objectReference: {fileID: 0}
     - target: {fileID: 8256273055489090299, guid: 71e0be70f0d990647aab1b9819ac3f97,
         type: 3}
       propertyPath: m_Camera
@@ -14011,7 +14017,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   DEBUG_CALL_SHOP_AT_START: 0
-  DEBUG_CALL_TP_PLAYER_AT_START: 0
+  DEBUG_CALL_TP_PLAYER_AT_START: 1
   arenaID: 0
   arenaData: {fileID: 11400000, guid: f3feeb3b2b4a7ed4b9f9648330eff657, type: 2}
   enemiesPositions:
@@ -49060,7 +49066,7 @@ MonoBehaviour:
   priority: 0
   blendDistance: 0
   weight: 1
-  sharedProfile: {fileID: 11400000, guid: b9af3c5ecaa819043bfd75365f100525, type: 2}
+  sharedProfile: {fileID: 11400000, guid: 08d5e7f50aa231242b6943d2c107a6d4, type: 2}
 --- !u!4 &1762957937
 Transform:
   m_ObjectHideFlags: 0
