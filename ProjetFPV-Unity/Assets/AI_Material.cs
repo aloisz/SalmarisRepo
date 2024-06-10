@@ -1,0 +1,47 @@
+using System.Collections;
+using System.Collections.Generic;
+using AI;
+using DG.Tweening;
+using UnityEngine;
+
+[RequireComponent(typeof(SkinnedMeshRenderer))]
+public class AI_Material : MonoBehaviour
+{
+    [SerializeField] private float saturationAmount = 0.75f;
+    [SerializeField] private float lightningAmount = 0.75f;
+    [SerializeField] public float deathDuration = 0.75f;
+    [SerializeField] public float deathDissolveDuration = 0.75f;
+    [SerializeField] public float dissolveDelay = 0.75f;
+    private SkinnedMeshRenderer _meshRenderer;
+    
+    // Start is called before the first frame update
+    void Start()
+    {
+        _meshRenderer = GetComponent<SkinnedMeshRenderer>();
+        if(_meshRenderer) CreateMaterialInstance(_meshRenderer);
+    }
+
+    public void Death()
+    {
+        if (!_meshRenderer) return;
+        
+        _meshRenderer.material.DOFloat(saturationAmount, "_DeathSaturation", deathDuration);
+        _meshRenderer.material.DOFloat(lightningAmount, "_DeathDarkening", deathDuration);
+        _meshRenderer.material.DOFloat(1f, "_DeathDissolve", deathDissolveDuration).SetDelay(dissolveDelay);
+    }
+
+    public void Reset()
+    {
+        if (!_meshRenderer) return;
+        
+        _meshRenderer.material.SetFloat("_DeathSaturation", 1f);
+        _meshRenderer.material.SetFloat("_DeathDarkening", 1f);
+        _meshRenderer.material.SetFloat("_DeathDissolve", 0f);
+    }
+
+    private void CreateMaterialInstance(SkinnedMeshRenderer meshRenderer)
+    {
+        var mat = Instantiate(meshRenderer.material);
+        meshRenderer.material = mat;
+    }
+}

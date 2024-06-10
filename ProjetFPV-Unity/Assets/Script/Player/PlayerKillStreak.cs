@@ -75,9 +75,9 @@ public class PlayerKillStreak : GenericSingletonClass<PlayerKillStreak>
         StartCoroutine(nameof(DebugRoutine));
     }
 
-    public void NotifyDamageInflicted()
+    public void NotifyDamageInflicted(float damageInflicted = 0)
     {
-        IncrementKilLStreak(incrementKillStreakDmg);
+        IncrementKilLStreak(incrementKillStreakDmg * damageInflicted);
     }
     
     public void NotifyEnemyKilled(EnemyToSpawn.EnemyKeys key)

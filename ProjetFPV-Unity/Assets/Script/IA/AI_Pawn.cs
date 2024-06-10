@@ -26,6 +26,7 @@ namespace AI
         
         [Header("Tick")]
         [SerializeField][Tooltip("How many time the check is performed")] protected float tickVerification = 0.2f;
+        [HideInInspector] protected float deathDelay = 2;
 
         [Header("Director")]
         public float enemyWeight;
@@ -44,6 +45,7 @@ namespace AI
 
         [Header("VFX")] 
         [SerializeField] private ParticleSystem VFXSpawn;
+        private AI_Material _aiMaterial;
         
         protected virtual void Awake()
         {
@@ -51,10 +53,12 @@ namespace AI
             agentLinkMover = GetComponent<AgentLinkMover>();
             rb = GetComponent<Rigidbody>();
 
+            _aiMaterial = GetComponentInChildren<AI_Material>();
+            
             ResetAgent();
             //GameManager.Instance.aiPawnsAvailable.Add(this);
         }
-        
+
         protected virtual void OnDisable()
         {
             navMeshAgent.enabled = false;
@@ -99,6 +103,11 @@ namespace AI
             navMeshAgent.angularSpeed = so_IA.angularSpeed;
 
             pawnState = PawnState.Enable;
+
+            if (_aiMaterial)
+            {
+                _aiMaterial.Reset();
+            }
             
             actualPawnHealth = so_IA.health;
             isPawnDead = false;
@@ -163,6 +172,12 @@ namespace AI
                     Director.Instance.currentWaveIntensity -= enemyWeight;
                 }
                 if(PlayerKillStreak.Instance) PlayerKillStreak.Instance.NotifyEnemyKilled(mobType);
+
+                if (_aiMaterial)
+                {
+                    deathDelay = _aiMaterial.deathDuration + _aiMaterial.deathDissolveDuration + _aiMaterial.dissolveDelay;
+                    _aiMaterial.Death();
+                }
             }
             else
             {
@@ -250,7 +265,7 @@ namespace AI
         public virtual void Hit(float damageInflicted)
         {
             actualPawnHealth -= damageInflicted;
-            PlayerKillStreak.Instance.NotifyDamageInflicted();
+            PlayerKillStreak.Instance.NotifyDamageInflicted(damageInflicted);
         }
 
         public void EnableNavMesh(bool enabled)

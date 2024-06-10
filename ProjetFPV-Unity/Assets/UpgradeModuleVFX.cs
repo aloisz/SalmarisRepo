@@ -28,7 +28,8 @@ public class UpgradeModuleVFX : GenericSingletonClass<UpgradeModuleVFX>
         vfx.transform.rotation = Quaternion.Euler(new Vector3(-90,0,0));
         vfx.Play();
         
-        screen.material.DOFloat(1f, "_Emissive", 0.45f).SetEase(screenCurve).SetDelay(1f);
+        screen.material.DOFloat(1f, "_ScreenX", 0.55f).SetDelay(1f);
+        screen.material.DOFloat(1f, "_ScreenY", 0.65f).SetDelay(1.25f);
     }
 
     public void StartLanding()
@@ -38,7 +39,9 @@ public class UpgradeModuleVFX : GenericSingletonClass<UpgradeModuleVFX>
         foreach (var ps in reactors) ps.Stop();
         foreach (var ps in trails) ps.Stop();
         
-        screen.material.SetFloat("_Emissive", 0f);
+        screen.material.SetFloat("_Emissive", 1f);
+        screen.material.SetFloat("_ScreenX", 0f);
+        screen.material.SetFloat("_ScreenY", 0f);
     }
     
     public void GoAwayVFX()
@@ -46,7 +49,8 @@ public class UpgradeModuleVFX : GenericSingletonClass<UpgradeModuleVFX>
         foreach (var ps in reactors) ps.Play();
         foreach (var ps in trails) ps.Play();
         balise.Stop();
-        screen.material.DOFloat(0f, "_Emissive", 0.5f);
+        
+        screen.material.DOFloat(0f, "_Emissive", 0.45f).SetEase(screenCurve);
     }
 
     private void CreateMaterialInstance(MeshRenderer meshRenderer)
