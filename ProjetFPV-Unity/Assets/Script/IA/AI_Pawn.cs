@@ -250,7 +250,7 @@ namespace AI
         public virtual void Hit(float damageInflicted)
         {
             actualPawnHealth -= damageInflicted;
-            PlayerKillStreak.Instance.NotifyDamageInflicted();
+            PlayerKillStreak.Instance.NotifyDamageInflicted(damageInflicted);
         }
 
         public void EnableNavMesh(bool enabled)
