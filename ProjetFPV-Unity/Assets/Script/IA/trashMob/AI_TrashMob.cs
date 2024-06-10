@@ -87,7 +87,7 @@ namespace AI
         
         public override void DestroyLogic()
         {
-            Pooling.instance.DelayedDePop(so_IA.poolingName, gameObject, 2);
+            Pooling.instance.DelayedDePop(so_IA.poolingName, gameObject, deathDelay);
         }
         
         // Debug -------------------------
