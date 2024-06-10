@@ -15,6 +15,8 @@ public class BarbatwoBullet : BulletBehavior
     private ProjectileType projectileType;
     private int bounceNbr;
 
+    [SerializeField] private float bounceAmount = .8f;
+
     protected virtual void OnDisable()
     {
         base.OnDisable();
@@ -34,7 +36,7 @@ public class BarbatwoBullet : BulletBehavior
                 SimpleLogic();
                 break;
             case ProjectileType.Bounce:
-                BounceLogic();
+                BounceLogic(collision);
                 break;
         }
     }
@@ -46,7 +48,7 @@ public class BarbatwoBullet : BulletBehavior
         Pooling.instance.DePop(bullet.PoolingKeyName, gameObject);
     }
 
-    private void BounceLogic()
+    private void BounceLogic(Collision collision)
     {
         Explosion();
         if(bounceNbr == 1)
@@ -58,13 +60,29 @@ public class BarbatwoBullet : BulletBehavior
         {
             bounceNbr--;
             Vector3 direction = bullet.bulletDir;
-            RaycastHit hit;
+            /*RaycastHit hit;
             if (Physics.Raycast(transform.position, bullet.bulletDir, out hit, 1000, walkableMask))
             {
-                bullet.bulletDir = Vector3.Reflect(direction, hit.normal);
+                
+                Debug.Log(hit.normal);
+                bullet.bulletDir = Vector3.Reflect(direction + (Vector3.up * .2f), hit.normal);
                 bulletShot = false;
                 bullet.speed = bullet.speed / 2;
-            }
+                
+            }*/
+            
+            bulletShot = false;
+            ContactPoint contact = collision.contacts[0];
+            Vector3 normal = contact.normal;
+            
+            Vector3 incomingVector = -direction;
+            Vector3 reflectedVector = Vector3.Reflect(incomingVector + Vector3.up, normal);
+            bullet.bulletDir = -reflectedVector * bounceAmount;
+            bullet.speed = bullet.speed / 2;
+            
+            Debug.DrawRay(contact.point, incomingVector, Color.red, 5);
+            Debug.DrawRay(contact.point, normal, Color.green, 5);
+            Debug.DrawRay(contact.point, -reflectedVector, Color.blue, 5);
         }
     }
     
