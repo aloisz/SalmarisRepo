@@ -122,6 +122,7 @@ public class Originator : MonoBehaviour
         AI_Pawn[] pawns = FindObjectsOfType<AI_Pawn>();
         foreach (AI_Pawn p in pawns)
         {
+            //TODO
             p.navMeshAgent.enabled = false;
             Pooling.instance.DePop(p.so_IA.poolingName, p.gameObject);
         }
@@ -135,7 +136,7 @@ public class Originator : MonoBehaviour
             Destroy(dp);
         }
     }
-
+    
     private void SetKeyData(Memento memento)
     {
         int i = 0;

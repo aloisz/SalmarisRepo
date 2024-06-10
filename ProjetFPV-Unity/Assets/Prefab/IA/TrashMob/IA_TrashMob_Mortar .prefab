@@ -288,6 +288,7 @@ MonoBehaviour:
   actualNumberOfBullet: 0
   actualWeaponModeIndex: 0
   camera: {fileID: 0}
+  timeElapsedReload: 0
   gunBarrelPos: {fileID: 2579781514014401438}
   timeToArrive:
     serializedVersion: 2
@@ -379,6 +380,7 @@ MonoBehaviour:
     m_RotationOrder: 4
   duration: 0.35
   tickVerification: 0.5
+  linkerDirection: {x: 0, y: 0, z: 0, w: 0}
 --- !u!114 &390890421490913292
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -532,7 +534,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1824975902745714760
 RectTransform:
   m_ObjectHideFlags: 0
@@ -787,6 +789,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -3853831199124262997, guid: 172bd0447f594b14c9e7d9009c851270,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: b8d6fa19e1744694aa3986bec4dbfa0f, type: 2}
     - target: {fileID: 919132149155446097, guid: 172bd0447f594b14c9e7d9009c851270,
         type: 3}
       propertyPath: m_Name
@@ -800,7 +807,34 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 5088199345582706499}
+    - targetCorrespondingSourceObject: {fileID: -1720974864490360270, guid: 172bd0447f594b14c9e7d9009c851270,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2287362991037226644}
   m_SourcePrefab: {fileID: 100100000, guid: 172bd0447f594b14c9e7d9009c851270, type: 3}
+--- !u!1 &417863987979333585 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: -1720974864490360270, guid: 172bd0447f594b14c9e7d9009c851270,
+    type: 3}
+  m_PrefabInstance: {fileID: 7913197759983959523}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &2287362991037226644
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 417863987979333585}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8abf855b8edfe4b4f8d45fd7765cdb0e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  saturationAmount: 0.5
+  lightningAmount: 0.6
+  deathDuration: 1
+  deathDissolveDuration: 2
+  dissolveDelay: 1
 --- !u!1 &6994154809918980274 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 172bd0447f594b14c9e7d9009c851270,
