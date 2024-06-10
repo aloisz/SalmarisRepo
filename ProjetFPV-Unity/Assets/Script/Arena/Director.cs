@@ -325,7 +325,7 @@ public class Director : GenericSingletonClass<Director>
 
         foreach (AI_Pawn ai in _spawnedEnemies)
         {
-            if (Vector3.Distance(ai.transform.position, PlayerController.Instance.transform.position) > 250f)
+            if (Vector3.Distance(ai.transform.position, GetActualArenaTrigger().transform.position) > 250f)
             {
                 Debug.Log($"<color=red><b>Killed a mob</b></color> at {ai.transform.position}.");
                 currentRemainingEnemies--;
