@@ -114,6 +114,8 @@ namespace AI
 
             visionDetector.isTrigger = true;
             visionDetector.radius = so_IA.visionDetectorRadius;
+
+            targetToFollow = null;
         }
 
         protected virtual void OldResetAgent()
