@@ -26,6 +26,9 @@ MonoBehaviour:
   <fireRate>k__BackingField: 0.675
   <burstAmount>k__BackingField: 6
   <burstTime>k__BackingField: 0
+  <doFallOffDamage>k__BackingField: 0
+  <fallOffStartingDistance>k__BackingField: 0
+  <fallOffByDistanceMultiplier>k__BackingField: 0
   <isRayDistanceNotInfinte>k__BackingField: 0
   <RayDistance>k__BackingField: 1000
   <raycastType>k__BackingField: 0
@@ -61,13 +64,14 @@ MonoBehaviour:
   <gravityApplied>k__BackingField: 80
   <vectorUpApplied>k__BackingField: 0
   <poolingPopKey>k__BackingField: BarbatwoBullet
-  <weaponRecoilPosX>k__BackingField: {x: -2, y: 2}
-  <weaponRecoilPosY>k__BackingField: {x: -5, y: 2}
-  <weaponRecoilPosZ>k__BackingField: {x: -5, y: 0}
+  <weaponRecoilPosX>k__BackingField: {x: -0.25, y: 0.25}
+  <weaponRecoilPosY>k__BackingField: {x: -0.35, y: 0.35}
+  <weaponRecoilPosZ>k__BackingField: {x: -0.65, y: 0}
   <weaponRecoilRotx>k__BackingField: {x: -15, y: 15}
   <weaponRecoilRotY>k__BackingField: {x: -15, y: 15}
   <weaponRecoilRotZ>k__BackingField: {x: -15, y: 15}
   <weaponRecoilCameraOffset>k__BackingField: {x: 0, y: 0.5, z: -5}
+  <weaponRecoilCameraOffsetRotXYZ>k__BackingField: {x: 0, y: 0, z: 0}
   <weaponRecoilCameraOffsetCurve>k__BackingField:
     serializedVersion: 2
     m_Curve:
@@ -96,3 +100,9 @@ MonoBehaviour:
   <weaponParticle>k__BackingField: {fileID: 7913191375587243214, guid: b01ff26f4979c0d41a3b5d988aaf9b3d,
     type: 3}
   <reloadParticle>k__BackingField: {fileID: 0}
+  <shakeDuration>k__BackingField: 0
+  <shakeMagnitude>k__BackingField: 0
+  <shakeMagnitudeRot>k__BackingField: 0
+  <shakeMagnitudeFrequency>k__BackingField: 0
+  <shakeApplyFadeOut>k__BackingField: 0
+  <shakePower>k__BackingField: 0
