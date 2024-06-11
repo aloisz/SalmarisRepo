@@ -314,12 +314,12 @@ namespace CameraBehavior
             }*/
             
             Vector3 desiredWorldPosition = cameraTransform.localPosition;
-            Debug.DrawRay(transitionParent.position, transitionParent.forward *(collisionOffset + repulseForce) , Color.green);
+            Debug.DrawRay(transitionParent.position, transitionParent.forward *(collisionOffset) , Color.green);
 
             if (PlayerController.Instance._rb.velocity.magnitude < 30) return;
             RaycastHit hit;
             if (Physics.Raycast(transitionParent.position, transitionParent.forward, out hit, 
-                    collisionOffset + repulseForce, obstacleLayer))
+                    collisionOffset, obstacleLayer))
             {
                 Vector3 directionToWall = (hit.point - desiredWorldPosition).normalized;
                 desiredWorldPosition -= directionToWall * repulseForce;
