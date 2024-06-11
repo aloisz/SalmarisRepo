@@ -36,12 +36,15 @@ public class PlayerHealth : GenericSingletonClass<PlayerHealth>, IDamage
     public float maxHealth;
     public float maxShield;
     public float probabilityToGainShield;
+
+    private float _timerRegenShield;
     
     // Start is called before the first frame update
     void Start()
     {
         InitValues();
         onDeath += CareTaker.Instance.LoadGameState;
+        onHit += () => _timerRegenShield = PlayerController.Instance.playerScriptable.shieldRegenCooldown;
     }
 
     private void InitValues()
@@ -51,6 +54,15 @@ public class PlayerHealth : GenericSingletonClass<PlayerHealth>, IDamage
 
         Health = maxHealth;
         Shield = maxShield;
+    }
+
+    private void Update()
+    {
+        _timerRegenShield.DecreaseTimerIfPositive();
+        if (_timerRegenShield <= 0f)
+        {
+            RestoreShield(PlayerController.Instance.playerScriptable.shieldPerSecondWhenRegen * Time.deltaTime);
+        }
     }
 
     public void RestoreShield(float amount) => Shield += amount;
