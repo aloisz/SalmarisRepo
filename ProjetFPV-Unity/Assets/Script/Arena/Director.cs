@@ -82,6 +82,8 @@ public class Director : GenericSingletonClass<Director>
             foreach(Door d in GetActualArenaTrigger().arenaUnlockedDoors) if(d.neededKey is null) d.ActivateDoor();
         }
         
+        StartCoroutine(nameof(SpawnSecurityCheck));
+        
         //start a new wave.
         if(CanGoToNextWave()) StartCoroutine(nameof(StartNewWave));
     }
@@ -156,8 +158,6 @@ public class Director : GenericSingletonClass<Director>
         
         hasFinishSpawningEnemies = true;
         hasStartedWave = false;
-
-        StartCoroutine(nameof(SpawnSecurityCheck));
     }
 
     /// <summary>
@@ -322,6 +322,7 @@ public class Director : GenericSingletonClass<Director>
 
     IEnumerator SpawnSecurityCheck()
     {
+        yield return new WaitUntil(() => isInAArena || isInAWave);
         yield return new WaitForSeconds(5f);
         
         foreach (AI_Pawn aiPawn in _spawnedEnemies)
@@ -337,6 +338,8 @@ public class Director : GenericSingletonClass<Director>
                 aiPawn.DestroyLogic();
             }
         }
+
+        StartCoroutine(SpawnSecurityCheck());
     }
     
     private void OnGUI()
