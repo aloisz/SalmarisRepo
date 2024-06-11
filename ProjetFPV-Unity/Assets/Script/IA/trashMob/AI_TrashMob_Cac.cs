@@ -126,6 +126,8 @@ namespace AI
             actualCountBeforeAttack = 0;
             isInDashAttackCoroutine = false;
             isCacAttacking = false;
+            
+            if(isPawnDead) Debug.Log("Finished Dash");
         }
         
         

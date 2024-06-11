@@ -183,6 +183,8 @@ namespace Player
         
         [Tooltip("")]
         public float maxPlayerShield = 1f;
-        
+
+        public float shieldRegenCooldown = 5f;
+        public float shieldPerSecondWhenRegen = 5f;
     }
 }
