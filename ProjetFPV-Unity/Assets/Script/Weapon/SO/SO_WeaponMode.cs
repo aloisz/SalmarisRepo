@@ -38,8 +38,12 @@ namespace Weapon
         [field: ShowIf("selectiveFireState", SelectiveFireType.Burst)] [field: SerializeField] internal float burstTime{ get; private set; }
         
         [field: SerializeField] internal bool doFallOffDamage{ get; private set; }
-        [field: ShowIf("doFallOffDamage")] [field: SerializeField] internal float fallOffStartingDistance{ get; private set; }
-        [field: ShowIf("doFallOffDamage")] [field: SerializeField] internal float fallOffByDistanceMultiplier{ get; private set; }
+
+        [field: ShowIf("doFallOffDamage")] [field: SerializeField]
+        internal float fallOffStartingDistance = 12;
+
+        [field: ShowIf("doFallOffDamage")] [field: SerializeField]
+        internal float fallOffByDistanceMultiplier = 1;
 
         [field: Space] 
         #region Raycast
