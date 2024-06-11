@@ -14,7 +14,7 @@ namespace AI
 {
     public class AI_Pawn : MonoBehaviour, IDamage
     {
-        [SerializeField] protected Transform targetToFollow;
+        [SerializeField] internal Transform targetToFollow;
         [SerializeField] public SO_IA so_IA;
         
         [Header("Pawn Properties")]
