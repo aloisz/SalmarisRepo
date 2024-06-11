@@ -324,7 +324,7 @@ public class Director : GenericSingletonClass<Director>
     {
         yield return new WaitForSeconds(5f);
         
-        Collider[] c = Physics.OverlapBox(transform.position, GetActualArenaTrigger().GetComponent<BoxCollider>().size / 1.5f);
+        Collider[] c = Physics.OverlapBox(transform.position, GetActualArenaTrigger().GetComponent<BoxCollider>().size * 1.5f);
         foreach (AI_Pawn aiPawn in _spawnedEnemies)
         {
             if (!c.ToList().Contains(aiPawn.GetComponent<Collider>()))
