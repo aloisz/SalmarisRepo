@@ -15,16 +15,16 @@ public class PlayerStamina : GenericSingletonClass<PlayerStamina>
         return staminaValue - ((100f / numberOfSteps) * numberOfStep) >= 0f;
     }
 
-    public void ConsumeStaminaStep(int numberOfStep)
+    public void ConsumeStaminaStep(int amount)
     {
-        float removedValue = staminaValue - ((100f / numberOfSteps) * numberOfStep);
-        staminaValue = Mathf.Clamp(removedValue, 0, 100f);
+        staminaValue = Mathf.Clamp(staminaValue - amount, 0, 100f);
 
         HUD.Instance.PlayDashVFX();
     }
     
-    public void GenerateStaminaStep(float numberOfStep)
+    public void GenerateStaminaStep(float amount)
     {
-        staminaValue = Mathf.Clamp(staminaValue + ((100f / numberOfSteps) * numberOfStep), 0, 100f);
+        var value = amount * Time.deltaTime;
+        staminaValue = Mathf.Clamp(staminaValue + value, 0, 100f);
     }
 }

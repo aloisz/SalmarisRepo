@@ -25,6 +25,7 @@ namespace CameraBehavior
         public Transform weaponTransform;
         [SerializeField] internal bool doCameraFeel;
         
+        
         [Header("---Sliding---")] 
         [ShowIf("doCameraFeel")][SerializeField] internal Transform slindingPos;
         
@@ -45,6 +46,7 @@ namespace CameraBehavior
         internal float timer = 0;
 
         public static CameraManager Instance;
+        
         
         private void Awake()
         {
@@ -69,6 +71,8 @@ namespace CameraBehavior
             MovingCameraManager();
             CameraStateManagamement();
             CheckForCameraBounds();
+            ResetCameraRotation();
+
         }
 
         public void Update()
@@ -302,38 +306,68 @@ namespace CameraBehavior
 
         #endregion
 
+        #region Reset Camera Rotation
 
-        #region MyRegion
+        private void ResetCameraRotation()
+        {
+            smoothOffset =
+                Quaternion.Slerp(smoothOffset, Quaternion.identity, 
+                    Time.deltaTime * so_Camera.rotationOffSetSmooth);
+        }
+
+        #endregion
+
+
+        #region CameraBounds
 
         [Header("Camera Bounds")] 
-        [SerializeField] [MinMaxSlider(-10, 10)] private Vector2 xBounds;
-        [SerializeField] [MinMaxSlider(-10, 10)] private Vector2 yBounds;
-        [SerializeField] [MinMaxSlider(-10, 10)] private Vector2 zBounds;
+        [SerializeField] private float yRaySensorLenght;
+        [SerializeField] private float zRaySensorLenght;
+        [SerializeField] private float collisionOffset;
+        [SerializeField] private Vector3 desiredCameraPos;
 
         private void CheckForCameraBounds()
         {
-            /*Vector3 clampedPosition = cameraTransform.localPosition;
-            clampedPosition.x = Mathf.Clamp(clampedPosition.x, xBounds.x, xBounds.y);
-            clampedPosition.y = Mathf.Clamp(clampedPosition.y, yBounds.x, yBounds.y);
-            clampedPosition.z = Mathf.Clamp(clampedPosition.z, zBounds.x, zBounds.y);
-
-            cameraTransform.localPosition = clampedPosition;*/
+            /*RaySenseDown();
+            RaySensForward();*/
         }
+
+        private void RaySensForward()
+        {
+            if (Physics.Raycast(cameraTransform.position, cameraTransform.position + cameraTransform.forward, out RaycastHit hit, zRaySensorLenght))
+            {
+                // If an obstacle is detected, move the camera to the hit point, offset slightly to avoid clipping
+                Vector3 hitPoint = hit.point;
+                Vector3 offset = hit.normal * collisionOffset;
+                desiredCameraPos = hitPoint + offset;
+            }
+        }
+        
+        private void RaySenseDown()
+        {
+            
+            if (Physics.Raycast(cameraTransform.position, Vector3.down, out RaycastHit hit, yRaySensorLenght))
+            {
+                // If an obstacle is detected, move the camera to the hit point, offset slightly to avoid clipping
+                Vector3 hitPoint = hit.point;
+                Vector3 offset = hit.normal * collisionOffset;
+                desiredCameraPos = hitPoint + offset;
+            }
+            cameraTransform.localPosition = playerTransform.InverseTransformPoint(desiredCameraPos);
+        }
+        
 
         #if UNITY_EDITOR
         private void OnDrawGizmos()
         {
-            float x = (xBounds.x + xBounds.y) / 2;
-            float y = (yBounds.x + yBounds.y) / 2;
-            float z = (zBounds.x + zBounds.y) / 2;
-
-            Vector3 center = new Vector3(x, y, z);
+            Handles.color = Color.blue;
+            Handles.DrawLine(cameraTransform.position,   cameraTransform.position + (cameraTransform.forward * yRaySensorLenght), 3);
             
-            Handles.color = Color.red;
-            Handles.DrawWireCube(transform.position, center);
-
-            Gizmos.color = new Color32(80, 0, 0, 100);
-            Gizmos.DrawCube(transform.position, center);
+            Handles.color = Color.green;
+            Handles.DrawLine(cameraTransform.position,   cameraTransform.position + (Vector3.down * zRaySensorLenght), 3);
+            
+            Gizmos.color = Color.red;
+            Gizmos.DrawCube(desiredCameraPos, Vector3.one * .5f);
         }
         #endif
 
