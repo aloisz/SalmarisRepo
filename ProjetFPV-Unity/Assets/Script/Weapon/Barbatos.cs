@@ -11,7 +11,6 @@ public class Barbatos : Shotgun
 {
     private BarbatosInput barbatosInput;
     [SerializeField] protected List<Transform> vfxPos;
-    [SerializeField] protected float falloffDivider = 10f;
     
     private float lastTimeFired_0; // primary
     private float lastTimeFired_1; // secondary
