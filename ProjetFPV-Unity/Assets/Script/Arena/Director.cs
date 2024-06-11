@@ -82,9 +82,6 @@ public class Director : GenericSingletonClass<Director>
             foreach(Door d in GetActualArenaTrigger().arenaUnlockedDoors) if(d.neededKey is null) d.ActivateDoor();
         }
         
-        StopCoroutine(nameof(SpawnSecurityCheck));
-        StartCoroutine(nameof(SpawnSecurityCheck));
-        
         //start a new wave.
         if(CanGoToNextWave()) StartCoroutine(nameof(StartNewWave));
     }
@@ -113,8 +110,12 @@ public class Director : GenericSingletonClass<Director>
         //if the wave doesn't contain any mob to spawn...
         if (GetActualWave().enemiesToSpawn.Length <= 0)
             throw new Exception($"{GetActualWave()} doesn't have any enemy to spawn.");
+        
 
         yield return new WaitForSeconds(GetActualWave().delayBeforeSpawn);
+        
+        StopCoroutine(nameof(SpawnSecurityCheck));
+        StartCoroutine(nameof(SpawnSecurityCheck));
 
         StartCoroutine(nameof(SpawnEnemies));
     }
@@ -245,6 +246,8 @@ public class Director : GenericSingletonClass<Director>
         currentArenaFinished = true;
         GetActualArenaTrigger().isCompleted = true;
         
+        StopCoroutine(nameof(SpawnSecurityCheck));
+        
         hasStartedWave = false;
         currentWaveIndex = -1;
 
@@ -323,15 +326,14 @@ public class Director : GenericSingletonClass<Director>
 
     IEnumerator SpawnSecurityCheck()
     {
-        yield return new WaitUntil(() => isInAArena || isInAWave);
         yield return new WaitForSeconds(5f);
         
         foreach (AI_Pawn aiPawn in _spawnedEnemies)
         {
-            if (aiPawn.targetToFollow is null || aiPawn.targetToFollow != PlayerController.Instance.transform)
+            if (Vector3.Distance(aiPawn.transform.position, GetActualArenaTrigger().transform.position) > 75f)
             {
                 Debug.Log($"<color=red><b>Killed a mob</b></color> at {aiPawn.transform.position}.");
-
+                
                 lastKilledEnemiesValue += aiPawn.enemyWeight;
                 currentRemainingEnemies--;
                 currentWaveIntensity -= aiPawn.enemyWeight;
