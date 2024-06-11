@@ -70,14 +70,13 @@ namespace CameraBehavior
         {
             MovingCameraManager();
             CameraStateManagamement();
-            CheckForCameraBounds();
             ResetCameraRotation();
 
         }
 
         public void Update()
         {
-            //ObstacleAvoidance();
+            CheckForCameraBounds();
         }
 
 
@@ -267,45 +266,6 @@ namespace CameraBehavior
 
         #endregion
 
-        #region ObstacleAvoidance
-
-        [Header("ObstacleAvoidance")] 
-        [SerializeField] internal float maxRayDistance;
-        [SerializeField] internal LayerMask obstacleLayer;
-        private bool mustAvoid;
-        [SerializeField] internal float timeToReset;
-        [SerializeField] internal float interpolationTime;
-        private float timeSpent;
-
-        private void ObstacleAvoidance()
-        {
-            Debug.DrawRay(transitionParent.position + Vector3.up, transitionParent.forward * maxRayDistance, Color.green);
-            
-            if(mustAvoid) return;
-            RaycastHit hit;
-            if (Physics.Raycast(transitionParent.position, transitionParent.forward, out hit, maxRayDistance,
-                    obstacleLayer))
-            {
-                if ( (obstacleLayer & (1 << hit.transform.gameObject.layer)) != 0) // Check the layer 
-                {
-                    mustAvoid = true;
-                }
-            }
-        }
-
-        private void LogicWhenAvoid()
-        {
-            transform.position = Vector3.Lerp(transform.position, playerTransform.position, 
-                Time.deltaTime * interpolationTime);
-            timeSpent += Time.deltaTime;
-                
-            if (!(timeSpent > timeToReset)) return;
-            mustAvoid = false;
-            timeSpent = 0;
-        }
-
-        #endregion
-
         #region Reset Camera Rotation
 
         private void ResetCameraRotation()
@@ -316,62 +276,87 @@ namespace CameraBehavior
         }
 
         #endregion
-
-
+        
         #region CameraBounds
-
-        [Header("Camera Bounds")] 
-        [SerializeField] private float yRaySensorLenght;
-        [SerializeField] private float zRaySensorLenght;
-        [SerializeField] private float collisionOffset;
-        [SerializeField] private Vector3 desiredCameraPos;
+        
+        [Header("CameraBounds")] 
+        /*[SerializeField] internal float maxRayDistance;*/
+        [SerializeField] internal LayerMask obstacleLayer;
+        private bool mustAvoid;
+        /*[SerializeField] internal float timeToReset;
+        [SerializeField] internal float interpolationTime;
+        private float timeSpent;
+        [SerializeField] internal float newInterpolatedValue;*/
+        
+        
+        public float collisionOffset = 0.1f; // Offset to maintain from the wall
+        public float repulseForce = 1f; // Strength of the repulsion force
+        
 
         private void CheckForCameraBounds()
         {
-            /*RaySenseDown();
-            RaySensForward();*/
-        }
-
-        private void RaySensForward()
-        {
-            if (Physics.Raycast(cameraTransform.position, cameraTransform.position + cameraTransform.forward, out RaycastHit hit, zRaySensorLenght))
-            {
-                // If an obstacle is detected, move the camera to the hit point, offset slightly to avoid clipping
-                Vector3 hitPoint = hit.point;
-                Vector3 offset = hit.normal * collisionOffset;
-                desiredCameraPos = hitPoint + offset;
-            }
-        }
-        
-        private void RaySenseDown()
-        {
+            /*Debug.DrawRay(transitionParent.position + Vector3.up, transitionParent.forward * maxRayDistance, Color.green);
             
-            if (Physics.Raycast(cameraTransform.position, Vector3.down, out RaycastHit hit, yRaySensorLenght))
+            if(mustAvoid) return;
+            RaycastHit hit;
+            if (Physics.Raycast(transitionParent.position, transitionParent.forward, out hit, maxRayDistance,
+                    obstacleLayer))
             {
-                // If an obstacle is detected, move the camera to the hit point, offset slightly to avoid clipping
-                Vector3 hitPoint = hit.point;
-                Vector3 offset = hit.normal * collisionOffset;
-                desiredCameraPos = hitPoint + offset;
+                if ( (obstacleLayer & (1 << hit.transform.gameObject.layer)) != 0) // Check the layer 
+                {
+                    mustAvoid = true;
+                }
+                newInterpolatedValue = Mathf.Lerp(newInterpolatedValue, interpolationTime, Vector3.Distance(hit.point, PlayerController.Instance.transform.position));
             }
-            cameraTransform.localPosition = playerTransform.InverseTransformPoint(desiredCameraPos);
+            else
+            {
+                newInterpolatedValue = so_Camera.positionOffSetSmooth;
+            }*/
+            
+            Vector3 desiredWorldPosition = cameraTransform.localPosition;
+            Debug.DrawRay(transitionParent.position, transitionParent.forward *(collisionOffset + repulseForce) , Color.green);
+
+            if (PlayerController.Instance._rb.velocity.magnitude < 30) return;
+            RaycastHit hit;
+            if (Physics.Raycast(transitionParent.position, transitionParent.forward, out hit, 
+                    collisionOffset + repulseForce, obstacleLayer))
+            {
+                Vector3 directionToWall = (hit.point - desiredWorldPosition).normalized;
+                desiredWorldPosition -= directionToWall * repulseForce;
+                
+                cameraTransform.localPosition = Vector3.Lerp(cameraTransform.localPosition, desiredWorldPosition, Time.deltaTime * repulseForce);
+            }
+            
+            
+        }
+
+        private void LogicWhenAvoid()
+        {
+            /*transform.position = Vector3.Lerp(transform.position, playerTransform.position, 
+                Time.deltaTime * interpolationTime);
+            timeSpent += Time.deltaTime;
+                
+            if (!(timeSpent > timeToReset)) return;
+            mustAvoid = false;
+            timeSpent = 0;*/
         }
         
 
-        #if UNITY_EDITOR
+        #endregion
+        
+#if UNITY_EDITOR    
         private void OnDrawGizmos()
         {
             /*Handles.color = Color.blue;
-            Handles.DrawLine(cameraTransform.position,   cameraTransform.position + (cameraTransform.forward * yRaySensorLenght), 3);
-            
+            Handles.DrawLine(transitionParent.position, transitionParent.position + (transitionParent.forward * maxRayDistance), 5);
+
             Handles.color = Color.green;
-            Handles.DrawLine(cameraTransform.position,   cameraTransform.position + (Vector3.down * zRaySensorLenght), 3);
-            
-            Gizmos.color = Color.red;
+            Handles.DrawLine(transitionParent.position, transitionParent.position + (-transitionParent.up * maxRayDistance), 5);*/
+
+            /*Gizmos.color = Color.red;
             Gizmos.DrawCube(desiredCameraPos, Vector3.one * .5f);*/
         }
-        #endif
-
-        #endregion
+#endif
 
     }
 }
