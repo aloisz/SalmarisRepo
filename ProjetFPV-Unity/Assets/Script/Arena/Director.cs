@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using AI;
 using Player;
 using UnityEngine;
@@ -322,15 +323,18 @@ public class Director : GenericSingletonClass<Director>
     IEnumerator SpawnSecurityCheck()
     {
         yield return new WaitForSeconds(5f);
-
-        foreach (AI_Pawn ai in _spawnedEnemies)
+        
+        Collider[] c = Physics.OverlapBox(transform.position, GetComponent<BoxCollider>().size / 1.5f);
+        foreach (AI_Pawn aiPawn in _spawnedEnemies)
         {
-            if (Vector3.Distance(ai.transform.position, GetActualArenaTrigger().transform.position) > 250f)
+            if (!c.ToList().Contains(aiPawn.GetComponent<Collider>()))
             {
-                Debug.Log($"<color=red><b>Killed a mob</b></color> at {ai.transform.position}.");
+                Debug.Log($"<color=red><b>Killed a mob</b></color> at {aiPawn.transform.position}.");
+                
                 currentRemainingEnemies--;
-                currentWaveIntensity -= ai.enemyWeight;
-                ai.DestroyLogic();
+                currentWaveIntensity -= aiPawn.enemyWeight;
+                
+                aiPawn.DestroyLogic();
             }
         }
     }
