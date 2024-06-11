@@ -39,7 +39,7 @@ namespace Weapon
         
         [field: SerializeField] internal bool doFallOffDamage{ get; private set; }
         [field: ShowIf("doFallOffDamage")] [field: SerializeField] internal float fallOffStartingDistance{ get; private set; }
-        [field: ShowIf("doFallOffDamage")] [field: SerializeField] internal float fallOffDivideValue{ get; private set; }
+        [field: ShowIf("doFallOffDamage")] [field: SerializeField] internal float fallOffByDistanceMultiplier{ get; private set; }
 
         [field: Space] 
         #region Raycast

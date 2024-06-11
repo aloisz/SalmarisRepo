@@ -77,13 +77,29 @@ public class Barbatos : Shotgun
             onHitEnemy.Invoke();
             if (so_Weapon.weaponMode[(int)actualWeaponModeIndex].doFallOffDamage)
             {
-                hit.transform.GetComponent<IDamage>().Hit(so_Weapon.weaponMode[(int)actualWeaponModeIndex].bulletDamage 
-                    / (int)actualWeaponModeIndex == 0 ? (
-                        Vector3.Distance(PlayerController.transform.position + 
-                                         PlayerController.transform.forward * so_Weapon.weaponMode[(int)actualWeaponModeIndex].fallOffStartingDistance, hit.point)
-                        / so_Weapon.weaponMode[(int)actualWeaponModeIndex].fallOffDivideValue) : 1f);
+                var value = 1f;
+                if (Vector3.Distance(PlayerController.transform.position, hit.point) < so_Weapon
+                        .weaponMode[(int)actualWeaponModeIndex].fallOffStartingDistance)
+                {
+                    value = so_Weapon.weaponMode[(int)actualWeaponModeIndex].bulletDamage;
+                }
+                else
+                {
+                    value = so_Weapon.weaponMode[(int)actualWeaponModeIndex].bulletDamage /
+                        Vector3.Distance(PlayerController.transform.position +
+                                         PlayerController.transform.forward * so_Weapon
+                                             .weaponMode[(int)actualWeaponModeIndex].fallOffStartingDistance,
+                            hit.point) * so_Weapon.weaponMode[(int)actualWeaponModeIndex].fallOffByDistanceMultiplier;
+                }
+                
+                hit.transform.GetComponent<IDamage>().Hit(
+                    Mathf.Clamp(value, 0, so_Weapon.weaponMode[(int)actualWeaponModeIndex].bulletDamage));
+                Debug.Log(value);
             }
-            else hit.transform.GetComponent<IDamage>().Hit(so_Weapon.weaponMode[(int)actualWeaponModeIndex].bulletDamage);
+            else
+            {
+                hit.transform.GetComponent<IDamage>().Hit(so_Weapon.weaponMode[(int)actualWeaponModeIndex].bulletDamage);
+            }
         }
         
         if(isFirstBulletGone) return;
