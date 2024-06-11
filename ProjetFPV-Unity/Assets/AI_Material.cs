@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using AI;
 using DG.Tweening;
 using UnityEngine;
+using UnityEngine.Experimental.GlobalIllumination;
 
 [RequireComponent(typeof(SkinnedMeshRenderer))]
 public class AI_Material : MonoBehaviour
@@ -12,6 +13,8 @@ public class AI_Material : MonoBehaviour
     [SerializeField] public float deathDuration = 0.75f;
     [SerializeField] public float deathDissolveDuration = 0.75f;
     [SerializeField] public float dissolveDelay = 0.75f;
+
+    private Color baseEyesColor;
     private SkinnedMeshRenderer _meshRenderer;
     
     // Start is called before the first frame update
@@ -19,6 +22,8 @@ public class AI_Material : MonoBehaviour
     {
         _meshRenderer = GetComponent<SkinnedMeshRenderer>();
         if(_meshRenderer) CreateMaterialInstance(_meshRenderer);
+
+        baseEyesColor = _meshRenderer.material.GetColor("_EmissiveColor");
     }
 
     public void Death()
@@ -27,6 +32,7 @@ public class AI_Material : MonoBehaviour
         
         _meshRenderer.material.DOFloat(saturationAmount, "_DeathSaturation", deathDuration);
         _meshRenderer.material.DOFloat(lightningAmount, "_DeathDarkening", deathDuration);
+        _meshRenderer.material.DOColor(Color.black, "_EmissiveColor", deathDuration);
         _meshRenderer.material.DOFloat(1f, "_DeathDissolve", deathDissolveDuration).SetDelay(dissolveDelay);
     }
 
@@ -37,6 +43,7 @@ public class AI_Material : MonoBehaviour
         _meshRenderer.material.SetFloat("_DeathSaturation", 1f);
         _meshRenderer.material.SetFloat("_DeathDarkening", 1f);
         _meshRenderer.material.SetFloat("_DeathDissolve", 0f);
+        _meshRenderer.material.SetColor("_EmissiveColor", baseEyesColor);
     }
 
     private void CreateMaterialInstance(SkinnedMeshRenderer meshRenderer)
