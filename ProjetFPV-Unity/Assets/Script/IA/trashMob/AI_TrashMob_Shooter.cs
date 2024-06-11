@@ -26,6 +26,12 @@ namespace AI
             if (isPawnStatic) agentLinkMover.enabled = false;
         }
 
+        protected void ResetAgent()
+        {
+            base.ResetAgent();
+            time = 0;
+        }
+
         protected override void Update()
         {
             base.Update();
