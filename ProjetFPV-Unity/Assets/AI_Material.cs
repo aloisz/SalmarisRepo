@@ -32,7 +32,8 @@ public class AI_Material : MonoBehaviour
         
         _meshRenderer.material.DOFloat(saturationAmount, "_DeathSaturation", deathDuration);
         _meshRenderer.material.DOFloat(lightningAmount, "_DeathDarkening", deathDuration);
-        _meshRenderer.material.DOColor(Color.black, "_EmissiveColor", deathDuration);
+        _meshRenderer.material.DOColor(Color.black, "_EmissiveColor", deathDuration / 3f);
+        _meshRenderer.material.SetInt("_BellyVFX", 0);
         _meshRenderer.material.DOFloat(1f, "_DeathDissolve", deathDissolveDuration).SetDelay(dissolveDelay);
     }
 
@@ -43,6 +44,7 @@ public class AI_Material : MonoBehaviour
         _meshRenderer.material.SetFloat("_DeathSaturation", 1f);
         _meshRenderer.material.SetFloat("_DeathDarkening", 1f);
         _meshRenderer.material.SetFloat("_DeathDissolve", 0f);
+        _meshRenderer.material.SetInt("_BellyVFX", 1);
         _meshRenderer.material.SetColor("_EmissiveColor", baseEyesColor);
     }
 
