@@ -24,7 +24,7 @@ public class UpgradeModuleVFX : GenericSingletonClass<UpgradeModuleVFX>
     {
         RaycastHit hit;
         Physics.Raycast(transform.position, Vector3.down, out hit, 500f, PlayerController.Instance.groundLayer);
-        var vfx = Instantiate(landVFX, hit.point - new Vector3(0,4f,0), Quaternion.identity);
+        var vfx = Instantiate(landVFX, hit.point, Quaternion.identity);
         vfx.transform.rotation = Quaternion.Euler(new Vector3(-90,0,0));
         vfx.Play();
         

@@ -126,17 +126,30 @@ namespace AI
             actualCountBeforeAttack = 0;
             isInDashAttackCoroutine = false;
             isCacAttacking = false;
-            
-            if(isPawnDead) Debug.Log("Finished Dash");
         }
         
         
         public override void DestroyLogic()
         {
             if(gameObject.activeSelf) agentLinkMover.StopCoroutine(agentLinkMover.StartLinkerVerif());
+            
             base.DestroyLogic();
-            StopCoroutine(DashAttack());
+            
             animatorTrashMobCac.ChangeState(animatorTrashMobCac.DEATH,.2f);
+
+            StopCoroutine(DashAttack());
+            IsPhysicNavMesh(false);
+            actualCountBeforeAttack = 0;
+            isInDashAttackCoroutine = false;
+            isCacAttacking = false;
+            
+            StartCoroutine(nameof(DeathKnockBack));
+        }
+
+        IEnumerator DeathKnockBack()
+        {
+            yield return new WaitUntil(() => !navMeshAgent.enabled);
+            GetComponent<Rigidbody>().AddForce(PlayerController.Instance.transform.forward * knockBackDeathIntensity, ForceMode.Impulse);
         }
         
         
