@@ -82,6 +82,7 @@ public class Director : GenericSingletonClass<Director>
             foreach(Door d in GetActualArenaTrigger().arenaUnlockedDoors) if(d.neededKey is null) d.ActivateDoor();
         }
         
+        StopCoroutine(nameof(SpawnSecurityCheck));
         StartCoroutine(nameof(SpawnSecurityCheck));
         
         //start a new wave.
