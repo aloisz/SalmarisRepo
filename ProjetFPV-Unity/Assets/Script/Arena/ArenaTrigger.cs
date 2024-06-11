@@ -121,7 +121,7 @@ public class ArenaTrigger : MonoBehaviour
         if (!_box) return;
         
         var color = new Color32(120, 10, 250, 255);
-        Helper.DrawBoxCollider(color, transform, _box, 0.15f);
+        Helper.DrawBoxCollider(color, transform, _box, Vector3.zero,0.15f);
 
         var style = new GUIStyle()
         {
