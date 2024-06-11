@@ -26,12 +26,22 @@ namespace AI
             if (isPawnStatic) agentLinkMover.enabled = false;
         }
 
+        public override void ResetAgent()
+        {
+            base.ResetAgent();
+            time = 0;
+            trashMobState = TrashMobState.Moving;
+            countAction = 0;
+            if (isPawnStatic) agentLinkMover.enabled = false;
+        }
+
         protected override void Update()
         {
             base.Update();
-            ChangeStateWhenReloading();
             if(trashMobState == TrashMobState.Idle && !isPawnDead) 
                 transform.DOLookAt(PlayerController.Instance.transform.position + Vector3.up, 0.2f, AxisConstraint.Y);
+            
+            ChangeStateWhenReloading();
             
             switch (Vector3.Distance(PlayerController.Instance.transform.position, transform.position))
             {
@@ -39,7 +49,7 @@ namespace AI
                     HandlShooting();
                     break;
                 case var value when value > agentShootingRadius:
-                    if(isPawnStatic)return;
+                    if(isPawnStatic)break;
                     ChangeState(TrashMobState.Moving);
                     break;
             }
@@ -54,6 +64,9 @@ namespace AI
                     isShooting = true;
                     weapon.ShootingAction();
                     IsPhysicNavMesh(false);
+                    countAction++;
+                    if(countAction <= 2) break;
+                    ChangeState(TrashMobState.Moving);
                     break;
                 case TrashMobState.Moving:
                     if(isPawnStatic)return;
@@ -65,18 +78,25 @@ namespace AI
                     break;
             }
         }
+        
+        protected override void CheckDistance()
+        {
+            base.CheckDistance();
+        }
 
+        private int countAction = 0;
         private float time = 0;
         [SerializeField] float timeBeforeShooting = 5;
         
         private void HandlShooting()
         {
-            if (time < timeBeforeShooting)
+            if (time < timeBeforeShooting && trashMobState == TrashMobState.Moving)
             {
-                time += Time.deltaTime * 1;
+                time += Time.deltaTime * 1; // before was 1
                 if (time >= timeBeforeShooting)
                 {
                     time = 0;
+                    countAction = 0;
                     ChangeState(TrashMobState.Idle);
                 }
             }
@@ -88,11 +108,6 @@ namespace AI
             {
                 ChangeState(TrashMobState.Moving);
             }
-        }
-
-        protected override void CheckDistance()
-        {
-            base.CheckDistance();
         }
         
         public override void DestroyLogic()

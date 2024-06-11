@@ -82,6 +82,9 @@ public class Director : GenericSingletonClass<Director>
             foreach(Door d in GetActualArenaTrigger().arenaUnlockedDoors) if(d.neededKey is null) d.ActivateDoor();
         }
         
+        StopCoroutine(nameof(SpawnSecurityCheck));
+        StartCoroutine(nameof(SpawnSecurityCheck));
+        
         //start a new wave.
         if(CanGoToNextWave()) StartCoroutine(nameof(StartNewWave));
     }
@@ -156,8 +159,6 @@ public class Director : GenericSingletonClass<Director>
         
         hasFinishSpawningEnemies = true;
         hasStartedWave = false;
-
-        StartCoroutine(nameof(SpawnSecurityCheck));
     }
 
     /// <summary>
@@ -322,23 +323,26 @@ public class Director : GenericSingletonClass<Director>
 
     IEnumerator SpawnSecurityCheck()
     {
+        yield return new WaitUntil(() => isInAArena || isInAWave);
         yield return new WaitForSeconds(5f);
         
-        Collider[] c = Physics.OverlapBox(transform.position, GetActualArenaTrigger().GetComponent<BoxCollider>().size * 1.5f);
         foreach (AI_Pawn aiPawn in _spawnedEnemies)
         {
-            if (!c.ToList().Contains(aiPawn.GetComponent<Collider>()))
+            if (aiPawn.targetToFollow is null || aiPawn.targetToFollow != PlayerController.Instance.transform)
             {
                 Debug.Log($"<color=red><b>Killed a mob</b></color> at {aiPawn.transform.position}.");
-                
+
+                lastKilledEnemiesValue += aiPawn.enemyWeight;
                 currentRemainingEnemies--;
                 currentWaveIntensity -= aiPawn.enemyWeight;
                 
                 aiPawn.DestroyLogic();
             }
         }
-    }
 
+        StartCoroutine(SpawnSecurityCheck());
+    }
+    
     private void OnGUI()
     {
         if (!DEBUG_DRAW_GUI) return;

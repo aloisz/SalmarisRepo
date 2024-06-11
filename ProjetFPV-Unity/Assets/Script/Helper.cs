@@ -117,7 +117,7 @@ public static class Helper
         randomObject = referenceList[Random.Range(0, referenceList.Count)];
     }
     
-    public static void DrawBoxCollider(Color gizmoColor, Transform t, BoxCollider boxCollider, float alphaForInsides = 0.3f)
+    public static void DrawBoxCollider(Color gizmoColor, Transform t, BoxCollider boxCollider, Vector3 offset, float alphaForInsides = 0.3f, float multiplier = 1f)
     {
         //Save the color in a temporary variable to not overwrite changes in the inspector (if the sent-in color is a serialized variable).
         var color = gizmoColor;
@@ -129,12 +129,12 @@ public static class Helper
         //Draws the edges of the BoxCollider
         //Center is Vector3.zero, since we've transformed the calculation space in the previous step.
         Gizmos.color = color;
-        Gizmos.DrawWireCube(Vector3.zero, boxCollider.size);
+        Gizmos.DrawWireCube(Vector3.zero, (boxCollider.size * multiplier) + offset);
  
         //Draws the sides/insides of the BoxCollider, with a tint to the original color.
         color.a *= alphaForInsides;
         Gizmos.color = color;
-        Gizmos.DrawCube(Vector3.zero, boxCollider.size);
+        Gizmos.DrawCube(Vector3.zero, (boxCollider.size * multiplier) + offset);
     }
     
     

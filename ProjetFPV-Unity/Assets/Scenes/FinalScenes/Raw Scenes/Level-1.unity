@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 1908393243}
-  m_IndirectSpecularColor: {r: 0.0420006, g: 0.59321415, b: 0.44736198, a: 1}
+  m_IndirectSpecularColor: {r: 0.03856185, g: 0.58917695, b: 0.44335994, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -9385,6 +9385,11 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 200090335711378035, guid: 71e0be70f0d990647aab1b9819ac3f97,
+        type: 3}
+      propertyPath: DEBUG_DRAW_GUI
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 200090335711378035, guid: 71e0be70f0d990647aab1b9819ac3f97,
         type: 3}
       propertyPath: arenas.Array.data[0]
@@ -37743,11 +37748,7 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 2001339423816775827, guid: c4ecdd8042bb2c747880db30353ffec0,
-        type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 0}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c4ecdd8042bb2c747880db30353ffec0, type: 3}
 --- !u!43 &1319889871
 Mesh:
@@ -50518,7 +50519,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   DEBUG_CALL_SHOP_AT_START: 0
-  DEBUG_CALL_TP_PLAYER_AT_START: 0
+  DEBUG_CALL_TP_PLAYER_AT_START: 1
   arenaID: 2
   arenaData: {fileID: 11400000, guid: 8673b93c333ba334d85593a347a4d706, type: 2}
   enemiesPositions:
@@ -54820,11 +54821,7 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 2001339423816775827, guid: c4ecdd8042bb2c747880db30353ffec0,
-        type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 0}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c4ecdd8042bb2c747880db30353ffec0, type: 3}
 --- !u!1 &2042250295
 GameObject:

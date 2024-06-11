@@ -29,7 +29,7 @@ public class Checkpoint : MonoBehaviour
             fontSize = 30
         };
         Handles.Label(transform.position, "ID : "+ ID, guiStyle);
-        Helper.DrawBoxCollider(Color.red, transform, GetComponent<BoxCollider>(), 0.5f);
+        Helper.DrawBoxCollider(Color.red, transform, GetComponent<BoxCollider>(), Vector3.zero,0.5f);
     }
     
     #endif
