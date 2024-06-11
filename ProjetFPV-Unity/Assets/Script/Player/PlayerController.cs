@@ -719,7 +719,7 @@ namespace Player
         {
             if (_canDash)
             {
-                PlayerStamina.Instance.ConsumeStaminaStep(1);
+                PlayerStamina.Instance.ConsumeStaminaStep(33);
                 Dash();
             }
         }
