@@ -76,9 +76,15 @@ public class Barbatos : Shotgun
         if (hit.transform.GetComponent<IDamage>() != null)
         {
             onHitEnemy.Invoke();
-            hit.transform.GetComponent<IDamage>().Hit(so_Weapon.weaponMode[(int)actualWeaponModeIndex].bulletDamage 
-                / (int)actualWeaponModeIndex == 0 ? (Vector3.Distance(PlayerController.transform.position
-                    + PlayerController.transform.forward * 4f, hit.point) / falloffDivider) : 1f);
+            if (so_Weapon.weaponMode[(int)actualWeaponModeIndex].doFallOffDamage)
+            {
+                hit.transform.GetComponent<IDamage>().Hit(so_Weapon.weaponMode[(int)actualWeaponModeIndex].bulletDamage 
+                    / (int)actualWeaponModeIndex == 0 ? (
+                        Vector3.Distance(PlayerController.transform.position + 
+                                         PlayerController.transform.forward * so_Weapon.weaponMode[(int)actualWeaponModeIndex].fallOffStartingDistance, hit.point)
+                        / so_Weapon.weaponMode[(int)actualWeaponModeIndex].fallOffDivideValue) : 1f);
+            }
+            else hit.transform.GetComponent<IDamage>().Hit(so_Weapon.weaponMode[(int)actualWeaponModeIndex].bulletDamage);
         }
         
         if(isFirstBulletGone) return;

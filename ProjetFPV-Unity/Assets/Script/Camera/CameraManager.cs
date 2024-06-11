@@ -360,14 +360,14 @@ namespace CameraBehavior
         #if UNITY_EDITOR
         private void OnDrawGizmos()
         {
-            Handles.color = Color.blue;
+            /*Handles.color = Color.blue;
             Handles.DrawLine(cameraTransform.position,   cameraTransform.position + (cameraTransform.forward * yRaySensorLenght), 3);
             
             Handles.color = Color.green;
             Handles.DrawLine(cameraTransform.position,   cameraTransform.position + (Vector3.down * zRaySensorLenght), 3);
             
             Gizmos.color = Color.red;
-            Gizmos.DrawCube(desiredCameraPos, Vector3.one * .5f);
+            Gizmos.DrawCube(desiredCameraPos, Vector3.one * .5f);*/
         }
         #endif
 
