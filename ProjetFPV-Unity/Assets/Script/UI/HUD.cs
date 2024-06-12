@@ -55,6 +55,7 @@ public class HUD : GenericSingletonClass<HUD>
     [SerializeField] private ParticleSystem[] dashParticleSystemsDots;
     [SerializeField] private Image[] dashDots;
     [SerializeField] private UIParticle[] hitmarkerParticleSystems;
+    [SerializeField] private UIParticle[] hitmarkerParticleSystemsLethal;
 
     private float _giggleX;
     private float _giggleY;
@@ -91,6 +92,7 @@ public class HUD : GenericSingletonClass<HUD>
         
         WeaponState.Instance.barbatos.OnHudShoot += CrosshairShoot;
         WeaponState.Instance.barbatos.onHitEnemy += HitMarkerPlay;
+        WeaponState.Instance.barbatos.onHitEnemyLethal += HitMarkerPlayLethal;
 
         _basePositionHealthBar = healthBar.transform.localPosition;
         _basePositionShieldBar = shieldBar.transform.localPosition;
@@ -362,12 +364,25 @@ public class HUD : GenericSingletonClass<HUD>
         }
     }
     
+    private void HitMarkerPlayLethal()
+    {
+        foreach (var ps in hitmarkerParticleSystemsLethal)
+        {
+            if(!ps.particles[0].isPlaying) ps.Play();
+        }
+    }
+    
     private void HitMarkerSetupPosition(float offset)
     {
         hitmarkerParticleSystems[0].rectTransform.anchoredPosition = new Vector2(offset, offset);
         hitmarkerParticleSystems[1].rectTransform.anchoredPosition = new Vector2(-offset, -offset);
         hitmarkerParticleSystems[2].rectTransform.anchoredPosition = new Vector2(-offset, offset);
         hitmarkerParticleSystems[3].rectTransform.anchoredPosition = new Vector2(offset, -offset);
+
+        hitmarkerParticleSystemsLethal[0].rectTransform.anchoredPosition = new Vector2(offset, offset);
+        hitmarkerParticleSystemsLethal[1].rectTransform.anchoredPosition = new Vector2(-offset, -offset);
+        hitmarkerParticleSystemsLethal[2].rectTransform.anchoredPosition = new Vector2(-offset, offset);
+        hitmarkerParticleSystemsLethal[3].rectTransform.anchoredPosition = new Vector2(offset, -offset);
     }
 
     private void SlideEffect()

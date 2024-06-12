@@ -1,9 +1,11 @@
 using System;
 using System.Collections.Generic;
+using AI;
 using CameraBehavior;
 using DG.Tweening;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.Rendering;
 using Weapon;
 using Weapon.Interface;
 
@@ -20,6 +22,7 @@ public class Barbatos : Shotgun
     private BarbatosShootVFX shootVFX;
 
     public Action onHitEnemy;
+    public Action onHitEnemyLethal;
 
     protected override void Start()
     {
@@ -68,13 +71,12 @@ public class Barbatos : Shotgun
     
     protected override void HitScanLogic(RaycastHit hit)
     {
-        if (hit.transform.GetComponent<Collider>() != null)
+        if (hit.collider != null)
         {
             InstantiateBulletImpact(hit);
         }
-        if (hit.transform.GetComponent<IDamage>() != null)
+        if (hit.collider.GetComponent<IDamage>() != null)
         {
-            onHitEnemy.Invoke();
             if (so_Weapon.weaponMode[(int)actualWeaponModeIndex].doFallOffDamage)
             {
                 var value = 1f;
@@ -94,11 +96,16 @@ public class Barbatos : Shotgun
                 
                 hit.transform.GetComponent<IDamage>().Hit(
                     Mathf.Clamp(value, 0, so_Weapon.weaponMode[(int)actualWeaponModeIndex].bulletDamage));
-                Debug.Log(value);
+                
+                if(hit.transform.GetComponent<AI_Pawn>().isPawnDead) onHitEnemyLethal.Invoke();
+                else if(hit.transform.GetComponent<AI_Pawn>()) onHitEnemy.Invoke();
             }
             else
             {
                 hit.transform.GetComponent<IDamage>().Hit(so_Weapon.weaponMode[(int)actualWeaponModeIndex].bulletDamage);
+                
+                if(hit.transform.GetComponent<AI_Pawn>().isPawnDead) onHitEnemyLethal.Invoke();
+                else if(hit.transform.GetComponent<AI_Pawn>()) onHitEnemy.Invoke();
             }
         }
         
@@ -109,8 +116,8 @@ public class Barbatos : Shotgun
             isFirstBulletGone = true;
             explosion.HitScanExplosion(so_Weapon.weaponMode[(int)actualWeaponModeIndex].whoIsTheTarget);
         }
-
-        //CheckTexturesOfHitMesh(hit);
+        
+        CheckTexturesOfHitMesh(hit);
     }
 
     private void UpdateLastTimeFired()
@@ -242,22 +249,29 @@ public class Barbatos : Shotgun
         }
     }
     
-    /*
+    
     private void CheckTexturesOfHitMesh(RaycastHit hit)
     {
         MeshRenderer meshRenderer = hit.collider.GetComponentInChildren<MeshRenderer>();
+        SkinnedMeshRenderer skinnedMeshRenderer = hit.collider.GetComponentInChildren<SkinnedMeshRenderer>();
 
-        if (meshRenderer == null) return;
+        if (meshRenderer == null)
+        {
+            if (skinnedMeshRenderer == null)
+            {
+                return;
+            }
+        }
 
-        Shader shader = meshRenderer.material.shader;
-        int propertyCount = ShaderUtil.GetPropertyCount(shader);
+        Shader shader = meshRenderer ? meshRenderer.material.shader : skinnedMeshRenderer.material.shader;
+        int propertyCount = shader.GetPropertyCount();
         List<Texture> textures = new List<Texture>();
 
         for (int index = 0; index < propertyCount; index++)
         {
-            if (ShaderUtil.GetPropertyType(shader, index) == ShaderUtil.ShaderPropertyType.TexEnv)
+            if (shader.GetPropertyType(index) == ShaderPropertyType.Texture)
             {
-                textures.Add(meshRenderer.material.GetTexture(ShaderUtil.GetPropertyName(shader, index)));
+                textures.Add(meshRenderer ? meshRenderer.material.GetTexture(shader.GetPropertyName(index)) : skinnedMeshRenderer.material.GetTexture(shader.GetPropertyName(index)));
             }
         }
 
@@ -272,7 +286,7 @@ public class Barbatos : Shotgun
             }
         }
 
-        if (colors.Count != 0)
+        if (colors.Count != 0 && !hit.transform.GetComponent<AI_Pawn>())
         {
             float sumR = 0f, sumG = 0f, sumB = 0f;
 
@@ -292,6 +306,10 @@ public class Barbatos : Shotgun
             
             shootVFX.SpawnShootVFX(finalValue, hit.point, hit.normal);
         }
+        else if(hit.collider.GetComponent<AI_Pawn>())
+        {
+            shootVFX.SpawnShootVFX(3, hit.point, hit.normal);
+        }
         else
         {
             shootVFX.SpawnShootVFX(1, hit.point, hit.normal);
@@ -301,6 +319,6 @@ public class Barbatos : Shotgun
     private Color32 GetTextureColor(Texture2D tex, Vector2 uv)
     {
         return tex.GetPixelBilinear(uv.x, uv.y);
-    }*/
+    }
 }
 

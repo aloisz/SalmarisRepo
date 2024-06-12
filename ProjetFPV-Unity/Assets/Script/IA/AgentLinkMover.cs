@@ -20,7 +20,7 @@ public class AgentLinkMover : MonoBehaviour
     public IEnumerator StartLinkerVerif()
     {
         if (gameObject.activeSelf) yield return null;
-        Debug.Log("Linker");
+
         agent.autoTraverseOffMeshLink = false;
         while (true)
         {

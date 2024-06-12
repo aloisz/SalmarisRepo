@@ -20,8 +20,6 @@ public class PlayerInteraction : MonoBehaviour
     {
         if (PlayerInputs.Instance.isReceivingInteractInputs.performed)
         {
-            Debug.Log("F");
-            
             var nearestColliders = Physics.OverlapSphere(transform.position, interactionRadius);
             var colliderListInterface = new List<Collider>();
             
@@ -34,13 +32,9 @@ public class PlayerInteraction : MonoBehaviour
             if (colliderListInterface.Count > 0)
             {
                 var orderedEnumerable = colliderListInterface.OrderBy(c => Vector3.Distance(c.transform.position, transform.position)).ToArray();
-                Debug.Log(orderedEnumerable[0]);
-                
-                
+
                 var actor = orderedEnumerable[0].GetComponent<IInteract>();
                 actor.Interact();
-                
-                Debug.Log($"Interacted with {actor}");
             }
         }
     }

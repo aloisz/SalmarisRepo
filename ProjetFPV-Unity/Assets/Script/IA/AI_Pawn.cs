@@ -24,6 +24,7 @@ namespace AI
         [SerializeField] internal PawnState pawnState;
         [SerializeField] private EnemyToSpawn.EnemyKeys mobType;
         [SerializeField] protected float knockBackDeathIntensity = 10f;
+        public Action onEnemyDead;
         
         [Header("Tick")]
         [SerializeField][Tooltip("How many time the check is performed")] protected float tickVerification = 0.2f;
@@ -164,6 +165,8 @@ namespace AI
             {
                 isPawnDead = true;
                 DestroyLogic();
+                
+                onEnemyDead.Invoke();
 
                 RaycastHit hit;
                 Physics.Raycast(transform.position, Vector3.down, out hit, 500, PlayerController.Instance.groundLayer);
