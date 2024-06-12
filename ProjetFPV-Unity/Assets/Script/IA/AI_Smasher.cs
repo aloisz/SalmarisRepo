@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using AI;
+using MyAudio;
 using Player;
 using UnityEditor;
 using UnityEngine;
@@ -48,6 +49,9 @@ public class AI_Smasher : AI_Pawn
         if(!navMeshAgent.isOnNavMesh) return; 
         navMeshAgent.ResetPath();
         navMeshAgent.CompleteOffMeshLink();
+        
+        // audio
+        AudioManager.Instance.SpawnAudio3D(transform.position, SfxType.SFX, 1, 1, 0, 1);
 
         if(gameObject.activeSelf) agentLinkMover.StartCoroutine(agentLinkMover.StartLinkerVerif());
     }
@@ -135,6 +139,7 @@ public class AI_Smasher : AI_Pawn
     
     public override void DestroyLogic()
     {
+        AudioManager.Instance.SpawnAudio3D(transform.position, SfxType.SFX, 8, 1, 0, 1);
         if(gameObject.activeSelf) agentLinkMover.StopCoroutine(agentLinkMover.StartLinkerVerif());
         Pooling.instance.DePop(so_IA.poolingName, gameObject);
     }

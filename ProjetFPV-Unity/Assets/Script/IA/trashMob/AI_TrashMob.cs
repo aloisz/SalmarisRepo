@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Timers;
 using CameraBehavior;
 using DG.Tweening;
+using MyAudio;
 using Player;
 using UnityEditor;
 using UnityEngine;
@@ -37,6 +38,8 @@ namespace AI
             base.OnDisable();
             //agentLinkMover.StopCoroutine(agentLinkMover.StartLinkerVerif());
         }
+        
+        
 
         public override void ResetAgent()
         {
@@ -44,6 +47,8 @@ namespace AI
             if(!navMeshAgent.isOnNavMesh) return; 
             navMeshAgent.ResetPath();
             navMeshAgent.CompleteOffMeshLink();
+            
+            AudioManager.Instance.SpawnAudio3D(transform.position, SfxType.SFX, 9, 1, 0, 1);
 
             if(gameObject.activeSelf) agentLinkMover.StartCoroutine(agentLinkMover.StartLinkerVerif());
         }
@@ -85,8 +90,15 @@ namespace AI
             }
         }
         
+        public override void Hit(float damageInflicted)
+        {
+            base.Hit(damageInflicted);
+            AudioManager.Instance.SpawnAudio3D(transform.position, SfxType.SFX, 10, 1, 0, 1);
+        }
+        
         public override void DestroyLogic()
         {
+            AudioManager.Instance.SpawnAudio3D(transform.position, SfxType.SFX, 11, 1, 0, 1);
             Pooling.instance.DelayedDePop(so_IA.poolingName, gameObject, deathDelay);
         }
         
