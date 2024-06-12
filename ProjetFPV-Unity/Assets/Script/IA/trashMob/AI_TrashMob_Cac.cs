@@ -20,7 +20,7 @@ namespace AI
         
         [Header("Properties")] 
         [SerializeField] [Range(0,20)] protected float cacAttackSphereRadius;
-        [ReadOnly] [SerializeField] protected bool isCacAttacking = false;
+        [ReadOnly] [SerializeField] internal bool isCacAttacking = false;
         [SerializeField] protected float damageApplied;
         
         [Header("Camera Shake when hit")] 
@@ -41,6 +41,8 @@ namespace AI
         public override void ResetAgent()
         {
             base.ResetAgent();
+            if(animatorTrashMobCac) animatorTrashMobCac.ChangeState(animatorTrashMobCac.SPAWN, 0.1f);
+            if(animatorTrashMobCac) animatorTrashMobCac.ChangeState(animatorTrashMobCac.WALK, 1.5f);
         }
         
         protected override void PawnBehavior()
@@ -114,24 +116,41 @@ namespace AI
             StopCoroutine(DashAttack());
         }
         
-        private bool isInDashAttackCoroutine;
+        internal bool isInDashAttackCoroutine;
         private IEnumerator DashAttack()
         {
             isInDashAttackCoroutine = true;
             navMeshAgent.speed = 0;
-            animatorTrashMobCac.ChangeState(animatorTrashMobCac.JUMP, 2f);
-
-            yield return new WaitForSeconds(1f);
             IsPhysicNavMesh(false);
+            
+            animatorTrashMobCac.ChangeState(animatorTrashMobCac.PREATTACK, 0.1f);
+            
+            yield return new WaitForSeconds(0.35f);
+            
+            animatorTrashMobCac.ChangeState(animatorTrashMobCac.PREATTACKLOOP, 0.25f);
+
+            yield return new WaitForSeconds(0.9f);
+            
+            animatorTrashMobCac.ChangeState(animatorTrashMobCac.JUMP, 0.1f);
+            
+            yield return new WaitForSeconds(0.1f);
+            
             isCacAttacking = true;
             isPerformingDashPhysics = true;
+            
+            yield return new WaitForSeconds(0.75f);
+            
+            animatorTrashMobCac.ChangeState(animatorTrashMobCac.IDLE, 0.1f);
 
-            yield return new WaitForSeconds(2);
+            yield return new WaitForSeconds(0.25f);
+            
             IsPhysicNavMesh(true);
             ChangeState(TrashMobState.Moving);
+            animatorTrashMobCac.ChangeState(animatorTrashMobCac.WALK, 0.1f);
+            
             actualCountBeforeAttack = 0;
             isInDashAttackCoroutine = false;
-            isCacAttacking = false;
+            //isCacAttacking = false;
         }
         
         
@@ -140,10 +159,10 @@ namespace AI
             if(gameObject.activeSelf) agentLinkMover.StopCoroutine(agentLinkMover.StartLinkerVerif());
             
             base.DestroyLogic();
+            StopAllCoroutines();
             
             animatorTrashMobCac.ChangeState(animatorTrashMobCac.DEATH,.2f);
-
-            StopCoroutine(DashAttack());
+            
             IsPhysicNavMesh(false);
             actualCountBeforeAttack = 0;
             isInDashAttackCoroutine = false;
@@ -167,8 +186,11 @@ namespace AI
             if(!isCacAttacking) return;
             if(isPawnDead) return;
             
+            Debug.Log("Enter");
+            
             Collider[] colliders = Physics.OverlapSphere(cacAttackPos.position, cacAttackSphereRadius, targetMask);
-            animatorTrashMobCac.ChangeState(animatorTrashMobCac.ATTACK,.2f);
+            if(!isInDashAttackCoroutine) animatorTrashMobCac.ChangeState(animatorTrashMobCac.ATTACK,.2f);
+            
             foreach (var obj in colliders)
             {
                 if (obj.transform.CompareTag("Player"))
