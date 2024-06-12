@@ -2,6 +2,7 @@ using System;
 using DG.Tweening;
 using Player;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace CameraBehavior
 {
@@ -20,6 +21,7 @@ namespace CameraBehavior
             Position();
             Rotation();
             SlidingFov();
+            ShakeSliding();
         }
 
         internal void ResetTimer()
@@ -81,6 +83,22 @@ namespace CameraBehavior
             }
             cameraManager.camera.fieldOfView = cameraManager.currentFov;
             cameraManager.cameraCullingWeapon.fieldOfView = cameraManager.currentFov;
+        }
+
+        private float timeElapsedShaking;
+        [FormerlySerializedAs("ShakingCurve")] [SerializeField] private AnimationCurve ShakingMagnitudeRotCurve;
+        [SerializeField] private AnimationCurve ShakingFrequencyCurve;
+        private void ShakeSliding()
+        {
+            timeElapsedShaking += Time.deltaTime;
+            
+            if (timeElapsedShaking < .2f) return;
+            timeElapsedShaking = 0;
+            if(PlayerController.Instance._rb.velocity.magnitude < 20) return;
+            
+            CameraShake.Instance.ShakeCamera(.2f, .02f,
+                ShakingMagnitudeRotCurve.Evaluate(PlayerController.Instance._rb.velocity.magnitude), 
+                ShakingFrequencyCurve.Evaluate(PlayerController.Instance._rb.velocity.magnitude), true, 0);
         }
     }
 
