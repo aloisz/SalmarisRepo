@@ -3,6 +3,7 @@ using UnityEditor;
 using System;
 using System.Collections;
 using DG.Tweening;
+using MyAudio;
 using Player;
 using Weapon;
 
@@ -66,6 +67,7 @@ namespace AI
                     IsPhysicNavMesh(false);
                     countAction++;
                     if(countAction <= 2) break;
+                    AudioManager.Instance.SpawnAudio3D(transform.position, SfxType.SFX, 14, 1, 0, 1);
                     ChangeState(TrashMobState.Moving);
                     break;
                 case TrashMobState.Moving:

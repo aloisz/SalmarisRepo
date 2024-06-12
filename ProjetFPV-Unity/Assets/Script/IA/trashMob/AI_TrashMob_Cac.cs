@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using CameraBehavior;
+using MyAudio;
 using NaughtyAttributes;
 using Player;
 using UnityEditor;
@@ -35,6 +36,11 @@ namespace AI
         {
             base.Awake();
             animatorTrashMobCac = GetComponent<AI_AnimatorTrashMobCac>();
+        }
+
+        public override void ResetAgent()
+        {
+            base.ResetAgent();
         }
         
         protected override void PawnBehavior()
@@ -149,7 +155,7 @@ namespace AI
         IEnumerator DeathKnockBack()
         {
             yield return new WaitUntil(() => !navMeshAgent.enabled);
-            GetComponent<Rigidbody>().AddForce(PlayerController.Instance.transform.forward * knockBackDeathIntensity, ForceMode.Impulse);
+            rb.AddForce(PlayerController.Instance.transform.forward * knockBackDeathIntensity, ForceMode.Impulse);
         }
         
         
@@ -160,11 +166,9 @@ namespace AI
         {
             if(!isCacAttacking) return;
             if(isPawnDead) return;
-            isCacAttacking = false;
             
             Collider[] colliders = Physics.OverlapSphere(cacAttackPos.position, cacAttackSphereRadius, targetMask);
             animatorTrashMobCac.ChangeState(animatorTrashMobCac.ATTACK,.2f);
-            CameraShake.Instance.ShakeCamera(false, shakeDuration, shakeMagnitude, shakeFrequency, true, power);
             foreach (var obj in colliders)
             {
                 if (obj.transform.CompareTag("Player"))
@@ -172,11 +176,15 @@ namespace AI
                     if (obj.transform.TryGetComponent(out pl))
                     {
                         pl.Hit(damageApplied);
+                        isCacAttacking = false;
                     }
+                    
+                    AudioManager.Instance.SpawnAudio3D(transform.position, SfxType.SFX, 12, 1, 0, 1);
+                    CameraShake.Instance.ShakeCamera(false, shakeDuration, shakeMagnitude, shakeFrequency, true, power);
                 }
             }
         }
-        #endregion 
+        #endregion
         
 #if UNITY_EDITOR
         protected override void OnDrawGizmos()

@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using AI;
+using MyAudio;
 using UnityEngine;
 using Weapon;
 
@@ -33,6 +34,8 @@ public class MissileLauncher : HeavyArtillery
         bulletProjectile.WhoIsTheTarget(whoIsTarget);
         
         animatorAirSack.ChangeState(animatorAirSack.ATTACK,.2f);
+        
+        AudioManager.Instance.SpawnAudio3D(transform.position, SfxType.SFX, 15, 1, 0, 1);
     }
 
     private Vector3 GetThePlayerDirection()
