@@ -358,6 +358,7 @@ public class HUD : GenericSingletonClass<HUD>
     {
         foreach (var ps in hitmarkerParticleSystems)
         {
+            ps.enabled = true;
             ps.Stop();
             ps.Play();
         }
@@ -365,9 +366,16 @@ public class HUD : GenericSingletonClass<HUD>
     
     private void HitMarkerPlayLethal()
     {
+        foreach (var ps in hitmarkerParticleSystems)
+        {
+            ps.Stop();
+            ps.enabled = false;
+        }
+        
         foreach (var ps in hitmarkerParticleSystemsLethal)
         {
-            if(!ps.particles[0].isPlaying) ps.Play();
+            ps.Stop();
+            ps.Play();
         }
     }
     
@@ -415,10 +423,10 @@ public class HUD : GenericSingletonClass<HUD>
 
         if (wepManager.isReloading)
         {
-            reload.fillAmount = Mathf.Lerp(0, 1, wepManager.timeElapsedReload + 0.02f / (wepPrimary.timeToReload / PlayerKillStreak.Instance.reloadBoost));
+            reload.fillAmount = Mathf.Lerp(0, 1, wepManager.timeElapsedReload / (wepPrimary.timeToReload / PlayerKillStreak.Instance.reloadBoost));
         }
         
-        crosshairParent.SetActive(reload.fillAmount > 0.95f);
-        reload.enabled = reload.fillAmount < 0.95f;
+        crosshairParent.SetActive(reload.fillAmount > 0.99f);
+        reload.enabled = reload.fillAmount < 0.99f;
     }
 }

@@ -77,56 +77,43 @@ public class Barbatos : Shotgun
         }
         if (hit.collider.GetComponent<IDamage>() != null)
         {
-            if (so_Weapon.weaponMode[(int)actualWeaponModeIndex].doFallOffDamage)
+            var value = 1f;
+            if (Vector3.Distance(PlayerController.transform.position, hit.point) < so_Weapon
+                    .weaponMode[(int)actualWeaponModeIndex].fallOffStartingDistance)
             {
-                var value = 1f;
-                if (Vector3.Distance(PlayerController.transform.position, hit.point) < so_Weapon
-                        .weaponMode[(int)actualWeaponModeIndex].fallOffStartingDistance)
-                {
-                    value = so_Weapon.weaponMode[(int)actualWeaponModeIndex].bulletDamage;
-                }
-                else
-                {
-                    value = so_Weapon.weaponMode[(int)actualWeaponModeIndex].bulletDamage /
-                        Vector3.Distance(PlayerController.transform.position +
-                                         PlayerController.transform.forward * so_Weapon
-                                             .weaponMode[(int)actualWeaponModeIndex].fallOffStartingDistance,
-                            hit.point) * so_Weapon.weaponMode[(int)actualWeaponModeIndex].fallOffByDistanceMultiplier;
-                }
-                
-                hit.transform.GetComponent<IDamage>().Hit(
-                    Mathf.Clamp(value, 0, so_Weapon.weaponMode[(int)actualWeaponModeIndex].bulletDamage));
-
-                if (hit.transform.GetComponent<AI_Pawn>().isPawnDead)
-                {
-                    onHitEnemyLethal.Invoke();
-                }
-                else if (hit.transform.GetComponent<AI_Pawn>())
-                {
-                    onHitEnemy.Invoke();
-                }
-                else if (hit.transform.GetComponentInParent<AI_Pawn>().isPawnDead)
-                {
-                    onHitEnemyLethal.Invoke();
-                }
-                else if (hit.transform.GetComponentInParent<AI_Pawn>())
-                {
-                    onHitEnemy.Invoke();
-                }
+                value = so_Weapon.weaponMode[(int)actualWeaponModeIndex].bulletDamage;
             }
             else
             {
-                hit.transform.GetComponent<IDamage>().Hit(so_Weapon.weaponMode[(int)actualWeaponModeIndex].bulletDamage);
-                
-                if(hit.transform.GetComponentInParent<AI_Pawn>().isPawnDead) onHitEnemyLethal.Invoke();
-                else if(hit.transform.GetComponentInParent<AI_Pawn>()) onHitEnemy.Invoke();
+                value = so_Weapon.weaponMode[(int)actualWeaponModeIndex].bulletDamage /
+                    Vector3.Distance(PlayerController.transform.position +
+                                     PlayerController.transform.forward * so_Weapon
+                                         .weaponMode[(int)actualWeaponModeIndex].fallOffStartingDistance,
+                        hit.point) * so_Weapon.weaponMode[(int)actualWeaponModeIndex].fallOffByDistanceMultiplier;
+            }
+
+            var damage = so_Weapon.weaponMode[(int)actualWeaponModeIndex].doFallOffDamage ? Mathf.Clamp(value, 0, so_Weapon.weaponMode[(int)actualWeaponModeIndex].bulletDamage)
+                : so_Weapon.weaponMode[(int)actualWeaponModeIndex].bulletDamage;
+            hit.transform.GetComponent<IDamage>().Hit(damage);
+
+            AI_Pawn aiPawn = hit.transform.GetComponent<AI_Pawn>() ?? hit.transform.GetComponentInParent<AI_Pawn>();
+
+            if (aiPawn != null && !aiPawn.isPawnDead)
+            {
+                if (aiPawn.actualPawnHealth - damage <= 0)
+                {
+                    onHitEnemyLethal.Invoke();
+                }
+                else
+                {
+                    onHitEnemy.Invoke();
+                }
             }
         }
         
         if(isFirstBulletGone) return;
         if (hit.transform.TryGetComponent<IExplosion>(out IExplosion explosion))
         {
-            Debug.Log(hit.transform.name);
             isFirstBulletGone = true;
             explosion.HitScanExplosion(so_Weapon.weaponMode[(int)actualWeaponModeIndex].whoIsTheTarget);
         }
@@ -328,6 +315,8 @@ public class Barbatos : Shotgun
         {
             shootVFX.SpawnShootVFX(1, hit.point, hit.normal);
         }
+        
+        Debug.DrawRay(hit.point, hit.normal * 5f, Color.green, 10f);
     }
 
     private Color32 GetTextureColor(Texture2D tex, Vector2 uv)
