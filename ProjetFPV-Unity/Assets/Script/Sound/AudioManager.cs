@@ -17,7 +17,7 @@ namespace MyAudio
         [SerializeField] private AudioMixer audioMixer;
         private void Start()
         {
-            SpawnAudio3D(transform.position, SfxType.SFX, 1, 1, 0, 1);
+            
         }
 
         public void SpawnAudio2D(Vector3 position, SfxType sfxType, int audioID, float volume, float timeToTurnOnVolume, float pitch, bool loop = false)
