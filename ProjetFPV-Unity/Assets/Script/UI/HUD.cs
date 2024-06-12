@@ -358,6 +358,7 @@ public class HUD : GenericSingletonClass<HUD>
     {
         foreach (var ps in hitmarkerParticleSystems)
         {
+            ps.enabled = true;
             ps.Stop();
             ps.Play();
         }
@@ -365,9 +366,16 @@ public class HUD : GenericSingletonClass<HUD>
     
     private void HitMarkerPlayLethal()
     {
+        foreach (var ps in hitmarkerParticleSystems)
+        {
+            ps.Stop();
+            ps.enabled = false;
+        }
+        
         foreach (var ps in hitmarkerParticleSystemsLethal)
         {
-            if(!ps.particles[0].isPlaying) ps.Play();
+            ps.Stop();
+            ps.Play();
         }
     }
     
@@ -419,6 +427,6 @@ public class HUD : GenericSingletonClass<HUD>
         }
         
         crosshairParent.SetActive(reload.fillAmount > 0.99f);
-        reload.enabled = reload.fillAmount < .99f;
+        reload.enabled = reload.fillAmount < 0.99f;
     }
 }
