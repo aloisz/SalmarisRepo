@@ -115,6 +115,16 @@ namespace AI
             base.DestroyLogic();
             animatorTrashShooter.ChangeState(animatorTrashShooter.DEATH, .5f);
             if(gameObject.activeSelf) agentLinkMover.StopCoroutine(agentLinkMover.StartLinkerVerif());
+            
+            ChangeState(TrashMobState.Idle);
+            IsPhysicNavMesh(false);
+            StartCoroutine(nameof(DeathKnockBack));
+        }
+        
+        IEnumerator DeathKnockBack()
+        {
+            yield return new WaitUntil(() => !navMeshAgent.enabled);
+            GetComponent<Rigidbody>().AddForce(PlayerController.Instance.transform.forward * knockBackDeathIntensity, ForceMode.Impulse);
         }
 
 #if UNITY_EDITOR

@@ -158,6 +158,10 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 512
   bulletLifeTime: 4
+  shakeDuration: 0.1
+  shakeMagnitude: 20
+  shakeFrequency: 0.5
+  power: 4
   drag: 5
   meshRenderer: {fileID: 8395214840331547342}
   baseMat: {fileID: 2100000, guid: f164e54848fe61149857cd7cf6234e96, type: 2}
@@ -180,8 +184,8 @@ CapsuleCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.5
-  m_Height: 0.5
+  m_Radius: 0.73
+  m_Height: 2.14
   m_Direction: 2
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!96 &3500464492643065134
