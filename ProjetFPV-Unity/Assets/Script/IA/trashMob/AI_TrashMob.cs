@@ -48,7 +48,8 @@ namespace AI
             navMeshAgent.ResetPath();
             navMeshAgent.CompleteOffMeshLink();
             
-            AudioManager.Instance.SpawnAudio3D(transform.position, SfxType.SFX, 9, 1, 0, 1);
+            //BUG
+            //AudioManager.Instance.SpawnAudio3D(transform.position, SfxType.SFX, 9, 1, 0, 1);
 
             if(gameObject.activeSelf) agentLinkMover.StartCoroutine(agentLinkMover.StartLinkerVerif());
         }

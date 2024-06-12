@@ -96,9 +96,23 @@ public class Barbatos : Shotgun
                 
                 hit.transform.GetComponent<IDamage>().Hit(
                     Mathf.Clamp(value, 0, so_Weapon.weaponMode[(int)actualWeaponModeIndex].bulletDamage));
-                
-                if(hit.transform.GetComponentInParent<AI_Pawn>().isPawnDead) onHitEnemyLethal.Invoke();
-                else if(hit.transform.GetComponentInParent<AI_Pawn>()) onHitEnemy.Invoke();
+
+                if (hit.transform.GetComponent<AI_Pawn>().isPawnDead)
+                {
+                    onHitEnemyLethal.Invoke();
+                }
+                else if (hit.transform.GetComponent<AI_Pawn>())
+                {
+                    onHitEnemy.Invoke();
+                }
+                else if (hit.transform.GetComponentInParent<AI_Pawn>().isPawnDead)
+                {
+                    onHitEnemyLethal.Invoke();
+                }
+                else if (hit.transform.GetComponentInParent<AI_Pawn>())
+                {
+                    onHitEnemy.Invoke();
+                }
             }
             else
             {
