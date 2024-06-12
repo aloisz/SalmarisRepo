@@ -17,7 +17,6 @@ public class HUD : GenericSingletonClass<HUD>
     [Header("Values")]
     [SerializeField] private Vector2 giggleMultiplierBackground;
     [SerializeField] private Vector2 giggleMultiplier;
-    [SerializeField] private Vector2 crosshairImpulseMinMax;
     [SerializeField] [Range(0f,3f)] private float damageMaxIntensity;
     [SerializeField] private float damageDisplayDuration;
     [SerializeField] private float dispersionDividerBasedOnWepSettings = 3f;
@@ -416,10 +415,10 @@ public class HUD : GenericSingletonClass<HUD>
 
         if (wepManager.isReloading)
         {
-            reload.fillAmount = Mathf.Lerp(0, 1, wepManager.timeElapsedReload / (wepPrimary.timeToReload / PlayerKillStreak.Instance.reloadBoost));
+            reload.fillAmount = Mathf.Lerp(0, 1, wepManager.timeElapsedReload + 0.02f / (wepPrimary.timeToReload / PlayerKillStreak.Instance.reloadBoost));
         }
         
-        crosshairParent.SetActive(reload.fillAmount > 0.99f);
-        reload.enabled = reload.fillAmount < 0.99f;
+        crosshairParent.SetActive(reload.fillAmount > 0.95f);
+        reload.enabled = reload.fillAmount < 0.95f;
     }
 }
