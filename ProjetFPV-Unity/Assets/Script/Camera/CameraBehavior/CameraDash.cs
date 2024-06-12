@@ -28,7 +28,8 @@ namespace CameraBehavior
             {
                 cameraManager.currentFov = Mathf.Lerp(cameraManager.currentFov, cameraManager.so_Camera.fovDashing, Time.deltaTime * cameraManager.so_Camera.timeToGetToDashingFov);
             }
-            cameraManager.camera.fieldOfView = cameraManager.currentFov;
+            cameraManager.camera.fieldOfView = cameraManager.currentFov; 
+            cameraManager.cameraCullingWeapon.fieldOfView = cameraManager.currentFov;
         }
         
         private void Position()

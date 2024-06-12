@@ -31,6 +31,9 @@ namespace CameraBehavior
         
         internal Camera camera;
         internal Transform cameraTransform;
+
+        private GameObject goCameraCullingWeapon;
+        internal Camera cameraCullingWeapon;
         
         internal float currentFov;  
         internal Quaternion smoothOffset;
@@ -54,6 +57,8 @@ namespace CameraBehavior
             cameraJumping = GetComponent<CameraJumping>();
             cameraDash = GetComponent<CameraDash>();
             camera = GetComponentInChildren<Camera>();
+            goCameraCullingWeapon = GameObject.Find("CameraGunCulling"); // get the camera culling child of Main Camera
+            cameraCullingWeapon = goCameraCullingWeapon.GetComponent<Camera>();
             cameraTransform = camera.GetComponent<Transform>();
             handSwing = GetComponentInChildren<HandSwing>();
             cameraFrustumCulling = GetComponent<CameraFrustumCulling>();
@@ -178,6 +183,7 @@ namespace CameraBehavior
                 currentFov = Mathf.Lerp(currentFov, so_Camera.fovIdle, Time.deltaTime * so_Camera.timeToGetToIdleFov);
             }
             camera.fieldOfView = currentFov;
+            cameraCullingWeapon.fieldOfView = currentFov;
         }
 
         /// <summary>
@@ -226,6 +232,7 @@ namespace CameraBehavior
                 currentFov = Mathf.Lerp(currentFov, so_Camera.fovMoving, Time.deltaTime * so_Camera.timeToGetToMovingFov);
             }
             camera.fieldOfView = currentFov;
+            cameraCullingWeapon.fieldOfView = currentFov;
         }
         
         private void MovingTransitionParent()

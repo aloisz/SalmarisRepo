@@ -80,6 +80,7 @@ namespace CameraBehavior
                     Time.deltaTime * cameraManager.so_Camera.timeToGetToSlidingFov);
             }
             cameraManager.camera.fieldOfView = cameraManager.currentFov;
+            cameraManager.cameraCullingWeapon.fieldOfView = cameraManager.currentFov;
         }
     }
 
