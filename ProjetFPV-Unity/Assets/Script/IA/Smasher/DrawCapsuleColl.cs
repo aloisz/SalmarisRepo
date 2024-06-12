@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using MyAudio;
 using NaughtyAttributes;
 using UnityEngine;
 
@@ -14,6 +15,7 @@ namespace AI
 
         [SerializeField] private float damageMultiplier;
 
+        [SerializeField]  private bool isWeakPoint;
 
         private void Awake()
         {
@@ -32,6 +34,10 @@ namespace AI
         {
             pawn.actualPawnHealth -= damageInflicted * damageMultiplier;
             PlayerKillStreak.Instance.NotifyDamageInflicted();
+
+            
+            // audio
+            AudioManager.Instance.SpawnAudio3D(transform.position, SfxType.SFX, isWeakPoint ? 6 : 5, 1, 0, 1);
         }
     }
 

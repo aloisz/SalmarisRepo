@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using DG.Tweening;
+using MyAudio;
 using NaughtyAttributes;
 using Player;
 using UnityEditor;
@@ -129,6 +130,8 @@ namespace AI
         private bool hasLanded = false;
         private void DashInPlayerDir(float time, Vector3 landingPos)
         {
+            // audio
+            AudioManager.Instance.SpawnAudio3D(transform.position, SfxType.SFX, 2, 1, 0, 1);
             hasLanded = false;
             aiSmasher.transform.DOJump(landingPos, 2.5f, 1, time).OnComplete((() =>
             {
@@ -168,6 +171,8 @@ namespace AI
                     aiSmasher.ApplyKnockBack(knockBackStrenght, dir);
 
                     StartCoroutine(EndAttack());
+                    // audio
+                    AudioManager.Instance.SpawnAudio3D(transform.position, SfxType.SFX, 4, 1, 0, 1);
                 }
             }
         }

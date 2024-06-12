@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using MyAudio;
 using Player;
 using UnityEditor;
 using UnityEngine;
@@ -18,10 +19,20 @@ public class Missile : BulletBehavior,IExplosion
     private Material _bulletMat;
     private float timer;
     private bool alreadySpawnedDecal;
+    private AudioSource source;
 
     protected override void Start()
     {
         base.Start();
+        source = GetComponent<AudioSource>();
+        foreach (var soundClip in AudioManager.Instance.audioSO[0].soundList)
+        {
+            if (16 == soundClip.audioId)
+            {
+                source.clip = AudioManager.Instance.audioSO[0].soundList[soundClip.audioId - 1].audioClip;
+            }
+        }
+        source.Play();
     }
 
     protected override void OnEnable()

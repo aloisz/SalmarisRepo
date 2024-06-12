@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using AI;
+using MyAudio;
 using Player;
 using UnityEditor;
 using UnityEngine;
@@ -38,6 +39,12 @@ public class AI_AirSack : AI_Pawn
         base.Awake();
         weapon = GetComponent<WeaponManager>();
         animatorAirSack = GetComponent<AI_Animator_AirSack>();
+    }
+
+    public override void ResetAgent()
+    {
+        base.ResetAgent();
+        AudioManager.Instance.SpawnAudio3D(transform.position, SfxType.SFX, 19, 1, 0, 1);
     }
     
     protected AirSackMobState ChangeState(AirSackMobState state)
@@ -116,8 +123,15 @@ public class AI_AirSack : AI_Pawn
     
     public override void DestroyLogic()
     {
+        AudioManager.Instance.SpawnAudio3D(transform.position, SfxType.SFX, 18, 1, 0, 1);
         Pooling.instance.DelayedDePop(so_IA.poolingName, gameObject, 2f);
         animatorAirSack.ChangeState(animatorAirSack.DEATH,.2f);
+    }
+    
+    public override void Hit(float damageInflicted)
+    {
+        base.Hit(damageInflicted);
+        AudioManager.Instance.SpawnAudio3D(transform.position, SfxType.SFX, 17, 1, 0, 1);
     }
     
     

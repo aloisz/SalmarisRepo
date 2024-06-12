@@ -10,29 +10,22 @@ namespace AI
         [SerializeField] private Animator animator;
         //component
         private AI_Pawn aiPawn;
+        private AI_TrashMob_Cac aiPawnCac;
         
         private string currentState;
         internal string SPAWN = "Spawn";
         internal string IDLE = "Idle";
         internal string WALK = "Walk";
         internal string ATTACK = "Attack";
+        internal string PREATTACK = "PreAttack";
+        internal string PREATTACKLOOP = "PreAttackLoop";
         internal string JUMP = "Jump";
         internal string DEATH = "Death";
         
         private void Start()
         {
             aiPawn = GetComponent<AI_Pawn>();
-        }
-
-        private void Update()
-        {
-            if (isAnimationPlaying(animator, SPAWN)) return;
-            if (isAnimationPlaying(animator, DEATH)) return;
-            if (isAnimationPlaying(animator, JUMP)) return;
-            if (isAnimationPlaying(animator, ATTACK)) return;
-            
-            if(aiPawn.isPawnDead) return;
-            ChangeState(aiPawn.navMeshAgent.enabled ? WALK : IDLE, .2f);
+            aiPawnCac = GetComponent<AI_TrashMob_Cac>();
         }
 
         public void ChangeState(string newState, float crossFadeDuration)
