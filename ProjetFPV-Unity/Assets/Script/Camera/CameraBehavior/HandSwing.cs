@@ -73,14 +73,21 @@ namespace CameraBehavior
             Quaternion targetRotation = rotationX * rotationY;
 
             // weapon rotation 
-            transform.localRotation = cameraManager.cameraSliding.timeElapsed > 0 && !weapon.isReloading ? 
-                Quaternion.Slerp(transform.localRotation, 
-                    targetRotation * Quaternion.AngleAxis(slidingRotX, Vector3.forward) * Quaternion.AngleAxis(slidingRotY, Vector3.up) * rotationSwayDirection, 
-                    cameraManager.so_Camera.weaponSwaySmooth * Time.deltaTime ) :
+
+            if (!weapon.isReloading)
+            {
+                transform.localRotation = cameraManager.cameraSliding.timeElapsed > 0 ? 
+                    Quaternion.Slerp(transform.localRotation, 
+                        targetRotation * Quaternion.AngleAxis(slidingRotX, Vector3.forward) * Quaternion.AngleAxis(slidingRotY, Vector3.up) * rotationSwayDirection, 
+                        cameraManager.so_Camera.weaponSwaySmooth * Time.deltaTime ) :
                 
-                Quaternion.Slerp(transform.localRotation, targetRotation, cameraManager.so_Camera.weaponSwaySmooth * Time.deltaTime );
+                    Quaternion.Slerp(transform.localRotation, targetRotation, cameraManager.so_Camera.weaponSwaySmooth * Time.deltaTime );
+            }
+            else
+            {
+                AnimateWeaponReloading();
+            }
             
-            AnimateWeaponReloading();
             
             // weapon position
             transform.localPosition = Vector3.Lerp(transform.localPosition, 
