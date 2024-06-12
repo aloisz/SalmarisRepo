@@ -15,7 +15,7 @@ OcclusionCullingSettings:
 RenderSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 9
-  m_Fog: 1
+  m_Fog: 0
   m_FogColor: {r: 0.5019608, g: 0.854902, b: 0.7372549, a: 1}
   m_FogMode: 3
   m_FogDensity: 0.005
@@ -33,13 +33,13 @@ RenderSettings:
   m_FlareFadeSpeed: 3
   m_HaloTexture: {fileID: 0}
   m_SpotCookie: {fileID: 10001, guid: 0000000000000000e000000000000000, type: 0}
-  m_DefaultReflectionMode: 0
+  m_DefaultReflectionMode: 1
   m_DefaultReflectionResolution: 128
   m_ReflectionBounces: 2
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.87672806, g: 0.9729767, b: 1.4570197, a: 1}
+  m_IndirectSpecularColor: {r: 0.7514612, g: 1.3727549, b: 1.2897401, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -98,7 +98,7 @@ LightmapSettings:
     m_ExportTrainingData: 0
     m_TrainingDataDestination: TrainingData
     m_LightProbeSampleCountMultiplier: 4
-  m_LightingDataAsset: {fileID: 112000000, guid: 30c796a0065aeb74e9aa73499ccffb23,
+  m_LightingDataAsset: {fileID: 112000000, guid: d301644a86a975041bac5578c38ed53a,
     type: 2}
   m_LightingSettings: {fileID: 4890085278179872738, guid: 5591a7a9785d45141af41acffffac3c3,
     type: 2}
@@ -14914,6 +14914,11 @@ PrefabInstance:
       propertyPath: m_Camera
       value: 
       objectReference: {fileID: 950904970}
+    - target: {fileID: 8872332571000708671, guid: 84d40c77e7b58464992652bedc437abe,
+        type: 3}
+      propertyPath: m_SortingLayerID
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
