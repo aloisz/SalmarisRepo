@@ -35,7 +35,7 @@ namespace CameraBehavior
         {
             // Position
             cameraManager.transitionParent.position = Vector3.Lerp(cameraManager.transitionParent.position, cameraManager.playerTransform.position, 
-                Time.deltaTime * cameraManager.so_Camera.positionOffSetSmooth);
+                Time.deltaTime * cameraManager.actualpositionOffSetSmooth);
         }
 
         private void Rotation()

@@ -17,9 +17,9 @@ namespace CameraBehavior
         [Header("---Scriptable---")] 
         [Expandable]public SO_Camera so_Camera;
 
-        [Header("---Camera Parameter---")] 
-        [SerializeField] internal float globalCameraRot;
-        internal float actualglobalCameraRot;
+        [Header("---Camera Parameter---")]
+        [SerializeField] internal float actualpositionOffSetSmooth;
+        [SerializeField] private AnimationCurve posOffSetSmoothCurve;
         [SerializeField] internal Transform transitionParent;
         [SerializeField] internal Transform playerTransform;
         public Transform weaponTransform;
@@ -63,7 +63,7 @@ namespace CameraBehavior
             currentFov = so_Camera.fovIdle;
             camera.fieldOfView = currentFov;
 
-            actualglobalCameraRot = globalCameraRot;
+            actualpositionOffSetSmooth = so_Camera.positionOffSetSmooth;
         }
         
         private void LateUpdate()
@@ -87,22 +87,12 @@ namespace CameraBehavior
         /// </summary>
         private void MovingCameraManager()
         {
-            if (!mustAvoid)
-            {
-                //var YImpact = (cameraJumping.jumpingImpactOnLanding.Evaluate(PlayerController.Instance._rb.velocity.y) );
-                
-                transform.position = Vector3.Lerp(transform.position, playerTransform.position, 
-                    Time.deltaTime * (so_Camera.positionOffSetSmooth));
-                
-                transform.rotation = Quaternion.Euler(transform.eulerAngles.x , playerTransform.eulerAngles.y,transform.eulerAngles.z );
-                
-                
-            }
-            else
-            {
-                LogicWhenAvoid();
-            }
+            //var YImpact = (cameraJumping.jumpingImpactOnLanding.Evaluate(PlayerController.Instance._rb.velocity.y) );
             
+            transform.position = Vector3.Lerp(transform.position, playerTransform.position, 
+                Time.deltaTime * (actualpositionOffSetSmooth));
+            
+            transform.rotation = Quaternion.Euler(transform.eulerAngles.x , playerTransform.eulerAngles.y,transform.eulerAngles.z );
         }
 
         /// <summary>
@@ -136,7 +126,6 @@ namespace CameraBehavior
                     break;
                 
                 case PlayerController.PlayerActionStates.Sliding:
-                    actualglobalCameraRot = so_Camera.rotationOffSetSmooth;
                     cameraSliding.Sliding();
                     ReInitialiseCameraPos();
                     break;
@@ -158,13 +147,7 @@ namespace CameraBehavior
 
             handSwing.CameraImpact();
             cameraJumping.ImpactWhenLanding();
-
-            // Fix the different rotation smoothness
-            if (Math.Abs(actualglobalCameraRot - globalCameraRot) > 0.1f) 
-            {
-                actualglobalCameraRot = Mathf.Lerp(actualglobalCameraRot, globalCameraRot,
-                    Time.deltaTime * so_Camera.rotationOffSetSmooth);
-            }
+            
         }
 
         #endregion
@@ -182,7 +165,7 @@ namespace CameraBehavior
                     -PlayerController.Instance.direction.x * so_Camera.rotationOffSet.z),
                 Time.deltaTime * so_Camera.rotationOffSetSmooth);
             
-            transitionParent.rotation = Quaternion.Slerp(transitionParent.rotation, playerTransform.rotation * smoothOffset , Time.deltaTime * actualglobalCameraRot); 
+            transitionParent.rotation = Quaternion.Slerp(transitionParent.rotation, playerTransform.rotation * smoothOffset , Time.deltaTime * so_Camera.rotationOffSetSmooth); 
         }
 
         /// <summary>
@@ -202,12 +185,12 @@ namespace CameraBehavior
         /// </summary>
         private void ReInitialiseCameraPos()
         {
-            cameraTransform.localPosition = Vector3.Lerp(cameraTransform.localPosition, Vector3.zero, Time.deltaTime * so_Camera.positionOffSetSmooth);
+            cameraTransform.localPosition = Vector3.Lerp(cameraTransform.localPosition, Vector3.zero, Time.deltaTime * actualpositionOffSetSmooth);
             if (isCommingBackFromEffect)
             {
                 isCommingBackFromEffect = false;
                 transitionParent.position = Vector3.Lerp(transitionParent.position, playerTransform.position, 
-                    Time.deltaTime * so_Camera.positionOffSetSmooth);
+                    Time.deltaTime * actualpositionOffSetSmooth);
             }
         }
 
@@ -248,7 +231,7 @@ namespace CameraBehavior
         private void MovingTransitionParent()
         {
             transitionParent.position = Vector3.Lerp(transitionParent.position, playerTransform.position, 
-                Time.deltaTime * so_Camera.positionOffSetSmooth); 
+                Time.deltaTime * actualpositionOffSetSmooth); 
             
             // Rotation
             float xValue = 0;
@@ -261,7 +244,7 @@ namespace CameraBehavior
                 Time.deltaTime * so_Camera.rotationOffSetSmooth);
             
             transitionParent.rotation = Quaternion.Slerp(transitionParent.rotation, playerTransform.rotation * smoothOffset, 
-                Time.deltaTime * actualglobalCameraRot); 
+                Time.deltaTime * so_Camera.rotationOffSetSmooth); 
         }
 
         #endregion
@@ -278,56 +261,10 @@ namespace CameraBehavior
         #endregion
         
         #region CameraBounds
-        
-        [Header("CameraBounds")] 
-        /*[SerializeField] internal float maxRayDistance;*/
-        [SerializeField] internal LayerMask obstacleLayer;
-        private bool mustAvoid;
-        /*[SerializeField] internal float timeToReset;
-        [SerializeField] internal float interpolationTime;
-        private float timeSpent;
-        [SerializeField] internal float newInterpolatedValue;*/
-        
-        
-        public float collisionOffset = 0.1f; // Offset to maintain from the wall
-        public float repulseForce = 1f; // Strength of the repulsion force
-        
-
         private void CheckForCameraBounds()
         {
-            /*Debug.DrawRay(transitionParent.position + Vector3.up, transitionParent.forward * maxRayDistance, Color.green);
-            
-            if(mustAvoid) return;
-            RaycastHit hit;
-            if (Physics.Raycast(transitionParent.position, transitionParent.forward, out hit, maxRayDistance,
-                    obstacleLayer))
-            {
-                if ( (obstacleLayer & (1 << hit.transform.gameObject.layer)) != 0) // Check the layer 
-                {
-                    mustAvoid = true;
-                }
-                newInterpolatedValue = Mathf.Lerp(newInterpolatedValue, interpolationTime, Vector3.Distance(hit.point, PlayerController.Instance.transform.position));
-            }
-            else
-            {
-                newInterpolatedValue = so_Camera.positionOffSetSmooth;
-            }*/
-            
-            Vector3 desiredWorldPosition = cameraTransform.localPosition;
-            Debug.DrawRay(transitionParent.position, transitionParent.forward *(collisionOffset) , Color.green);
-
-            if (PlayerController.Instance._rb.velocity.magnitude < 30) return;
-            RaycastHit hit;
-            if (Physics.Raycast(transitionParent.position, transitionParent.forward, out hit, 
-                    collisionOffset, obstacleLayer))
-            {
-                Vector3 directionToWall = (hit.point - desiredWorldPosition).normalized;
-                desiredWorldPosition -= directionToWall * repulseForce;
-                
-                cameraTransform.localPosition = Vector3.Lerp(cameraTransform.localPosition, desiredWorldPosition, Time.deltaTime * repulseForce);
-            }
-            
-            
+            actualpositionOffSetSmooth = Mathf.Lerp(actualpositionOffSetSmooth,
+                posOffSetSmoothCurve.Evaluate(PlayerController.Instance._rb.velocity.magnitude), Time.deltaTime);
         }
 
         private void LogicWhenAvoid()
@@ -343,20 +280,6 @@ namespace CameraBehavior
         
 
         #endregion
-        
-#if UNITY_EDITOR    
-        private void OnDrawGizmos()
-        {
-            /*Handles.color = Color.blue;
-            Handles.DrawLine(transitionParent.position, transitionParent.position + (transitionParent.forward * maxRayDistance), 5);
-
-            Handles.color = Color.green;
-            Handles.DrawLine(transitionParent.position, transitionParent.position + (-transitionParent.up * maxRayDistance), 5);*/
-
-            /*Gizmos.color = Color.red;
-            Gizmos.DrawCube(desiredCameraPos, Vector3.one * .5f);*/
-        }
-#endif
 
     }
 }
