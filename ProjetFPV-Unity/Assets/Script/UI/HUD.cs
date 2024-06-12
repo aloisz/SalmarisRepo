@@ -415,7 +415,7 @@ public class HUD : GenericSingletonClass<HUD>
 
         if (wepManager.isReloading)
         {
-            reload.fillAmount = Mathf.Lerp(0, 1, wepManager.timeElapsedReload / (wepPrimary.timeToReload / PlayerKillStreak.Instance.reloadBoost));
+            reload.fillAmount = Mathf.Lerp(0, 1, wepManager.timeElapsedReload + 0.02f / (wepPrimary.timeToReload / PlayerKillStreak.Instance.reloadBoost));
         }
         
         crosshairParent.SetActive(reload.fillAmount > 0.95f);
