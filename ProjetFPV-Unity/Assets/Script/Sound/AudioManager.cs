@@ -17,20 +17,52 @@ namespace MyAudio
         [SerializeField] private AudioMixer audioMixer;
         private void Start()
         {
-            SpawnAudio(transform.position, SfxType.Music, 0, .5f, 1, 0);
+            SpawnAudio3D(transform.position, SfxType.SFX, 1, 1, 0, 1);
         }
 
-        public void SpawnAudio(Vector3 position, SfxType sfxType, int audioID, float volume, float pitch, float spatialBlend, bool loop = false)
+        public void SpawnAudio2D(Vector3 position, SfxType sfxType, int audioID, float volume, float timeToTurnOnVolume, float pitch, bool loop = false)
         {
             MyAudioSource audioSource = Instantiate(PrefabAudioSource, position, Quaternion.identity);
 
             //audioSource.aSource.volume = volume;
             audioSource.aSource.volume = 0;
-            audioSource.aSource.DOFade(volume, 1);
+            audioSource.aSource.DOFade(volume, timeToTurnOnVolume);
             audioSource.aSource.pitch = pitch;
-            audioSource.aSource.spatialBlend = spatialBlend;
+            audioSource.aSource.loop = loop;
+            audioSource.aSource.spatialBlend = 0;
+            audioSource.aSource.outputAudioMixerGroup = audioMixer.FindMatchingGroups(sfxType.ToString())[0];
+             
+            foreach (var soundClip in audioSO[(int)sfxType].soundList)
+            {
+                if (audioID == soundClip.audioId)
+                {
+                    audioSource.aSource.clip = audioSO[(int)sfxType].soundList[audioID].audioClip;
+                    audioSource.timeBeforeDestroy = audioSO[(int)sfxType].soundList[audioID].audioDuration;
+                    audioSource.gameObject.name = audioSO[(int)sfxType].soundList[audioID].soundName;
+                }
+            }
+            
+            audioSource.aSource.Play();
+        }
+        
+        public void SpawnAudio3D(Vector3 position, SfxType sfxType, int audioID, float volume, 
+            float timeToTurnOnVolume, float pitch, float dopplerLevel = 1, float spread = 0, 
+            AudioRolloffMode mode = AudioRolloffMode.Logarithmic, float minDist = 1, float maxDist = 500, bool loop = false)
+        {
+            MyAudioSource audioSource = Instantiate(PrefabAudioSource, position, Quaternion.identity);
+
+            //audioSource.aSource.volume = volume;
+            audioSource.aSource.volume = 0;
+            audioSource.aSource.DOFade(volume, timeToTurnOnVolume);
+            audioSource.aSource.pitch = pitch;
+            audioSource.aSource.spatialBlend = 1;
             audioSource.aSource.loop = loop;
             audioSource.aSource.outputAudioMixerGroup = audioMixer.FindMatchingGroups(sfxType.ToString())[0];
+            audioSource.aSource.dopplerLevel = dopplerLevel;
+            audioSource.aSource.spread = spread;
+            audioSource.aSource.rolloffMode = mode;
+            audioSource.aSource.minDistance = minDist;
+            audioSource.aSource.maxDistance = maxDist;
              
             foreach (var soundClip in audioSO[(int)sfxType].soundList)
             {
