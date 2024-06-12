@@ -79,7 +79,7 @@ namespace CameraBehavior
                 transform.localRotation = cameraManager.cameraSliding.timeElapsed > 0 ? 
                     Quaternion.Slerp(transform.localRotation, 
                         targetRotation * Quaternion.AngleAxis(slidingRotX, Vector3.forward) * Quaternion.AngleAxis(slidingRotY, Vector3.up) * rotationSwayDirection, 
-                        cameraManager.so_Camera.weaponSwaySmooth * Time.deltaTime ) :
+                        cameraManager.so_Camera.weaponSwaySmooth * Time.deltaTime) :
                 
                     Quaternion.Slerp(transform.localRotation, targetRotation, cameraManager.so_Camera.weaponSwaySmooth * Time.deltaTime );
             }
@@ -195,7 +195,9 @@ namespace CameraBehavior
                     Quaternion.Slerp(transform.localRotation, shootingRot, cameraManager.so_Camera.rotationOffSetSmooth * Time.deltaTime);
                 
                 transform.localPosition = 
-                    Vector3.Lerp(transform.localPosition, transform.localPosition + new Vector3(posX,posY,posZ), cameraManager.so_Camera.positionOffSetSmooth);//cameraManager.so_Camera.positionOffSetSmooth * Time.deltaTime
+                    Vector3.Lerp(transform.localPosition, 
+                        transform.localPosition + new Vector3(posX,posY,posZ), 
+                        cameraManager.so_Camera.positionOffSetSmooth * Time.deltaTime);//cameraManager.so_Camera.positionOffSetSmooth * Time.deltaTime
 
             }
             else
@@ -204,7 +206,7 @@ namespace CameraBehavior
                     Quaternion.Slerp(transform.localRotation, Quaternion.identity, cameraManager.so_Camera.rotationOffSetSmooth * Time.deltaTime);
                 
                 transform.localPosition = 
-                    Vector3.Lerp(transform.localPosition, basePos, cameraManager.so_Camera.positionOffSetSmooth);
+                    Vector3.Lerp(transform.localPosition, basePos, cameraManager.so_Camera.positionOffSetSmooth * Time.deltaTime);
             }
             
             /*Quaternion shootingRot = transform.localRotation * Quaternion.Euler(-angleX, angleZ, 0);

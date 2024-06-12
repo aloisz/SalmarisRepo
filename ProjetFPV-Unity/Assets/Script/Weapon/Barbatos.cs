@@ -256,7 +256,8 @@ public class Barbatos : Shotgun
                 
                 break;
             case WeaponMode.Secondary:
-                
+                CameraShake.Instance.ShakeCamera(mode.shakeDuration, mode.shakeMagnitude, mode.shakeMagnitudeRot, mode.shakeMagnitudeFrequency, 
+                    mode.shakeApplyFadeOut, mode.shakePower);
                 break;
             default:
                 throw new ArgumentOutOfRangeException();

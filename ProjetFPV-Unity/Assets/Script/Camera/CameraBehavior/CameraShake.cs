@@ -89,7 +89,7 @@ namespace CameraBehavior
                 float y = Random.Range(-1f, 1f) * shakeMagnitude * damper;
                 float z = Random.Range(-1f, 1f) * shakeMagnitude * damper;
 
-                cameraShakePos.position = Vector3.Lerp( cameraManager.camera.transform.position, cameraShakePos.position + new Vector3(x, y, 0), percentComplete);
+                //cameraShakePos.position = Vector3.Lerp( cameraManager.camera.transform.position, cameraShakePos.position + new Vector3(x, y, 0), percentComplete);
                 cameraManager.handSwing.transform.position = 
                     Vector3.Lerp( cameraManager.handSwing.transform.position, cameraManager.handSwing.transform.position + new Vector3(x/10, y/10, z/10), percentComplete);
 
@@ -137,7 +137,7 @@ namespace CameraBehavior
                 float y = Random.Range(-1f, 1f) * shakeMagnitudePos * damper;
                 float z = Random.Range(-1f, 1f) * shakeMagnitudePos * damper;
 
-                cameraShakePos.position = Vector3.Lerp( cameraManager.camera.transform.position, cameraShakePos.position + new Vector3(x, y, 0), percentComplete);
+                //cameraShakePos.position = Vector3.Lerp( cameraManager.camera.transform.position, cameraShakePos.position + new Vector3(x, y, 0), percentComplete);
                 cameraManager.handSwing.transform.position = 
                     Vector3.Lerp( cameraManager.handSwing.transform.position, cameraManager.handSwing.transform.position + new Vector3(x/10, y/10, z/10), percentComplete);
                 
