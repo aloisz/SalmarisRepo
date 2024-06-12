@@ -68,9 +68,9 @@ namespace MyAudio
             {
                 if (audioID == soundClip.audioId)
                 {
-                    audioSource.aSource.clip = audioSO[(int)sfxType].soundList[audioID].audioClip;
-                    audioSource.timeBeforeDestroy = audioSO[(int)sfxType].soundList[audioID].audioDuration;
-                    audioSource.gameObject.name = audioSO[(int)sfxType].soundList[audioID].soundName;
+                    audioSource.aSource.clip = audioSO[(int)sfxType].soundList[soundClip.audioId - 1].audioClip;
+                    audioSource.timeBeforeDestroy = audioSO[(int)sfxType].soundList[soundClip.audioId - 1].audioDuration;
+                    audioSource.gameObject.name = audioSO[(int)sfxType].soundList[soundClip.audioId - 1].soundName;
                 }
             }
             
