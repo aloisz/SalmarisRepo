@@ -644,9 +644,11 @@ namespace Player
         /// </summary>
         private void Jump()
         {
+            //Audio
+            AudioManager.Instance.SpawnAudio2D(transform.position, SfxType.SFX, 44, .2f,0,1,false);
             if (canDoubleJump)
             {
-                if (isOnGround)
+                if (isOnGround) 
                 {
                     _amountOfJumps++;
                 }
@@ -691,6 +693,9 @@ namespace Player
         /// </summary>
         private void Dash()
         {
+            //Audio
+            AudioManager.Instance.SpawnAudio2D(transform.position, SfxType.SFX, 46, 1,0,1,false);
+            
             var dashDirectionConvert = Helper.ConvertTo4Dir(new Vector2(direction.x, direction.z));
             var dirFromCam = new Vector3(Mathf.RoundToInt(dashDirectionConvert.x), 0, Mathf.RoundToInt(dashDirectionConvert.y));
             var dashDirection = DirectionFromCamera(dirFromCam);

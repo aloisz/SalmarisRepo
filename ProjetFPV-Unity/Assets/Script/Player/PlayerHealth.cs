@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using AI;
 using CameraBehavior;
+using MyAudio;
 using Player;
 using UnityEngine;
 using UnityEngine.Serialization;
@@ -97,6 +98,8 @@ public class PlayerHealth : GenericSingletonClass<PlayerHealth>, IDamage
         {
             if (amount >= Shield)
             {
+                //Audio
+                AudioManager.Instance.SpawnAudio2D(transform.position, SfxType.SFX, 48, 1f,0,1,false);
                 // Damage exceeds shield, consume shield first
                 amount -= Shield;
                 Shield = 0;
@@ -104,10 +107,17 @@ public class PlayerHealth : GenericSingletonClass<PlayerHealth>, IDamage
             }
             else
             {
+                //Audio
+                AudioManager.Instance.SpawnAudio2D(transform.position, SfxType.SFX, 47, 1f,0,1,false);
                 // Damage does not exceed shield, only deplete shield
                 Shield -= amount;
                 amount = 0;
             }
+        }
+        else
+        {
+            //Audio
+            AudioManager.Instance.SpawnAudio2D(transform.position, SfxType.SFX, 50, 1f,0,1,false);
         }
 
         // Apply remaining damage to health
