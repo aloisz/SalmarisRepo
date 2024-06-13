@@ -86,6 +86,7 @@ namespace CameraBehavior
         }
 
         private float timeElapsedShaking;
+        [SerializeField] private AnimationCurve ShakingMagnitudePosCurve;
         [FormerlySerializedAs("ShakingCurve")] [SerializeField] private AnimationCurve ShakingMagnitudeRotCurve;
         [SerializeField] private AnimationCurve ShakingFrequencyCurve;
         private void ShakeSliding()
@@ -94,9 +95,10 @@ namespace CameraBehavior
             
             if (timeElapsedShaking < .2f) return;
             timeElapsedShaking = 0;
-            if(PlayerController.Instance._rb.velocity.magnitude < 20) return;
+            //if(PlayerController.Instance._rb.velocity.magnitude < 20) return;
             
-            CameraShake.Instance.ShakeCamera(.2f, .02f,
+            CameraShake.Instance.ShakeCamera(.2f, 
+                ShakingMagnitudePosCurve.Evaluate(PlayerController.Instance._rb.velocity.magnitude),
                 ShakingMagnitudeRotCurve.Evaluate(PlayerController.Instance._rb.velocity.magnitude), 
                 ShakingFrequencyCurve.Evaluate(PlayerController.Instance._rb.velocity.magnitude), true, 0);
         }
