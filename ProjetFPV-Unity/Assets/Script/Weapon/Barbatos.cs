@@ -141,6 +141,7 @@ public class Barbatos : Shotgun
     {
         //Audio
         if(isReloading) return;
+        if(actualNumberOfBullet == so_Weapon.weaponMode[0].numberOfBullet) return;
         AudioManager.Instance.SpawnAudio2D(transform.position, SfxType.SFX, 37, 1,0,1,false);
         
         base.Reload();
