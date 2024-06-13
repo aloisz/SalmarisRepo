@@ -31,11 +31,51 @@ namespace AI
         
         // Component
         protected internal AI_AnimatorTrashMobCac animatorTrashMobCac;
+        protected internal Animator animator;
+        protected internal CapsuleCollider collider;
+
+        [Header("Ragdoll")] 
+        [SerializeField] protected internal float ragdollMass;
+        [SerializeField] protected internal List<Rigidbody> ragDollRbs;
+        [SerializeField] protected internal List<CharacterJoint> characterJoints;
+        [SerializeField] protected internal List<CapsuleCollider> capsuleColliders;
+        private bool isKnockback = false;
 
         protected override void Awake()
         {
             base.Awake();
             animatorTrashMobCac = GetComponent<AI_AnimatorTrashMobCac>();
+            animator = GetComponentInChildren<Animator>();
+            collider = GetComponent<CapsuleCollider>();
+
+            foreach (Transform t in GetComponentsInChildren<Transform>())
+            {
+                if (t != transform)
+                {
+                    if (t.GetComponent<Rigidbody>())
+                    {
+                        ragDollRbs.Add(t.GetComponent<Rigidbody>());
+                    }
+                    if (t.GetComponent<CharacterJoint>())
+                    {
+                        characterJoints.Add(t.GetComponent<CharacterJoint>());
+                    }
+                    if (t.GetComponent<CapsuleCollider>())
+                    {
+                        capsuleColliders.Add(t.GetComponent<CapsuleCollider>());
+                    }
+                }
+            }
+
+            foreach (var rb in ragDollRbs)
+            {
+                rb.isKinematic = true;
+                rb.mass = ragdollMass;
+            }
+            foreach (var capsule in capsuleColliders)
+            {
+                capsule.enabled = false;
+            }
         }
 
         public override void ResetAgent()
@@ -43,6 +83,30 @@ namespace AI
             base.ResetAgent();
             if(animatorTrashMobCac) animatorTrashMobCac.ChangeState(animatorTrashMobCac.SPAWN, 0.1f);
             if(animatorTrashMobCac) animatorTrashMobCac.ChangeState(animatorTrashMobCac.WALK, 1.5f);
+            
+            
+            //ragdoll 
+            
+            foreach (var rb in ragDollRbs)
+            {
+                rb.isKinematic = true;
+            }
+            foreach (var capsule in capsuleColliders)
+            {
+                capsule.enabled = false;
+            }
+            isKnockback = false;
+
+            StartCoroutine(ResetAgentCoroutine());
+        }
+
+        IEnumerator ResetAgentCoroutine()
+        {
+            yield return new WaitForSeconds(.1f);
+            animatorTrashMobCac.enabled = true;
+            rb.isKinematic = false;
+            animator.enabled = true;
+            collider.enabled = true;
         }
         
         protected override void PawnBehavior()
@@ -108,6 +172,24 @@ namespace AI
                 Vector3 attackDir = PlayerController.Instance.transform.position - transform.position;
                 rb.AddForce(attackDir.normalized * agentDashSpeed, ForceMode.Impulse);
             }
+
+            
+            //Ragdoll
+            if (isPawnDead)
+            {
+                foreach (var rb in ragDollRbs)
+                {
+                    rb.AddForce(Vector3.down * knockBackDeathIntensity);
+                }
+            }
+            if(!isKnockback) return;
+            float x = Random.Range(-180, 180);
+            float z = Random.Range(-180, 180);
+            foreach (var rb in ragDollRbs)
+            {
+                rb.AddForce(PlayerController.Instance.transform.forward * knockBackDeathIntensity + (Vector3.up * knockBackDeathIntensity/2), ForceMode.Impulse);
+            }
+            isKnockback = false;
         }
         
         public override void DisableAgent()
@@ -160,7 +242,6 @@ namespace AI
             
             base.DestroyLogic();
             StopAllCoroutines();
-            
             animatorTrashMobCac.ChangeState(animatorTrashMobCac.DEATH,.2f);
             
             IsPhysicNavMesh(false);
@@ -168,13 +249,28 @@ namespace AI
             isInDashAttackCoroutine = false;
             isCacAttacking = false;
             
+            animatorTrashMobCac.enabled = false;
+            rb.isKinematic = true;
+            navMeshAgent.enabled = false;
+            animator.enabled = false;
+            collider.enabled = false;
+            
+            foreach (var rb in ragDollRbs)
+            {
+                rb.isKinematic = false;
+            }
+            foreach (var capsule in capsuleColliders)
+            {
+                capsule.enabled = true;
+            }
+            
             StartCoroutine(nameof(DeathKnockBack));
         }
 
         IEnumerator DeathKnockBack()
         {
             yield return new WaitUntil(() => !navMeshAgent.enabled);
-            rb.AddForce(PlayerController.Instance.transform.forward * knockBackDeathIntensity, ForceMode.Impulse);
+            isKnockback = true;
         }
         
         
