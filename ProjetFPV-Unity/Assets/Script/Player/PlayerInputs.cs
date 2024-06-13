@@ -77,6 +77,14 @@ public class PlayerInputs : GenericSingletonClass<PlayerInputs>
     {
         isReceivingInteractInputs = ctx;
     }
+    
+    public void PauseInput(InputAction.CallbackContext ctx)
+    {
+        if (ctx.performed)
+        {
+            PauseMenu.instance.InitPause();
+        }
+    }
 
     /// <summary>
     /// Define is either or not the inputs are activated.
