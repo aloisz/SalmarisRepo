@@ -97,8 +97,7 @@ namespace CameraBehavior
             timeElapsedShaking = 0;
             //if(PlayerController.Instance._rb.velocity.magnitude < 20) return;
             
-            CameraShake.Instance.ShakeCamera(.2f, 
-                ShakingMagnitudePosCurve.Evaluate(PlayerController.Instance._rb.velocity.magnitude),
+            CameraShake.Instance.ShakeCamera(false,.2f, 
                 ShakingMagnitudeRotCurve.Evaluate(PlayerController.Instance._rb.velocity.magnitude), 
                 ShakingFrequencyCurve.Evaluate(PlayerController.Instance._rb.velocity.magnitude), true, 0);
         }

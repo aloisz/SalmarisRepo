@@ -325,11 +325,11 @@ MonoBehaviour:
   slidingRotY: -5
   slidingRotFromDirection: -10
   slidingRotFromDirectionMultiplierAbsX: 2
-  shakeTimer: 0.05
+  shakeTimer: 0.1
   shakeTimerSpeed: 20
-  slidingShakePosX: {x: -0.02, y: 0.02}
-  slidingShakePosY: {x: 0, y: 0}
-  slidingShakePosZ: {x: -0.02, y: 0.02}
+  slidingShakePosX: {x: -0.1, y: 0.1}
+  slidingShakePosY: {x: -0.05, y: 0.05}
+  slidingShakePosZ: {x: -0.05, y: 0.05}
   reloadingRotX: -20
   reloadingRotY: 9
 --- !u!1 &3393126428460194297
@@ -769,12 +769,36 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+  ShakingMagnitudePosCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0.0033333334
+      outSlope: 0.0033333334
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 60
+      value: 0.2
+      inSlope: 0.011905248
+      outSlope: 0.011905248
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.028395081
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
   ShakingMagnitudeRotCurve:
     serializedVersion: 2
     m_Curve:
     - serializedVersion: 3
-      time: 10
-      value: 10
+      time: 0
+      value: 0
       inSlope: 0
       outSlope: 0
       tangentMode: 0
@@ -784,11 +808,11 @@ MonoBehaviour:
     - serializedVersion: 3
       time: 80
       value: 30
-      inSlope: 0
-      outSlope: 0
+      inSlope: 1.1001714
+      outSlope: 1.1001714
       tangentMode: 0
       weightedMode: 0
-      inWeight: 0
+      inWeight: 0.03456793
       outWeight: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
