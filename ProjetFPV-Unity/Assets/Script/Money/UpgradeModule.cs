@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using DG.Tweening;
+using MyAudio;
 using NaughtyAttributes;
 using UnityEditor;
 using UnityEngine;
@@ -61,11 +62,16 @@ public class UpgradeModule : GenericSingletonClass<UpgradeModule>
         if (_hitGroundLanding.collider is null) 
             throw new Exception("Cannot land the module because it can't found the ground.");
 
+        // Audio
+        AudioManager.Instance.SpawnAudio2D(transform.position, SfxType.SFX, 24, 1,0,1);
         t.DOMove(_hitGroundLanding.point + new Vector3(0, offsetLandingY, 0),
             landingDuration).SetEase(landingCurve).OnComplete(() =>
         {
+            // Audio
+            AudioManager.Instance.SpawnAudio3D(transform.position, SfxType.SFX, 25, 1,0,1);
             keyboard.DOLocalMove(baseKeyboardPosition + new Vector3(keyboardOffset.x, keyboardOffset.y, keyboardOffset.z),
-                1f);
+                1f).OnComplete((() => 
+                AudioManager.Instance.SpawnAudio3D(transform.position, SfxType.SFX, 26, 1,0,1)));
         });
         
         t.DOScale(_baseScale, landingDuration).SetEase(landingCurve);
@@ -120,6 +126,9 @@ public class UpgradeModule : GenericSingletonClass<UpgradeModule>
         PlayerHealth.Instance.RestoreHealth(999);
         
         PlayerInputs.Instance.EnablePlayerInputs(false);
+        
+        // audio
+        AudioManager.Instance.SpawnAudio2D(transform.position, SfxType.SFX, 27, 1,0,1);
     }
     
     private void GenerateUpgradeOffers()

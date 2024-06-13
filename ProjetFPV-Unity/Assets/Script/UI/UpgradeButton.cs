@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using MyAudio;
 using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -46,6 +47,10 @@ public class UpgradeButton : MonoBehaviour
         
         PlayerMoney.Instance.DecrementMoney(mode.modeCostToBuy);
         WeaponState.Instance.barbatos.so_Weapon.weaponMode[modeIndex] = mode;
+        
+        // audio
+        AudioManager.Instance.SpawnAudio2D(transform.position, SfxType.SFX, 27, 1,0,1);
+        AudioManager.Instance.SpawnAudio2D(transform.position, SfxType.SFX, 28, 1,0,1);
         
         UpgradeModule.Instance.QuitMenu();
     }
