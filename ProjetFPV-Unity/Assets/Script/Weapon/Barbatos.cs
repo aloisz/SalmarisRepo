@@ -3,11 +3,13 @@ using System.Collections.Generic;
 using AI;
 using CameraBehavior;
 using DG.Tweening;
+using MyAudio;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.Rendering;
 using Weapon;
 using Weapon.Interface;
+using Random = UnityEngine.Random;
 
 public class Barbatos : Shotgun
 {
@@ -137,6 +139,10 @@ public class Barbatos : Shotgun
 
     public override void Reload()
     {
+        //Audio
+        if(isReloading) return;
+        AudioManager.Instance.SpawnAudio2D(transform.position, SfxType.SFX, 37, 1,0,1,false);
+        
         base.Reload();
         if(actualNumberOfBullet == so_Weapon.weaponMode[0].numberOfBullet) return;
         ParticleSystem particle = Instantiate(so_Weapon.weaponMode[(int)actualWeaponModeIndex].reloadParticle,
@@ -146,8 +152,16 @@ public class Barbatos : Shotgun
 
     private void PlayParticle()
     {
+        // shake
         GenerateCamShakeOnShoot();
         
+        //Audio
+        float randomPitch = Random.Range(0.95f, 1.95f);
+        AudioManager.Instance.SpawnAudio2D(transform.position, SfxType.SFX, isPrimary ? 39 : 40, 1, 0, randomPitch,
+            false);
+
+
+        // particle
         if(so_Weapon.weaponMode[(int)actualWeaponModeIndex].weaponParticle == null) return;
 
         if (isPrimary)
@@ -162,6 +176,13 @@ public class Barbatos : Shotgun
                 vfxPos[1].position, gunBarrelPos.transform.rotation, transform);
             particle.Play();
         }
+    }
+
+    protected override void EndReload()
+    {
+        base.EndReload();
+        //Audio
+        AudioManager.Instance.SpawnAudio2D(transform.position, SfxType.SFX, 38, 1,0,1,false);
     }
     
     

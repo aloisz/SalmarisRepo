@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using AI;
 using CameraBehavior;
+using MyAudio;
 using Player;
 using Unity.VisualScripting;
 using UnityEditor;
@@ -72,6 +73,8 @@ public class Explosion : MonoBehaviour
         CameraShake.Instance.ShakeCamera(false, shakeDuration, 
             camShakeRepartition.Evaluate(Vector3.Distance(PlayerController.Instance.transform.position, transform.position))
             , shakeFrequency, true, power);
+        
+        AudioManager.Instance.SpawnAudio3D(transform.position, SfxType.SFX, 42, 1, 0, 1, 1,0,AudioRolloffMode.Logarithmic);
         
         Explode();
         

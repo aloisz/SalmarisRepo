@@ -1,7 +1,9 @@
 using System;
 using System.Collections;
 using AI;
+using MyAudio;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 namespace Player
 {
@@ -806,7 +808,16 @@ namespace Player
             //_decelerationSlideOnGround = 1f;
         }
 
-        public void Death() => onDeath.Invoke();
+        
+        private int[] randomSound = new int[]{33,34,35,36};
+        [ContextMenu("Death")]
+        public void Death()
+        {
+            onDeath.Invoke();
+
+            var randomNumber = Random.Range(randomSound[0], randomSound[3]);
+            AudioManager.Instance.SpawnAudio2D(transform.position, SfxType.SFX, randomNumber, 1,0,1,false);
+        } 
 
         #endregion
 
