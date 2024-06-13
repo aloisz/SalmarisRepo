@@ -116,7 +116,7 @@ public class PlayerHealth : GenericSingletonClass<PlayerHealth>, IDamage
         // Check if health drops below 0
         if (Health <= 0)
         {
-            onDeath.Invoke();
+            PlayerController.Instance.Death();
         }
         
         onHit?.Invoke();

@@ -806,7 +806,7 @@ namespace Player
             //_decelerationSlideOnGround = 1f;
         }
 
-        private void Death() => onDeath.Invoke();
+        public void Death() => onDeath.Invoke();
 
         #endregion
 
