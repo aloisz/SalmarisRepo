@@ -3623,86 +3623,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 841650490460698024, guid: 9294123db3fc3a54b89f62907126f122,
-        type: 3}
-      propertyPath: ShakingMagnitudePosCurve.m_Curve.Array.size
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 841650490460698024, guid: 9294123db3fc3a54b89f62907126f122,
-        type: 3}
-      propertyPath: ShakingMagnitudePosCurve.m_Curve.Array.data[1].time
-      value: 60
-      objectReference: {fileID: 0}
-    - target: {fileID: 841650490460698024, guid: 9294123db3fc3a54b89f62907126f122,
-        type: 3}
-      propertyPath: ShakingMagnitudeRotCurve.m_Curve.Array.data[0].time
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 841650490460698024, guid: 9294123db3fc3a54b89f62907126f122,
-        type: 3}
-      propertyPath: ShakingMagnitudePosCurve.m_Curve.Array.data[1].value
-      value: 0.2
-      objectReference: {fileID: 0}
-    - target: {fileID: 841650490460698024, guid: 9294123db3fc3a54b89f62907126f122,
-        type: 3}
-      propertyPath: ShakingMagnitudeRotCurve.m_Curve.Array.data[0].value
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 841650490460698024, guid: 9294123db3fc3a54b89f62907126f122,
-        type: 3}
-      propertyPath: ShakingMagnitudePosCurve.m_Curve.Array.data[0].inSlope
-      value: 0.0033333334
-      objectReference: {fileID: 0}
-    - target: {fileID: 841650490460698024, guid: 9294123db3fc3a54b89f62907126f122,
-        type: 3}
-      propertyPath: ShakingMagnitudePosCurve.m_Curve.Array.data[1].inSlope
-      value: 0.011905248
-      objectReference: {fileID: 0}
-    - target: {fileID: 841650490460698024, guid: 9294123db3fc3a54b89f62907126f122,
-        type: 3}
-      propertyPath: ShakingMagnitudeRotCurve.m_Curve.Array.data[1].inSlope
-      value: 1.1001714
-      objectReference: {fileID: 0}
-    - target: {fileID: 841650490460698024, guid: 9294123db3fc3a54b89f62907126f122,
-        type: 3}
-      propertyPath: ShakingMagnitudePosCurve.m_Curve.Array.data[0].outSlope
-      value: 0.0033333334
-      objectReference: {fileID: 0}
-    - target: {fileID: 841650490460698024, guid: 9294123db3fc3a54b89f62907126f122,
-        type: 3}
-      propertyPath: ShakingMagnitudePosCurve.m_Curve.Array.data[1].inWeight
-      value: 0.028395081
-      objectReference: {fileID: 0}
-    - target: {fileID: 841650490460698024, guid: 9294123db3fc3a54b89f62907126f122,
-        type: 3}
-      propertyPath: ShakingMagnitudePosCurve.m_Curve.Array.data[1].outSlope
-      value: 0.011905248
-      objectReference: {fileID: 0}
-    - target: {fileID: 841650490460698024, guid: 9294123db3fc3a54b89f62907126f122,
-        type: 3}
-      propertyPath: ShakingMagnitudeRotCurve.m_Curve.Array.data[1].inWeight
-      value: 0.03456793
-      objectReference: {fileID: 0}
-    - target: {fileID: 841650490460698024, guid: 9294123db3fc3a54b89f62907126f122,
-        type: 3}
-      propertyPath: ShakingMagnitudeRotCurve.m_Curve.Array.data[1].outSlope
-      value: 1.1001714
-      objectReference: {fileID: 0}
-    - target: {fileID: 841650490460698024, guid: 9294123db3fc3a54b89f62907126f122,
-        type: 3}
-      propertyPath: ShakingMagnitudePosCurve.m_Curve.Array.data[0].outWeight
-      value: 0.33333334
-      objectReference: {fileID: 0}
-    - target: {fileID: 841650490460698024, guid: 9294123db3fc3a54b89f62907126f122,
-        type: 3}
-      propertyPath: ShakingMagnitudePosCurve.m_Curve.Array.data[0].tangentMode
-      value: 34
-      objectReference: {fileID: 0}
-    - target: {fileID: 841650490460698024, guid: 9294123db3fc3a54b89f62907126f122,
-        type: 3}
-      propertyPath: ShakingMagnitudePosCurve.m_Curve.Array.data[1].tangentMode
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 3698928635149738337, guid: 9294123db3fc3a54b89f62907126f122,
         type: 3}
       propertyPath: playerTransform
@@ -3718,6 +3638,41 @@ PrefabInstance:
       propertyPath: baseCameraPos
       value: 
       objectReference: {fileID: 1166097508}
+    - target: {fileID: 4730761813960348661, guid: 9294123db3fc3a54b89f62907126f122,
+        type: 3}
+      propertyPath: shakeTimer
+      value: 0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4730761813960348661, guid: 9294123db3fc3a54b89f62907126f122,
+        type: 3}
+      propertyPath: slidingShakePosX.x
+      value: -0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4730761813960348661, guid: 9294123db3fc3a54b89f62907126f122,
+        type: 3}
+      propertyPath: slidingShakePosX.y
+      value: 0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4730761813960348661, guid: 9294123db3fc3a54b89f62907126f122,
+        type: 3}
+      propertyPath: slidingShakePosY.x
+      value: -0.05
+      objectReference: {fileID: 0}
+    - target: {fileID: 4730761813960348661, guid: 9294123db3fc3a54b89f62907126f122,
+        type: 3}
+      propertyPath: slidingShakePosY.y
+      value: 0.05
+      objectReference: {fileID: 0}
+    - target: {fileID: 4730761813960348661, guid: 9294123db3fc3a54b89f62907126f122,
+        type: 3}
+      propertyPath: slidingShakePosZ.x
+      value: -0.05
+      objectReference: {fileID: 0}
+    - target: {fileID: 4730761813960348661, guid: 9294123db3fc3a54b89f62907126f122,
+        type: 3}
+      propertyPath: slidingShakePosZ.y
+      value: 0.05
+      objectReference: {fileID: 0}
     - target: {fileID: 8108733499738347442, guid: 9294123db3fc3a54b89f62907126f122,
         type: 3}
       propertyPath: m_Name
