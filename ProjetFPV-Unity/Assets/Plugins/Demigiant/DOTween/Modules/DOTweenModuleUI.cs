@@ -11,6 +11,7 @@ using DG.Tweening.Core;
 using DG.Tweening.Core.Enums;
 using DG.Tweening.Plugins;
 using DG.Tweening.Plugins.Options;
+using UnityEngine.Rendering;
 using Outline = UnityEngine.UI.Outline;
 using Text = UnityEngine.UI.Text;
 
@@ -77,6 +78,13 @@ namespace DG.Tweening
         public static TweenerCore<Color, Color, ColorOptions> DOFade(this Image target, float endValue, float duration)
         {
             TweenerCore<Color, Color, ColorOptions> t = DOTween.ToAlpha(() => target.color, x => target.color = x, endValue, duration);
+            t.SetTarget(target);
+            return t;
+        }
+        
+        public static TweenerCore<float, float, FloatOptions> DOVolumeWeight(this Volume target, float endValue, float duration)
+        {
+            TweenerCore<float, float, FloatOptions> t = DOTween.To(() => target.weight, x => target.weight = x, endValue, duration);
             t.SetTarget(target);
             return t;
         }
