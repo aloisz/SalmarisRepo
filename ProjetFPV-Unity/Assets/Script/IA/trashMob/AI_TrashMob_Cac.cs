@@ -269,7 +269,7 @@ namespace AI
 
         IEnumerator DeathKnockBack()
         {
-            yield return new WaitUntil(() => !navMeshAgent.enabled);
+            yield return new WaitUntil(() => !navMeshAgent.enabled && gameObject.activeSelf);
             isKnockback = true;
         }
         

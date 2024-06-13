@@ -125,7 +125,7 @@ namespace AI
         
         IEnumerator DeathKnockBack()
         {
-            yield return new WaitUntil(() => !navMeshAgent.enabled);
+            yield return new WaitUntil(() => !navMeshAgent.enabled && gameObject.activeSelf);
             GetComponent<Rigidbody>().AddForce(PlayerController.Instance.transform.forward * knockBackDeathIntensity, ForceMode.Impulse);
         }
 
