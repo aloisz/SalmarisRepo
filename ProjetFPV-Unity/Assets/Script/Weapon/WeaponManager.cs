@@ -73,7 +73,7 @@ namespace Weapon
                 if ((so_Weapon.weaponMode[0].timeToReload / PlayerKillStreak.Instance.reloadBoost) < timeElapsedReload)
                 {
                     timeElapsedReload = 0;
-                    TimeToReload();
+                    EndReload();
                 }
             }
             
@@ -259,7 +259,7 @@ namespace Weapon
         }
         
         
-        private void TimeToReload()
+        protected virtual void EndReload()
         {
             actualNumberOfBullet = so_Weapon.weaponMode[0].numberOfBullet;
             isReloading = false;
