@@ -102,7 +102,7 @@ public class Barbatos : Shotgun
 
             if (aiPawn != null && !aiPawn.isPawnDead)
             {
-                if (aiPawn.actualPawnHealth - damage <= 0)
+                if (aiPawn.actualPawnHealth <= 0)
                 {
                     onHitEnemyLethal.Invoke();
                 }
