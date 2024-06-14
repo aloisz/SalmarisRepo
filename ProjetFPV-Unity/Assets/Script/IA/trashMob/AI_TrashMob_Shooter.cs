@@ -82,6 +82,7 @@ namespace AI
             foreach (var rb in ragDollRbs)
             {
                 rb.isKinematic = true;
+                rb.velocity = Vector3.zero;
             }
             foreach (var capsule in capsuleColliders)
             {
