@@ -68,10 +68,12 @@ public class UpgradeModule : GenericSingletonClass<UpgradeModule>
             landingDuration).SetEase(landingCurve).SetUpdate(true).OnComplete(() =>
         {
             // Audio
-            AudioManager.Instance.SpawnAudio3D(transform.position, SfxType.SFX, 25, 1,0,1);
+            AudioManager.Instance.SpawnAudio3D(transform.position, SfxType.SFX, 25, 1,0,1,1, 0,
+                AudioRolloffMode.Logarithmic, 5,40);
             keyboard.DOLocalMove(baseKeyboardPosition + new Vector3(keyboardOffset.x, keyboardOffset.y, keyboardOffset.z),
                 1f).SetUpdate(true).OnComplete((() => 
-                AudioManager.Instance.SpawnAudio3D(transform.position, SfxType.SFX, 26, 1,0,1)));
+                AudioManager.Instance.SpawnAudio3D(transform.position, SfxType.SFX, 26, 1,0,1, 1, 0,
+                    AudioRolloffMode.Logarithmic, 5,40)));
         });
         
         t.DOScale(_baseScale, landingDuration).SetEase(landingCurve).SetUpdate(true);
