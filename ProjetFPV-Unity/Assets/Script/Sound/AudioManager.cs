@@ -14,7 +14,7 @@ namespace MyAudio
         public List<AudioSO> audioSO;
         public MyAudioSource PrefabAudioSource;
 
-        [SerializeField] private AudioMixer audioMixer;
+        [HideInInspector]public AudioMixer audioMixer;
         private void Start()
         {
             
