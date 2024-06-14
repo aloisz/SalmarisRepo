@@ -16,8 +16,6 @@ namespace Player
         public Vector3 overallMomentum;
         public bool DEBUG;
         
-        public Action onDeath;
-        
         //---------------------------------------
         
         [Header("Components")]
@@ -812,17 +810,6 @@ namespace Player
             //Reset the deceleration for the slide on ground.
             //_decelerationSlideOnGround = 1f;
         }
-
-        
-        private int[] randomSound = new int[]{33,34,35,36};
-        [ContextMenu("Death")]
-        public void Death()
-        {
-            onDeath.Invoke();
-
-            var randomNumber = Random.Range(randomSound[0], randomSound[3]);
-            AudioManager.Instance.SpawnAudio2D(transform.position, SfxType.SFX, randomNumber, 1,0,1,false);
-        } 
 
         #endregion
 

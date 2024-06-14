@@ -56,7 +56,7 @@ public class Director : GenericSingletonClass<Director>
     private void Start()
     {
         EnteringNewLevel();
-        PlayerController.Instance.onDeath = () => numberOfDeath += 1;
+        PlayerHealth.Instance.onDeath = () => numberOfDeath += 1;
     }
     
     private void EnteringNewLevel()
@@ -333,15 +333,10 @@ public class Director : GenericSingletonClass<Director>
         
         foreach (AI_Pawn aiPawn in _spawnedEnemies)
         {
-            if (Vector3.Distance(aiPawn.transform.position, GetActualArenaTrigger().transform.position) > 75f)
+            if (Vector3.Distance(aiPawn.transform.position, GetActualArenaTrigger().transform.position) > 500f)
             {
                 Debug.Log($"<color=red><b>Killed a mob</b></color> at {aiPawn.transform.position}.");
-                
-                lastKilledEnemiesValue += aiPawn.enemyWeight;
-                currentRemainingEnemies--;
-                currentWaveIntensity -= aiPawn.enemyWeight;
-                
-                aiPawn.DestroyLogic();
+                aiPawn.Hit(999);
             }
         }
 
