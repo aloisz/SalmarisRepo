@@ -82,6 +82,7 @@ namespace AI
             foreach (var rb in ragDollRbs)
             {
                 rb.isKinematic = true;
+                rb.velocity = Vector3.zero;
             }
             foreach (var capsule in capsuleColliders)
             {
@@ -151,8 +152,9 @@ namespace AI
                     weapon.ShootingAction();
                     IsPhysicNavMesh(false);
                     countAction++;
+                    AudioManager.Instance.SpawnAudio3D(transform.position, SfxType.SFX, 14, .6f, 0, 1, 1,0,
+                        AudioRolloffMode.Logarithmic, 1,20);
                     if(countAction <= 2) break;
-                    AudioManager.Instance.SpawnAudio3D(transform.position, SfxType.SFX, 14, 1, 0, 1);
                     ChangeState(TrashMobState.Moving);
                     break;
                 case TrashMobState.Moving:

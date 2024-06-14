@@ -61,7 +61,6 @@ public class UpgradeButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
         
         // audio
         AudioManager.Instance.SpawnAudio2D(transform.position, SfxType.SFX, 27, 1,0,1);
-        AudioManager.Instance.SpawnAudio2D(transform.position, SfxType.SFX, 28, 1,0,1);
         
         UpgradeModule.Instance.QuitMenu();
     }

@@ -16,17 +16,18 @@ public class SMGBullet : BulletBehavior
         base.CollideWithPlayerMask(collision);
     }
 
-    protected override void OnCollisionEnter(Collision collision)
+    protected override void CollideWithWalkableMask(Collision collision)
     {
-        base.OnCollisionEnter(collision);
-        source.clip = AudioManager.Instance.audioSO[0].soundList[22 - 1].audioClip;
-        source.Play();
+        base.CollideWithWalkableMask(collision);
+        AudioManager.Instance.SpawnAudio3D(collision.transform.position, SfxType.SFX, 21, .5f, 0, 1, 1,0,
+            AudioRolloffMode.Logarithmic, 5,40);
     }
     
     protected override void Start()
     {
         source = GetComponent<AudioSource>();
         source.clip = AudioManager.Instance.audioSO[0].soundList[21 - 1].audioClip;
+        source.loop = true;
         source.Play();
     }
     protected virtual void FixedUpdate()
