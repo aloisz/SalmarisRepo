@@ -124,8 +124,11 @@ public class PlayerKillStreak : GenericSingletonClass<PlayerKillStreak>
         speedBoost = Mathf.Lerp(speedBoost, Mathf.Lerp(1, speedMaxValue, KillStreak / 100f), Time.deltaTime * 5f);
 
         healPerKill = 0f;
+        
+        canAudioRage = false;
     }
-    
+
+    private bool canAudioRage = false;
     private void SetupBoostsRage()
     {
         staminaBoost = staminaMaxValueR;
@@ -135,7 +138,9 @@ public class PlayerKillStreak : GenericSingletonClass<PlayerKillStreak>
         healPerKill = healMaxValueR;
         
         //Audio
-        AudioManager.Instance.SpawnAudio2D(transform.position, SfxType.SFX, 50, 1,2,1,false);
+        if(canAudioRage) return;
+        canAudioRage = true;
+        AudioManager.Instance.SpawnAudio2D(transform.position, SfxType.SFX, 50, 1,0,1,false);
     }
     
     private void Update()
