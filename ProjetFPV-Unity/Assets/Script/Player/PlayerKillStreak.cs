@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using MyAudio;
 using UnityEngine;
 using UnityEngine.Serialization;
 using Random = UnityEngine.Random;
@@ -132,6 +133,9 @@ public class PlayerKillStreak : GenericSingletonClass<PlayerKillStreak>
         fireRateBoost = fireRateMaxValueR;
         speedBoost = speedMaxValueR;
         healPerKill = healMaxValueR;
+        
+        //Audio
+        AudioManager.Instance.SpawnAudio2D(transform.position, SfxType.SFX, 50, 1,2,1,false);
     }
     
     private void Update()
