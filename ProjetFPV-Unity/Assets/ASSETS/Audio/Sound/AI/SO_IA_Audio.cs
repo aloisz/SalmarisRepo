@@ -22,4 +22,7 @@ public class IASound
 public class IASoundID
 {
     public AudioClip clip;
+    [ResizableTextArea]
+    public string text;
+    public float audioDuration;
 }
