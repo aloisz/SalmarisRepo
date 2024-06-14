@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using DG.Tweening;
@@ -6,7 +7,13 @@ using UnityEngine.Rendering;
 
 public class PostProcessCrossFade : GenericSingletonClass<PostProcessCrossFade>
 {
-    [SerializeField] private Volume[] volumes;
+    private List<Volume> volumes = new List<Volume>();
+
+    private void Start()
+    {
+        volumes.Add(GameObject.FindWithTag("PP1").GetComponent<Volume>());
+        volumes.Add(GameObject.FindWithTag("PP2").GetComponent<Volume>());
+    }
 
     public void CrossFadeTo(int index)
     {
