@@ -183,8 +183,6 @@ namespace AI
                 }
             }
             if(!isKnockback && isPawnDead) return;
-            float x = Random.Range(-180, 180);
-            float z = Random.Range(-180, 180);
             foreach (var rb in ragDollRbs)
             {
                 rb.AddForce(PlayerController.Instance.transform.forward * knockBackDeathIntensityXYZ.y + 
@@ -250,6 +248,7 @@ namespace AI
             isInDashAttackCoroutine = false;
             isCacAttacking = false;
             
+            //Ragdoll
             animatorTrashMobCac.enabled = false;
             rb.isKinematic = true;
             navMeshAgent.enabled = false;

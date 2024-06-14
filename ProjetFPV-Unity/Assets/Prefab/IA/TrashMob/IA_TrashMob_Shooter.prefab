@@ -334,7 +334,7 @@ MonoBehaviour:
   actualPawnHealth: 0
   pawnState: 0
   mobType: 0
-  knockBackDeathIntensity: 100
+  knockBackDeathIntensityXYZ: {x: 7000, y: 2000, z: 1200}
   tickVerification: 0.2
   enemyWeight: 2
   perimeters:
@@ -349,6 +349,10 @@ MonoBehaviour:
   agentSpeedWhenIsToFar: 0
   isPawnStatic: 1
   agentShootingRadius: 100
+  ragdollMass: 80
+  ragDollRbs: []
+  characterJoints: []
+  capsuleColliders: []
   timeBeforeShooting: 1
 --- !u!114 &8926880860528202724
 MonoBehaviour:
