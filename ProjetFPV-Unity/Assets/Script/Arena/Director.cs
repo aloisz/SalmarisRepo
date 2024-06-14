@@ -139,12 +139,15 @@ public class Director : GenericSingletonClass<Director>
             RaycastHit hit;
             Physics.Raycast(GetActualArenaTrigger().enemiesPositions[currentWaveIndex].positions[i],
                 Vector3.down, out hit, 500f);
+            Debug.DrawLine(GetActualArenaTrigger().enemiesPositions[currentWaveIndex].positions[i], hit.point, Color.green, 50f);
             
-            NavMeshHit navMeshHit;
+            /*NavMeshHit navMeshHit;
             if (NavMesh.SamplePosition(hit.point, out navMeshHit, 1.0f, NavMesh.AllAreas))
             {
                 mob.transform.position = navMeshHit.position + new Vector3(0,2,0);
-            }
+            }*/
+
+            mob.transform.position = hit.point + new Vector3(0,2,0);
             
             p.SpawnVFX();
             _spawnedEnemies.Add(p);
