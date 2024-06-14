@@ -12,7 +12,6 @@ public class UpgradeButton : MonoBehaviour
 {
     [SerializeField] private TextMeshProUGUI upgradeName;
     [SerializeField] private TextMeshProUGUI upgradeModeIndex;
-    [SerializeField] private TextMeshProUGUI upgradeCost;
     [SerializeField] private TextMeshProUGUI upgradeDescription;
     
     [SerializeField] private Image upgradeIcon;
@@ -35,7 +34,6 @@ public class UpgradeButton : MonoBehaviour
         upgradeName.text = weaponMode.modeName;
         upgradeModeIndex.text = Enum.GetName(typeof(SO_WeaponMode.ShootingModeIndex), weaponMode.modeIndex);
         
-        upgradeCost.text = $"{weaponMode.modeCostToBuy}$";
         upgradeDescription.text = weaponMode.modeDescription;
 
         upgradeIcon.sprite = weaponMode.modeIcon;
@@ -43,9 +41,6 @@ public class UpgradeButton : MonoBehaviour
 
     private void UpgradeWeapon(int modeIndex, SO_WeaponMode mode)
     {
-        if (PlayerMoney.Instance.Money < mode.modeCostToBuy) return;
-        
-        PlayerMoney.Instance.DecrementMoney(mode.modeCostToBuy);
         WeaponState.Instance.barbatos.so_Weapon.weaponMode[modeIndex] = mode;
         
         // audio
