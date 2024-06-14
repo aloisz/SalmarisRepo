@@ -179,7 +179,8 @@ namespace AI
             {
                 foreach (var rb in ragDollRbs)
                 {
-                    rb.AddForce(Vector3.down * knockBackDeathIntensityXYZ.x);
+                    rb.AddForce(Vector3.down * knockBackDeathIntensityXYZ.x); // apply gravity
+                    rb.AddTorque(transform.up * (GetRandomRotation())); // apply rotation
                 }
             }
             if(!isKnockback && isPawnDead) return;
@@ -189,6 +190,14 @@ namespace AI
                             (Vector3.up * knockBackDeathIntensityXYZ.z)) * knockBackMultiplier, ForceMode.Impulse);
             }
             isKnockback = false;
+        }
+        
+        private int GetRandomRotation()
+        {
+            int value = Random.Range(2500, 5000);
+            int isEven = Random.Range(0, 1);
+            if (isEven == 0) value = -value;
+            return value;
         }
         
         public override void DisableAgent()

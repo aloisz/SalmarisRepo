@@ -7,6 +7,7 @@ using MyAudio;
 using Player;
 using UnityEngine;
 using UnityEngine.Serialization;
+using Random = UnityEngine.Random;
 
 public class PlayerHealth : GenericSingletonClass<PlayerHealth>, IDamage
 {
@@ -44,7 +45,7 @@ public class PlayerHealth : GenericSingletonClass<PlayerHealth>, IDamage
     void Start()
     {
         InitValues();
-        onDeath += CareTaker.Instance.LoadGameState;
+        //onDeath += CareTaker.Instance.LoadGameState;
         onHit += () => _timerRegenShield = PlayerController.Instance.playerScriptable.shieldRegenCooldown;
     }
 
@@ -126,9 +127,23 @@ public class PlayerHealth : GenericSingletonClass<PlayerHealth>, IDamage
         // Check if health drops below 0
         if (Health <= 0)
         {
-            PlayerController.Instance.Death();
+            Death();
+            return;
         }
         
         onHit?.Invoke();
     }
+    
+    private int[] randomSound = {33,34,35,36};
+    [ContextMenu("Death")]
+    public void Death()
+    {
+        onDeath.Invoke();
+        Debug.Log("Death");
+
+        CareTaker.Instance.LoadGameState();
+
+        var randomNumber = Random.Range(randomSound[0], randomSound[3]);
+        AudioManager.Instance.SpawnAudio2D(transform.position, SfxType.SFX, randomNumber, 1,0,1,false);
+    } 
 }

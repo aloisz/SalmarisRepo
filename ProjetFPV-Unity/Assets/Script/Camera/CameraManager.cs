@@ -240,7 +240,7 @@ namespace CameraBehavior
             transitionParent.position = Vector3.Lerp(transitionParent.position, playerTransform.position, 
                 Time.deltaTime * actualpositionOffSetSmooth); 
             
-            // Rotation
+            // transitionParent Rotation
             float xValue = 0;
             if (PlayerController.Instance.direction.z <= 0) // Is player going backward
             {
@@ -252,6 +252,15 @@ namespace CameraBehavior
             
             transitionParent.rotation = Quaternion.Slerp(transitionParent.rotation, playerTransform.rotation * smoothOffset, 
                 Time.deltaTime * so_Camera.rotationOffSetSmooth); 
+            
+            // Weapon Rotation
+            float zValue = 0f;
+            zValue = PlayerController.Instance.direction.x == 1 ? 100 : 50;
+            
+            Quaternion weaponBobbingRot = Quaternion.Euler
+                (weaponTransform.transform.localRotation.x, so_Camera.rotationOffSet.y, PlayerController.Instance.direction.x * (zValue));
+            
+            weaponTransform.localRotation = Quaternion.Slerp(weaponTransform.transform.localRotation, weaponBobbingRot, Time.deltaTime * 1);
         }
 
         #endregion

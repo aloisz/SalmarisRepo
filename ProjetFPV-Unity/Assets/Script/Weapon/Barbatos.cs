@@ -155,7 +155,6 @@ public class Barbatos : Shotgun
     {
         // shake
         GenerateCamShakeOnShoot();
-        
         //Audio
         float randomPitch = Random.Range(0.95f, 1.95f);
         AudioManager.Instance.SpawnAudio2D(transform.position, SfxType.SFX, isPrimary ? 39 : 40, 1, 0, randomPitch,
