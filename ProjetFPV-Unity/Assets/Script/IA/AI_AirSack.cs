@@ -134,6 +134,12 @@ public class AI_AirSack : AI_Pawn
         AudioManager.Instance.SpawnAudio3D(transform.position, SfxType.SFX, 17, 1, 0, 1);
     }
     
+    protected override void HitAudio()
+    {
+        AudioManager.Instance.SpawnAudio3D(transform.position, SfxType.SFX, 16, 1, 0, 1,1, 0,
+            AudioRolloffMode.Logarithmic, 5,40);
+    }
+    
     
     
     // Debug -------------------------
