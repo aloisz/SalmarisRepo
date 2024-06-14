@@ -65,18 +65,18 @@ public class UpgradeModule : GenericSingletonClass<UpgradeModule>
         // Audio
         AudioManager.Instance.SpawnAudio2D(transform.position, SfxType.SFX, 24, 1,0,1);
         t.DOMove(_hitGroundLanding.point + new Vector3(0, offsetLandingY, 0),
-            landingDuration).SetEase(landingCurve).OnComplete(() =>
+            landingDuration).SetEase(landingCurve).SetUpdate(true).OnComplete(() =>
         {
             // Audio
             AudioManager.Instance.SpawnAudio3D(transform.position, SfxType.SFX, 25, 1,0,1);
             keyboard.DOLocalMove(baseKeyboardPosition + new Vector3(keyboardOffset.x, keyboardOffset.y, keyboardOffset.z),
-                1f).OnComplete((() => 
+                1f).SetUpdate(true).OnComplete((() => 
                 AudioManager.Instance.SpawnAudio3D(transform.position, SfxType.SFX, 26, 1,0,1)));
         });
         
-        t.DOScale(_baseScale, landingDuration).SetEase(landingCurve);
+        t.DOScale(_baseScale, landingDuration).SetEase(landingCurve).SetUpdate(true);
         t.DORotate(new Vector3(0, 360f * fullRotateAmount, 0), landingDuration, 
-            RotateMode.FastBeyond360).SetEase(landingCurve);
+            RotateMode.FastBeyond360).SetEase(landingCurve).SetUpdate(true);
 
         _currentAvailableUpgrades = list;
         GenerateUpgradeOffers();
@@ -101,12 +101,12 @@ public class UpgradeModule : GenericSingletonClass<UpgradeModule>
     {
         var t = transform;
         
-        t.DOMove(orbitPosition, leaveDuration).SetEase(leaveCurve);
-        t.DOScale(Vector3.zero, leaveDuration).SetEase(leaveCurve);
+        t.DOMove(orbitPosition, leaveDuration).SetEase(leaveCurve).SetUpdate(true);
+        t.DOScale(Vector3.zero, leaveDuration).SetEase(leaveCurve).SetUpdate(true);
         t.DORotate(new Vector3(0, -360f * fullRotateAmount, 0), leaveDuration, 
-            RotateMode.FastBeyond360).SetEase(leaveCurve);
+            RotateMode.FastBeyond360).SetEase(leaveCurve).SetUpdate(true);
         
-        keyboard.DOLocalMove(baseKeyboardPosition, 0.25f);
+        keyboard.DOLocalMove(baseKeyboardPosition, 0.25f).SetUpdate(true);
         
         UpgradeModuleVFX.Instance.GoAwayVFX();
     }
@@ -122,6 +122,8 @@ public class UpgradeModule : GenericSingletonClass<UpgradeModule>
         upgradeMenu.enabled = true;
         Cursor.visible = true;
         Cursor.lockState = CursorLockMode.Confined;
+
+        Time.timeScale = 0f;
         
         PlayerHealth.Instance.RestoreHealth(999);
         
@@ -171,6 +173,8 @@ public class UpgradeModule : GenericSingletonClass<UpgradeModule>
         upgradeMenu.enabled = false;
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Locked;
+        
+        Time.timeScale = 1f;
         
         PlayerInputs.Instance.EnablePlayerInputs(true);
         
