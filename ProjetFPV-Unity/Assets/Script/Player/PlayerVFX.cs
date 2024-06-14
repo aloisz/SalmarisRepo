@@ -24,7 +24,10 @@ public class PlayerVFX : GenericSingletonClass<PlayerVFX>
 
     private void ManageSmokeSlide()
     {
-        if(!smokeSlide.isPlaying && PlayerController.Instance.isSliding) smokeSlide.Play();
-        if(smokeSlide.isPlaying && !PlayerController.Instance.isSliding) smokeSlide.Stop();
+        if(!smokeSlide.isPlaying && PlayerController.Instance.isSliding && 
+           PlayerController.Instance._rb.velocity.magnitude > 25f) smokeSlide.Play();
+        
+        if(smokeSlide.isPlaying && !PlayerController.Instance.isSliding && 
+           PlayerController.Instance._rb.velocity.magnitude < 25f) smokeSlide.Stop();
     }
 }
