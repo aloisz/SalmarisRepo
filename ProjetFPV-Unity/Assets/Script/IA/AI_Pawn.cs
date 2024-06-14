@@ -23,7 +23,7 @@ namespace AI
         [Space] [ProgressBar("Health", 500, EColor.Red)] public float actualPawnHealth;
         [SerializeField] internal PawnState pawnState;
         [SerializeField] private EnemyToSpawn.EnemyKeys mobType;
-        [SerializeField] protected float knockBackDeathIntensity = 10f;
+        [SerializeField] protected Vector3 knockBackDeathIntensityXYZ;
         public Action onEnemyDead;
         
         [Header("Tick")]
