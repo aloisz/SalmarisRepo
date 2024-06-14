@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using MyAudio;
 using UnityEngine;
 using UnityEngine.Serialization;
 using Random = UnityEngine.Random;
@@ -123,8 +124,11 @@ public class PlayerKillStreak : GenericSingletonClass<PlayerKillStreak>
         speedBoost = Mathf.Lerp(speedBoost, Mathf.Lerp(1, speedMaxValue, KillStreak / 100f), Time.deltaTime * 5f);
 
         healPerKill = 0f;
+        
+        canAudioRage = false;
     }
-    
+
+    private bool canAudioRage = false;
     private void SetupBoostsRage()
     {
         staminaBoost = staminaMaxValueR;
@@ -132,6 +136,11 @@ public class PlayerKillStreak : GenericSingletonClass<PlayerKillStreak>
         fireRateBoost = fireRateMaxValueR;
         speedBoost = speedMaxValueR;
         healPerKill = healMaxValueR;
+        
+        //Audio
+        if(canAudioRage) return;
+        canAudioRage = true;
+        AudioManager.Instance.SpawnAudio2D(transform.position, SfxType.SFX, 50, 1,0,1,false);
     }
     
     private void Update()

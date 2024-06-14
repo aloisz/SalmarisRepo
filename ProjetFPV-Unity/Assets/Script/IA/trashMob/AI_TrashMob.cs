@@ -52,6 +52,9 @@ namespace AI
             //AudioManager.Instance.SpawnAudio3D(transform.position, SfxType.SFX, 9, 1, 0, 1);
 
             if(gameObject.activeSelf) agentLinkMover.StartCoroutine(agentLinkMover.StartLinkerVerif());
+            
+            AudioManager.Instance.SpawnAudio3D(transform.position, SfxType.SFX, 8, 1, 0, 1,1, 0,
+                AudioRolloffMode.Logarithmic, 5,20);
         }
         
         protected override void Update()
@@ -99,6 +102,12 @@ namespace AI
             if(doHitSd) return;
             doHitSd = true;
             StartCoroutine(SoundHitCoroutine());
+        }
+
+        protected override void HitAudio()
+        {
+            AudioManager.Instance.SpawnAudio3D(transform.position, SfxType.SFX, 9, 1, 0, 1,1, 0,
+                AudioRolloffMode.Logarithmic, 5,40);
         }
 
         IEnumerator SoundHitCoroutine()

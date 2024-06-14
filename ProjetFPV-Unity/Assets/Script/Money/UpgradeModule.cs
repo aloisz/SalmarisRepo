@@ -6,6 +6,7 @@ using MyAudio;
 using NaughtyAttributes;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.Rendering;
 using Weapon;
 using Random = UnityEngine.Random;
 
@@ -24,6 +25,7 @@ public class UpgradeModule : GenericSingletonClass<UpgradeModule>
     [SerializeField] private float anticipationRaycastLenght;
     
     [SerializeField] private Canvas upgradeMenu;
+    [SerializeField] private Animator animator;
     [SerializeField] private Transform upgradeOffersTransform;
     [SerializeField] private int upgradeOffersAmount;
     [SerializeField] UpgradeButton upgradeButtonReference;
@@ -59,19 +61,26 @@ public class UpgradeModule : GenericSingletonClass<UpgradeModule>
         
         CheckGroundLandingPosition();
         
+        GetComponent<UpgradeModuleInteraction>().alreadyInteracted = false;
+        
         if (_hitGroundLanding.collider is null) 
             throw new Exception("Cannot land the module because it can't found the ground.");
 
         // Audio
-        AudioManager.Instance.SpawnAudio2D(transform.position, SfxType.SFX, 24, 1,0,1);
+        AudioManager.Instance.SpawnAudio3D(transform, SfxType.SFX, 24, 1,0,1,1, 0,
+            AudioRolloffMode.Logarithmic, 30,150);
+        
         t.DOMove(_hitGroundLanding.point + new Vector3(0, offsetLandingY, 0),
             landingDuration).SetEase(landingCurve).SetUpdate(true).OnComplete(() =>
         {
             // Audio
-            AudioManager.Instance.SpawnAudio3D(transform.position, SfxType.SFX, 25, 1,0,1);
+            AudioManager.Instance.SpawnAudio3D(transform.position, SfxType.SFX, 25, 1,0,1,1, 0,
+                AudioRolloffMode.Logarithmic, 5,40);
+            
             keyboard.DOLocalMove(baseKeyboardPosition + new Vector3(keyboardOffset.x, keyboardOffset.y, keyboardOffset.z),
                 1f).SetUpdate(true).OnComplete((() => 
-                AudioManager.Instance.SpawnAudio3D(transform.position, SfxType.SFX, 26, 1,0,1)));
+                AudioManager.Instance.SpawnAudio3D(transform.position, SfxType.SFX, 26, 1,0,1, 1, 0,
+                    AudioRolloffMode.Logarithmic, 5,40)));
         });
         
         t.DOScale(_baseScale, landingDuration).SetEase(landingCurve).SetUpdate(true);
@@ -79,9 +88,6 @@ public class UpgradeModule : GenericSingletonClass<UpgradeModule>
             RotateMode.FastBeyond360).SetEase(landingCurve).SetUpdate(true);
 
         _currentAvailableUpgrades = list;
-        GenerateUpgradeOffers();
-
-        GetComponent<UpgradeModuleInteraction>().alreadyInteracted = false;
         
         Announcements.Instance.GenerateAnnouncement("Shop incoming !");
     }
@@ -94,6 +100,8 @@ public class UpgradeModule : GenericSingletonClass<UpgradeModule>
         {
             UpgradeModuleVFX.Instance.LandVFX();
             _alreadyland = true;
+            AudioManager.Instance.SpawnAudio3D(transform, SfxType.SFX, 42, 4, 0, 1,1, 0,
+                AudioRolloffMode.Logarithmic, 5,40);
         }
     }
 
@@ -109,6 +117,9 @@ public class UpgradeModule : GenericSingletonClass<UpgradeModule>
         keyboard.DOLocalMove(baseKeyboardPosition, 0.25f).SetUpdate(true);
         
         UpgradeModuleVFX.Instance.GoAwayVFX();
+
+        AudioManager.Instance.SpawnAudio3D(transform.position, SfxType.SFX, 28, 1, 0, 1, 1, 0,
+            AudioRolloffMode.Logarithmic, 5, 40);
     }
 
     private void CheckGroundLandingPosition()
@@ -125,9 +136,16 @@ public class UpgradeModule : GenericSingletonClass<UpgradeModule>
 
         Time.timeScale = 0f;
         
+        PostProcessCrossFade.Instance.CrossFadeTo(1);
+        
         PlayerHealth.Instance.RestoreHealth(999);
+        WeaponState.Instance.barbatos.Reload();
         
         PlayerInputs.Instance.EnablePlayerInputs(false);
+        
+        GenerateUpgradeOffers();
+        
+        animator.SetTrigger("Open");
         
         // audio
         AudioManager.Instance.SpawnAudio2D(transform.position, SfxType.SFX, 27, 1,0,1);
@@ -170,9 +188,20 @@ public class UpgradeModule : GenericSingletonClass<UpgradeModule>
 
     public void QuitMenu()
     {
-        upgradeMenu.enabled = false;
+        StartCoroutine(nameof(QuitMenuRoutine));
+    }
+
+    private IEnumerator QuitMenuRoutine()
+    {
+        animator.SetTrigger("Close");
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Locked;
+        
+        PostProcessCrossFade.Instance.CrossFadeTo(0);
+        
+        yield return new WaitForSecondsRealtime(.75f);
+        
+        upgradeMenu.enabled = false;
         
         Time.timeScale = 1f;
         
@@ -180,7 +209,6 @@ public class UpgradeModule : GenericSingletonClass<UpgradeModule>
         
         LeftModule();
     }
-
     
     private void OnDrawGizmos()
     {

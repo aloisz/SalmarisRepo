@@ -776,8 +776,10 @@ namespace Player
                 case PlayerActionStates.Idle: OnIdle();
                     break;
                 case PlayerActionStates.Moving: //_decelerationSlideOnGround = 1f;
+                    PlayWalkSound();
                     break;
                 case PlayerActionStates.Sliding:
+                    PlaySlideSound();
                     break;
                 case PlayerActionStates.Jumping:
                     break;
@@ -977,6 +979,28 @@ namespace Player
             return style;
         }
         
+        #endregion
+
+
+        #region AUDIO
+        private float timeElapsedMoving;
+        private void PlayWalkSound()
+        {
+            timeElapsedMoving += Time.deltaTime;
+            if(timeElapsedMoving < 0.3f) return; // duration of the audio
+            timeElapsedMoving = 0;
+            AudioManager.Instance.SpawnAudio2D(transform.position, SfxType.SFX, 43, 1,0,1,false);
+        }
+        
+        private float timeElapsedSliding;
+        private void PlaySlideSound()
+        {
+            timeElapsedSliding += Time.deltaTime;
+            if(timeElapsedSliding < 0.4f) return; // duration of the audio
+            timeElapsedSliding = 0;
+            AudioManager.Instance.SpawnAudio2D(transform.position, SfxType.SFX, 52, .35f,2,1,false);
+        }
+
         #endregion
         
         //-------------------- Unused ----------------------

@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using MyAudio;
 using UnityEditor;
 using UnityEngine;
 
@@ -17,13 +18,20 @@ public class Door : MonoBehaviour
     private void Start()
     {
         if (GetComponent<SphereCollider>()) GetComponent<SphereCollider>().isTrigger = true;
-        if(neededKey == null) DeactivateDoor();
+        if(neededKey == null) DeactivateDoor(false);
     }
 
-    public void DeactivateDoor()
+    public void DeactivateDoor(bool DoAudio)
     {
         if(animator) animator.SetTrigger("Open");
         else gameObject.SetActive(false);
+
+        if (DoAudio)
+        {
+            //Audio
+            AudioManager.Instance.SpawnAudio3D(gameObject.transform.position, SfxType.SFX, 30, 1,0,1, 1,0,
+                AudioRolloffMode.Logarithmic, 30, 150);
+        }
 
         isDeactivated = true;
     }
@@ -32,6 +40,10 @@ public class Door : MonoBehaviour
     {
         if(animator) animator.SetTrigger("Close");
         else gameObject.SetActive(true);
+        
+        //Audio
+        AudioManager.Instance.SpawnAudio3D(gameObject.transform.position, SfxType.SFX, 30, 1,0,1, 1,0,
+            AudioRolloffMode.Logarithmic, 29, 150);
 
         isDeactivated = false;
     }
@@ -40,7 +52,7 @@ public class Door : MonoBehaviour
     {
         if (neededKey != null && neededKey.isPickedUp && !isDeactivated && (!neededKey.DEBUG_DONT_NEED_ARNEA_CLEARED ? neededKey.arenaTrigger.isCompleted : true))
         {
-            DeactivateDoor();
+            DeactivateDoor(true);
         }
     }
 

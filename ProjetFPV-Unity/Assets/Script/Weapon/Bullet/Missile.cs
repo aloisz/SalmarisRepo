@@ -25,19 +25,15 @@ public class Missile : BulletBehavior,IExplosion
     {
         base.Start();
         source = GetComponent<AudioSource>();
-        foreach (var soundClip in AudioManager.Instance.audioSO[0].soundList)
-        {
-            if (16 == soundClip.audioId)
-            {
-                source.clip = AudioManager.Instance.audioSO[0].soundList[soundClip.audioId - 1].audioClip;
-            }
-        }
+        source.clip = AudioManager.Instance.audioSO[0].soundList[15].audioClip;
+        source.loop = true;
         source.Play();
     }
 
     protected override void OnEnable()
     {
         base.OnEnable();
+        source.Play();
     }
 
     protected override void OnDisable()
@@ -49,6 +45,7 @@ public class Missile : BulletBehavior,IExplosion
         _bulletMat = CreateMaterialInstance(baseMat);
         meshRenderer.material = _bulletMat;
         meshRenderer.material.SetFloat("_Blink", 0.1f);
+        source.Stop();
     }
 
     protected override void Update()

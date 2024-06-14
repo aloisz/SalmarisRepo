@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using MyAudio;
 using NaughtyAttributes;
 using Player;
 using UnityEditor;
@@ -281,13 +282,30 @@ namespace AI
                 rb.isKinematic = false;
             }
         }
-        
+
+        private bool hitAudio = false;
         public virtual void Hit(float damageInflicted)
         {
             actualPawnHealth -= damageInflicted;
             knockBackMultiplier = Mathf.Clamp(damageInflicted, 1, 1.75f);
             PlayerKillStreak.Instance.NotifyDamageInflicted(damageInflicted);
+
+            if (hitAudio) return;
+            hitAudio = true;
+            StartCoroutine(HitAudioCoroutine());
         }
+
+        private IEnumerator HitAudioCoroutine()
+        {
+            HitAudio();
+            yield return new WaitForSeconds(.1f);
+            hitAudio = false;
+        }
+        
+        /// <summary>
+        /// Here put audio logic when pawn hit 
+        /// </summary>
+        protected virtual void HitAudio(){}
 
         public void EnableNavMesh(bool enabled)
         {

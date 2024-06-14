@@ -73,8 +73,18 @@ public class Explosion : MonoBehaviour
         CameraShake.Instance.ShakeCamera(false, shakeDuration, 
             camShakeRepartition.Evaluate(Vector3.Distance(PlayerController.Instance.transform.position, transform.position))
             , shakeFrequency, true, power);
+
+        if (!doDamagePlayer)
+        {
+            AudioManager.Instance.SpawnAudio3D(transform.position, SfxType.SFX, 42, 4, 0, 1,1, 0,
+                AudioRolloffMode.Logarithmic, 5,40);
+        }
+        else
+        {
+            AudioManager.Instance.SpawnAudio3D(transform.position, SfxType.SFX, 21, 4, 0, 1,1, 0,
+                AudioRolloffMode.Logarithmic, 5,40);
+        }
         
-        AudioManager.Instance.SpawnAudio3D(transform.position, SfxType.SFX, 42, 4, 0, 1);
         
         Explode();
         
