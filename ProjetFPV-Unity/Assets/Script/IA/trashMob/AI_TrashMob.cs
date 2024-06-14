@@ -90,11 +90,22 @@ namespace AI
                     break;
             }
         }
-        
+
+        private bool doHitSd;
         public override void Hit(float damageInflicted)
         {
             base.Hit(damageInflicted);
+            
+            if(doHitSd) return;
+            doHitSd = true;
+            StartCoroutine(SoundHitCoroutine());
+        }
+
+        IEnumerator SoundHitCoroutine()
+        {
             AudioManager.Instance.SpawnAudio3D(transform.position, SfxType.SFX, 10, 1, 0, 1);
+            yield return new WaitForSeconds(.1f);
+            doHitSd = false;
         }
         
         public override void DestroyLogic()
