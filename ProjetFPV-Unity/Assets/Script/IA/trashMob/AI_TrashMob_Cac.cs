@@ -179,15 +179,16 @@ namespace AI
             {
                 foreach (var rb in ragDollRbs)
                 {
-                    rb.AddForce(Vector3.down * knockBackDeathIntensity);
+                    rb.AddForce(Vector3.down * knockBackDeathIntensityXYZ.x);
                 }
             }
-            if(!isKnockback) return;
+            if(!isKnockback && isPawnDead) return;
             float x = Random.Range(-180, 180);
             float z = Random.Range(-180, 180);
             foreach (var rb in ragDollRbs)
             {
-                rb.AddForce(PlayerController.Instance.transform.forward * knockBackDeathIntensity + (Vector3.up * knockBackDeathIntensity/2), ForceMode.Impulse);
+                rb.AddForce(PlayerController.Instance.transform.forward * knockBackDeathIntensityXYZ.y + 
+                            (Vector3.up * knockBackDeathIntensityXYZ.z), ForceMode.Impulse);
             }
             isKnockback = false;
         }
