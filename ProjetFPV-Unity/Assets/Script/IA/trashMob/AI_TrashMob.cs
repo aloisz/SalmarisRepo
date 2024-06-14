@@ -104,6 +104,12 @@ namespace AI
             StartCoroutine(SoundHitCoroutine());
         }
 
+        protected override void HitAudio()
+        {
+            AudioManager.Instance.SpawnAudio3D(transform.position, SfxType.SFX, 9, 1, 0, 1,1, 0,
+                AudioRolloffMode.Logarithmic, 5,40);
+        }
+
         IEnumerator SoundHitCoroutine()
         {
             AudioManager.Instance.SpawnAudio3D(transform.position, SfxType.SFX, 10, 1, 0, 1);

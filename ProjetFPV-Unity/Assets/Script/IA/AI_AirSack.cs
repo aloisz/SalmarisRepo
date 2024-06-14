@@ -123,7 +123,7 @@ public class AI_AirSack : AI_Pawn
     
     public override void DestroyLogic()
     {
-        AudioManager.Instance.SpawnAudio3D(transform.position, SfxType.SFX, 18, 1, 0, 1);
+        AudioManager.Instance.SpawnAudio3D(transform.position, SfxType.SFX, 17, 1, 0, 1);
         Pooling.instance.DelayedDePop(so_IA.poolingName, gameObject, 2f);
         animatorAirSack.ChangeState(animatorAirSack.DEATH,.2f);
     }
@@ -131,7 +131,12 @@ public class AI_AirSack : AI_Pawn
     public override void Hit(float damageInflicted)
     {
         base.Hit(damageInflicted);
-        AudioManager.Instance.SpawnAudio3D(transform.position, SfxType.SFX, 17, 1, 0, 1);
+    }
+    
+    protected override void HitAudio()
+    {
+        AudioManager.Instance.SpawnAudio3D(transform.position, SfxType.SFX, 16, 1, 0, 1,1, 0,
+            AudioRolloffMode.Logarithmic, 5,40);
     }
     
     
