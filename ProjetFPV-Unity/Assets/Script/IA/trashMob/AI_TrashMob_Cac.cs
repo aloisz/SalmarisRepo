@@ -183,12 +183,10 @@ namespace AI
                 }
             }
             if(!isKnockback && isPawnDead) return;
-            float x = Random.Range(-180, 180);
-            float z = Random.Range(-180, 180);
             foreach (var rb in ragDollRbs)
             {
-                rb.AddForce(PlayerController.Instance.transform.forward * knockBackDeathIntensityXYZ.y + 
-                            (Vector3.up * knockBackDeathIntensityXYZ.z), ForceMode.Impulse);
+                rb.AddForce((PlayerController.Instance.transform.forward * knockBackDeathIntensityXYZ.y + 
+                            (Vector3.up * knockBackDeathIntensityXYZ.z)) * knockBackMultiplier, ForceMode.Impulse);
             }
             isKnockback = false;
         }
@@ -250,6 +248,7 @@ namespace AI
             isInDashAttackCoroutine = false;
             isCacAttacking = false;
             
+            //Ragdoll
             animatorTrashMobCac.enabled = false;
             rb.isKinematic = true;
             navMeshAgent.enabled = false;
