@@ -35,7 +35,7 @@ public class MissileLauncher : HeavyArtillery
         
         animatorAirSack.ChangeState(animatorAirSack.ATTACK,.2f);
         
-        AudioManager.Instance.SpawnAudio3D(transform.position, SfxType.SFX, 15, 1, 0, 1);
+        //AudioManager.Instance.SpawnAudio3D(transform.position, SfxType.SFX, 15, 1, 0, 1);
     }
 
     private Vector3 GetThePlayerDirection()
