@@ -2,10 +2,12 @@
 using UnityEditor;
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using DG.Tweening;
 using MyAudio;
 using Player;
 using Weapon;
+using Random = UnityEngine.Random;
 
 namespace AI
 {
@@ -18,13 +20,53 @@ namespace AI
         protected WeaponManager weapon;
         protected bool isShooting;
         internal Ai_AnimatorTrashShooter animatorTrashShooter;
+        protected internal Animator animator;
+        protected internal CapsuleCollider collider;
+        
+        [Header("Ragdoll")] 
+        [SerializeField] protected internal float ragdollMass;
+        [SerializeField] protected internal List<Rigidbody> ragDollRbs;
+        [SerializeField] protected internal List<CharacterJoint> characterJoints;
+        [SerializeField] protected internal List<CapsuleCollider> capsuleColliders;
+        private bool isKnockback = false;
         
         protected override void Awake()
         {
             base.Awake();
             weapon = GetComponent<WeaponManager>();
             animatorTrashShooter = GetComponent<Ai_AnimatorTrashShooter>();
+            animator = GetComponentInChildren<Animator>();
+            collider = GetComponent<CapsuleCollider>();
             if (isPawnStatic) agentLinkMover.enabled = false;
+            
+            foreach (Transform t in GetComponentsInChildren<Transform>())
+            {
+                if (t != transform)
+                {
+                    if (t.GetComponent<Rigidbody>())
+                    {
+                        ragDollRbs.Add(t.GetComponent<Rigidbody>());
+                    }
+                    if (t.GetComponent<CharacterJoint>())
+                    {
+                        characterJoints.Add(t.GetComponent<CharacterJoint>());
+                    }
+                    if (t.GetComponent<CapsuleCollider>())
+                    {
+                        capsuleColliders.Add(t.GetComponent<CapsuleCollider>());
+                    }
+                }
+            }
+
+            foreach (var rb in ragDollRbs)
+            {
+                rb.isKinematic = true;
+                rb.mass = ragdollMass;
+            }
+            foreach (var capsule in capsuleColliders)
+            {
+                capsule.enabled = false;
+            }
         }
 
         public override void ResetAgent()
@@ -34,6 +76,29 @@ namespace AI
             trashMobState = TrashMobState.Moving;
             countAction = 0;
             if (isPawnStatic) agentLinkMover.enabled = false;
+            
+            //ragdoll 
+            
+            foreach (var rb in ragDollRbs)
+            {
+                rb.isKinematic = true;
+            }
+            foreach (var capsule in capsuleColliders)
+            {
+                capsule.enabled = false;
+            }
+            isKnockback = false;
+
+            StartCoroutine(ResetAgentCoroutine());
+        }
+        
+        IEnumerator ResetAgentCoroutine()
+        {
+            yield return new WaitForSeconds(.1f);
+            animatorTrashShooter.enabled = true;
+            rb.isKinematic = false;
+            animator.enabled = true;
+            collider.enabled = true;
         }
 
         protected override void Update()
@@ -54,6 +119,26 @@ namespace AI
                     ChangeState(TrashMobState.Moving);
                     break;
             }
+        }
+
+        protected override void FixedUpdate()
+        {
+            base.FixedUpdate();
+            //Ragdoll
+            if (isPawnDead)
+            {
+                foreach (var rb in ragDollRbs)
+                {
+                    rb.AddForce(Vector3.down * knockBackDeathIntensityXYZ.x);
+                }
+            }
+            if(!isKnockback && isPawnDead) return;
+            foreach (var rb in ragDollRbs)
+            {
+                rb.AddForce((PlayerController.Instance.transform.forward * knockBackDeathIntensityXYZ.y + 
+                            (Vector3.up * knockBackDeathIntensityXYZ.z)) * knockBackMultiplier, ForceMode.Impulse);
+            }
+            isKnockback = false;
         }
         
         protected override void PawnBehavior()
@@ -121,12 +206,30 @@ namespace AI
             ChangeState(TrashMobState.Idle);
             IsPhysicNavMesh(false);
             StartCoroutine(nameof(DeathKnockBack));
+            
+            //Ragdoll
+            animatorTrashShooter.enabled = false;
+            rb.isKinematic = true;
+            navMeshAgent.enabled = false;
+            animator.enabled = false;
+            collider.enabled = false;
+            
+            foreach (var rb in ragDollRbs)
+            {
+                rb.isKinematic = false;
+            }
+            foreach (var capsule in capsuleColliders)
+            {
+                capsule.enabled = true;
+            }
+            
+            StartCoroutine(nameof(DeathKnockBack));
         }
         
         IEnumerator DeathKnockBack()
         {
             yield return new WaitUntil(() => !navMeshAgent.enabled && gameObject.activeSelf);
-            GetComponent<Rigidbody>().AddForce(PlayerController.Instance.transform.forward * knockBackDeathIntensity, ForceMode.Impulse);
+            isKnockback = true;
         }
 
 #if UNITY_EDITOR

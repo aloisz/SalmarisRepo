@@ -179,15 +179,14 @@ namespace AI
             {
                 foreach (var rb in ragDollRbs)
                 {
-                    rb.AddForce(Vector3.down * knockBackDeathIntensity);
+                    rb.AddForce(Vector3.down * knockBackDeathIntensityXYZ.x);
                 }
             }
-            if(!isKnockback) return;
-            float x = Random.Range(-180, 180);
-            float z = Random.Range(-180, 180);
+            if(!isKnockback && isPawnDead) return;
             foreach (var rb in ragDollRbs)
             {
-                rb.AddForce(PlayerController.Instance.transform.forward * knockBackDeathIntensity + (Vector3.up * knockBackDeathIntensity/2), ForceMode.Impulse);
+                rb.AddForce((PlayerController.Instance.transform.forward * knockBackDeathIntensityXYZ.y + 
+                            (Vector3.up * knockBackDeathIntensityXYZ.z)) * knockBackMultiplier, ForceMode.Impulse);
             }
             isKnockback = false;
         }
@@ -249,6 +248,7 @@ namespace AI
             isInDashAttackCoroutine = false;
             isCacAttacking = false;
             
+            //Ragdoll
             animatorTrashMobCac.enabled = false;
             rb.isKinematic = true;
             navMeshAgent.enabled = false;

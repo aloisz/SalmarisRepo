@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 1908393243}
-  m_IndirectSpecularColor: {r: 0.41348106, g: 0.5942835, b: 0.9848124, a: 1}
+  m_IndirectSpecularColor: {r: 0.41496298, g: 0.5956893, b: 0.98629093, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -3706,6 +3706,16 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2282008530010013194, guid: 71f951629bed9f0468abebcf5f737845,
+        type: 3}
+      propertyPath: alreadyPlacedInScene
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2282008530010013194, guid: 71f951629bed9f0468abebcf5f737845,
+        type: 3}
+      propertyPath: isAlreadyPlacedInScene
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5927227267297739774, guid: 71f951629bed9f0468abebcf5f737845,
         type: 3}
       propertyPath: m_DirtyAABB
@@ -8884,6 +8894,50 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 287935f946f356444b9331848b823b59, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &334887878
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 334887879}
+  - component: {fileID: 334887880}
+  m_Layer: 0
+  m_Name: OptionsDDOL
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &334887879
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 334887878}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &334887880
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 334887878}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 877f6164e9f4d2c4687e3a46838c09cd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &340935916
 GameObject:
   m_ObjectHideFlags: 0
@@ -9423,7 +9477,7 @@ PrefabInstance:
     - target: {fileID: 200090335711378035, guid: 71e0be70f0d990647aab1b9819ac3f97,
         type: 3}
       propertyPath: DEBUG_DONT_NEED_PREVIOUS_ARENAS_CLEARED
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2639629527627537057, guid: 71e0be70f0d990647aab1b9819ac3f97,
         type: 3}
@@ -37680,6 +37734,16 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2086369195885276854, guid: c4ecdd8042bb2c747880db30353ffec0,
+        type: 3}
+      propertyPath: alreadyPlacedInScene
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2086369195885276854, guid: c4ecdd8042bb2c747880db30353ffec0,
+        type: 3}
+      propertyPath: isAlreadyPlacedInScene
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6159587722465297484, guid: c4ecdd8042bb2c747880db30353ffec0,
         type: 3}
       propertyPath: m_Name
@@ -47871,7 +47935,7 @@ MonoBehaviour:
   m_OverrideVoxelSize: 1
   m_VoxelSize: 0.3
   m_MinRegionArea: 3
-  m_NavMeshData: {fileID: 23800000, guid: 915fa83773da41246a67ba36624a6182, type: 2}
+  m_NavMeshData: {fileID: 23800000, guid: 7db2735d28fa8d249a54161bb5910e8d, type: 2}
   m_BuildHeightMesh: 0
 --- !u!4 &1679396230
 Transform:
@@ -47917,7 +47981,7 @@ MonoBehaviour:
   m_OverrideVoxelSize: 0
   m_VoxelSize: 0.16666667
   m_MinRegionArea: 2
-  m_NavMeshData: {fileID: 23800000, guid: 55566a37fd54e5c459d9e98ff7bca92e, type: 2}
+  m_NavMeshData: {fileID: 23800000, guid: 0f668034e5ac9fb41bb315d0ff259e2f, type: 2}
   m_BuildHeightMesh: 0
 --- !u!1 &1697096267
 GameObject:
@@ -54808,6 +54872,11 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2086369195885276854, guid: c4ecdd8042bb2c747880db30353ffec0,
+        type: 3}
+      propertyPath: isAlreadyPlacedInScene
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6159587722465297484, guid: c4ecdd8042bb2c747880db30353ffec0,
         type: 3}
       propertyPath: m_Name
@@ -54816,7 +54885,7 @@ PrefabInstance:
     - target: {fileID: 6159587722465297484, guid: c4ecdd8042bb2c747880db30353ffec0,
         type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7670129111412073086, guid: c4ecdd8042bb2c747880db30353ffec0,
         type: 3}
@@ -56942,3 +57011,4 @@ SceneRoots:
   - {fileID: 110805739}
   - {fileID: 215063446}
   - {fileID: 3527100104778709846}
+  - {fileID: 334887879}

@@ -23,7 +23,8 @@ namespace AI
         [Space] [ProgressBar("Health", 500, EColor.Red)] public float actualPawnHealth;
         [SerializeField] internal PawnState pawnState;
         [SerializeField] private EnemyToSpawn.EnemyKeys mobType;
-        [SerializeField] protected float knockBackDeathIntensity = 10f;
+        [SerializeField] protected Vector3 knockBackDeathIntensityXYZ;
+        protected float knockBackMultiplier;
         public Action onEnemyDead;
         
         [Header("Tick")]
@@ -93,8 +94,11 @@ namespace AI
             vfx.Play();
         }
 
+        //[SerializeField] private bool alreadyPlacedInScene;
         public virtual void ResetAgent()
         {
+            //StartCoroutine(nameof(DelayedNavMesh));
+            
             navMeshAgent.enabled = true;
             rb.isKinematic = true;
 
@@ -118,6 +122,13 @@ namespace AI
             visionDetector.radius = so_IA.visionDetectorRadius;
 
             targetToFollow = null;
+        }
+
+        IEnumerator DelayedNavMesh()
+        {
+            yield return new WaitForSeconds(0.05f);
+            navMeshAgent.enabled = true;
+            rb.isKinematic = true;
         }
 
         protected virtual void OldResetAgent()
@@ -274,6 +285,7 @@ namespace AI
         public virtual void Hit(float damageInflicted)
         {
             actualPawnHealth -= damageInflicted;
+            knockBackMultiplier = Mathf.Clamp(damageInflicted, 1, 1.75f);
             PlayerKillStreak.Instance.NotifyDamageInflicted(damageInflicted);
         }
 
