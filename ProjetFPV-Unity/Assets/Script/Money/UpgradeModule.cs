@@ -63,13 +63,16 @@ public class UpgradeModule : GenericSingletonClass<UpgradeModule>
             throw new Exception("Cannot land the module because it can't found the ground.");
 
         // Audio
-        AudioManager.Instance.SpawnAudio2D(transform.position, SfxType.SFX, 24, 1,0,1);
+        AudioManager.Instance.SpawnAudio3D(transform, SfxType.SFX, 24, 1,0,1,1, 0,
+            AudioRolloffMode.Logarithmic, 30,150);
+        
         t.DOMove(_hitGroundLanding.point + new Vector3(0, offsetLandingY, 0),
             landingDuration).SetEase(landingCurve).SetUpdate(true).OnComplete(() =>
         {
             // Audio
             AudioManager.Instance.SpawnAudio3D(transform.position, SfxType.SFX, 25, 1,0,1,1, 0,
                 AudioRolloffMode.Logarithmic, 5,40);
+            
             keyboard.DOLocalMove(baseKeyboardPosition + new Vector3(keyboardOffset.x, keyboardOffset.y, keyboardOffset.z),
                 1f).SetUpdate(true).OnComplete((() => 
                 AudioManager.Instance.SpawnAudio3D(transform.position, SfxType.SFX, 26, 1,0,1, 1, 0,
@@ -96,6 +99,8 @@ public class UpgradeModule : GenericSingletonClass<UpgradeModule>
         {
             UpgradeModuleVFX.Instance.LandVFX();
             _alreadyland = true;
+            AudioManager.Instance.SpawnAudio3D(transform, SfxType.SFX, 42, 4, 0, 1,1, 0,
+                AudioRolloffMode.Logarithmic, 5,40);
         }
     }
 
@@ -111,6 +116,9 @@ public class UpgradeModule : GenericSingletonClass<UpgradeModule>
         keyboard.DOLocalMove(baseKeyboardPosition, 0.25f).SetUpdate(true);
         
         UpgradeModuleVFX.Instance.GoAwayVFX();
+
+        AudioManager.Instance.SpawnAudio3D(transform.position, SfxType.SFX, 28, 1, 0, 1, 1, 0,
+            AudioRolloffMode.Logarithmic, 5, 40);
     }
 
     private void CheckGroundLandingPosition()
