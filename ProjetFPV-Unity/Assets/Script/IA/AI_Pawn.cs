@@ -24,6 +24,7 @@ namespace AI
         [SerializeField] internal PawnState pawnState;
         [SerializeField] private EnemyToSpawn.EnemyKeys mobType;
         [SerializeField] protected Vector3 knockBackDeathIntensityXYZ;
+        protected float knockBackMultiplier;
         public Action onEnemyDead;
         
         [Header("Tick")]
@@ -284,6 +285,7 @@ namespace AI
         public virtual void Hit(float damageInflicted)
         {
             actualPawnHealth -= damageInflicted;
+            knockBackMultiplier = Mathf.Clamp(damageInflicted, 1, 1.75f);
             PlayerKillStreak.Instance.NotifyDamageInflicted(damageInflicted);
         }
 

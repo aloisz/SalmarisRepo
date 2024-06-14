@@ -135,8 +135,8 @@ namespace AI
             if(!isKnockback && isPawnDead) return;
             foreach (var rb in ragDollRbs)
             {
-                rb.AddForce(PlayerController.Instance.transform.forward * knockBackDeathIntensityXYZ.y + 
-                            (Vector3.up * knockBackDeathIntensityXYZ.z), ForceMode.Impulse);
+                rb.AddForce((PlayerController.Instance.transform.forward * knockBackDeathIntensityXYZ.y + 
+                            (Vector3.up * knockBackDeathIntensityXYZ.z)) * knockBackMultiplier, ForceMode.Impulse);
             }
             isKnockback = false;
         }
