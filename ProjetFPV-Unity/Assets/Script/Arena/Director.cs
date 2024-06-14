@@ -265,7 +265,7 @@ public class Director : GenericSingletonClass<Director>
         {
             foreach (Door d in GetActualArenaTrigger().arenaUnlockedDoors)
             {
-                d.DeactivateDoor();
+                d.DeactivateDoor(true);
                 d.ActivateLockedDoor();
             }
         }
