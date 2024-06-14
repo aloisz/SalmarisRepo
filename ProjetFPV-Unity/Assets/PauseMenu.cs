@@ -1,8 +1,10 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using DG.Tweening;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Rendering;
 using UnityEngine.UI;
 
 public class PauseMenu : MonoBehaviour
@@ -41,6 +43,8 @@ public class PauseMenu : MonoBehaviour
         
         Time.timeScale = 0f;
         
+        PostProcessCrossFade.Instance.CrossFadeTo(1);
+        
         SetCursorState(true);
         EnableContainer(0);
         
@@ -55,6 +59,9 @@ public class PauseMenu : MonoBehaviour
     IEnumerator QuitPauseRoutine()
     {
         _animator.SetTrigger("Close");
+        SetCursorState(false);
+        
+        PostProcessCrossFade.Instance.CrossFadeTo(0);
 
         yield return new WaitForSecondsRealtime(1f);
         
@@ -64,7 +71,6 @@ public class PauseMenu : MonoBehaviour
         
         Time.timeScale = 1f;
         
-        SetCursorState(false);
         EnableContainer(0);
         
         PlayerInputs.Instance.EnablePlayerInputs(true);
