@@ -9,8 +9,8 @@ public class MusicManager : GenericSingletonClass<MusicManager>
 {
     [SerializeField] private Music actualMusicPlayed;
     [SerializeField] private List<MyAudioSource> myMusics;
+    [SerializeField] private float volume = .35f;
     [SerializeField] private float volumeSwitchDuration = 1.25f;
-    
     private void Awake()
     {
         DontDestroyOnLoad(this);
@@ -19,7 +19,7 @@ public class MusicManager : GenericSingletonClass<MusicManager>
     private void Start()
     {
         StartCoroutine(InitAllMusic());
-        ChangeMusicPlayed(Music.Intro, volumeSwitchDuration);
+        ChangeMusicPlayed(Music.Intro, volumeSwitchDuration, volume);
     }
 
     private IEnumerator InitAllMusic()
@@ -49,34 +49,34 @@ public class MusicManager : GenericSingletonClass<MusicManager>
     [ContextMenu("Intro")]
     public void Intro()
     {
-        ChangeMusicPlayed(Music.Intro, volumeSwitchDuration);
+        ChangeMusicPlayed(Music.Intro, volumeSwitchDuration, volume);
     }
     
     [ContextMenu("Start")]
     public void StartMusic()
     {
-        ChangeMusicPlayed(Music.Start, volumeSwitchDuration);
+        ChangeMusicPlayed(Music.Start, volumeSwitchDuration, volume);
     }
     
     [ContextMenu("Fight")]
     public void Fight()
     {
-        ChangeMusicPlayed(Music.Fight, volumeSwitchDuration);
+        ChangeMusicPlayed(Music.Fight, volumeSwitchDuration, volume);
     }
     
     [ContextMenu("Ambiance")]
     public void Ambiance()
     {
-        ChangeMusicPlayed(Music.Ambiance, volumeSwitchDuration);
+        ChangeMusicPlayed(Music.Ambiance, volumeSwitchDuration, volume);
     }
     
     [ContextMenu("Shop")]
     public void Shop()
     {
-        ChangeMusicPlayed(Music.Shop, volumeSwitchDuration);
+        ChangeMusicPlayed(Music.Shop, volumeSwitchDuration, volume);
     }
 
-    public void ChangeMusicPlayed(Music newMusic, float timeToTurnOnVolume)
+    public void ChangeMusicPlayed(Music newMusic, float timeToTurnOnVolume, float setVolume)
     {
         for (int i = 0; i < myMusics.Count; i++)
         {
@@ -86,7 +86,7 @@ public class MusicManager : GenericSingletonClass<MusicManager>
             }
             if ((int)newMusic == i)
             {
-                myMusics[i].aSource.DOFade(1, timeToTurnOnVolume);
+                myMusics[i].aSource.DOFade(setVolume, timeToTurnOnVolume);
             }
         }
         
