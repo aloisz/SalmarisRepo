@@ -106,6 +106,22 @@ namespace CameraBehavior
                 cameraManager.handSwing.JumpingOffSetY = Mathf.Lerp(cameraManager.handSwing.JumpingOffSetY,
                     jumpingImpactHandSwing.Evaluate(PlayerController.Instance._rb.velocity.y), 
                     Time.deltaTime * jumpHandSwingSpeed);
+                
+                // Weapon Rotation wiggle
+                Quaternion weaponBobbingRot = Quaternion.Euler
+                (cameraManager.so_Camera.rotationOffSet.z *
+                 (Mathf.Cos(timer) * (20 *
+                                      jumpingImpactHandSwing.Evaluate((Mathf.Abs(PlayerController.Instance._rb.velocity.y))))), 
+                    
+                    cameraManager.so_Camera.rotationOffSet.z *
+                    (Mathf.Cos(timer) * (20 *
+                                         jumpingImpactHandSwing.Evaluate((Mathf.Abs(PlayerController.Instance._rb.velocity.y))))),
+                    
+                    cameraManager.so_Camera.rotationOffSet.z *
+                    (Mathf.Cos(timer) * (20 *
+                                         jumpingImpact.Evaluate((Mathf.Abs(PlayerController.Instance._rb.velocity.y))))));
+                
+                cameraManager.weaponTransform.localRotation = Quaternion.Slerp(cameraManager.weaponTransform.transform.localRotation, weaponBobbingRot, Time.deltaTime * 1);
             }
             else cameraManager.handSwing.JumpingOffSetY = 0f; // weapon smooth
         }
