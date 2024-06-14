@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using MyAudio;
 using UnityEditor;
 using UnityEngine;
 
@@ -38,6 +39,9 @@ public class Key : MonoBehaviour
         {
             isPickedUp = true;
             DeactivateKey();
+            AudioManager.Instance.SpawnAudio3D(transform.position, SfxType.SFX, 32, 1,0,1, 1,0,
+                AudioRolloffMode.Logarithmic,
+            10,150);
         }
     }
 
