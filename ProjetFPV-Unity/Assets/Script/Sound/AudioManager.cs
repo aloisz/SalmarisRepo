@@ -14,7 +14,8 @@ namespace MyAudio
         public List<AudioSO> audioSO;
         public MyAudioSource PrefabAudioSource;
 
-        [SerializeField] private AudioMixer audioMixer;
+        public AudioMixer audioMixer;
+        
         private void Start()
         {
             
@@ -26,7 +27,7 @@ namespace MyAudio
 
             //audioSource.aSource.volume = volume;
             audioSource.aSource.volume = 0;
-            audioSource.aSource.DOFade(volume, timeToTurnOnVolume);
+            audioSource.aSource.DOFade(volume, timeToTurnOnVolume).SetUpdate(true);
             audioSource.aSource.pitch = pitch;
             audioSource.aSource.loop = loop;
             audioSource.aSource.spatialBlend = 0;
@@ -53,7 +54,7 @@ namespace MyAudio
 
             //audioSource.aSource.volume = volume;
             audioSource.aSource.volume = 0;
-            audioSource.aSource.DOFade(volume, timeToTurnOnVolume);
+            audioSource.aSource.DOFade(volume, timeToTurnOnVolume).SetUpdate(true);
             audioSource.aSource.pitch = pitch;
             audioSource.aSource.spatialBlend = 1;
             audioSource.aSource.loop = loop;
@@ -85,7 +86,7 @@ namespace MyAudio
 
             //audioSource.aSource.volume = volume;
             audioSource.aSource.volume = 0;
-            audioSource.aSource.DOFade(volume, timeToTurnOnVolume);
+            audioSource.aSource.DOFade(volume, timeToTurnOnVolume).SetUpdate(true);
             audioSource.aSource.pitch = pitch;
             audioSource.aSource.spatialBlend = 1;
             audioSource.aSource.loop = loop;

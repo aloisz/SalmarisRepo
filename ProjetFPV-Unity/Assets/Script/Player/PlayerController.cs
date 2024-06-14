@@ -989,7 +989,7 @@ namespace Player
             timeElapsedMoving += Time.deltaTime;
             if(timeElapsedMoving < 0.3f) return; // duration of the audio
             timeElapsedMoving = 0;
-            AudioManager.Instance.SpawnAudio2D(transform.position, SfxType.SFX, 43, 1,0,1,false);
+            AudioManager.Instance.SpawnAudio2D(transform.position, SfxType.SFX, 43, 1,0,Random.Range(0.95f, 1.05f),false);
         }
         
         private float timeElapsedSliding;
