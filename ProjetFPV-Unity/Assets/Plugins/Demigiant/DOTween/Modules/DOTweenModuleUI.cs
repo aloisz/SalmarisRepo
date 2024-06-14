@@ -11,6 +11,7 @@ using DG.Tweening.Core;
 using DG.Tweening.Core.Enums;
 using DG.Tweening.Plugins;
 using DG.Tweening.Plugins.Options;
+using TMPro;
 using UnityEngine.Rendering;
 using Outline = UnityEngine.UI.Outline;
 using Text = UnityEngine.UI.Text;
@@ -54,6 +55,13 @@ namespace DG.Tweening
         public static TweenerCore<Color, Color, ColorOptions> DOFade(this Graphic target, float endValue, float duration)
         {
             TweenerCore<Color, Color, ColorOptions> t = DOTween.ToAlpha(() => target.color, x => target.color = x, endValue, duration);
+            t.SetTarget(target);
+            return t;
+        }
+        
+        public static TweenerCore<float, float, FloatOptions> DOCharacterSpacing(this TextMeshProUGUI target, float endValue, float duration)
+        {
+            TweenerCore<float, float, FloatOptions> t = DOTween.To(() => target.characterSpacing, x => target.characterSpacing = x, endValue, duration);
             t.SetTarget(target);
             return t;
         }

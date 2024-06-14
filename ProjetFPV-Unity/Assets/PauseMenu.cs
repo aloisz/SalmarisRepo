@@ -1,11 +1,14 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PauseMenu : MonoBehaviour
 {
     [SerializeField] private GameObject[] containers;
+    [SerializeField] private TextMeshProUGUI[] volumesTexts;
     
     private Canvas _canvas;
     private Animator _animator;
@@ -25,6 +28,8 @@ public class PauseMenu : MonoBehaviour
         _animator = GetComponent<Animator>();
             
         _canvas.enabled = false;
+        
+        SetTextsDefaults();
     }
 
     public void InitPause()
@@ -40,13 +45,19 @@ public class PauseMenu : MonoBehaviour
         EnableContainer(0);
         
         PlayerInputs.Instance.EnablePlayerInputs(false);
-
-        if (!BlurBackground.instance) throw new Exception("BlurBackground Singleton missing");
-        BlurBackground.instance.Blur(true, 0.1f);
     }
 
     public void QuitPause()
     {
+        StartCoroutine(nameof(QuitPauseRoutine));
+    }
+
+    IEnumerator QuitPauseRoutine()
+    {
+        _animator.SetTrigger("Close");
+
+        yield return new WaitForSecondsRealtime(1f);
+        
         isMenuOpened = false;
         
         _canvas.enabled = false;
@@ -57,9 +68,6 @@ public class PauseMenu : MonoBehaviour
         EnableContainer(0);
         
         PlayerInputs.Instance.EnablePlayerInputs(true);
-        
-        if (!BlurBackground.instance) throw new Exception("BlurBackground Singleton missing");
-        BlurBackground.instance.Blur(false, 0.1f);
     }
 
     public void QuitOptions()
@@ -102,5 +110,42 @@ public class PauseMenu : MonoBehaviour
         {
             resetEffect.ResetEffect();
         }
+    }
+    
+    public void SetMixerGroupVolumeMusic(Slider slider)
+    {
+        OptionsDDOL.Instance.SetMixerGroupVolumeMusic(slider);
+        volumesTexts[0].text = Mathf.RoundToInt(slider.value * 100).ToString();
+    }
+    
+    public void SetMixerGroupVolumeSFX(Slider slider)
+    {
+        OptionsDDOL.Instance.SetMixerGroupVolumeSFX(slider);
+        volumesTexts[1].text = Mathf.RoundToInt(slider.value * 100).ToString();
+    }
+    
+    public void SetMixerGroupVolumeAmbiance(Slider slider)
+    {
+        OptionsDDOL.Instance.SetMixerGroupVolumeAmbiance(slider);
+        volumesTexts[2].text = Mathf.RoundToInt(slider.value * 100).ToString();
+    }
+    
+    public void SetSensibility(Slider slider)
+    {
+        OptionsDDOL.Instance.SetSensibility(slider);
+        volumesTexts[3].text = $"x{OptionsDDOL.Instance.sensibility:F1}";
+    }
+
+    public void SetFullScreenMode(Toggle toggle)
+    {
+        OptionsDDOL.Instance.SetFullscreen(toggle);
+    }
+
+    private void SetTextsDefaults()
+    {
+        volumesTexts[0].text = Mathf.RoundToInt(100).ToString();
+        volumesTexts[1].text = Mathf.RoundToInt(100).ToString();
+        volumesTexts[2].text = Mathf.RoundToInt(100).ToString();
+        volumesTexts[3].text = $"x{OptionsDDOL.Instance.sensibility:F1}";
     }
 }
