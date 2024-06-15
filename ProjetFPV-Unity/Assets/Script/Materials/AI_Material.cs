@@ -42,15 +42,18 @@ public class AI_Material : MonoBehaviour
     {
         _meshRenderer = GetComponent<SkinnedMeshRenderer>();
         if (!_meshRenderer) return;
-        
-        if(_meshRenderer) CreateMaterialInstance(_meshRenderer);
-        baseEyesColor = _meshRenderer.material.GetColor("_EmissiveColor");
-        
-        _meshRenderer.material.SetFloat("_DeathSaturation", 1f);
-        _meshRenderer.material.SetFloat("_DeathDarkening", 1f);
-        _meshRenderer.material.SetFloat("_DeathDissolve", 0f);
-        _meshRenderer.material.SetInt("_BellyVFX", 1);
-        _meshRenderer.material.SetColor("_EmissiveColor", baseEyesColor);
+
+        if (_meshRenderer)
+        {
+            CreateMaterialInstance(_meshRenderer);
+            baseEyesColor = _meshRenderer.material.GetColor("_EmissiveColor");
+            
+            _meshRenderer.material.SetFloat("_DeathSaturation", 1f);
+            _meshRenderer.material.SetFloat("_DeathDarkening", 1f);
+            _meshRenderer.material.SetFloat("_DeathDissolve", 0f);
+            _meshRenderer.material.SetInt("_BellyVFX", 1);
+            _meshRenderer.material.SetColor("_EmissiveColor", baseEyesColor);
+        }
     }
 
     private void CreateMaterialInstance(SkinnedMeshRenderer meshRenderer)

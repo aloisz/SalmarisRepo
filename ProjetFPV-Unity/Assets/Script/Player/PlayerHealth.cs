@@ -118,7 +118,7 @@ public class PlayerHealth : GenericSingletonClass<PlayerHealth>, IDamage
         else
         {
             //Audio
-            AudioManager.Instance.SpawnAudio2D(transform.position, SfxType.SFX, 50, 1f,0,1,false);
+            AudioManager.Instance.SpawnAudio2D(transform.position, SfxType.SFX, 48, 1f,0,1,false);
         }
 
         // Apply remaining damage to health

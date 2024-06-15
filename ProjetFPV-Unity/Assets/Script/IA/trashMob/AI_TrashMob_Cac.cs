@@ -314,7 +314,7 @@ namespace AI
                         isCacAttacking = false;
                     }
                     
-                    AudioManager.Instance.SpawnAudio3D(transform.position, SfxType.SFX, 12, 1, 0, 1);
+                    AudioManager.Instance.SpawnAudio3D(transform.position, SfxType.SFX, 11, 1, 0, 1);
                     CameraShake.Instance.ShakeCamera(false, shakeDuration, shakeMagnitude, shakeFrequency, true, power);
                 }
             }
