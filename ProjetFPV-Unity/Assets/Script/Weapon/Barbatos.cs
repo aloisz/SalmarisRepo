@@ -160,6 +160,9 @@ public class Barbatos : Shotgun
         //Turbine
         turbine[0].transform.DOLocalMove(turbine[2].transform.localPosition, .1f);
         turbine[1].transform.DOLocalMove(turbine[2].transform.localPosition, .1f);
+        
+        turbine[0].transform.DOLocalRotate(new Vector3(0,0,100000), so_Weapon.weaponMode[0].timeToReload, RotateMode.LocalAxisAdd);
+        turbine[1].transform.DOLocalRotate(new Vector3(0,0,100000), so_Weapon.weaponMode[0].timeToReload, RotateMode.LocalAxisAdd);
     }
 
     private void PlayParticle()
