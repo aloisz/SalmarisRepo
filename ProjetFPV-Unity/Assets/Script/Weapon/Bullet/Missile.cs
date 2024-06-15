@@ -19,12 +19,11 @@ public class Missile : BulletBehavior,IExplosion
     private Material _bulletMat;
     private float timer;
     private bool alreadySpawnedDecal;
-    private AudioSource source;
+    [SerializeField] private AudioSource source;
 
     protected override void Start()
     {
         base.Start();
-        source = GetComponent<AudioSource>();
         source.clip = AudioManager.Instance.audioSO[0].soundList[15].audioClip;
         source.loop = true;
         source.Play();

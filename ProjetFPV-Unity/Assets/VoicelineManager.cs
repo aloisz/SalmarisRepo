@@ -17,39 +17,36 @@ public class VoicelineManager : GenericSingletonClass<VoicelineManager>
 
     private AudioSource _lastSource;
 
+    private Queue<int> _audioQueue = new Queue<int>();
+    private bool _isPlaying = false;
+
     public void CallVoiceLine(int id)
     {
-        StartCoroutine(CallVoiceLineRoutine(id));
+        _audioQueue.Enqueue(id);
+        if (!_isPlaying)
+        {
+            StartCoroutine(PlayNextInQueue());
+        }
+    }
+
+    private IEnumerator PlayNextInQueue()
+    {
+        while (_audioQueue.Count > 0)
+        {
+            int id = _audioQueue.Dequeue();
+            yield return new WaitForSecondsRealtime(1f);
+            yield return StartCoroutine(CallVoiceLineRoutine(id));
+        }
+        _isPlaying = false;
     }
 
     private IEnumerator CallVoiceLineRoutine(int id)
     {
+        _isPlaying = true;
         foreach (IASound iaSound in scriptable.soundList)
         {
             if (iaSound.ID == id)
             {
-                if (iaSound.IASoundID.cutPlayingSound)
-                {
-                    foreach (Transform t in canvas.GetComponentsInChildren<Transform>())
-                    {
-                        if(t != canvas.transform) Destroy(t.gameObject);
-                    }
-        
-                    foreach (AudioSource source in GetComponentsInChildren<AudioSource>())
-                    {
-                        if (source.isPlaying)
-                        {
-                            source.Stop();
-                            Destroy(source.gameObject);
-                        }
-                    }
-                }
-                else
-                {
-                    yield return new WaitUntil(() => _lastSource == null || !_lastSource.isPlaying);
-                    yield return new WaitForSecondsRealtime(1f); //Minimum delay between each voicelines
-                }
-                
                 MyAudioSource audioSource = Instantiate(PrefabAudioSource, transform.position, Quaternion.identity, transform);
                 
                 audioSource.aSource.volume = 1;
@@ -68,13 +65,14 @@ public class VoicelineManager : GenericSingletonClass<VoicelineManager>
                 
                 Subtitle spawnedSubtitle = Instantiate(subtitle, canvas.transform);
                 spawnedSubtitle.SetText(iaSound.IASoundID.text);
-                if(spawnedSubtitle != null) spawnedSubtitle.DestroySubtitle(iaSound.IASoundID.audioDuration);
+                if (spawnedSubtitle != null) spawnedSubtitle.DestroySubtitle(iaSound.IASoundID.audioDuration);
 
-                yield break;
+                yield return new WaitUntil(() => !_lastSource.isPlaying);
+                _lastSource = null;
             }
         }
     }
-    
+
     public string HighlightCustomTags(string text)
     {
         foreach (var tag in customTags)
@@ -94,7 +92,6 @@ public class VoicelineManager : GenericSingletonClass<VoicelineManager>
         return text;
     }
 }
-
 
 [Serializable]
 public class TextTag

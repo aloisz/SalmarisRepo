@@ -78,9 +78,9 @@ namespace AI
             }
         }
 
-        public override void ResetAgent()
+        public override void ResetAgent(bool doAudio)
         {
-            base.ResetAgent();
+            base.ResetAgent(doAudio);
             if(animatorTrashMobCac) animatorTrashMobCac.ChangeState(animatorTrashMobCac.SPAWN, 0.1f);
             if(animatorTrashMobCac) animatorTrashMobCac.ChangeState(animatorTrashMobCac.WALK, 1.5f);
             

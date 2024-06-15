@@ -20,6 +20,7 @@ public class TriggerVoiceline : MonoBehaviour
         }
     }
 
+    #if UNITY_EDITOR
     private void OnDrawGizmos()
     {
         GUIStyle style = new GUIStyle()
@@ -32,4 +33,5 @@ public class TriggerVoiceline : MonoBehaviour
         Handles.Label(transform.position, ID.ToString(), style);
         Helper.DrawBoxCollider(Color.green, transform, GetComponent<BoxCollider>(), Vector3.zero, 0.2f);
     }
+    #endif
 }

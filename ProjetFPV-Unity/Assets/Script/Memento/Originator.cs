@@ -46,10 +46,10 @@ public class Originator : MonoBehaviour
         PlayerController.Instance.transform.rotation = memento.GetPlayerRotation();
         
         //Health
-        PlayerHealth.Instance._health = memento.GetPlayerHealth();
+        PlayerHealth.Instance._health = PlayerController.Instance.playerScriptable.maxPlayerHealth;
         
         // Shield
-        PlayerHealth.Instance._shield = memento.GetPlayerShield();
+        PlayerHealth.Instance._shield = PlayerController.Instance.playerScriptable.maxPlayerShield;
         
         // Reset velocity
         PlayerController.Instance._rb.velocity = Vector3.zero;
