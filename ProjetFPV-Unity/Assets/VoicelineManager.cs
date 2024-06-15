@@ -34,6 +34,7 @@ public class VoicelineManager : GenericSingletonClass<VoicelineManager>
         while (_audioQueue.Count > 0)
         {
             int id = _audioQueue.Dequeue();
+            yield return new WaitForSecondsRealtime(1f);
             yield return StartCoroutine(CallVoiceLineRoutine(id));
         }
         _isPlaying = false;
@@ -46,28 +47,6 @@ public class VoicelineManager : GenericSingletonClass<VoicelineManager>
         {
             if (iaSound.ID == id)
             {
-                /*if (iaSound.IASoundID.cutPlayingSound)
-                {
-                    foreach (Transform t in canvas.GetComponentsInChildren<Transform>())
-                    {
-                        if (t != canvas.transform) Destroy(t.gameObject);
-                    }
-        
-                    foreach (AudioSource source in GetComponentsInChildren<AudioSource>())
-                    {
-                        if (source.isPlaying)
-                        {
-                            source.Stop();
-                            Destroy(source.gameObject);
-                        }
-                    }
-                }
-                else
-                {
-                    yield return new WaitUntil(() => _lastSource == null || !_lastSource.isPlaying);
-                    yield return new WaitForSecondsRealtime(1f); // Minimum delay between each voiceline
-                }*/
-                
                 MyAudioSource audioSource = Instantiate(PrefabAudioSource, transform.position, Quaternion.identity, transform);
                 
                 audioSource.aSource.volume = 1;
