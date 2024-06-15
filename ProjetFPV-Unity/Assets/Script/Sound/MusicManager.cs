@@ -147,6 +147,7 @@ public class MusicManager : GenericSingletonClass<MusicManager>
     private IEnumerator ManageActualSoundVolumeRoutine(float volume)
     {
         yield return new WaitUntil(() => !_isFadeIn);
+        yield return new WaitForSecondsRealtime(1f);
         myMusics[(int)actualMusicPlayed].aSource.DOFade(volume, 0.5f).SetUpdate(true);
     }
 }
