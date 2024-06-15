@@ -139,7 +139,7 @@ public class UpgradeModule : GenericSingletonClass<UpgradeModule>
         PostProcessCrossFade.Instance.CrossFadeTo(1);
         
         PlayerHealth.Instance.RestoreHealth(999);
-        WeaponState.Instance.barbatos.Reload();
+        WeaponState.Instance.barbatos.ResetMunitionWithoutAnim();
         
         PlayerInputs.Instance.EnablePlayerInputs(false);
         
