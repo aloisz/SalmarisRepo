@@ -253,18 +253,20 @@ public class Barbatos : Shotgun
     {
         base.InstantiateBulletImpact(hit);
         
+        if (so_Weapon.weaponMode[(int)actualWeaponModeIndex].doExplosion)
+        {
+            GameObject explosion = Pooling.instance.Pop("ExplosionImpact");
+            explosion.transform.position = hit.point;
+        }
+        
+        if(hit.collider.GetComponent<AI_Pawn>()) return;
+        
         GameObject particle = Pooling.instance.Pop("BulletImpact");
         particle.transform.position = hit.point;
         particle.transform.up = hit.normal;
         Pooling.instance.DelayedDePop("BulletImpact", particle,3);
         
         //DecalSpawnerManager.Instance.SpawnDecal(hit.point, hit.normal, "Impact_Shotgun_Decal");
-        
-        if (so_Weapon.weaponMode[(int)actualWeaponModeIndex].doExplosion)
-        {
-            GameObject explosion = Pooling.instance.Pop("ExplosionImpact");
-            explosion.transform.position = hit.point;
-        }
     }
 
     protected override void WichTypeMunitionIsGettingShot()
