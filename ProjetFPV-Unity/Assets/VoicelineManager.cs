@@ -91,6 +91,39 @@ public class VoicelineManager : GenericSingletonClass<VoicelineManager>
         }
         return text;
     }
+
+
+
+    public void CallVoiceLineINtroduction(int id)
+    {
+        foreach (IASound iaSound in scriptable.soundList)
+        {
+            if (iaSound.ID == id)
+            {
+                MyAudioSource audioSource = Instantiate(PrefabAudioSource, transform.position, Quaternion.identity, transform);
+                
+                audioSource.aSource.volume = 1;
+                audioSource.aSource.pitch = 1f;
+                audioSource.aSource.loop = false;
+                audioSource.aSource.spatialBlend = 0;
+                audioSource.aSource.outputAudioMixerGroup = AudioManager.Instance.audioMixer.FindMatchingGroups("IA")[0];
+             
+                audioSource.aSource.clip = iaSound.IASoundID.clip;
+                audioSource.timeBeforeDestroy = iaSound.IASoundID.audioDuration;
+                audioSource.gameObject.name = iaSound.IASoundID.clip.name;
+            
+                audioSource.aSource.Play();
+
+                _lastSource = audioSource.aSource;
+                
+                Subtitle spawnedSubtitle = Instantiate(subtitle, canvas.transform);
+                spawnedSubtitle.SetText(iaSound.IASoundID.text);
+                if (spawnedSubtitle != null) spawnedSubtitle.DestroySubtitle(iaSound.IASoundID.audioDuration);
+                
+                _lastSource = null;
+            }
+        }
+    }
 }
 
 [Serializable]
