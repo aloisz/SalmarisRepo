@@ -42,7 +42,7 @@ public class Door : MonoBehaviour
         else gameObject.SetActive(true);
         
         //Audio
-        AudioManager.Instance.SpawnAudio3D(gameObject.transform.position, SfxType.SFX, 30, 1,0,1, 1,0,
+        AudioManager.Instance.SpawnAudio3D(gameObject.transform.position, SfxType.SFX, 29, 1,0,1, 1,0,
             AudioRolloffMode.Logarithmic, 29, 150);
 
         isDeactivated = false;

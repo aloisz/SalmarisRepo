@@ -26,7 +26,7 @@ public class SMGBullet : BulletBehavior
     protected override void Start()
     {
         source = GetComponent<AudioSource>();
-        source.clip = AudioManager.Instance.audioSO[0].soundList[21 - 1].audioClip;
+        source.clip = AudioManager.Instance.audioSO[0].soundList[20].audioClip;
         source.loop = true;
         source.Play();
     }

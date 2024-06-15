@@ -166,7 +166,7 @@ namespace AI
                     weapon.ShootingAction();
                     IsPhysicNavMesh(false);
                     countAction++;
-                    AudioManager.Instance.SpawnAudio3D(transform.position, SfxType.SFX, 14, .6f, 0, 1, 1,0,
+                    AudioManager.Instance.SpawnAudio3D(transform.position, SfxType.SFX, 12, .6f, 0, 1, 1,0,
                         AudioRolloffMode.Logarithmic, 1,20);
                     if(countAction <= 2) break;
                     ChangeState(TrashMobState.Moving);

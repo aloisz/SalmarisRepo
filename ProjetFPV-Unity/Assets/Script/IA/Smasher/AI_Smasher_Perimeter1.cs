@@ -184,7 +184,7 @@ namespace AI
 
                     StartCoroutine(EndAttack());
                     // audio
-                    AudioManager.Instance.SpawnAudio3D(transform.position, SfxType.SFX, 4, 1, 0, 1);
+                    AudioManager.Instance.SpawnAudio3D(transform.position, SfxType.SFX, 1, 1, 0, 1);
                 }
             }
         }
