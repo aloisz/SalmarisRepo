@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using AI;
@@ -39,7 +40,10 @@ public class AI_Material : MonoBehaviour
 
     public void Reset()
     {
+        _meshRenderer = GetComponent<SkinnedMeshRenderer>();
         if (!_meshRenderer) return;
+        
+        if(_meshRenderer) CreateMaterialInstance(_meshRenderer);
         
         _meshRenderer.material.SetFloat("_DeathSaturation", 1f);
         _meshRenderer.material.SetFloat("_DeathDarkening", 1f);
