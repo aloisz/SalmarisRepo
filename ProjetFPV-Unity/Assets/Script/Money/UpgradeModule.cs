@@ -92,7 +92,7 @@ public class UpgradeModule : GenericSingletonClass<UpgradeModule>
 
         _currentAvailableUpgrades = list;
         
-        Announcements.Instance.GenerateAnnouncement("Shop incoming !");
+        //Announcements.Instance.GenerateAnnouncement("Shop incoming !");
     }
 
     private void Update()

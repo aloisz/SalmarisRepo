@@ -55,6 +55,7 @@ public class HUD : GenericSingletonClass<HUD>
     [SerializeField] private Image[] dashDots;
     [SerializeField] private UIParticle[] hitmarkerParticleSystems;
     [SerializeField] private UIParticle[] hitmarkerParticleSystemsLethal;
+    [SerializeField] private UIParticle[] damages;
 
     private float _giggleX;
     private float _giggleY;
@@ -311,6 +312,12 @@ public class HUD : GenericSingletonClass<HUD>
         float vNormalized = (cross + 1f) / 2f; // Normalize t to range from 0 to 1
         _crossProductDamageRight = Mathf.Lerp(damageMaxIntensity, 0, vNormalized);
         _crossProductDamageLeft = Mathf.Lerp(0, damageMaxIntensity, vNormalized);
+
+        foreach (UIParticle uiParticle in damages)
+        {
+            uiParticle.Stop();
+            uiParticle.Play();
+        }
     }
 
     private void UpdateShatteredMask()
