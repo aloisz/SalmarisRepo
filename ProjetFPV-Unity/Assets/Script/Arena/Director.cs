@@ -89,20 +89,20 @@ public class Director : GenericSingletonClass<Director>
 
         if (currentArenaIndex == 0)
         {
-            MusicManager.Instance.ChangeMusicPlayed(Music.Start, 0f, 0.25f);
+            MusicManager.Instance.ChangeMusicPlayed(Music.Start, 0f, 0.25f, 0f, true);
             MusicManager.Instance.ChangeMusicPlayed
-                (Music.Fight, 1f, 0.25f, 2.8f);
+                (Music.Fight, 1f, 0.25f, 2.8f, true);
         }
         else if(currentArenaIndex == 6)
         {
-            MusicManager.Instance.ChangeMusicPlayed(Music.StartFinalFight, 0f, 0.25f);
+            MusicManager.Instance.ChangeMusicPlayed(Music.StartFinalFight, 0f, 0.25f, 0f, true);
             MusicManager.Instance.ChangeMusicPlayed
-                (Music.FinalFight, 1f, 0.25f, 14f);
+                (Music.FinalFight, 1f, 0.25f, 14f, true);
         }
         else
         {
             MusicManager.Instance.ChangeMusicPlayed
-                (Music.Fight, 1f, 0.25f);
+                (Music.Fight, 1f, 0.25f, 0f, true);
         }
     }
 

@@ -109,12 +109,12 @@ public class MusicManager : GenericSingletonClass<MusicManager>
 
     #endregion
     
-    public void ChangeMusicPlayed(Music newMusic, float timeToTurnOnVolume, float setVolume, float delay = 0f)
+    public void ChangeMusicPlayed(Music newMusic, float timeToTurnOnVolume, float setVolume, float delay = 0f, bool restart = false)
     {
-        StartCoroutine(ChangeMusicPlayedRoutine(newMusic, timeToTurnOnVolume, setVolume, delay));
+        StartCoroutine(ChangeMusicPlayedRoutine(newMusic, timeToTurnOnVolume, setVolume, delay, restart));
     }
 
-    IEnumerator ChangeMusicPlayedRoutine(Music newMusic, float timeToTurnOnVolume, float setVolume, float delay = 0f)
+    IEnumerator ChangeMusicPlayedRoutine(Music newMusic, float timeToTurnOnVolume, float setVolume, float delay = 0f, bool restart = false)
     {
         _isFadeIn = true;
         
@@ -129,6 +129,11 @@ public class MusicManager : GenericSingletonClass<MusicManager>
             if ((int)newMusic == i)
             {
                 myMusics[i].aSource.DOFade(setVolume, timeToTurnOnVolume).SetUpdate(true);
+                if (restart)
+                {
+                    myMusics[i].aSource.Stop();
+                    myMusics[i].aSource.Play();
+                }
             }
         }
         
