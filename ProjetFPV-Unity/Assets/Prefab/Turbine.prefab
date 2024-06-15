@@ -1,5 +1,36 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &1163223932636979034
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8578758078503025615}
+  m_Layer: 11
+  m_Name: Waypoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 8418204508859773708, guid: 0000000000000000d000000000000000, type: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &8578758078503025615
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1163223932636979034}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0.0019, y: -0.113, z: 0.5571}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 6228326576001658054}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &4609088501587806278
 GameObject:
   m_ObjectHideFlags: 0
@@ -9,7 +40,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8722457738380095497}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Turbine
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -26,7 +57,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 9.175216, y: -83.968, z: -10.659598}
-  m_LocalScale: {x: 0.5789518, y: 0.5789518, z: 0.5789518}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 6228326576001658054}
@@ -117,6 +148,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: ConeCurveVfx
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 57fb5e90e38254c488e44c1e7bad03a4,
+        type: 3}
+      propertyPath: m_Layer
+      value: 11
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -186,11 +222,26 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -7037352773437994527, guid: e9d3558fb1eb5c64d8d45956aea5cf82,
+        type: 3}
+      propertyPath: m_Layer
+      value: 11
+      objectReference: {fileID: 0}
+    - target: {fileID: -4619187577050772329, guid: e9d3558fb1eb5c64d8d45956aea5cf82,
+        type: 3}
+      propertyPath: m_Layer
+      value: 11
+      objectReference: {fileID: 0}
     - target: {fileID: -1736298336572657016, guid: e9d3558fb1eb5c64d8d45956aea5cf82,
         type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: f311cc3c7f48ca14ea8dce64a1067906, type: 2}
+    - target: {fileID: -734868176153141029, guid: e9d3558fb1eb5c64d8d45956aea5cf82,
+        type: 3}
+      propertyPath: m_Layer
+      value: 11
+      objectReference: {fileID: 0}
     - target: {fileID: 512935022064434838, guid: e9d3558fb1eb5c64d8d45956aea5cf82,
         type: 3}
       propertyPath: m_Materials.Array.data[0]
@@ -201,11 +252,21 @@ PrefabInstance:
       propertyPath: m_Name
       value: TurbineLow
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: e9d3558fb1eb5c64d8d45956aea5cf82,
+        type: 3}
+      propertyPath: m_Layer
+      value: 11
+      objectReference: {fileID: 0}
     - target: {fileID: 1027538258340582606, guid: e9d3558fb1eb5c64d8d45956aea5cf82,
         type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: f311cc3c7f48ca14ea8dce64a1067906, type: 2}
+    - target: {fileID: 1083011339896109674, guid: e9d3558fb1eb5c64d8d45956aea5cf82,
+        type: 3}
+      propertyPath: m_Layer
+      value: 11
+      objectReference: {fileID: 0}
     - target: {fileID: 1628131546859237111, guid: e9d3558fb1eb5c64d8d45956aea5cf82,
         type: 3}
       propertyPath: m_Materials.Array.data[0]
@@ -236,6 +297,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7024617304097315426, guid: e9d3558fb1eb5c64d8d45956aea5cf82,
+        type: 3}
+      propertyPath: m_Layer
+      value: 11
+      objectReference: {fileID: 0}
     - target: {fileID: 8971104854304645929, guid: e9d3558fb1eb5c64d8d45956aea5cf82,
         type: 3}
       propertyPath: m_Materials.Array.data[0]
@@ -243,7 +309,11 @@ PrefabInstance:
       objectReference: {fileID: 2100000, guid: f311cc3c7f48ca14ea8dce64a1067906, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
-    m_AddedGameObjects: []
+    m_AddedGameObjects:
+    - targetCorrespondingSourceObject: {fileID: -8679921383154817045, guid: e9d3558fb1eb5c64d8d45956aea5cf82,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 8578758078503025615}
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e9d3558fb1eb5c64d8d45956aea5cf82, type: 3}
 --- !u!4 &6228326576001658054 stripped
@@ -339,6 +409,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: ballNoSeam
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: aebb8709ac280e046acbc25aa8894616,
+        type: 3}
+      propertyPath: m_Layer
+      value: 11
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

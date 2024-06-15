@@ -16,6 +16,9 @@ public class Barbatos : Shotgun
     private BarbatosInput barbatosInput;
     [SerializeField] protected List<Transform> vfxPos;
     
+    [SerializeField] protected List<GameObject> turbine = new List<GameObject>();
+    private List<Vector3> turbineLocalPosition = new List<Vector3>(); // Save the local position of the turbine
+    
     private float lastTimeFired_0; // primary
     private float lastTimeFired_1; // secondary
     
@@ -34,6 +37,10 @@ public class Barbatos : Shotgun
         shootVFX = GetComponent<BarbatosShootVFX>();
         
         WeaponState.Instance.barbatos.OnHudShoot += UpdateLastTimeFired;
+        
+        //Turbine
+        turbineLocalPosition.Add(turbine[0].transform.localPosition);
+        turbineLocalPosition.Add(turbine[1].transform.localPosition);
     }
 
     protected override void GetAllInput()
@@ -149,6 +156,10 @@ public class Barbatos : Shotgun
         ParticleSystem particle = Instantiate(so_Weapon.weaponMode[(int)actualWeaponModeIndex].reloadParticle,
             vfxPos[2].position, gunBarrelPos.transform.rotation, transform);
         particle.Play();
+        
+        //Turbine
+        turbine[0].transform.DOLocalMove(turbine[2].transform.localPosition, .1f);
+        turbine[1].transform.DOLocalMove(turbine[2].transform.localPosition, .1f);
     }
 
     private void PlayParticle()
@@ -183,6 +194,10 @@ public class Barbatos : Shotgun
         base.EndReload();
         //Audio
         AudioManager.Instance.SpawnAudio2D(transform.position, SfxType.SFX, 38, 1,0,1,false);
+        
+        //Turbine
+        turbine[0].transform.DOLocalMove(turbineLocalPosition[0], .1f);
+        turbine[1].transform.DOLocalMove(turbineLocalPosition[1], .1f);
     }
     
     
