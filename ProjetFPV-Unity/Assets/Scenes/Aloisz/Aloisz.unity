@@ -3884,11 +3884,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: CameraParent
       objectReference: {fileID: 0}
-    - target: {fileID: 8108733499738347442, guid: 9294123db3fc3a54b89f62907126f122,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 8561856535418673292, guid: 9294123db3fc3a54b89f62907126f122,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -3962,12 +3957,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 62899f850307741f2a39c98a8b639597, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!20 &950904970 stripped
-Camera:
-  m_CorrespondingSourceObject: {fileID: 1219454692140418237, guid: 9294123db3fc3a54b89f62907126f122,
-    type: 3}
-  m_PrefabInstance: {fileID: 950904967}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &956127981
 GameObject:
   m_ObjectHideFlags: 0
@@ -11641,7 +11630,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1432737616
 Transform:
   m_ObjectHideFlags: 0
@@ -15429,26 +15418,22 @@ PrefabInstance:
       propertyPath: m_Name
       value: HUD (1)
       objectReference: {fileID: 0}
-    - target: {fileID: 4578877613765379770, guid: 84d40c77e7b58464992652bedc437abe,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 8872332571000708671, guid: 84d40c77e7b58464992652bedc437abe,
         type: 3}
       propertyPath: m_Camera
       value: 
-      objectReference: {fileID: 950904970}
-    - target: {fileID: 8872332571000708671, guid: 84d40c77e7b58464992652bedc437abe,
-        type: 3}
-      propertyPath: m_SortingLayerID
-      value: 0
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 1968584409}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 84d40c77e7b58464992652bedc437abe, type: 3}
+--- !u!20 &1968584409 stripped
+Camera:
+  m_CorrespondingSourceObject: {fileID: 3574015780985824517, guid: 9294123db3fc3a54b89f62907126f122,
+    type: 3}
+  m_PrefabInstance: {fileID: 950904967}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &2006255183
 GameObject:
   m_ObjectHideFlags: 0
@@ -20767,7 +20752,7 @@ PrefabInstance:
     - target: {fileID: 2763259352716298194, guid: b8b6c0fdf0c4fdc45a7a779e068e839d,
         type: 3}
       propertyPath: DEBUG
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2763259352716298194, guid: b8b6c0fdf0c4fdc45a7a779e068e839d,
         type: 3}

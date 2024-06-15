@@ -8,19 +8,23 @@ using UnityEngine;
 
 public class MusicManager : GenericSingletonClass<MusicManager>
 {
-    [ReadOnly][SerializeField] private Music actualMusicPlayed;
+    [ReadOnly][SerializeField] public Music actualMusicPlayed;
     [SerializeField] private List<MyAudioSource> myMusics;
     [SerializeField] private float volume = .35f;
     [SerializeField] private float volumeSwitchDuration = 1.25f;
-    private void Awake()
+
+    private bool _isFadeIn;
+    
+    public override void Awake()
     {
+        base.Awake();
         DontDestroyOnLoad(this);
     }
-    
+
     private void Start()
     {
         StartCoroutine(InitAllMusic());
-        ChangeMusicPlayed(Music.Intro, volumeSwitchDuration, volume);
+        ChangeMusicPlayed(Music.Intro, 0f, 0f);
     }
 
     private IEnumerator InitAllMusic()
@@ -105,23 +109,46 @@ public class MusicManager : GenericSingletonClass<MusicManager>
 
     #endregion
     
-    
-
-    public void ChangeMusicPlayed(Music newMusic, float timeToTurnOnVolume, float setVolume)
+    public void ChangeMusicPlayed(Music newMusic, float timeToTurnOnVolume, float setVolume, float delay = 0f)
     {
+        StartCoroutine(ChangeMusicPlayedRoutine(newMusic, timeToTurnOnVolume, setVolume, delay));
+    }
+
+    IEnumerator ChangeMusicPlayedRoutine(Music newMusic, float timeToTurnOnVolume, float setVolume, float delay = 0f)
+    {
+        _isFadeIn = true;
+        
+        yield return new WaitForSecondsRealtime(delay);
+        
         for (int i = 0; i < myMusics.Count; i++)
         {
             if ((int)actualMusicPlayed == i)
             {
-                myMusics[i].aSource.DOFade(0, timeToTurnOnVolume);
+                myMusics[i].aSource.DOFade(0, timeToTurnOnVolume * 1.75f).SetUpdate(true);
             }
             if ((int)newMusic == i)
             {
-                myMusics[i].aSource.DOFade(setVolume, timeToTurnOnVolume);
+                myMusics[i].aSource.DOFade(setVolume, timeToTurnOnVolume).SetUpdate(true);
             }
         }
         
         actualMusicPlayed = newMusic;
+
+        yield return new WaitForSecondsRealtime(timeToTurnOnVolume * 1.75f);
+        
+        _isFadeIn = false;
+    }
+
+    public void ManageActualSoundVolume(float volume)
+    {
+        StartCoroutine(ManageActualSoundVolumeRoutine(volume));
+    }
+    
+    private IEnumerator ManageActualSoundVolumeRoutine(float volume)
+    {
+        yield return new WaitUntil(() => !_isFadeIn);
+        yield return new WaitForSecondsRealtime(1f);
+        myMusics[(int)actualMusicPlayed].aSource.DOFade(volume, 0.5f).SetUpdate(true);
     }
 }
 
