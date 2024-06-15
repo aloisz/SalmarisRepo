@@ -2,18 +2,20 @@ using System.Collections;
 using System.Collections.Generic;
 using CameraBehavior;
 using DG.Tweening;
+using Player;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class GameIntroduction : MonoBehaviour
 {
     [Header("Prefab")]
-    [SerializeField] private GameObject Player;
-    [SerializeField] private GameObject Weapon;
-    [SerializeField] private GameObject Camera;
+    [SerializeField] private GameObject Player; 
+    [SerializeField] private GameObject WeaponPos;
+    [SerializeField] private GameObject CameraParent;
 
     [Header("WayPoint")] 
     [SerializeField] private Transform waitingDoorPos;
-    [SerializeField] private Transform facingDir;
+    [SerializeField] private Transform OutsidePos;
     
     
     IEnumerator Start()
@@ -31,42 +33,53 @@ public class GameIntroduction : MonoBehaviour
 
     private void Init(bool state)
     {
-        Camera.GetComponent<CameraManager>().enabled = state;
-        Camera.GetComponentInChildren<HandSwing>().enabled = state;
+        CameraParent.GetComponent<CameraManager>().enabled = state;
+        CameraParent.GetComponentInChildren<HandSwing>().enabled = state;
 
-        Weapon.GetComponentInChildren<Barbatos>().enabled = state;
+        WeaponPos.GetComponentInChildren<Barbatos>().enabled = state;   
+        if (!state)
+        {
+            baseWeaponPos = WeaponPos.transform.position;
+            WeaponPos.transform.DOMove( WeaponPos.transform.position + Vector3.down * 2, 0);
+        }
+
+        Player.GetComponent<PlayerController>().enabled = state;
+        Player.GetComponent<Rigidbody>().isKinematic = !state;
         
-        Weapon.SetActive(state);
-        Player.SetActive(state);
     }
 
     private void State(int id)
     {
         switch (id)
         {
-            case 0:
+            case 5:
                 ShowWeapon();
-                FaceCameraToDoor();
                 break;
-            case 1:
-                Init(true);
+            case 6:
+                FaceCameraToDoor();
                 break;
         }
     }
-    
 
+    private Vector3 baseWeaponPos;
     private void ShowWeapon()
     {
-        Vector3 weaponTrasform = Weapon.transform.position;
-        Weapon.transform.DOMove( Weapon.transform.position + Vector3.down * 2, 0);
-        Weapon.SetActive(true);
-        Weapon.transform.DOMove(weaponTrasform, .2f).SetDelay(1.25f);
+        WeaponPos.transform.DOMove(baseWeaponPos, .2f).SetDelay(0.25f).OnComplete((() => 
+            CameraParent.GetComponentInChildren<HandSwing>().enabled = true));
     }
 
     private void FaceCameraToDoor()
     {
-        Camera.transform.DORotate(facingDir.eulerAngles, 1.25f);
-        Camera.transform.DOMove(waitingDoorPos.position, 2);
+        CameraParent.transform.DORotate(waitingDoorPos.eulerAngles, 1.25f);
+        CameraParent.transform.DOMove(waitingDoorPos.position, 2).SetDelay(1.25f).OnComplete(() => 
+            JumpOutSide());
+    }
+
+    private void JumpOutSide()
+    {
+        CameraParent.transform.DORotate(OutsidePos.eulerAngles, 1.25f);
+        CameraParent.transform.DOMove(OutsidePos.position, .25f).OnComplete(() =>
+            Init(true));
     }
     
     void Update()
