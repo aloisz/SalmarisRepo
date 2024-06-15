@@ -28,14 +28,15 @@ public class BarbatwoBullet : BulletBehavior
     // Here put following logic when bullet collide with walkableMask
     protected override void CollideWithWalkableMask(Collision collision)
     {
+        var rand = Random.value < 0.5f ? 0 : 1;
         switch (projectileType)
         {
             case ProjectileType.Simple:
-                var rand = Random.Range(1, 3);
                 DecalSpawnerManager.Instance.SpawnDecal(transform.position, collision.contacts[0].normal, rand == 0 ? "Impact_Grenade_1" : "Impact_Grenade_2");
                 SimpleLogic();
                 break;
             case ProjectileType.Bounce:
+                DecalSpawnerManager.Instance.SpawnDecal(transform.position, collision.contacts[0].normal, rand == 0 ? "Impact_Grenade_1" : "Impact_Grenade_2");
                 BounceLogic(collision);
                 break;
         }
