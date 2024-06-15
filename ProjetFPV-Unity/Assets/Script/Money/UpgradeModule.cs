@@ -218,7 +218,7 @@ public class UpgradeModule : GenericSingletonClass<UpgradeModule>
 
     private IEnumerator LeaveAfterIdle()
     {
-        yield return new WaitForSeconds(15f);
+        yield return new WaitForSeconds(30f);
         QuitMenu();
     }
     
