@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Text.RegularExpressions;
 using DG.Tweening;
 using TMPro;
 using UnityEngine;
@@ -26,6 +27,6 @@ public class Subtitle : MonoBehaviour
 
     public void SetText(string text)
     {
-        this.text.text = text;
+        this.text.text = VoicelineManager.Instance.HighlightCustomTags(text);
     }
 }

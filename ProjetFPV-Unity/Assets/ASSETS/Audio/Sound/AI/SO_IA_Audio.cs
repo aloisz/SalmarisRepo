@@ -24,4 +24,5 @@ public class IASoundID
     public AudioClip clip;
     [TextArea(2,2)] public string text;
     public float audioDuration;
+    public bool cutPlayingSound;
 }
