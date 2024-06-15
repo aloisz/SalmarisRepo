@@ -29,6 +29,7 @@ namespace AI
         [SerializeField] protected internal List<CharacterJoint> characterJoints;
         [SerializeField] protected internal List<CapsuleCollider> capsuleColliders;
         private bool isKnockback = false;
+        private bool addRotation = false;
         
         protected override void Awake()
         {
@@ -83,6 +84,7 @@ namespace AI
             {
                 rb.isKinematic = true;
                 rb.velocity = Vector3.zero;
+                rb.rotation = Quaternion.identity;
             }
             foreach (var capsule in capsuleColliders)
             {
@@ -97,7 +99,7 @@ namespace AI
         {
             yield return new WaitForSeconds(.1f);
             animatorTrashShooter.enabled = true;
-            rb.isKinematic = false;
+            rb.isKinematic = true;
             animator.enabled = true;
             collider.enabled = true;
         }
@@ -131,6 +133,12 @@ namespace AI
                 foreach (var rb in ragDollRbs)
                 {
                     rb.AddForce(Vector3.down * knockBackDeathIntensityXYZ.x);
+                    if (addRotation)
+                    {
+                        addRotation = false;
+                        GetRandomRotation();
+                        rb.MoveRotation(rb.rotation * Quaternion.Euler(rotValue));
+                    }
                 }
             }
             if(!isKnockback && isPawnDead) return;
@@ -140,6 +148,12 @@ namespace AI
                             (Vector3.up * knockBackDeathIntensityXYZ.z)) * knockBackMultiplier, ForceMode.Impulse);
             }
             isKnockback = false;
+        }
+        private Vector3 rotValue;
+        private void GetRandomRotation()
+        {
+            float randomValue = Random.Range(12000, 15000);
+            rotValue = new Vector3(randomValue, randomValue, randomValue);
         }
         
         protected override void PawnBehavior()
@@ -232,6 +246,7 @@ namespace AI
         {
             yield return new WaitUntil(() => !navMeshAgent.enabled && gameObject.activeSelf);
             isKnockback = true;
+            addRotation = true;
         }
 
 #if UNITY_EDITOR

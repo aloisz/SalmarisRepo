@@ -272,6 +272,10 @@ namespace CameraBehavior
             smoothOffset =
                 Quaternion.Slerp(smoothOffset, Quaternion.identity, 
                     Time.deltaTime * so_Camera.rotationOffSetSmooth);
+                
+            CameraShake.Instance.cameraShakePos.rotation = Quaternion.Slerp(CameraShake.Instance.cameraShakePos.rotation,
+            playerTransform.rotation * smoothOffset,
+            Time.deltaTime * so_Camera.rotationOffSetSmooth);
         }
 
         #endregion

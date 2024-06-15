@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using AI;
+using MyAudio;
 using Player;
 using UnityEngine;
 using UnityEngine.AI;
@@ -62,6 +63,7 @@ public class Director : GenericSingletonClass<Director>
     private void EnteringNewLevel()
     {
         foreach (ArenaTrigger at in FindObjectsOfType<ArenaTrigger>()) arenaAmount++;
+        MusicManager.Instance.ChangeMusicPlayed(Music.Intro, 0f, 0.1f, 0.1f);
     }
 
     /// <summary>
@@ -84,6 +86,24 @@ public class Director : GenericSingletonClass<Director>
         
         //start a new wave.
         if(CanGoToNextWave()) StartCoroutine(nameof(StartNewWave));
+
+        if (currentArenaIndex == 0)
+        {
+            MusicManager.Instance.ChangeMusicPlayed(Music.Start, 0f, 0.25f);
+            MusicManager.Instance.ChangeMusicPlayed
+                (Music.Fight, 1f, 0.25f, 2.8f);
+        }
+        else if(currentArenaIndex == 6)
+        {
+            MusicManager.Instance.ChangeMusicPlayed(Music.StartFinalFight, 0f, 0.25f);
+            MusicManager.Instance.ChangeMusicPlayed
+                (Music.FinalFight, 1f, 0.25f, 14f);
+        }
+        else
+        {
+            MusicManager.Instance.ChangeMusicPlayed
+                (Music.Fight, 1f, 0.25f);
+        }
     }
 
     /// <summary>
@@ -274,6 +294,7 @@ public class Director : GenericSingletonClass<Director>
             UpgradeModule.Instance.InitModule(GetActualArenaData().shopOrbitalPosition, GetActualArenaData().possibleUpgrades);
         
         if(currentArenaIndex == arenaAmount - 1) GameManager.Instance.LevelFinished();
+        else MusicManager.Instance.ChangeMusicPlayed(Music.Ambiance, 1f, 0.25f, 0.1f);
     }
 
     private int ReturnTotalIntensityArenaValue()

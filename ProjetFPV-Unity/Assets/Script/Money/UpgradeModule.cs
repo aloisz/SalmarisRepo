@@ -60,6 +60,7 @@ public class UpgradeModule : GenericSingletonClass<UpgradeModule>
         t.localScale = Vector3.zero;
         
         CheckGroundLandingPosition();
+        StartCoroutine(nameof(LeaveAfterIdle));
         
         GetComponent<UpgradeModuleInteraction>().alreadyInteracted = false;
         
@@ -69,6 +70,8 @@ public class UpgradeModule : GenericSingletonClass<UpgradeModule>
         // Audio
         AudioManager.Instance.SpawnAudio3D(transform, SfxType.SFX, 24, 1,0,1,1, 0,
             AudioRolloffMode.Logarithmic, 30,150);
+        
+        MusicManager.Instance.ManageActualSoundVolume(0.025f);
         
         t.DOMove(_hitGroundLanding.point + new Vector3(0, offsetLandingY, 0),
             landingDuration).SetEase(landingCurve).SetUpdate(true).OnComplete(() =>
@@ -120,6 +123,7 @@ public class UpgradeModule : GenericSingletonClass<UpgradeModule>
 
         AudioManager.Instance.SpawnAudio3D(transform.position, SfxType.SFX, 28, 1, 0, 1, 1, 0,
             AudioRolloffMode.Logarithmic, 5, 40);
+        MusicManager.Instance.ManageActualSoundVolume(0.25f);
     }
 
     private void CheckGroundLandingPosition()
@@ -146,6 +150,8 @@ public class UpgradeModule : GenericSingletonClass<UpgradeModule>
         GenerateUpgradeOffers();
         
         animator.SetTrigger("Open");
+        
+        StopAllCoroutines();
         
         // audio
         AudioManager.Instance.SpawnAudio2D(transform.position, SfxType.SFX, 27, 1,0,1);
@@ -208,6 +214,12 @@ public class UpgradeModule : GenericSingletonClass<UpgradeModule>
         PlayerInputs.Instance.EnablePlayerInputs(true);
         
         LeftModule();
+    }
+
+    private IEnumerator LeaveAfterIdle()
+    {
+        yield return new WaitForSeconds(15f);
+        QuitMenu();
     }
     
     private void OnDrawGizmos()

@@ -40,6 +40,7 @@ namespace AI
         [SerializeField] protected internal List<CharacterJoint> characterJoints;
         [SerializeField] protected internal List<CapsuleCollider> capsuleColliders;
         private bool isKnockback = false;
+        private bool addRotation = false;
 
         protected override void Awake()
         {
@@ -90,6 +91,7 @@ namespace AI
             {
                 rb.isKinematic = true;
                 rb.velocity = Vector3.zero;
+                rb.rotation = Quaternion.identity;
             }
             foreach (var capsule in capsuleColliders)
             {
@@ -104,7 +106,7 @@ namespace AI
         {
             yield return new WaitForSeconds(.1f);
             animatorTrashMobCac.enabled = true;
-            rb.isKinematic = false;
+            rb.isKinematic = true;
             animator.enabled = true;
             collider.enabled = true;
         }
@@ -180,7 +182,13 @@ namespace AI
                 foreach (var rb in ragDollRbs)
                 {
                     rb.AddForce(Vector3.down * knockBackDeathIntensityXYZ.x); // apply gravity
-                    rb.AddTorque(transform.up * (GetRandomRotation())); // apply rotation
+                    
+                    if (addRotation)
+                    {
+                        addRotation = false;
+                        GetRandomRotation();
+                        rb.MoveRotation(rb.rotation * Quaternion.Euler(rotValue));
+                    }
                 }
             }
             if(!isKnockback && isPawnDead) return;
@@ -191,13 +199,12 @@ namespace AI
             }
             isKnockback = false;
         }
-        
-        private int GetRandomRotation()
+
+        private Vector3 rotValue;
+        private void GetRandomRotation()
         {
-            int value = Random.Range(2500, 5000);
-            int isEven = Random.Range(0, 1);
-            if (isEven == 0) value = -value;
-            return value;
+            float randomValue = Random.Range(12000, 15000);
+            rotValue = new Vector3(randomValue, randomValue, randomValue);
         }
         
         public override void DisableAgent()
@@ -280,6 +287,7 @@ namespace AI
         {
             yield return new WaitUntil(() => !navMeshAgent.enabled && gameObject.activeSelf);
             isKnockback = true;
+            addRotation = true;
         }
         
         

@@ -190,6 +190,9 @@ public class Barbatos : Shotgun
                 vfxPos[1].position, gunBarrelPos.transform.rotation, transform);
             particle.Play();
         }
+        
+        turbine[0].transform.DOLocalRotate(new Vector3(0,0,1000), 1, RotateMode.LocalAxisAdd);
+        turbine[1].transform.DOLocalRotate(new Vector3(0,0,1000), 1, RotateMode.LocalAxisAdd);
     }
 
     protected override void EndReload()
