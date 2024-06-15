@@ -345,5 +345,10 @@ public class Barbatos : Shotgun
     {
         return tex.GetPixelBilinear(uv.x, uv.y);
     }
+
+    public void ResetMunitionWithoutAnim()
+    {
+        actualNumberOfBullet = so_Weapon.weaponMode[0].numberOfBullet;
+    }
 }
 
