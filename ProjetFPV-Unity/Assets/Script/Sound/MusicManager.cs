@@ -3,11 +3,12 @@ using System.Collections;
 using System.Collections.Generic;
 using DG.Tweening;
 using MyAudio;
+using NaughtyAttributes;
 using UnityEngine;
 
 public class MusicManager : GenericSingletonClass<MusicManager>
 {
-    [SerializeField] private Music actualMusicPlayed;
+    [ReadOnly][SerializeField] private Music actualMusicPlayed;
     [SerializeField] private List<MyAudioSource> myMusics;
     [SerializeField] private float volume = .35f;
     [SerializeField] private float volumeSwitchDuration = 1.25f;
@@ -46,35 +47,65 @@ public class MusicManager : GenericSingletonClass<MusicManager>
         }
     }
 
-    [ContextMenu("Intro")]
+    #region MusicDebug
+
+    [Button("Intro")]
     public void Intro()
     {
         ChangeMusicPlayed(Music.Intro, volumeSwitchDuration, volume);
     }
     
-    [ContextMenu("Start")]
+    [Button("Start")]
     public void StartMusic()
     {
         ChangeMusicPlayed(Music.Start, volumeSwitchDuration, volume);
     }
     
-    [ContextMenu("Fight")]
+    [Button("Fight")]
     public void Fight()
     {
         ChangeMusicPlayed(Music.Fight, volumeSwitchDuration, volume);
     }
     
-    [ContextMenu("Ambiance")]
+    [Button("Ambiance")]
     public void Ambiance()
     {
         ChangeMusicPlayed(Music.Ambiance, volumeSwitchDuration, volume);
     }
     
-    [ContextMenu("Shop")]
+    [Button("Shop")]
     public void Shop()
     {
         ChangeMusicPlayed(Music.Shop, volumeSwitchDuration, volume);
     }
+    
+    [Button("StartFinalFight")]
+    public void StartFinalFight()
+    {
+        ChangeMusicPlayed(Music.StartFinalFight, volumeSwitchDuration, volume);
+    }
+    
+    [Button("FinalFight")]
+    public void FinalFight()
+    {
+        ChangeMusicPlayed(Music.FinalFight, volumeSwitchDuration, volume);
+    }
+    
+    [Button("FinNiveau")]
+    public void FinNiveau()
+    {
+        ChangeMusicPlayed(Music.FinNiveau, volumeSwitchDuration, volume);
+    }
+    
+    [Button("Menu")]
+    public void Menu()
+    {
+        ChangeMusicPlayed(Music.Menu, volumeSwitchDuration, volume);
+    }
+
+    #endregion
+    
+    
 
     public void ChangeMusicPlayed(Music newMusic, float timeToTurnOnVolume, float setVolume)
     {
