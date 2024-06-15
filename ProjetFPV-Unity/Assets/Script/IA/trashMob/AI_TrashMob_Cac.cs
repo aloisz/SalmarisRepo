@@ -104,7 +104,7 @@ namespace AI
         {
             yield return new WaitForSeconds(.1f);
             animatorTrashMobCac.enabled = true;
-            rb.isKinematic = false;
+            rb.isKinematic = true;
             animator.enabled = true;
             collider.enabled = true;
         }

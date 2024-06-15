@@ -92,22 +92,34 @@ namespace AI
             timeElapsedInPerimeter += Time.deltaTime * 1;
             if (timeElapsedInPerimeter > timeWaitBeforeDash)
             {
-                isPreparingDash = false;
-                isAttacking = true;
-                timeElapsedInPerimeter = 0;
+                if(!CanDash())
+                {
+                    aiSmasher.ChangeState(AI_Smasher.SmasherMobState.Perimeter_2);
+                }
+                else
+                {
+                    isPreparingDash = false;
+                    isAttacking = true;
+                    timeElapsedInPerimeter = 0;
 
-                StartCoroutine(BeginDash(timeBeforeJumping));
+                    StartCoroutine(BeginDash(timeBeforeJumping));
+                }
             }
         }
 
-        private void CanDash()
-        {  
+        private const int playerLayer = 7;
+        private bool CanDash()
+        {
+            bool value = false;
             RaycastHit hit;
-            if (Physics.Raycast(transform.position, PlayerController.Instance.transform.position + Vector3.up, out hit,
+            
+            Debug.DrawRay((transform.position + (Vector3.up * 4)), ((PlayerController.Instance.transform.position + Vector3.up) - (transform.position + (Vector3.up * 4))) * 1000, Color.blue, 1);
+            if (Physics.Raycast((transform.position + (Vector3.up * 4)), ((PlayerController.Instance.transform.position + Vector3.up) - (transform.position + (Vector3.up * 4))), out hit,
                     1000, dashLayer))
             {
-                
+                value = hit.transform.GetComponent<PlayerController>() != null;
             }
+            return value;
         }
 
         IEnumerator BeginDash(float delayedTime)
@@ -116,7 +128,7 @@ namespace AI
             float distToPlayer = Vector3.Distance(PlayerController.Instance.transform.position, impulse.position);
             float time = timeToDash.Evaluate(distToPlayer);
             RaycastHit hit;
-            if (Physics.Raycast(PlayerController.Instance.transform.position, -PlayerController.Instance.transform.up, out hit, 1000))
+            if (Physics.Raycast(PlayerController.Instance.transform.position + Vector3.up, -PlayerController.Instance.transform.up, out hit, 1000))
             {
                 landingPos = hit.point;
             }
@@ -181,7 +193,7 @@ namespace AI
         {
             yield return null;
             isAttacking = false;
-            //aiSmasher.IsPhysicNavMesh(true);
+            aiSmasher.ChangeState(AI_Smasher.SmasherMobState.Perimeter_2);
         }
         #endregion
 
