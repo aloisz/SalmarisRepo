@@ -47,14 +47,11 @@ namespace AI
             if(!navMeshAgent.isOnNavMesh) return; 
             navMeshAgent.ResetPath();
             navMeshAgent.CompleteOffMeshLink();
-            
-            //BUG
-            //AudioManager.Instance.SpawnAudio3D(transform.position, SfxType.SFX, 9, 1, 0, 1);
 
             if(gameObject.activeSelf) agentLinkMover.StartCoroutine(agentLinkMover.StartLinkerVerif());
             
             if(doAudio)AudioManager.Instance.SpawnAudio3D(transform.position, SfxType.SFX, 8, 1, 0, 1,1, 0,
-                AudioRolloffMode.Logarithmic, 5,20);
+                AudioRolloffMode.Logarithmic, 5,100);
         }
         
         protected override void Update()
@@ -106,20 +103,23 @@ namespace AI
 
         protected override void HitAudio()
         {
-            AudioManager.Instance.SpawnAudio3D(transform.position, SfxType.SFX, 9, 1, 0, 1,1, 0,
-                AudioRolloffMode.Logarithmic, 5,40);
+            /*AudioManager.Instance.SpawnAudio3D(transform.position, SfxType.SFX, 9, 1, 0, 1,1, 0,
+                AudioRolloffMode.Logarithmic, 5,40);*/
+
+            //AudioManager.Instance.SpawnAudio2D(transform.position, SfxType.SFX, 9, 1f, 0f, 1f);
         }
 
         IEnumerator SoundHitCoroutine()
         {
-            AudioManager.Instance.SpawnAudio3D(transform.position, SfxType.SFX, 10, 1, 0, 1);
+            yield return new WaitForSeconds(.1f);
+            AudioManager.Instance.SpawnAudio3D(transform.position, SfxType.SFX, 9, 1, 0, 1);
             yield return new WaitForSeconds(.1f);
             doHitSd = false;
         }
         
         public override void DestroyLogic()
         {
-            AudioManager.Instance.SpawnAudio3D(transform.position, SfxType.SFX, 11, 1, 0, 1);
+            AudioManager.Instance.SpawnAudio3D(transform.position, SfxType.SFX, 10, 1, 0, 1);
             Pooling.instance.DelayedDePop(so_IA.poolingName, gameObject, deathDelay);
         }
         

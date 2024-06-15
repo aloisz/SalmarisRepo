@@ -25,22 +25,12 @@ namespace MyAudio
         public void SpawnAudio2D(Vector3 position, SfxType sfxType, int audioID, float volume, float timeToTurnOnVolume, float pitch, bool loop = false)
         {
             MyAudioSource audioSource = Instantiate(PrefabAudioSource, position, Quaternion.identity);
-            
-            Sound s = new Sound
-            {
-                audioVolume = 1
-            };
-            
-            foreach (var soundClip in audioSO[(int)sfxType].soundList)
-            {
-                if (audioID == soundClip.audioId)
-                {
-                    s = soundClip;
-                    audioSource.aSource.clip = audioSO[(int)sfxType].soundList[audioID].audioClip;
-                    audioSource.timeBeforeDestroy = audioSO[(int)sfxType].soundList[audioID].audioDuration;
-                    audioSource.gameObject.name = audioSO[(int)sfxType].soundList[audioID].soundName;
-                }
-            }
+
+            Sound s;
+            s = audioSO[(int)sfxType].soundList.Find(x => x.audioId - 1 == audioID);
+            audioSource.aSource.clip = audioSO[(int)sfxType].soundList[audioID].audioClip;
+            audioSource.timeBeforeDestroy = audioSO[(int)sfxType].soundList[audioID].audioDuration;
+            audioSource.gameObject.name = audioSO[(int)sfxType].soundList[audioID].soundName;
             
             audioSource.aSource.volume = 0;
             audioSource.aSource.DOFade(s.audioVolume, timeToTurnOnVolume).SetUpdate(true);
@@ -48,41 +38,21 @@ namespace MyAudio
             audioSource.aSource.loop = loop;
             audioSource.aSource.spatialBlend = 0;
             audioSource.aSource.outputAudioMixerGroup = audioMixer.FindMatchingGroups(sfxType.ToString())[0];
-             
-            foreach (var soundClip in audioSO[(int)sfxType].soundList)
-            {
-                if (audioID == soundClip.audioId)
-                {
-                    audioSource.aSource.clip = audioSO[(int)sfxType].soundList[audioID].audioClip;
-                    audioSource.timeBeforeDestroy = audioSO[(int)sfxType].soundList[audioID].audioDuration;
-                    audioSource.gameObject.name = audioSO[(int)sfxType].soundList[audioID].soundName;
-                }
-            }
             
             audioSource.aSource.Play();
         }
         
         public void SpawnAudio3D(Vector3 position, SfxType sfxType, int audioID, float volume, 
             float timeToTurnOnVolume, float pitch, float dopplerLevel = 1, float spread = 0, 
-            AudioRolloffMode mode = AudioRolloffMode.Logarithmic, float minDist = 1, float maxDist = 500, bool loop = false)
+            AudioRolloffMode mode = AudioRolloffMode.Linear, float minDist = 1, float maxDist = 75, bool loop = false)
         {
             MyAudioSource audioSource = Instantiate(PrefabAudioSource, position, Quaternion.identity);
 
-            Sound s = new Sound
-            {
-                audioVolume = 1
-            };
-
-            foreach (var soundClip in audioSO[(int)sfxType].soundList)
-            {
-                if (audioID == soundClip.audioId)
-                {
-                    s = soundClip;
-                    audioSource.aSource.clip = audioSO[(int)sfxType].soundList[audioID].audioClip;
-                    audioSource.timeBeforeDestroy = audioSO[(int)sfxType].soundList[audioID].audioDuration;
-                    audioSource.gameObject.name = audioSO[(int)sfxType].soundList[audioID].soundName;
-                }
-            }
+            Sound s;
+            s = audioSO[(int)sfxType].soundList.Find(x => x.audioId - 1 == audioID);
+            audioSource.aSource.clip = audioSO[(int)sfxType].soundList[audioID].audioClip;
+            audioSource.timeBeforeDestroy = audioSO[(int)sfxType].soundList[audioID].audioDuration;
+            audioSource.gameObject.name = audioSO[(int)sfxType].soundList[audioID].soundName;
             
             audioSource.aSource.volume = 0;
             audioSource.aSource.DOFade(s.audioVolume, timeToTurnOnVolume).SetUpdate(true);
@@ -101,25 +71,15 @@ namespace MyAudio
         
         public void SpawnAudio3D(Transform attachPosition, SfxType sfxType, int audioID, float volume, 
             float timeToTurnOnVolume, float pitch, float dopplerLevel = 1, float spread = 0, 
-            AudioRolloffMode mode = AudioRolloffMode.Logarithmic, float minDist = 1, float maxDist = 500, bool loop = false)
+            AudioRolloffMode mode = AudioRolloffMode.Linear, float minDist = 1, float maxDist = 75, bool loop = false)
         {
             MyAudioSource audioSource = Instantiate(PrefabAudioSource, attachPosition.position, Quaternion.identity, attachPosition);
             
-            Sound s = new Sound
-            {
-                audioVolume = 1
-            };
-            
-            foreach (var soundClip in audioSO[(int)sfxType].soundList)
-            {
-                if (audioID == soundClip.audioId)
-                {
-                    s = soundClip;
-                    audioSource.aSource.clip = audioSO[(int)sfxType].soundList[audioID].audioClip;
-                    audioSource.timeBeforeDestroy = audioSO[(int)sfxType].soundList[audioID].audioDuration;
-                    audioSource.gameObject.name = audioSO[(int)sfxType].soundList[audioID].soundName;
-                }
-            }
+            Sound s;
+            s = audioSO[(int)sfxType].soundList.Find(x => x.audioId - 1 == audioID);
+            audioSource.aSource.clip = audioSO[(int)sfxType].soundList[audioID].audioClip;
+            audioSource.timeBeforeDestroy = audioSO[(int)sfxType].soundList[audioID].audioDuration;
+            audioSource.gameObject.name = audioSO[(int)sfxType].soundList[audioID].soundName;
             
             audioSource.aSource.volume = 0;
             audioSource.aSource.DOFade(s.audioVolume, timeToTurnOnVolume).SetUpdate(true);

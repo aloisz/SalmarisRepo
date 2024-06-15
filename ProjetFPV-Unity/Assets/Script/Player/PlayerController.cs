@@ -643,7 +643,6 @@ namespace Player
         private void Jump()
         {
             //Audio
-            AudioManager.Instance.SpawnAudio2D(transform.position, SfxType.SFX, 44, .2f,0,1,false);
             if (canDoubleJump)
             {
                 if (isOnGround) 
@@ -663,6 +662,11 @@ namespace Player
             }
 
             var forwardMomentumVector = GetDirectionXZ(_rb.velocity) / (playerScriptable.maxRigidbodyVelocity / playerScriptable.jumpMomentumDivider);
+            
+            if(_amountOfJumps == 1) 
+                AudioManager.Instance.SpawnAudio2D(transform.position, SfxType.SFX, 44, .2f,0,1);
+            else if(_amountOfJumps > 1) 
+                AudioManager.Instance.SpawnAudio2D(transform.position, SfxType.SFX, 45, .2f,0,1);
             
             _rb.AddForce(
                 (_amountOfJumps < 2 ? 

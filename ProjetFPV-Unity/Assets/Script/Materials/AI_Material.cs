@@ -44,6 +44,7 @@ public class AI_Material : MonoBehaviour
         if (!_meshRenderer) return;
         
         if(_meshRenderer) CreateMaterialInstance(_meshRenderer);
+        baseEyesColor = _meshRenderer.material.GetColor("_EmissiveColor");
         
         _meshRenderer.material.SetFloat("_DeathSaturation", 1f);
         _meshRenderer.material.SetFloat("_DeathDarkening", 1f);
