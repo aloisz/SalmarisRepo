@@ -64,7 +64,7 @@ MonoBehaviour:
   actualPawnHealth: 0
   pawnState: 0
   mobType: 0
-  knockBackDeathIntensity: 0
+  knockBackDeathIntensityXYZ: {x: 0, y: 0, z: 0}
   tickVerification: 0.01
   enemyWeight: 10
   perimeters:
@@ -286,6 +286,89 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 2, y: 1.67392, z: 2.468384}
   m_Center: {x: 0, y: 2.39, z: 0}
+--- !u!1 &440022750883259922
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7175369378438907790}
+  - component: {fileID: 784913548135557582}
+  - component: {fileID: 7176014147113784403}
+  m_Layer: 0
+  m_Name: Belly (1)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7175369378438907790
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 440022750883259922}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0.7071068, y: 0, z: -0.7071068, w: 0}
+  m_LocalPosition: {x: -0.60379, y: 0.24102, z: -0.00047903}
+  m_LocalScale: {x: 0.8487631, y: 0.8487631, z: 0.8487631}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 7989691459471714064}
+  m_LocalEulerAnglesHint: {x: 0, y: 270, z: 180}
+--- !u!33 &784913548135557582
+MeshFilter:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 440022750883259922}
+  m_Mesh: {fileID: 2437808345385468542, guid: 8959f02d7f9863d49bf555caf37d6be3, type: 3}
+--- !u!23 &7176014147113784403
+MeshRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 440022750883259922}
+  m_Enabled: 1
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 2
+  m_RayTraceProcedural: 0
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 2100000, guid: aece94307fb581b44a92dff9d3984de8, type: 2}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 3
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+  m_AdditionalVertexStreams: {fileID: 0}
 --- !u!1 &1295586007139018105
 GameObject:
   m_ObjectHideFlags: 0
@@ -1411,7 +1494,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 0}
+  - {fileID: 2100000, guid: c49a71cc960222047b98f77cab0ea481, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -1931,6 +2014,16 @@ PrefabInstance:
       propertyPath: m_LocalPosition.z
       value: 2.177302
       objectReference: {fileID: 0}
+    - target: {fileID: -3932872197575488043, guid: 0a8315b7577e0f047b2ae529f1678ece,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 3530edbdfd643ae479e969d0ed973249, type: 2}
+    - target: {fileID: -3932872197575488043, guid: 0a8315b7577e0f047b2ae529f1678ece,
+        type: 3}
+      propertyPath: m_Materials.Array.data[1]
+      value: 
+      objectReference: {fileID: 2100000, guid: 3530edbdfd643ae479e969d0ed973249, type: 2}
     - target: {fileID: -3752871828728181510, guid: 0a8315b7577e0f047b2ae529f1678ece,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -2456,6 +2549,10 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 6763375796682312731}
+    - targetCorrespondingSourceObject: {fileID: -2100537979381303405, guid: 0a8315b7577e0f047b2ae529f1678ece,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 7175369378438907790}
     - targetCorrespondingSourceObject: {fileID: -4641535755799464122, guid: 0a8315b7577e0f047b2ae529f1678ece,
         type: 3}
       insertIndex: -1
