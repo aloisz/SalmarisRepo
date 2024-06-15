@@ -60,9 +60,11 @@ public class Missile : BulletBehavior,IExplosion
         int bulletLayer = LayerMask.NameToLayer("Bullet");
         base.OnCollisionEnter(collision);
 
-        if (collision.gameObject.layer == bulletLayer || alreadySpawnedDecal) return;
-        DecalSpawnerManager.Instance.SpawnDecal(transform.position, collision.contacts[0].normal, "Explosion_Enemy_Decal");
-        alreadySpawnedDecal = true;
+        if (collision.gameObject.layer != bulletLayer || !alreadySpawnedDecal)
+        {
+            DecalSpawnerManager.Instance.SpawnDecal(transform.position, collision.contacts[0].normal, "Explosion_Enemy_Decal");
+            alreadySpawnedDecal = true;
+        }
     }
 
     // Here put following logic when bullet collide with walkableMask
