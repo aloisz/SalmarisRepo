@@ -41,9 +41,9 @@ namespace AI
         
         
 
-        public override void ResetAgent()
+        public override void ResetAgent(bool doAudio)
         {
-            base.ResetAgent();
+            base.ResetAgent(doAudio);
             if(!navMeshAgent.isOnNavMesh) return; 
             navMeshAgent.ResetPath();
             navMeshAgent.CompleteOffMeshLink();
@@ -53,7 +53,7 @@ namespace AI
 
             if(gameObject.activeSelf) agentLinkMover.StartCoroutine(agentLinkMover.StartLinkerVerif());
             
-            AudioManager.Instance.SpawnAudio3D(transform.position, SfxType.SFX, 8, 1, 0, 1,1, 0,
+            if(doAudio)AudioManager.Instance.SpawnAudio3D(transform.position, SfxType.SFX, 8, 1, 0, 1,1, 0,
                 AudioRolloffMode.Logarithmic, 5,20);
         }
         

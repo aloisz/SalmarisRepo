@@ -59,7 +59,7 @@ namespace AI
 
             _aiMaterials = GetComponentsInChildren<AI_Material>();
             
-            ResetAgent();
+            ResetAgent(false);
             //GameManager.Instance.aiPawnsAvailable.Add(this);
         }
 
@@ -96,7 +96,7 @@ namespace AI
         }
 
         //[SerializeField] private bool alreadyPlacedInScene;
-        public virtual void ResetAgent()
+        public virtual void ResetAgent(bool doAudio)
         {
             //StartCoroutine(nameof(DelayedNavMesh));
             
@@ -137,7 +137,7 @@ namespace AI
             transform.position = Vector3.zero;
             transform.rotation = Quaternion.identity;
             
-            ResetAgent();
+            //ResetAgent();
         }
 
         protected virtual void Update()
