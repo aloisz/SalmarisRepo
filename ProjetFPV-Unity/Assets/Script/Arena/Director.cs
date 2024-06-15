@@ -151,7 +151,7 @@ public class Director : GenericSingletonClass<Director>
             
             p.SpawnVFX();
             _spawnedEnemies.Add(p);
-            p.ResetAgent();
+            p.ResetAgent(true);
 
             currentRemainingEnemies += 1;
             currentWaveIntensity += p.enemyWeight;

@@ -69,9 +69,9 @@ namespace AI
             }
         }
 
-        public override void ResetAgent()
+        public override void ResetAgent(bool doAudio)
         {
-            base.ResetAgent();
+            base.ResetAgent(doAudio);
             time = 0;
             trashMobState = TrashMobState.Moving;
             countAction = 0;

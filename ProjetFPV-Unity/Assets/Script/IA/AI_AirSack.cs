@@ -41,10 +41,10 @@ public class AI_AirSack : AI_Pawn
         animatorAirSack = GetComponent<AI_Animator_AirSack>();
     }
 
-    public override void ResetAgent()
+    public override void ResetAgent(bool doAudio)
     {
-        base.ResetAgent();
-        AudioManager.Instance.SpawnAudio3D(transform.position, SfxType.SFX, 19, 1, 0, 1);
+        base.ResetAgent(doAudio);
+        if(doAudio) AudioManager.Instance.SpawnAudio3D(transform.position, SfxType.SFX, 19, 1, 0, 1);
     }
     
     protected AirSackMobState ChangeState(AirSackMobState state)

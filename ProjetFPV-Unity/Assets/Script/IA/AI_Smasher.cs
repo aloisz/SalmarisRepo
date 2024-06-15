@@ -43,15 +43,15 @@ public class AI_Smasher : AI_Pawn
         //agentLinkMover.StopCoroutine(agentLinkMover.StartLinkerVerif());
     }
 
-    public override void ResetAgent()
+    public override void ResetAgent(bool doAudio)
     {
-        base.ResetAgent();
+        base.ResetAgent(doAudio);
         if(!navMeshAgent.isOnNavMesh) return; 
         navMeshAgent.ResetPath();
         navMeshAgent.CompleteOffMeshLink();
         
         // audio
-        AudioManager.Instance.SpawnAudio3D(transform.position, SfxType.SFX, 1, 1, 0, 1);
+        if(doAudio)AudioManager.Instance.SpawnAudio3D(transform.position, SfxType.SFX, 1, 1, 0, 1);
 
         if(gameObject.activeSelf) agentLinkMover.StartCoroutine(agentLinkMover.StartLinkerVerif());
     }
