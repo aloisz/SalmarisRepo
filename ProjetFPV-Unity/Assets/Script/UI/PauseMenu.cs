@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using DG.Tweening;
+using MyAudio;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Rendering;
@@ -49,6 +50,8 @@ public class PauseMenu : MonoBehaviour
         EnableContainer(0);
         
         PlayerInputs.Instance.EnablePlayerInputs(false);
+        
+        AudioManager.Instance.SpawnAudio2D(transform.position, SfxType.SFX, 53, 1,0,1);
     }
 
     public void QuitPause()
@@ -60,6 +63,8 @@ public class PauseMenu : MonoBehaviour
     {
         _animator.SetTrigger("Close");
         SetCursorState(false);
+        
+        AudioManager.Instance.SpawnAudio2D(transform.position, SfxType.SFX, 54, 1,0,1);
         
         PostProcessCrossFade.Instance.CrossFadeTo(0);
 
@@ -79,11 +84,13 @@ public class PauseMenu : MonoBehaviour
     public void QuitOptions()
     {
         EnableContainer(0);
+        //AudioManager.Instance.SpawnAudio2D(transform.position, SfxType.SFX, 54, 1,0,1);
     }
 
     public void OpenOptions()
     {
         EnableContainer(1);
+        //AudioManager.Instance.SpawnAudio2D(transform.position, SfxType.SFX, 53, 1,0,1);
     }
 
     private void SetCursorState(bool enabled)

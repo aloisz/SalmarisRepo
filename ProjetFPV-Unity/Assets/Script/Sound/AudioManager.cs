@@ -107,7 +107,7 @@ namespace MyAudio
     [System.Serializable]
     public class Sound
     {
-        public int audioId;
+        [HideInInspector]public int audioId;
         public string soundName;
         public float audioDuration;
         public float audioVolume = 1;

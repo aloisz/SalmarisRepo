@@ -71,6 +71,8 @@ public class UpgradeButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
         uiParticles.Play();
         
         _animator.SetTrigger("Hover");
+        
+        AudioManager.Instance.SpawnAudio2D(transform.position, SfxType.SFX, 55, 1,0,1);
     }
 
     public void OnPointerExit(PointerEventData eventData)
