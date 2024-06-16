@@ -52,7 +52,7 @@ public class AI_Material : MonoBehaviour
             _meshRenderer.material.SetFloat("_DeathDarkening", 1f);
             _meshRenderer.material.SetFloat("_DeathDissolve", 0f);
             _meshRenderer.material.SetInt("_BellyVFX", 1);
-            _meshRenderer.material.SetColor("_EmissiveColor", baseEyesColor);
+            _meshRenderer.material.SetColor("_EmissiveColor", Color.white);
         }
     }
 

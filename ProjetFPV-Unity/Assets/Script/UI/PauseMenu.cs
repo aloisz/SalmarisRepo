@@ -23,6 +23,7 @@ public class PauseMenu : MonoBehaviour
     private void Awake()
     {
         instance = this;
+        DontDestroyOnLoad(gameObject);
     }
 
     private void Start()

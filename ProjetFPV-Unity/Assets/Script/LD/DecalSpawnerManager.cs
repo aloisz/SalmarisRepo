@@ -4,6 +4,12 @@ using UnityEngine;
 
 public class DecalSpawnerManager : GenericSingletonClass<DecalSpawnerManager>
 {
+    public override void Awake()
+    {
+        base.Awake();
+        DontDestroyOnLoad(gameObject);
+    }
+    
     public void SpawnDecal(Vector3 pos, Vector3 normal, string key)
     {
         GameObject spawnedObject = Pooling.instance.Pop(key);

@@ -114,8 +114,9 @@ namespace Player
             
             //get the rigidbody component.
             _rb = GetComponent<Rigidbody>();
-            
             Cursor.lockState = CursorLockMode.Locked;
+            
+            DontDestroyOnLoad(gameObject);
         }
 
         private void Start()

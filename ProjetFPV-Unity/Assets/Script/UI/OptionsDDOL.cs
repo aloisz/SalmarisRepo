@@ -20,7 +20,7 @@ public class OptionsDDOL : GenericSingletonClass<OptionsDDOL>
     public override void Awake()
     {
         base.Awake();
-        DontDestroyOnLoad(this);
+        DontDestroyOnLoad(gameObject);
         sensibility = 1f;
     }
 
