@@ -156,8 +156,8 @@ public class PlayerHealth : GenericSingletonClass<PlayerHealth>, IDamage
 
     public void DeathFromHole()
     {
-        StartCoroutine(VoicelineManager.Instance.CallFirstDeathVoiceLine(true));
         StartCoroutine(VoicelineManager.Instance.CallHoleDeathVoiceLine());
+        StartCoroutine(VoicelineManager.Instance.CallFirstDeathVoiceLine(true));
         Death();
         MusicManager.Instance.ChangeMusicPlayed(Music.Ambiance, 0.2f, 0.25f);
     }
