@@ -15,11 +15,17 @@ public class GameIntroduction : MonoBehaviour
 
     [Header("WayPoint")] 
     [SerializeField] private Transform waitingDoorPos;
+    [SerializeField] private Transform doorDirection;
     [SerializeField] private Transform OutsidePos;
-    
-    
+
+    [Header("WayPoint")] 
+    [SerializeField] private AnimationCurve jumpingCurve;
     IEnumerator Start()
     {
+        Player = PlayerController.Instance.gameObject;
+        CameraParent = CameraManager.Instance.gameObject;
+        WeaponPos = CameraManager.Instance.handSwing.gameObject;
+        
         Init(false);
         
         for (int i = 0; i < 7; i++)
@@ -54,6 +60,7 @@ public class GameIntroduction : MonoBehaviour
         {
             case 5:
                 ShowWeapon();
+                
                 break;
             case 6:
                 FaceCameraToDoor();
@@ -77,13 +84,21 @@ public class GameIntroduction : MonoBehaviour
 
     private void JumpOutSide()
     {
-        CameraParent.transform.DORotate(OutsidePos.eulerAngles, 1.25f);
-        CameraParent.transform.DOMove(OutsidePos.position, .25f).OnComplete(() =>
+        CameraParent.transform.DORotate(doorDirection.eulerAngles, .5f);  
+        StartCoroutine(WaitToLookBeforeJump());
+        StartCoroutine(Jump());
+    }
+
+    private IEnumerator WaitToLookBeforeJump()
+    {
+        yield return new WaitForSeconds(2);
+        CameraParent.transform.DORotate(OutsidePos.eulerAngles, .2f);
+    }
+    private IEnumerator Jump()
+    {
+        yield return new WaitForSeconds(.8f);
+        CameraParent.transform.DOJump(OutsidePos.position, 10, 1, 1.25f).SetDelay(1).SetEase(jumpingCurve).OnComplete(() =>
             Init(true));
     }
     
-    void Update()
-    {
-        
-    }
 }

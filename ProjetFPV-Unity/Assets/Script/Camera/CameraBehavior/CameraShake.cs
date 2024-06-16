@@ -7,7 +7,7 @@ using Random = UnityEngine.Random;
 
 namespace CameraBehavior
 {
-    public class CameraShake: MonoBehaviour
+    public class CameraShake: GenericSingletonClass<CameraShake>
     {
         private CameraManager cameraManager;
 
@@ -24,11 +24,9 @@ namespace CameraBehavior
 
         public Transform cameraShakePos;
 
-        public static CameraShake Instance;
-
-        private void Awake()
+        public override void Awake()
         {
-            Instance = this;
+            base.Awake();
         }
 
         private void Start()    

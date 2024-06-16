@@ -18,8 +18,7 @@ public class Director : GenericSingletonClass<Director>
     
     [SerializeField] private float playerPerformanceComparisonDelay = 0.25f;
     [SerializeField] private List<ArenaTrigger> arenas = new List<ArenaTrigger>();
-
-    public Action onArenaFinished;
+    
     public int totalIntensityValue;
     public int totalIntensityValueLevel;
 
@@ -156,7 +155,7 @@ public class Director : GenericSingletonClass<Director>
 
         foreach (EnemyToSpawn e in GetActualWave().enemiesToSpawn)
         {
-            GameObject mob = Pooling.instance.Pop(Enum.GetName(typeof(EnemyToSpawn.EnemyKeys), e.enemyKey));
+            GameObject mob = Pooling.Instance.Pop(Enum.GetName(typeof(EnemyToSpawn.EnemyKeys), e.enemyKey));
             
             mob.name = $"{Enum.GetName(typeof(EnemyToSpawn.EnemyKeys), e.enemyKey)}<br>Arena : {currentArenaIndex}<br>Wave : {currentWaveIndex}";
             
@@ -283,8 +282,8 @@ public class Director : GenericSingletonClass<Director>
         
         totalIntensityValue = ReturnTotalIntensityArenaValue();
         totalIntensityValueLevel += totalIntensityValue;
-        
-        onArenaFinished.Invoke();
+
+        ScoringSystem.Instance.ScoreEndArena();
         
         if (GetActualArenaTrigger().arenaUnlockedDoors.Length > 0)
         {

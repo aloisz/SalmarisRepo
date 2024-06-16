@@ -3,12 +3,14 @@ using System.Collections;
 using System.Collections.Generic;
 using DG.Tweening;
 using MyAudio;
+using Script;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Rendering;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
-public class PauseMenu : MonoBehaviour
+public class PauseMenu : MonoBehaviour, IDestroyInstance
 {
     [SerializeField] private GameObject[] containers;
     [SerializeField] private TextMeshProUGUI[] volumesTexts;
@@ -22,7 +24,15 @@ public class PauseMenu : MonoBehaviour
 
     private void Awake()
     {
-        instance = this;
+        if (instance != null && instance != this) 
+        { 
+            Destroy(this); 
+        } 
+        else 
+        { 
+            instance = this; 
+        } 
+        DontDestroyOnLoad(gameObject);
     }
 
     private void Start()
@@ -59,6 +69,7 @@ public class PauseMenu : MonoBehaviour
         StartCoroutine(nameof(QuitPauseRoutine));
     }
 
+    
     IEnumerator QuitPauseRoutine()
     {
         _animator.SetTrigger("Close");
@@ -160,5 +171,24 @@ public class PauseMenu : MonoBehaviour
         volumesTexts[1].text = Mathf.RoundToInt(100).ToString();
         volumesTexts[2].text = Mathf.RoundToInt(100).ToString();
         volumesTexts[3].text = $"x{OptionsDDOL.Instance.sensibility:F1}";
+    }
+
+    public void BackToMenu()
+    {
+        SceneManager.LoadScene("TitleScreen");
+    }
+
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            if(!isMenuOpened) InitPause();
+            else QuitPause();
+        }
+    }
+    
+    public void DestroyInstance()
+    {
+        Destroy(gameObject);
     }
 }

@@ -149,6 +149,8 @@ public class Barbatos : Shotgun
         //Audio
         if(isReloading) return;
         if(actualNumberOfBullet == so_Weapon.weaponMode[0].numberOfBullet) return;
+        if(PlayerKillStreak.Instance.isInRageMode) return;
+        
         AudioManager.Instance.SpawnAudio2D(transform.position, SfxType.SFX, 37, 1,0,1,false);
         
         base.Reload();
@@ -173,8 +175,7 @@ public class Barbatos : Shotgun
         float randomPitch = Random.Range(0.95f, 1.95f);
         AudioManager.Instance.SpawnAudio2D(transform.position, SfxType.SFX, isPrimary ? 39 : 40, 1, 0, randomPitch,
             false);
-
-
+        
         // particle
         if(so_Weapon.weaponMode[(int)actualWeaponModeIndex].weaponParticle == null) return;
 
@@ -255,16 +256,16 @@ public class Barbatos : Shotgun
         
         if (so_Weapon.weaponMode[(int)actualWeaponModeIndex].doExplosion)
         {
-            GameObject explosion = Pooling.instance.Pop("ExplosionImpact");
+            GameObject explosion = Pooling.Instance.Pop("ExplosionImpact");
             explosion.transform.position = hit.point;
         }
         
         if(hit.collider.GetComponent<AI_Pawn>()) return;
         
-        GameObject particle = Pooling.instance.Pop("BulletImpact");
+        GameObject particle = Pooling.Instance.Pop("BulletImpact");
         particle.transform.position = hit.point;
         particle.transform.up = hit.normal;
-        Pooling.instance.DelayedDePop("BulletImpact", particle,3);
+        Pooling.Instance.DelayedDePop("BulletImpact", particle,3);
         
         //DecalSpawnerManager.Instance.SpawnDecal(hit.point, hit.normal, "Impact_Shotgun_Decal");
     }

@@ -16,7 +16,7 @@ public class LineRendererHandler : MonoBehaviour
     {
         lineRenderer = GetComponent<LineRenderer>();
         yield return new WaitForSeconds(Random.Range(time.x, time.y));
-        Pooling.instance.DelayedDePop("HitScanRay", gameObject,0);
+        Pooling.Instance.DelayedDePop("HitScanRay", gameObject,0);
     }
 
     private void OnEnable()

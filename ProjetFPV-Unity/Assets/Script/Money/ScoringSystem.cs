@@ -2,9 +2,10 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using NaughtyAttributes;
+using Script;
 using UnityEngine;
 
-public class ScoringSystem : GenericSingletonClass<ScoringSystem>
+public class ScoringSystem : GenericSingletonClass<ScoringSystem>, IDestroyInstance
 {
     [SerializeField] int arbitraryValueDebug;
 
@@ -13,14 +14,14 @@ public class ScoringSystem : GenericSingletonClass<ScoringSystem>
     
     private int _timeScore;
     private int _deathBonus;
-
-    private void Start()
+    
+    public override void Awake()
     {
-        GameManager.Instance.OnLevelCompleted += ScoreEndLevel;
-        Director.Instance.onArenaFinished += ScoreEndArena;
+        base.Awake();
+        DontDestroyOnLoad(gameObject);
     }
 
-    private void ScoreEndLevel()
+    public void ScoreEndLevel()
     {
         GameManager.Instance.globalScore = CalculateEndLevelScore();
         PlayerMoney.Instance.Money += GameManager.Instance.globalScore;
@@ -28,7 +29,7 @@ public class ScoringSystem : GenericSingletonClass<ScoringSystem>
         Debug.Log(CalculateEndLevelScore());
     }
 
-    private void ScoreEndArena()
+    public void ScoreEndArena()
     {
         PlayerMoney.Instance.Money += CalculateEndArenaScore();
     }
@@ -74,6 +75,11 @@ public class ScoringSystem : GenericSingletonClass<ScoringSystem>
     {
         _deathBonus = Director.Instance.numberOfDeath;
         return _deathBonus;
+    }
+
+    public void DestroyInstance()
+    {
+        Destroy(gameObject);
     }
 }
 

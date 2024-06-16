@@ -1,12 +1,19 @@
 using System.Collections;
 using System.Collections.Generic;
+using Script;
 using UnityEngine;
 
-public class DecalSpawnerManager : GenericSingletonClass<DecalSpawnerManager>
+public class DecalSpawnerManager : GenericSingletonClass<DecalSpawnerManager> ,IDestroyInstance
 {
+    public override void Awake()
+    {
+        base.Awake();
+        DontDestroyOnLoad(gameObject);
+    }
+    
     public void SpawnDecal(Vector3 pos, Vector3 normal, string key)
     {
-        GameObject spawnedObject = Pooling.instance.Pop(key);
+        GameObject spawnedObject = Pooling.Instance.Pop(key);
         spawnedObject.transform.position = pos;
 
         // Create the rotation to align the decal to the surface normal
@@ -22,5 +29,10 @@ public class DecalSpawnerManager : GenericSingletonClass<DecalSpawnerManager>
         spawnedObject.transform.rotation = lookRotation * randomRotation;
 
         spawnedObject.GetComponent<DecalParameters>().SpawnDecal(key);
+    }
+    
+    public void DestroyInstance()
+    {
+        Destroy(gameObject);
     }
 }

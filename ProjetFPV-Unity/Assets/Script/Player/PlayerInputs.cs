@@ -82,7 +82,7 @@ public class PlayerInputs : GenericSingletonClass<PlayerInputs>
     {
         if (ctx.performed)
         {
-            PauseMenu.instance.InitPause();
+            
         }
     }
 

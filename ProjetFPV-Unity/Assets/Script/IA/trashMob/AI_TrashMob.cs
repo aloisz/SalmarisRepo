@@ -120,7 +120,7 @@ namespace AI
         public override void DestroyLogic()
         {
             AudioManager.Instance.SpawnAudio3D(transform.position, SfxType.SFX, 10, 1, 0, 1);
-            Pooling.instance.DelayedDePop(so_IA.poolingName, gameObject, deathDelay);
+            Pooling.Instance.DelayedDePop(so_IA.poolingName, gameObject, deathDelay);
         }
         
         // Debug -------------------------

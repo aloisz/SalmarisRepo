@@ -46,7 +46,7 @@ public class BarbatwoBullet : BulletBehavior
     {
         Explosion();
         trailRenderer.enabled = false;
-        Pooling.instance.DePop(bullet.PoolingKeyName, gameObject);
+        Pooling.Instance.DePop(bullet.PoolingKeyName, gameObject);
     }
 
     private void BounceLogic(Collision collision)
@@ -55,7 +55,7 @@ public class BarbatwoBullet : BulletBehavior
         if(bounceNbr == 1)
         {
             trailRenderer.enabled = false;
-            Pooling.instance.DePop(bullet.PoolingKeyName, gameObject);
+            Pooling.Instance.DePop(bullet.PoolingKeyName, gameObject);
         }
         else
         {
@@ -93,7 +93,7 @@ public class BarbatwoBullet : BulletBehavior
         Explosion();
         trailRenderer.enabled = false;
         collision.transform.GetComponent<IDamage>().Hit(bullet.damage);
-        Pooling.instance.DePop(bullet.PoolingKeyName, gameObject);
+        Pooling.Instance.DePop(bullet.PoolingKeyName, gameObject);
     }
     
     protected override void FixedUpdate()
@@ -118,7 +118,7 @@ public class BarbatwoBullet : BulletBehavior
     private Explosion explosion;
     private void Explosion()
     {
-        GameObject Explosion = Pooling.instance.Pop("Explosion");
+        GameObject Explosion = Pooling.Instance.Pop("Explosion");
         Explosion.transform.position = transform.position;
         Explosion.transform.rotation = Quaternion.identity;
         
