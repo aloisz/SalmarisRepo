@@ -60,7 +60,7 @@ public class VoicelineManager : GenericSingletonClass<VoicelineManager>, IDestro
     private IEnumerator PlayPriority(int id)
     {
         _isPlaying = true;
-        DestroyAllPreviousSubtitles();
+        if(_lastSource) _lastSource.Stop();
 
         yield return StartCoroutine(CallVoiceLineRoutine(id));
 
@@ -111,12 +111,13 @@ public class VoicelineManager : GenericSingletonClass<VoicelineManager>, IDestro
 
                 Debug.Log(iaSound.IASoundID.clip.name);
 
+                if(canvas.transform.childCount > 0) Destroy(canvas.transform.GetChild(0).gameObject);
                 Subtitle spawnedSubtitle = Instantiate(subtitle, canvas.transform);
                 spawnedSubtitle.SetText(iaSound.IASoundID.text);
                 if (spawnedSubtitle != null) spawnedSubtitle.DestroySubtitle(iaSound.IASoundID.audioDuration);
 
                 if(_lastSource == null) yield break;
-                yield return new WaitUntil(() => !_lastSource.isPlaying);
+                yield return new WaitUntil(() => _lastSource && !_lastSource.isPlaying);
                 _lastSource = null;
             }
         }
@@ -172,17 +173,6 @@ public class VoicelineManager : GenericSingletonClass<VoicelineManager>, IDestro
         }
     }
 
-    private void DestroyAllPreviousSubtitles()
-    {
-        foreach (Transform t in GetComponentsInChildren<Transform>())
-        {
-            if (t != transform && t.transform.GetSiblingIndex() != transform.childCount - 1)
-            {
-                Destroy(t.gameObject);
-            }
-        }
-    }
-    
     public void CallFirstArenaDialogues()
     {
         CallVoiceLine(11);

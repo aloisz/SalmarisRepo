@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using DG.Tweening;
 using MyAudio;
 using NaughtyAttributes;
+using Player;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.Rendering;
@@ -149,6 +150,8 @@ public class UpgradeModule : GenericSingletonClass<UpgradeModule>
         WeaponState.Instance.barbatos.ResetMunitionWithoutAnim();
         
         PlayerInputs.Instance.EnablePlayerInputs(false);
+
+        PlayerController.Instance.currentActionState = PlayerController.PlayerActionStates.Idle;
         
         GenerateUpgradeOffers();
         
