@@ -58,6 +58,8 @@ public class HUD : GenericSingletonClass<HUD>
     [SerializeField] private AnimationCurve ammoReloadAnimCurve;
     [SerializeField] private AnimationCurve ammoReloadEndAnimCurve;
     
+    [SerializeField] private UIParticle dashSpeedLines;
+    
     [Header("Components Lists")]
     [SerializeField] private List<Image> crosshairBorders = new List<Image>();
     [SerializeField] private ParticleSystem[] dashParticleSystems;
@@ -113,9 +115,14 @@ public class HUD : GenericSingletonClass<HUD>
         WeaponState.Instance.barbatos.OnReload += AmmoInitReloadAnim;
         WeaponState.Instance.barbatos.OnReload += UpdateReloadCircle;
         WeaponState.Instance.barbatos.OnReloadEnd += AmmoEndReloadAnim;
-        
         WeaponState.Instance.barbatos.onHitEnemy += HitMarkerPlay;
         WeaponState.Instance.barbatos.onHitEnemyLethal += HitMarkerPlayLethal;
+
+        PlayerController.Instance.onDash += () =>
+        {
+            dashSpeedLines.Stop();
+            dashSpeedLines.Play();
+        };
 
         UpgradeModule.Instance.onUpgrade += UpdateModeIcons;
         UpgradeModule.Instance.onUpgrade += AmmoCountAnim;
