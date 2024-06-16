@@ -109,7 +109,7 @@ public class PlayerHealth : GenericSingletonClass<PlayerHealth>, IDamage
                 Shield = 0;
                 ShockwaveBreakShield();
 
-                StartCoroutine(VoicelineManager.Instance.CallFirstBrokenShieldVoiceLine());
+                VoicelineManager.Instance.CallFirstBrokenShieldVoiceLine();
             }
             else
             {
@@ -133,7 +133,7 @@ public class PlayerHealth : GenericSingletonClass<PlayerHealth>, IDamage
         {
             if (!_alreadyPlayedNoLifeVoiceLine)
             {
-                StartCoroutine(VoicelineManager.Instance.CallLowLifeVoiceLine());
+                VoicelineManager.Instance.CallLowLifeVoiceLine();
                 _alreadyPlayedNoLifeVoiceLine = true;
             }
         }
@@ -146,7 +146,7 @@ public class PlayerHealth : GenericSingletonClass<PlayerHealth>, IDamage
         if (Health <= 0)
         {
             Death();
-            StartCoroutine(VoicelineManager.Instance.CallFirstDeathVoiceLine(false));
+            VoicelineManager.Instance.CallFirstDeathVoiceLine(false);
             MusicManager.Instance.ChangeMusicPlayed(Music.Ambiance, 0.2f, 0.25f);
             return;
         }
@@ -156,8 +156,8 @@ public class PlayerHealth : GenericSingletonClass<PlayerHealth>, IDamage
 
     public void DeathFromHole()
     {
-        StartCoroutine(VoicelineManager.Instance.CallHoleDeathVoiceLine());
-        StartCoroutine(VoicelineManager.Instance.CallFirstDeathVoiceLine(true));
+        VoicelineManager.Instance.CallHoleDeathVoiceLine();
+        VoicelineManager.Instance.CallFirstDeathVoiceLine(true);
         Death();
         MusicManager.Instance.ChangeMusicPlayed(Music.Ambiance, 0.2f, 0.25f);
     }
