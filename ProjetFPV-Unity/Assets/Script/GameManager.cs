@@ -51,6 +51,19 @@ public class GameManager : GenericSingletonClass<GameManager>, IDestroyInstance
         frameRate = (int) (1f / Time.deltaTime);
         
         ms = Time.deltaTime * 1000;
+
+        if (Input.GetKeyDown(KeyCode.I))
+        {
+            ChangeLevel();
+        }
+        if (Input.GetKeyDown(KeyCode.O))
+        {
+            ChangeLevel1();
+        }
+        if (Input.GetKeyDown(KeyCode.P))
+        {
+            ChangeLevel2();
+        }
     }
 
     [Button("ChangeScene 0")]
@@ -72,6 +85,8 @@ public class GameManager : GenericSingletonClass<GameManager>, IDestroyInstance
     [Button("ChangeScene 1")]
     public void ChangeLevel1()
     {
+        
+        Time.timeScale = 1;
         PauseMenu.instance.QuitPause();
         AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(1);
         AsyncWaitForLoadingScene(asyncLoad, 1);
