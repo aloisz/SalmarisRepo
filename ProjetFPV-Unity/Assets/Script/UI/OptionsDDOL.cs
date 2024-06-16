@@ -1,12 +1,13 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Script;
 using UnityEngine;
 using UnityEngine.Audio;
 using UnityEngine.UI;
 
 
-public class OptionsDDOL : GenericSingletonClass<OptionsDDOL>
+public class OptionsDDOL : GenericSingletonClass<OptionsDDOL>, IDestroyInstance
 {
     [SerializeField] private AudioMixer audioMixer;
     public float[] volumes;
@@ -55,5 +56,10 @@ public class OptionsDDOL : GenericSingletonClass<OptionsDDOL>
         isInFullScreen = toggle.isOn;
         Screen.fullScreen = toggle.isOn;
         Screen.fullScreenMode = isInFullScreen ? FullScreenMode.ExclusiveFullScreen : FullScreenMode.Windowed;
+    }
+    
+    public void DestroyInstance()
+    {
+        Destroy(gameObject);
     }
 }

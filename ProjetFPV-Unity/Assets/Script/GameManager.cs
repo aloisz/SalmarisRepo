@@ -1,16 +1,19 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using AI;
+using CameraBehavior;
 using NaughtyAttributes;
 using Player;
+using Script;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.Serialization;
 using Random = UnityEngine.Random;
 
-public class GameManager : GenericSingletonClass<GameManager>
+public class GameManager : GenericSingletonClass<GameManager>, IDestroyInstance
 {
     public int currentLevelIndex;
     public int currentCheckpointIndex;
@@ -53,6 +56,13 @@ public class GameManager : GenericSingletonClass<GameManager>
     [Button("ChangeScene 0")]
     public void ChangeLevel()
     {
+        //IDestroyInstance[] Interface = (IDestroyInstance[])FindObjectsOfType (typeof(IDestroyInstance));
+        IDestroyInstance[] Interface = FindObjectsOfType<MonoBehaviour>().OfType<IDestroyInstance>().ToArray();
+        foreach (IDestroyInstance toDestroyInstance in Interface) 
+        {
+            toDestroyInstance.DestroyInstance();
+        }
+        
         Time.timeScale = 1;
         PauseMenu.instance.QuitPause();
         AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(0);
@@ -62,10 +72,18 @@ public class GameManager : GenericSingletonClass<GameManager>
     [Button("ChangeScene 1")]
     public void ChangeLevel1()
     {
-        Time.timeScale = 1;
         PauseMenu.instance.QuitPause();
         AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(1);
         AsyncWaitForLoadingScene(asyncLoad, 1);
+    }
+    
+    [Button("ChangeScene 2")]
+    public void ChangeLevel2()
+    {
+        Time.timeScale = 1;
+        PauseMenu.instance.QuitPause();
+        AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(2);
+        AsyncWaitForLoadingScene(asyncLoad, 2);
     }
 
 
@@ -80,6 +98,9 @@ public class GameManager : GenericSingletonClass<GameManager>
 
         PlayerController.Instance.transform.position = levelPlayersPositions.levels[value].positionToSpawn;
         PlayerController.Instance.transform.eulerAngles = levelPlayersPositions.levels[value].directionToLook;
+
+        CameraManager.Instance.transform.position = levelPlayersPositions.levels[value].cameraPos;
+        CameraManager.Instance.transform.eulerAngles = levelPlayersPositions.levels[value].cameraRot;
     }
 
     private void OnGUI()
@@ -93,6 +114,11 @@ public class GameManager : GenericSingletonClass<GameManager>
         GUI.Label(new Rect(5, 90, 100, 25), "FPS: " + Mathf.Round(frameRate), font);
         
         GUI.Label(new Rect(5, 140, 100, 25), "ms: " + Mathf.Round(ms), font);
+    }
+
+    public void DestroyInstance()
+    {
+        Destroy(gameObject);
     }
 }
 
@@ -108,6 +134,9 @@ public class Level
 {
     public Vector3 positionToSpawn;
     public Vector3 directionToLook;
+
+    public Vector3 cameraPos;
+    public Vector3 cameraRot;
 }
 
 
