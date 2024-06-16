@@ -22,6 +22,10 @@ public class GameIntroduction : MonoBehaviour
     [SerializeField] private AnimationCurve jumpingCurve;
     IEnumerator Start()
     {
+        Player = PlayerController.Instance.gameObject;
+        CameraParent = CameraManager.Instance.gameObject;
+        WeaponPos = CameraManager.Instance.handSwing.gameObject;
+        
         Init(false);
         
         for (int i = 0; i < 7; i++)
