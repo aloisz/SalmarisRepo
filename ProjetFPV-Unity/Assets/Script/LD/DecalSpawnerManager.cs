@@ -1,8 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
+using Script;
 using UnityEngine;
 
-public class DecalSpawnerManager : GenericSingletonClass<DecalSpawnerManager>
+public class DecalSpawnerManager : GenericSingletonClass<DecalSpawnerManager> ,IDestroyInstance
 {
     public override void Awake()
     {
@@ -28,5 +29,10 @@ public class DecalSpawnerManager : GenericSingletonClass<DecalSpawnerManager>
         spawnedObject.transform.rotation = lookRotation * randomRotation;
 
         spawnedObject.GetComponent<DecalParameters>().SpawnDecal(key);
+    }
+    
+    public void DestroyInstance()
+    {
+        Destroy(gameObject);
     }
 }

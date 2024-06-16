@@ -3,13 +3,14 @@ using System.Collections;
 using System.Collections.Generic;
 using DG.Tweening;
 using MyAudio;
+using Script;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Rendering;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
-public class PauseMenu : MonoBehaviour
+public class PauseMenu : MonoBehaviour, IDestroyInstance
 {
     [SerializeField] private GameObject[] containers;
     [SerializeField] private TextMeshProUGUI[] volumesTexts;
@@ -184,5 +185,10 @@ public class PauseMenu : MonoBehaviour
             if(!isMenuOpened) InitPause();
             else QuitPause();
         }
+    }
+    
+    public void DestroyInstance()
+    {
+        Destroy(gameObject);
     }
 }

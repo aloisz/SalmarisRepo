@@ -8,11 +8,12 @@ using UnityEngine;
 using UnityEngine.Serialization;
 using Random = UnityEngine.Random;
 using Player;
+using Script;
 using UnityEditor;
 
 namespace CameraBehavior
 {
-    public class CameraManager : GenericSingletonClass<CameraManager>
+    public class CameraManager : GenericSingletonClass<CameraManager>, IDestroyInstance
     {
         [Header("---Scriptable---")] 
         [Expandable]public SO_Camera so_Camera;
@@ -300,6 +301,10 @@ namespace CameraBehavior
 
         #endregion
 
+        public void DestroyInstance()
+        {
+            Destroy(gameObject);
+        }
     }
 }
 

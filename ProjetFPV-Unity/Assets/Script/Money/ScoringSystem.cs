@@ -2,9 +2,10 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using NaughtyAttributes;
+using Script;
 using UnityEngine;
 
-public class ScoringSystem : GenericSingletonClass<ScoringSystem>
+public class ScoringSystem : GenericSingletonClass<ScoringSystem>, IDestroyInstance
 {
     [SerializeField] int arbitraryValueDebug;
 
@@ -80,6 +81,11 @@ public class ScoringSystem : GenericSingletonClass<ScoringSystem>
     {
         _deathBonus = Director.Instance.numberOfDeath;
         return _deathBonus;
+    }
+
+    public void DestroyInstance()
+    {
+        Destroy(gameObject);
     }
 }
 

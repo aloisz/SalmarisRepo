@@ -2,13 +2,14 @@ using System;
 using System.Collections;
 using AI;
 using MyAudio;
+using Script;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
 namespace Player
 {
     [RequireComponent(typeof(Rigidbody))]
-    public class PlayerController : GenericSingletonClass<PlayerController>
+    public class PlayerController : GenericSingletonClass<PlayerController>, IDestroyInstance
     {
         [Header("Overall Behavior")]
         public bool canMove = true;
@@ -1013,6 +1014,11 @@ namespace Player
         #region Unused
         //?
         #endregion
+        
+        public void DestroyInstance()
+        {
+            Destroy(gameObject);
+        }
     }
 }
 

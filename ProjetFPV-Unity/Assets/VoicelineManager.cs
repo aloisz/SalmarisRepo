@@ -5,10 +5,11 @@ using System.Text.RegularExpressions;
 using AI;
 using DG.Tweening;
 using MyAudio;
+using Script;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
-public class VoicelineManager : GenericSingletonClass<VoicelineManager>
+public class VoicelineManager : GenericSingletonClass<VoicelineManager>, IDestroyInstance
 {
     public SO_IA_Audio scriptable;
     public MyAudioSource PrefabAudioSource;
@@ -269,6 +270,11 @@ public class VoicelineManager : GenericSingletonClass<VoicelineManager>
     {
         CallVoiceLine(48);
         yield break;
+    }
+    
+    public void DestroyInstance()
+    {
+        Destroy(gameObject);
     }
 }
 
