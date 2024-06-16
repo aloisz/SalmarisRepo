@@ -28,7 +28,9 @@ public class Barbatos : Shotgun
 
     public Action onHitEnemy;
     public Action onHitEnemyLethal;
+    
     public Action OnReload;
+    public Action OnReloadEnd;
 
     protected override void Start()
     {
@@ -206,6 +208,8 @@ public class Barbatos : Shotgun
         //Audio
         AudioManager.Instance.SpawnAudio2D(transform.position, SfxType.SFX, 38, 1,0,1,false);
         
+        OnReloadEnd.Invoke();
+
         //Turbine
         turbine[0].transform.DOLocalMove(turbineLocalPosition[0], .1f);
         turbine[1].transform.DOLocalMove(turbineLocalPosition[1], .1f);

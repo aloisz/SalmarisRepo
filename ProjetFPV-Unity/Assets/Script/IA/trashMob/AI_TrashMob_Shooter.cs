@@ -212,7 +212,13 @@ namespace AI
                 ChangeState(TrashMobState.Moving);
             }
         }
-        
+
+        public override void DisableAgent()
+        {
+            base.DisableAgent();
+            animatorTrashShooter.ChangeState(animatorTrashShooter.IDLE, 0f);
+        }
+
         public override void DestroyLogic()
         {
             base.DestroyLogic();

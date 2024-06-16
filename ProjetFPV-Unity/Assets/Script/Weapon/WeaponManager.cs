@@ -31,7 +31,6 @@ namespace Weapon
         
         public Action OnShoot;
         public Action OnHudShoot;
-        public Action OnReloadEnd;
         public Action OnLooseAmmo;
         
         public float timeElapsedReload = 0;
@@ -263,7 +262,6 @@ namespace Weapon
         
         protected virtual void EndReload()
         {
-            OnReloadEnd.Invoke();
             actualNumberOfBullet = so_Weapon.weaponMode[0].numberOfBullet;
             isReloading = false;
             canFire = true;

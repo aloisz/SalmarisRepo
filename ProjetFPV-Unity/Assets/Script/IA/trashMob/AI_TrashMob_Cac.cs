@@ -211,6 +211,7 @@ namespace AI
         {
             base.DisableAgent();
             StopCoroutine(DashAttack());
+            animatorTrashMobCac.ChangeState(animatorTrashMobCac.IDLE, 0f);
         }
         
         internal bool isInDashAttackCoroutine;
