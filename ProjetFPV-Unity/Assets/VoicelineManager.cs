@@ -225,7 +225,7 @@ public class VoicelineManager : GenericSingletonClass<VoicelineManager>
         }
     }
     
-    public IEnumerator CallFirstDeathVoiceLine()
+    public IEnumerator CallFirstDeathVoiceLine(bool isInHole)
     {
         if (!_alreadyFirstDied)
         {
@@ -233,7 +233,7 @@ public class VoicelineManager : GenericSingletonClass<VoicelineManager>
             CallVoiceLine(32);
             yield break;
         }
-        else
+        else if(!isInHole)
         {
             StartCoroutine(CallDeathVoiceLine());
         }

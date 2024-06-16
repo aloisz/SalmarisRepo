@@ -146,12 +146,20 @@ public class PlayerHealth : GenericSingletonClass<PlayerHealth>, IDamage
         if (Health <= 0)
         {
             Death();
-            StartCoroutine(VoicelineManager.Instance.CallFirstDeathVoiceLine());
+            StartCoroutine(VoicelineManager.Instance.CallFirstDeathVoiceLine(false));
             MusicManager.Instance.ChangeMusicPlayed(Music.Ambiance, 0.2f, 0.25f);
             return;
         }
         
         onHit?.Invoke();
+    }
+
+    public void DeathFromHole()
+    {
+        StartCoroutine(VoicelineManager.Instance.CallFirstDeathVoiceLine(true));
+        StartCoroutine(VoicelineManager.Instance.CallHoleDeathVoiceLine());
+        Death();
+        MusicManager.Instance.ChangeMusicPlayed(Music.Ambiance, 0.2f, 0.25f);
     }
     
     private int[] randomSound = {33,34,35,36};
