@@ -14,8 +14,6 @@ public class GameManager : GenericSingletonClass<GameManager>
 {
     public int currentLevelIndex;
     public int currentCheckpointIndex;
-    
-    public Action OnLevelCompleted;
 
     [Header("LevelPlayersPosition")] [SerializeField]
     private LevelPlayersPosition levelPlayersPositions;
@@ -30,8 +28,7 @@ public class GameManager : GenericSingletonClass<GameManager>
     
     public void LevelFinished()
     {
-        OnLevelCompleted?.Invoke();
-        Debug.Log("Level Finished");
+        ScoringSystem.Instance.ScoreEndLevel();
 
         currentLevelIndex++;
         

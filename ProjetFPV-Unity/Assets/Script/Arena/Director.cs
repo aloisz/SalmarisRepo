@@ -18,8 +18,7 @@ public class Director : GenericSingletonClass<Director>
     
     [SerializeField] private float playerPerformanceComparisonDelay = 0.25f;
     [SerializeField] private List<ArenaTrigger> arenas = new List<ArenaTrigger>();
-
-    public Action onArenaFinished;
+    
     public int totalIntensityValue;
     public int totalIntensityValueLevel;
 
@@ -283,8 +282,8 @@ public class Director : GenericSingletonClass<Director>
         
         totalIntensityValue = ReturnTotalIntensityArenaValue();
         totalIntensityValueLevel += totalIntensityValue;
-        
-        onArenaFinished.Invoke();
+
+        ScoringSystem.Instance.ScoreEndArena();
         
         if (GetActualArenaTrigger().arenaUnlockedDoors.Length > 0)
         {
