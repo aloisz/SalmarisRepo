@@ -55,6 +55,8 @@ public class HUD : GenericSingletonClass<HUD>
     [SerializeField] private TextMeshProUGUI ammoMax;
     
     [SerializeField] private AnimationCurve ammoAnimCurve;
+    [SerializeField] private AnimationCurve ammoReloadAnimCurve;
+    [SerializeField] private AnimationCurve ammoReloadEndAnimCurve;
     
     [Header("Components Lists")]
     [SerializeField] private List<Image> crosshairBorders = new List<Image>();
@@ -107,6 +109,8 @@ public class HUD : GenericSingletonClass<HUD>
         
         WeaponState.Instance.barbatos.OnHudShoot += CrosshairShoot;
         WeaponState.Instance.barbatos.OnHudShoot += AmmoCountAnim;
+        WeaponState.Instance.barbatos.OnReload += AmmoInitReloadAnim;
+        WeaponState.Instance.barbatos.OnReloadEnd += AmmoEndReloadAnim;
         
         WeaponState.Instance.barbatos.onHitEnemy += HitMarkerPlay;
         WeaponState.Instance.barbatos.onHitEnemyLethal += HitMarkerPlayLethal;
@@ -469,11 +473,36 @@ public class HUD : GenericSingletonClass<HUD>
         DOTween.Kill(this, 0);
         StartCoroutine(AmmoCountAnimRoutine());
     }
-    
     private IEnumerator AmmoCountAnimRoutine()
     {
         ammoActual.transform.DOScale(1f * 1.1f, 1f/WeaponState.Instance.barbatos.so_Weapon.weaponMode[0].fireRate)
             .SetEase(ammoAnimCurve).SetId(0);
+        yield break;
+    }
+    
+    private void AmmoInitReloadAnim()
+    {
+        StopAllCoroutines();
+        DOTween.Kill(this, 1);
+        StartCoroutine(AmmoInitReloadAnimRoutine());
+    }
+    private IEnumerator AmmoInitReloadAnimRoutine()
+    {
+        ammoActual.transform.DOScale(1f * 1.1f, WeaponState.Instance.barbatos.so_Weapon.weaponMode[0].timeToReload)
+            .SetEase(ammoReloadAnimCurve).SetId(1);
+        yield break;
+    }
+    
+    private void AmmoEndReloadAnim()
+    {
+        StopAllCoroutines();
+        DOTween.Kill(this, 2);
+        StartCoroutine(AmmoEndReloadAnimRoutine());
+    }
+    private IEnumerator AmmoEndReloadAnimRoutine()
+    {
+        ammoActual.DOFade(0f, 0.2f)
+            .SetEase(ammoReloadEndAnimCurve).SetId(2);
         yield break;
     }
 
