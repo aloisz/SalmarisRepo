@@ -55,6 +55,8 @@ public class HUD : GenericSingletonClass<HUD>
     [SerializeField] private TextMeshProUGUI ammoMax;
     
     [SerializeField] private AnimationCurve ammoAnimCurve;
+    [SerializeField] private AnimationCurve ammoReloadAnimCurve;
+    [SerializeField] private AnimationCurve ammoReloadEndAnimCurve;
     
     [Header("Components Lists")]
     [SerializeField] private List<Image> crosshairBorders = new List<Image>();
@@ -107,11 +109,14 @@ public class HUD : GenericSingletonClass<HUD>
         
         WeaponState.Instance.barbatos.OnHudShoot += CrosshairShoot;
         WeaponState.Instance.barbatos.OnHudShoot += AmmoCountAnim;
+        WeaponState.Instance.barbatos.OnReload += AmmoInitReloadAnim;
+        WeaponState.Instance.barbatos.OnReloadEnd += AmmoEndReloadAnim;
         
         WeaponState.Instance.barbatos.onHitEnemy += HitMarkerPlay;
         WeaponState.Instance.barbatos.onHitEnemyLethal += HitMarkerPlayLethal;
 
         UpgradeModule.Instance.onUpgrade += UpdateModeIcons;
+        UpgradeModule.Instance.onUpgrade += AmmoCountAnim;
         UpdateModeIcons();
 
         _basePositionHealthBar = healthBar.transform.localPosition;
@@ -145,6 +150,11 @@ public class HUD : GenericSingletonClass<HUD>
         timer.text = ConvertToMinutesSecondsMilliseconds(Director.Instance.levelTimer);
         
         ammoActual.text = WeaponState.Instance.barbatos.actualNumberOfBullet.ToString("00");
+        ammoActual.color = WeaponState.Instance.barbatos.actualNumberOfBullet <
+                           ((20f / 100f) * (WeaponState.Instance.barbatos.so_Weapon.weaponMode[0].numberOfBullet + 1))
+            ? Color.red
+            : Color.white;
+        
         ammoMax.text = WeaponState.Instance.barbatos.so_Weapon.weaponMode[0].numberOfBullet.ToString("00");
         
         deform.material.SetFloat("_DamageRight", _crossProductDamageRight * Mathf.Lerp(0,1,_timerDamageDisplay / damageDisplayDuration));
@@ -469,11 +479,36 @@ public class HUD : GenericSingletonClass<HUD>
         DOTween.Kill(this, 0);
         StartCoroutine(AmmoCountAnimRoutine());
     }
-    
     private IEnumerator AmmoCountAnimRoutine()
     {
         ammoActual.transform.DOScale(1f * 1.1f, 1f/WeaponState.Instance.barbatos.so_Weapon.weaponMode[0].fireRate)
             .SetEase(ammoAnimCurve).SetId(0);
+        yield break;
+    }
+    
+    private void AmmoInitReloadAnim()
+    {
+        StopAllCoroutines();
+        DOTween.Kill(this, 1);
+        StartCoroutine(AmmoInitReloadAnimRoutine());
+    }
+    private IEnumerator AmmoInitReloadAnimRoutine()
+    {
+        ammoActual.transform.DOScale(1f * 1.1f, WeaponState.Instance.barbatos.so_Weapon.weaponMode[0].timeToReload)
+            .SetEase(ammoReloadAnimCurve).SetId(1);
+        yield break;
+    }
+    
+    private void AmmoEndReloadAnim()
+    {
+        StopAllCoroutines();
+        DOTween.Kill(this, 2);
+        StartCoroutine(AmmoEndReloadAnimRoutine());
+    }
+    private IEnumerator AmmoEndReloadAnimRoutine()
+    {
+        ammoActual.DOFade(0f, 0.2f)
+            .SetEase(ammoReloadEndAnimCurve).SetId(2);
         yield break;
     }
 
