@@ -76,7 +76,6 @@ namespace CameraBehavior
             MovingCameraManager();
             CameraStateManagamement();
             ResetCameraRotation();
-
         }
 
         public void Update()
