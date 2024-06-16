@@ -7,6 +7,7 @@ using Player;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.Serialization;
 using Weapon.Interface;
 using Random = UnityEngine.Random;
 
@@ -39,6 +40,7 @@ namespace AI
         public List<Perimeters> perimeters;
 
         internal bool isPawnDead = false;
+        [FormerlySerializedAs("finishedSpawn")] public bool canTakeLinker;
         
         //Component----------------------
         internal NavMeshAgent navMeshAgent;
@@ -123,6 +125,15 @@ namespace AI
             visionDetector.radius = so_IA.visionDetectorRadius;
 
             targetToFollow = null;
+
+            StartCoroutine(nameof(VerifyLinkerPossibility));
+        }
+
+        IEnumerator VerifyLinkerPossibility()
+        {
+            canTakeLinker = false;
+            yield return new WaitForSeconds(2f);
+            canTakeLinker = true;
         }
 
         IEnumerator DelayedNavMesh()
