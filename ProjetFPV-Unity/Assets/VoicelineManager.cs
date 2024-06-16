@@ -38,25 +38,52 @@ public class VoicelineManager : GenericSingletonClass<VoicelineManager>, IDestro
     public void CallVoiceLine(int id)
     {
         if (_audioQueue.Contains(id)) return;
+
         _audioQueue.Enqueue(id);
         _audioQueueListMesCouilles.Add(id);
-        if(id == 23) Debug.Log("Wsh");
+
         if (!_isPlaying)
         {
-            StartCoroutine(PlayNextInQueue());
+            StartCoroutine(ProcessQueue());
         }
     }
 
-    private IEnumerator PlayNextInQueue()
+    public void PlayPriorityVoiceLine(int id)
     {
+        StopCoroutine(ProcessQueue());
+        _audioQueue.Clear(); // Clear the queue to interrupt current playback
+        _isPlaying = false; // Reset the playing flag
+
+        StartCoroutine(PlayPriority(id));
+    }
+
+    private IEnumerator PlayPriority(int id)
+    {
+        _isPlaying = true;
+        DestroyAllPreviousSubtitles();
+
+        yield return StartCoroutine(CallVoiceLineRoutine(id));
+
+        _isPlaying = false;
+
+        // Resume the queue after the priority voice line is played
+        if (_audioQueue.Count > 0)
+        {
+            StartCoroutine(ProcessQueue());
+        }
+    }
+
+    private IEnumerator ProcessQueue()
+    {
+        _isPlaying = true;
+
         while (_audioQueue.Count > 0)
         {
             int id = _audioQueue.Dequeue();
-            _isPlaying = true;
-            
             yield return StartCoroutine(CallVoiceLineRoutine(id));
             yield return new WaitForSeconds(1f);
         }
+
         _isPlaying = false;
     }
 
@@ -67,27 +94,28 @@ public class VoicelineManager : GenericSingletonClass<VoicelineManager>, IDestro
             if (iaSound.ID == id)
             {
                 MyAudioSource audioSource = Instantiate(PrefabAudioSource, transform.position, Quaternion.identity, transform);
-                
+
                 audioSource.aSource.volume = 1;
                 audioSource.aSource.pitch = 1f;
                 audioSource.aSource.loop = false;
                 audioSource.aSource.spatialBlend = 0;
                 audioSource.aSource.outputAudioMixerGroup = AudioManager.Instance.audioMixer.FindMatchingGroups("IA")[0];
-             
+
                 audioSource.aSource.clip = iaSound.IASoundID.clip;
                 audioSource.timeBeforeDestroy = iaSound.IASoundID.audioDuration;
                 audioSource.gameObject.name = iaSound.IASoundID.clip.name;
-            
+
                 audioSource.aSource.Play();
 
                 _lastSource = audioSource.aSource;
-                
+
                 Debug.Log(iaSound.IASoundID.clip.name);
-                
+
                 Subtitle spawnedSubtitle = Instantiate(subtitle, canvas.transform);
                 spawnedSubtitle.SetText(iaSound.IASoundID.text);
                 if (spawnedSubtitle != null) spawnedSubtitle.DestroySubtitle(iaSound.IASoundID.audioDuration);
 
+                if(_lastSource == null) yield break;
                 yield return new WaitUntil(() => !_lastSource.isPlaying);
                 _lastSource = null;
             }
@@ -143,6 +171,17 @@ public class VoicelineManager : GenericSingletonClass<VoicelineManager>, IDestro
             }
         }
     }
+
+    private void DestroyAllPreviousSubtitles()
+    {
+        foreach (Transform t in GetComponentsInChildren<Transform>())
+        {
+            if (t != transform && t.transform.GetSiblingIndex() != transform.childCount - 1)
+            {
+                Destroy(t.gameObject);
+            }
+        }
+    }
     
     public void CallFirstArenaDialogues()
     {
@@ -180,12 +219,12 @@ public class VoicelineManager : GenericSingletonClass<VoicelineManager>, IDestro
     {
         if (!_alreadyEncounterShop)
         {
-            CallVoiceLine(13);
+            PlayPriorityVoiceLine(13);
             _alreadyEncounterShop = true;
         }
         else
         {
-            CallVoiceLine(Random.Range(19,20));
+            PlayPriorityVoiceLine(Random.Range(19,20));
         }
     }
     

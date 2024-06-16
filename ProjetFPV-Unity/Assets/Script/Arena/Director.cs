@@ -288,14 +288,14 @@ public class Director : GenericSingletonClass<Director>
         VoicelineManager.Instance.CallArenaEndDialogues();
         
         StartCoroutine(DelayDoorOpen(
-            currentArenaIndex == 0 && GameManager.Instance.currentLevelIndex == 0 ? 16f : 0f));
+            currentArenaIndex == 0 && GameManager.Instance.currentLevelIndex == 0 ? 5f : 0f));
 
         if (GetActualArenaData().shouldSpawnShopAtTheEnd)
         {
             if (currentArenaIndex == 0 && GameManager.Instance.currentLevelIndex == 0)
             {
                 StartCoroutine(UpgradeModule.Instance.InitModule(GetActualArenaData().shopOrbitalPosition, 
-                    GetActualArenaData().possibleUpgrades,12f));
+                    GetActualArenaData().possibleUpgrades, 5f));
                 VoicelineManager.Instance.CallFirstShopVoiceLine();
             }
             else
