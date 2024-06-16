@@ -50,6 +50,13 @@ public class HUD : GenericSingletonClass<HUD>
     [SerializeField] private Image reload;
     
     [SerializeField] private TextMeshProUGUI speedText;
+    [SerializeField] private TextMeshProUGUI timer;
+    [SerializeField] private TextMeshProUGUI ammoActual;
+    [SerializeField] private TextMeshProUGUI ammoMax;
+    
+    [SerializeField] private AnimationCurve ammoAnimCurve;
+    [SerializeField] private AnimationCurve ammoReloadAnimCurve;
+    [SerializeField] private AnimationCurve ammoReloadEndAnimCurve;
     
     [Header("Components Lists")]
     [SerializeField] private List<Image> crosshairBorders = new List<Image>();
@@ -59,6 +66,7 @@ public class HUD : GenericSingletonClass<HUD>
     [SerializeField] private UIParticle[] hitmarkerParticleSystems;
     [SerializeField] private UIParticle[] hitmarkerParticleSystemsLethal;
     [SerializeField] private UIParticle[] damages;
+    [SerializeField] private Image[] mods;
 
     private float _giggleX;
     private float _giggleY;
@@ -100,8 +108,16 @@ public class HUD : GenericSingletonClass<HUD>
         PlayerHealth.Instance.onHit += UpdateDamageUI;
         
         WeaponState.Instance.barbatos.OnHudShoot += CrosshairShoot;
+        WeaponState.Instance.barbatos.OnHudShoot += AmmoCountAnim;
+        WeaponState.Instance.barbatos.OnReload += AmmoInitReloadAnim;
+        WeaponState.Instance.barbatos.OnReloadEnd += AmmoEndReloadAnim;
+        
         WeaponState.Instance.barbatos.onHitEnemy += HitMarkerPlay;
         WeaponState.Instance.barbatos.onHitEnemyLethal += HitMarkerPlayLethal;
+
+        UpgradeModule.Instance.onUpgrade += UpdateModeIcons;
+        UpgradeModule.Instance.onUpgrade += AmmoCountAnim;
+        UpdateModeIcons();
 
         _basePositionHealthBar = healthBar.transform.localPosition;
         _basePositionShieldBar = shieldBar.transform.localPosition;
@@ -131,6 +147,15 @@ public class HUD : GenericSingletonClass<HUD>
         _timerDamageDisplay.DecreaseTimerIfPositive();
 
         speedText.text = (PlayerController.Instance._rb.velocity.magnitude * 2.23694f).ToString("F1") + " mph";
+        timer.text = ConvertToMinutesSecondsMilliseconds(Director.Instance.levelTimer);
+        
+        ammoActual.text = WeaponState.Instance.barbatos.actualNumberOfBullet.ToString("00");
+        ammoActual.color = WeaponState.Instance.barbatos.actualNumberOfBullet <
+                           ((20f / 100f) * (WeaponState.Instance.barbatos.so_Weapon.weaponMode[0].numberOfBullet + 1))
+            ? Color.red
+            : Color.white;
+        
+        ammoMax.text = WeaponState.Instance.barbatos.so_Weapon.weaponMode[0].numberOfBullet.ToString("00");
         
         deform.material.SetFloat("_DamageRight", _crossProductDamageRight * Mathf.Lerp(0,1,_timerDamageDisplay / damageDisplayDuration));
         deform.material.SetFloat("_DamageLeft", _crossProductDamageLeft * Mathf.Lerp(0,1,_timerDamageDisplay / damageDisplayDuration));
@@ -446,5 +471,73 @@ public class HUD : GenericSingletonClass<HUD>
         
         crosshairParent.SetActive(reload.fillAmount > 0.99f);
         reload.enabled = reload.fillAmount < 0.99f;
+    }
+
+    private void AmmoCountAnim()
+    {
+        StopAllCoroutines();
+        DOTween.Kill(this, 0);
+        StartCoroutine(AmmoCountAnimRoutine());
+    }
+    private IEnumerator AmmoCountAnimRoutine()
+    {
+        ammoActual.transform.DOScale(1f * 1.1f, 1f/WeaponState.Instance.barbatos.so_Weapon.weaponMode[0].fireRate)
+            .SetEase(ammoAnimCurve).SetId(0);
+        yield break;
+    }
+    
+    private void AmmoInitReloadAnim()
+    {
+        StopAllCoroutines();
+        DOTween.Kill(this, 1);
+        StartCoroutine(AmmoInitReloadAnimRoutine());
+    }
+    private IEnumerator AmmoInitReloadAnimRoutine()
+    {
+        ammoActual.transform.DOScale(1f * 1.1f, WeaponState.Instance.barbatos.so_Weapon.weaponMode[0].timeToReload)
+            .SetEase(ammoReloadAnimCurve).SetId(1);
+        yield break;
+    }
+    
+    private void AmmoEndReloadAnim()
+    {
+        StopAllCoroutines();
+        DOTween.Kill(this, 2);
+        StartCoroutine(AmmoEndReloadAnimRoutine());
+    }
+    private IEnumerator AmmoEndReloadAnimRoutine()
+    {
+        ammoActual.DOFade(0f, 0.2f)
+            .SetEase(ammoReloadEndAnimCurve).SetId(2);
+        yield break;
+    }
+
+    private void UpdateModeIcons()
+    {
+        mods[0].sprite = WeaponState.Instance.barbatos.so_Weapon.weaponMode[0].modeIcon;
+        mods[1].sprite = WeaponState.Instance.barbatos.so_Weapon.weaponMode[1].modeIcon;
+    }
+    
+    string ConvertToHoursMinutesSeconds(float totalSeconds)
+    {
+        // Calculate hours, minutes and seconds
+        int hours = Mathf.FloorToInt(totalSeconds / 3600);
+        int minutes = Mathf.FloorToInt((totalSeconds % 3600) / 60);
+        float seconds = totalSeconds % 60;
+
+        // Format the string to display hours, minutes, and seconds
+        return string.Format("{0:00}:{1:00}:{2:00}", hours, minutes, seconds);
+    }
+    
+    string ConvertToMinutesSecondsMilliseconds(float totalSeconds)
+    {
+        // Calculate minutes, seconds, and milliseconds
+        int minutes = Mathf.FloorToInt(totalSeconds / 60);
+        float secondsFloat = totalSeconds % 60;
+        int seconds = Mathf.FloorToInt(secondsFloat);
+        int milliseconds = Mathf.FloorToInt((secondsFloat - seconds) * 1000);
+
+        // Format the string to display minutes, seconds, and milliseconds
+        return string.Format("{0:00}:{1:00}.{2:000}", minutes, seconds, milliseconds);
     }
 }

@@ -59,6 +59,8 @@ public class UpgradeButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
     {
         WeaponState.Instance.barbatos.so_Weapon.weaponMode[modeIndex] = mode;
         
+        UpgradeModule.Instance.onUpgrade.Invoke();
+        
         // audio
         AudioManager.Instance.SpawnAudio2D(transform.position, SfxType.SFX, 27, 1,0,1);
         
