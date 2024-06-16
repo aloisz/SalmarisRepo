@@ -71,6 +71,12 @@ public class HUD : GenericSingletonClass<HUD>
     private static readonly int ScreenGiggleX = Shader.PropertyToID("_ScreenGiggleX");
     private static readonly int ScreenGiggleY = Shader.PropertyToID("_ScreenGiggleY");
 
+    public override void Awake()
+    {
+        base.Awake();
+        DontDestroyOnLoad(gameObject);
+    }
+    
     private void Start()
     {
         CreateMaterialInstance(UIBackground);

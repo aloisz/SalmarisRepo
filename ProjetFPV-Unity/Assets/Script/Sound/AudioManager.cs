@@ -17,9 +17,10 @@ namespace MyAudio
 
         public AudioMixer audioMixer;
         
-        private void Start()
+        public override void Awake()
         {
-            
+            base.Awake();
+            DontDestroyOnLoad(gameObject);
         }
 
         public void SpawnAudio2D(Vector3 position, SfxType sfxType, int audioID, float volume, float timeToTurnOnVolume, float pitch, bool loop = false)

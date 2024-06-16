@@ -18,7 +18,7 @@ public class MusicManager : GenericSingletonClass<MusicManager>
     public override void Awake()
     {
         base.Awake();
-        DontDestroyOnLoad(this);
+        DontDestroyOnLoad(gameObject);
     }
 
     private void Start()

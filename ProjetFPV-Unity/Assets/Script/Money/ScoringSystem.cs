@@ -13,6 +13,12 @@ public class ScoringSystem : GenericSingletonClass<ScoringSystem>
     
     private int _timeScore;
     private int _deathBonus;
+    
+    public override void Awake()
+    {
+        base.Awake();
+        DontDestroyOnLoad(gameObject);
+    }
 
     private void Start()
     {

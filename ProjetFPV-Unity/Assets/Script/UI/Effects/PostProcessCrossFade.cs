@@ -9,6 +9,12 @@ public class PostProcessCrossFade : GenericSingletonClass<PostProcessCrossFade>
 {
     private List<Volume> volumes = new List<Volume>();
 
+    public override void Awake()
+    {
+        base.Awake();
+        DontDestroyOnLoad(gameObject);
+    }
+
     private void Start()
     {
         volumes.Add(GameObject.FindWithTag("PP1").GetComponent<Volume>());

@@ -15,6 +15,12 @@ public class GameManager : GenericSingletonClass<GameManager>
 
     public int globalScore;
 
+    public override void Awake()
+    {
+        base.Awake();
+        DontDestroyOnLoad(gameObject);
+    }
+    
     public void LevelFinished()
     {
         OnLevelCompleted?.Invoke();
@@ -25,8 +31,7 @@ public class GameManager : GenericSingletonClass<GameManager>
         MusicManager.Instance.ChangeMusicPlayed(Music.FinNiveau, 1f, 0.25f);
         StartCoroutine(VoicelineManager.Instance.CallLevelOneFinishedVoiceLine());
     }
-    
-    
+
     private  int avgFrameRate;
     private int frameRate;
     private float ms;
