@@ -15,6 +15,8 @@ using Random = UnityEngine.Random;
 
 public class GameManager : GenericSingletonClass<GameManager>, IDestroyInstance
 {
+    [SerializeField] private bool DebugFPS;
+    
     public int currentLevelIndex;
     public int currentCheckpointIndex;
 
@@ -117,9 +119,10 @@ public class GameManager : GenericSingletonClass<GameManager>, IDestroyInstance
         CameraManager.Instance.transform.position = levelPlayersPositions.levels[value].cameraPos;
         CameraManager.Instance.transform.eulerAngles = levelPlayersPositions.levels[value].cameraRot;
     }
-
+    
     private void OnGUI()
     {
+        if(!DebugFPS) return;
         GUIStyle font = new GUIStyle();
         font.fontSize = 50;
         font.fontStyle = FontStyle.Bold;
