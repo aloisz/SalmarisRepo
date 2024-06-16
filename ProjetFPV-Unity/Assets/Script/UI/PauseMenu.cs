@@ -23,7 +23,14 @@ public class PauseMenu : MonoBehaviour
 
     private void Awake()
     {
-        instance = this;
+        if (instance != null && instance != this) 
+        { 
+            Destroy(this); 
+        } 
+        else 
+        { 
+            instance = this; 
+        } 
         DontDestroyOnLoad(gameObject);
     }
 
@@ -61,6 +68,7 @@ public class PauseMenu : MonoBehaviour
         StartCoroutine(nameof(QuitPauseRoutine));
     }
 
+    
     IEnumerator QuitPauseRoutine()
     {
         _animator.SetTrigger("Close");

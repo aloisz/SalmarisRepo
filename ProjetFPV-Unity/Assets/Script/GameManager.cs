@@ -53,15 +53,26 @@ public class GameManager : GenericSingletonClass<GameManager>
         ms = Time.deltaTime * 1000;
     }
 
-    [Button("ChangeScene")]
+    [Button("ChangeScene 0")]
     public void ChangeLevel()
     {
+        Time.timeScale = 1;
+        PauseMenu.instance.QuitPause();
         AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(0);
-        AsyncWaitForLoadingScene(asyncLoad);
+        AsyncWaitForLoadingScene(asyncLoad, 0);
+    }
+    
+    [Button("ChangeScene 1")]
+    public void ChangeLevel1()
+    {
+        Time.timeScale = 1;
+        PauseMenu.instance.QuitPause();
+        AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(1);
+        AsyncWaitForLoadingScene(asyncLoad, 1);
     }
 
 
-    async void AsyncWaitForLoadingScene(AsyncOperation asyncLoad)
+    async void AsyncWaitForLoadingScene(AsyncOperation asyncLoad, int value)
     {
         Debug.Log("begin Async");
         while (!asyncLoad.isDone)
@@ -70,8 +81,8 @@ public class GameManager : GenericSingletonClass<GameManager>
             Debug.Log("Waiting async");
         }
 
-        PlayerController.Instance.transform.position = levelPlayersPositions.levels[1].positionToSpawn;
-        PlayerController.Instance.transform.eulerAngles = levelPlayersPositions.levels[1].directionToLook;
+        PlayerController.Instance.transform.position = levelPlayersPositions.levels[value].positionToSpawn;
+        PlayerController.Instance.transform.eulerAngles = levelPlayersPositions.levels[value].directionToLook;
     }
 
     private void OnGUI()
