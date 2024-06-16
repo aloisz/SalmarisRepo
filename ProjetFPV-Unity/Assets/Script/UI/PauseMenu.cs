@@ -176,4 +176,13 @@ public class PauseMenu : MonoBehaviour
     {
         SceneManager.LoadScene("TitleScreen");
     }
+
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            if(!isMenuOpened) InitPause();
+            else QuitPause();
+        }
+    }
 }
