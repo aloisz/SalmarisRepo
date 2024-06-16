@@ -51,6 +51,7 @@ namespace AI
 
         [Header("VFX")] 
         [SerializeField] private ParticleSystem VFXSpawn;
+        [SerializeField] private ParticleSystem VFXStunned;
         private AI_Material[] _aiMaterials;
         
         protected virtual void Awake()
@@ -261,6 +262,12 @@ namespace AI
             ChangeState(PawnState.Disable);
             IsPhysicNavMesh(false);
             StartCoroutine(DisableAgentCorountine());
+
+            if (VFXStunned != null)
+            {
+                VFXStunned.Stop();
+                VFXStunned.Play();
+            }
         }
 
         internal void ChangeState(PawnState newState)
