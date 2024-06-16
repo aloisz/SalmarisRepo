@@ -49,6 +49,8 @@ public class HUD : GenericSingletonClass<HUD>
     
     [SerializeField] private Image reload;
     
+    [SerializeField] private TextMeshProUGUI speedText;
+    
     [Header("Components Lists")]
     [SerializeField] private List<Image> crosshairBorders = new List<Image>();
     [SerializeField] private ParticleSystem[] dashParticleSystems;
@@ -127,6 +129,8 @@ public class HUD : GenericSingletonClass<HUD>
         rageBar.color = PlayerKillStreak.Instance.isInRageMode ? Color.red : Color.white;
         
         _timerDamageDisplay.DecreaseTimerIfPositive();
+        
+        //speedText.text = PlayerController.Instance.
         
         deform.material.SetFloat("_DamageRight", _crossProductDamageRight * Mathf.Lerp(0,1,_timerDamageDisplay / damageDisplayDuration));
         deform.material.SetFloat("_DamageLeft", _crossProductDamageLeft * Mathf.Lerp(0,1,_timerDamageDisplay / damageDisplayDuration));

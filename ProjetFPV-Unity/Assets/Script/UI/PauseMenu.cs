@@ -6,6 +6,7 @@ using MyAudio;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Rendering;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class PauseMenu : MonoBehaviour
@@ -161,5 +162,10 @@ public class PauseMenu : MonoBehaviour
         volumesTexts[1].text = Mathf.RoundToInt(100).ToString();
         volumesTexts[2].text = Mathf.RoundToInt(100).ToString();
         volumesTexts[3].text = $"x{OptionsDDOL.Instance.sensibility:F1}";
+    }
+
+    public void BackToMenu()
+    {
+        SceneManager.LoadScene("TitleScreen");
     }
 }

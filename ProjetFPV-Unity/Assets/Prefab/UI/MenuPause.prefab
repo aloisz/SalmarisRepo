@@ -3177,7 +3177,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: QUIT
+  m_text: BACK TO MENU
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 76c3ee78999dcc948ae335f803b0d620, type: 2}
   m_sharedMaterial: {fileID: -6474927426795191011, guid: 76c3ee78999dcc948ae335f803b0d620,
@@ -8972,7 +8972,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.125979, g: 0.13663226, b: 0.1792453, a: 1}
+  m_Color: {r: 0.16037738, g: 0.08851016, b: 0.09035616, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -9032,7 +9032,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 8692400785848066353}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1145785109070412657}
+        m_TargetAssemblyTypeName: PauseMenu, Assembly-CSharp
+        m_MethodName: BackToMenu
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &6314274029215643754
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9090,7 +9102,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d817383c44c64884fbfcf56e14e54807, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  finalColor: {r: 0.21213044, g: 0.21213044, b: 0.287, a: 1}
+  finalColor: {r: 0.2264151, g: 0.11641154, b: 0.11641154, a: 1}
   duration: 0.2
 --- !u!114 &3291142716993401647
 MonoBehaviour:
