@@ -15,14 +15,14 @@ namespace Weapon
         {
             base.InstantiateBulletImpact(hit);
             
-            GameObject particle = Pooling.instance.Pop("BulletImpact");
+            GameObject particle = Pooling.Instance.Pop("BulletImpact");
             particle.transform.position = hit.point;
             particle.transform.up = hit.normal;
-            Pooling.instance.DelayedDePop("BulletImpact", particle,5);
+            Pooling.Instance.DelayedDePop("BulletImpact", particle,5);
 
             if (so_Weapon.weaponMode[(int)actualWeaponModeIndex].doExplosion)
             {
-                GameObject explosion = Pooling.instance.Pop("ExplosionImpact");
+                GameObject explosion = Pooling.Instance.Pop("ExplosionImpact");
                 explosion.transform.position = hit.point;
             }
             

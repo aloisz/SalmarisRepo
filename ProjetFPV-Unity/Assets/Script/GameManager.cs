@@ -1,8 +1,12 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using AI;
+using NaughtyAttributes;
+using Player;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.Serialization;
 using Random = UnityEngine.Random;
 
@@ -12,6 +16,9 @@ public class GameManager : GenericSingletonClass<GameManager>
     public int currentCheckpointIndex;
     
     public Action OnLevelCompleted;
+
+    [Header("LevelPlayersPosition")] [SerializeField]
+    private LevelPlayersPosition levelPlayersPositions;
 
     public int globalScore;
 
@@ -45,7 +52,39 @@ public class GameManager : GenericSingletonClass<GameManager>
         
         ms = Time.deltaTime * 1000;
     }
+
+    [Button("ChangeScene 0")]
+    public void ChangeLevel()
+    {
+        Time.timeScale = 1;
+        PauseMenu.instance.QuitPause();
+        AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(0);
+        AsyncWaitForLoadingScene(asyncLoad, 0);
+    }
     
+    [Button("ChangeScene 1")]
+    public void ChangeLevel1()
+    {
+        Time.timeScale = 1;
+        PauseMenu.instance.QuitPause();
+        AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(1);
+        AsyncWaitForLoadingScene(asyncLoad, 1);
+    }
+
+
+    async void AsyncWaitForLoadingScene(AsyncOperation asyncLoad, int value)
+    {
+        Debug.Log("begin Async");
+        while (!asyncLoad.isDone)
+        {
+            await Task.Yield();
+            Debug.Log("Waiting async");
+        }
+
+        PlayerController.Instance.transform.position = levelPlayersPositions.levels[value].positionToSpawn;
+        PlayerController.Instance.transform.eulerAngles = levelPlayersPositions.levels[value].directionToLook;
+    }
+
     private void OnGUI()
     {
         GUIStyle font = new GUIStyle();
@@ -59,3 +98,19 @@ public class GameManager : GenericSingletonClass<GameManager>
         GUI.Label(new Rect(5, 140, 100, 25), "ms: " + Mathf.Round(ms), font);
     }
 }
+
+
+[System.Serializable]
+public class LevelPlayersPosition
+{
+    public List<Level> levels;
+}
+
+[System.Serializable]
+public class Level
+{
+    public Vector3 positionToSpawn;
+    public Vector3 directionToLook;
+}
+
+

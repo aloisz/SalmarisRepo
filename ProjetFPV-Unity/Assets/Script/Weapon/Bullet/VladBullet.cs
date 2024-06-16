@@ -31,13 +31,13 @@ public class VladBullet : BulletBehavior, IExplosion
         bullet.isMoving = false;
         rb.velocity = Vector3.zero;
         rb.isKinematic = true;
-        Pooling.instance.DelayedDePop(bullet.PoolingKeyName, gameObject,7);
+        Pooling.Instance.DelayedDePop(bullet.PoolingKeyName, gameObject,7);
     }
     
     protected override void CollideWithPlayerMask(Collision collision)
     {
         collision.transform.GetComponent<IDamage>().Hit(bullet.damage);
-        Pooling.instance.DePop(bullet.PoolingKeyName, gameObject);
+        Pooling.Instance.DePop(bullet.PoolingKeyName, gameObject);
     }
 
     #endregion
@@ -45,11 +45,11 @@ public class VladBullet : BulletBehavior, IExplosion
 
     public void Explosion()
     {
-        GameObject Explosion = Pooling.instance.Pop("Explosion");
+        GameObject Explosion = Pooling.Instance.Pop("Explosion");
         Explosion.transform.position = transform.position;
         Explosion.transform.rotation = Quaternion.identity;
         
-        Pooling.instance.DePop(bullet.PoolingKeyName, gameObject);
+        Pooling.Instance.DePop(bullet.PoolingKeyName, gameObject);
     }
 
     public void HitScanExplosion(LayerMask newTarget)

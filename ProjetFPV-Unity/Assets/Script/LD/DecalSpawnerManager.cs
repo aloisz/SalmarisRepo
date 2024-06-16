@@ -12,7 +12,7 @@ public class DecalSpawnerManager : GenericSingletonClass<DecalSpawnerManager>
     
     public void SpawnDecal(Vector3 pos, Vector3 normal, string key)
     {
-        GameObject spawnedObject = Pooling.instance.Pop(key);
+        GameObject spawnedObject = Pooling.Instance.Pop(key);
         spawnedObject.transform.position = pos;
 
         // Create the rotation to align the decal to the surface normal

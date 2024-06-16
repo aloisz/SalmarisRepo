@@ -72,7 +72,7 @@ public class Missile : BulletBehavior,IExplosion
     {
         Explosion();
         trailRenderer.enabled = false;
-        Pooling.instance.DePop(bullet.PoolingKeyName, gameObject);
+        Pooling.Instance.DePop(bullet.PoolingKeyName, gameObject);
     }
     
     // Here put following logic when bullet collide with enemyMask
@@ -81,7 +81,7 @@ public class Missile : BulletBehavior,IExplosion
         Explosion();
         trailRenderer.enabled = false;
         collision.transform.GetComponent<IDamage>().Hit(bullet.damage);
-        Pooling.instance.DePop(bullet.PoolingKeyName, gameObject);
+        Pooling.Instance.DePop(bullet.PoolingKeyName, gameObject);
     }
 
     protected override void EventWhenBulletLifeTimeEnd()
@@ -117,7 +117,7 @@ public class Missile : BulletBehavior,IExplosion
     protected Explosion explosion;
     public virtual void Explosion()
     {
-        GameObject Explosion = Pooling.instance.Pop("Explosion");
+        GameObject Explosion = Pooling.Instance.Pop("Explosion");
         Explosion.transform.position = transform.position;
         Explosion.transform.rotation = Quaternion.identity;
         explosion = Explosion.GetComponent<Explosion>();
@@ -130,7 +130,7 @@ public class Missile : BulletBehavior,IExplosion
 
     public virtual void HitScanExplosion(LayerMask newTarget)
     {
-        GameObject Explosion = Pooling.instance.Pop("Explosion");
+        GameObject Explosion = Pooling.Instance.Pop("Explosion");
         Explosion.transform.position = transform.position;
         Explosion.transform.rotation = Quaternion.identity;
         explosion = Explosion.GetComponent<Explosion>();
@@ -142,7 +142,7 @@ public class Missile : BulletBehavior,IExplosion
         
         Debug.Log("Hit");
         
-        Pooling.instance.DelayedDePop(bullet.PoolingKeyName, gameObject, 0.05f); // DePop Missile
+        Pooling.Instance.DelayedDePop(bullet.PoolingKeyName, gameObject, 0.05f); // DePop Missile
     }
     
     private Material CreateMaterialInstance(Material m)

@@ -195,7 +195,10 @@ public class UpgradeModule : GenericSingletonClass<UpgradeModule>
         for (int i = 0; i < amount; i++)
         {
             var random = _currentAvailableUpgrades[Random.Range(0, _currentAvailableUpgrades.Count)];
-            while(soWeaponModes.Contains(random)) random = _currentAvailableUpgrades[Random.Range(0, _currentAvailableUpgrades.Count)];
+            while(soWeaponModes.Contains(random) || 
+                  WeaponState.Instance.barbatos.so_Weapon.weaponMode[0] == random ||
+                  WeaponState.Instance.barbatos.so_Weapon.weaponMode[1] == random) 
+                random = _currentAvailableUpgrades[Random.Range(0, _currentAvailableUpgrades.Count)];
             
             soWeaponModes.Add(random);
         }

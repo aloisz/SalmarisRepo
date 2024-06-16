@@ -140,7 +140,7 @@ public class Explosion : MonoBehaviour
                 rb.AddExplosionForce(explosionForce, transform.position, explosionRadius);
             }
         }
-        Pooling.instance.DelayedDePop("Explosion", gameObject, 2);
+        Pooling.Instance.DelayedDePop("Explosion", gameObject, 2);
     }
 
 

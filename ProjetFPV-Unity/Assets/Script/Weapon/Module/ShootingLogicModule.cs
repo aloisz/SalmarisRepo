@@ -64,7 +64,7 @@ public class ShootingLogicModule : WeaponManager, IShootRaycast, IShootSphereCas
     private LineRenderer lineRenderer;
     protected virtual void InitialiseLineRenderer(RaycastHit hit)
     {
-        GameObject lineRendererGO = Pooling.instance.Pop("HitScanRay");
+        GameObject lineRendererGO = Pooling.Instance.Pop("HitScanRay");
         lineRenderer = lineRendererGO.GetComponent<LineRenderer>();
         
         lineRenderer.startWidth = 
@@ -181,7 +181,7 @@ public class ShootingLogicModule : WeaponManager, IShootRaycast, IShootSphereCas
     protected virtual void ShootProjectile()
     { 
         //BulletBehavior
-        bulletProjectileGO = Pooling.instance.Pop(so_Weapon.weaponMode[(int)actualWeaponModeIndex].poolingPopKey);
+        bulletProjectileGO = Pooling.Instance.Pop(so_Weapon.weaponMode[(int)actualWeaponModeIndex].poolingPopKey);
         bulletProjectileGO.transform.position = gunBarrelPos.position;
         bulletProjectileGO.transform.rotation = Quaternion.identity;
     }
