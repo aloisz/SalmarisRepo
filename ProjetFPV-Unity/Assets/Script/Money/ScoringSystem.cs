@@ -21,13 +21,7 @@ public class ScoringSystem : GenericSingletonClass<ScoringSystem>, IDestroyInsta
         DontDestroyOnLoad(gameObject);
     }
 
-    private void Start()
-    {
-        GameManager.Instance.OnLevelCompleted += ScoreEndLevel;
-        Director.Instance.onArenaFinished += ScoreEndArena;
-    }
-
-    private void ScoreEndLevel()
+    public void ScoreEndLevel()
     {
         GameManager.Instance.globalScore = CalculateEndLevelScore();
         PlayerMoney.Instance.Money += GameManager.Instance.globalScore;
@@ -35,7 +29,7 @@ public class ScoringSystem : GenericSingletonClass<ScoringSystem>, IDestroyInsta
         Debug.Log(CalculateEndLevelScore());
     }
 
-    private void ScoreEndArena()
+    public void ScoreEndArena()
     {
         PlayerMoney.Instance.Money += CalculateEndArenaScore();
     }

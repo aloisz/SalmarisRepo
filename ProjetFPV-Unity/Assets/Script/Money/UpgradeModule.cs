@@ -39,11 +39,12 @@ public class UpgradeModule : GenericSingletonClass<UpgradeModule>
 
     private bool _alreadyland;
     private Vector3 baseKeyboardPosition;
+
+    public Action onUpgrade;
     
     public override void Awake()
     {
         base.Awake();
-        DontDestroyOnLoad(gameObject);
     }
 
     private void Start()
