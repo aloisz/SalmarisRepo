@@ -14,7 +14,7 @@ public class ExplosiveBaril : MonoBehaviour, IExplosion, IDamage
 
     public void Explosion()
     {
-        GameObject Explosion = Pooling.instance.Pop("Explosion");
+        GameObject Explosion = Pooling.Instance.Pop("Explosion");
         Explosion.transform.position = transform.position;
         Explosion.transform.rotation = Quaternion.identity;
         _explosion = Explosion.GetComponent<Explosion>();

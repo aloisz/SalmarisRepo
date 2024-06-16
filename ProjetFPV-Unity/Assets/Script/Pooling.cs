@@ -3,18 +3,16 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Pooling : MonoBehaviour
+public class Pooling : GenericSingletonClass<Pooling>
 {
     private Dictionary<string, Pool> pools = new Dictionary<string, Pool>();
     [SerializeField] private List<KeyPool> keyPools = new List<KeyPool>();
     
     
-
-    public static Pooling instance;
-    private void Awake()
+    public override void Awake()
     {
-        instance = this;
-
+        base.Awake();
+        
         InitiPools();
         PopulatePools();
     }

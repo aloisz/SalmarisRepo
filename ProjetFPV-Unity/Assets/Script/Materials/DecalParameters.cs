@@ -48,7 +48,7 @@ public class DecalParameters : MonoBehaviour
         if (justUseAlphaFade)
         {
             StartCoroutine(FadeDecal(alphaFadeDelay));
-            Pooling.instance.DelayedDePop(key, gameObject, alphaFadeDelay);
+            Pooling.Instance.DelayedDePop(key, gameObject, alphaFadeDelay);
             return;
         }
         
@@ -68,7 +68,7 @@ public class DecalParameters : MonoBehaviour
             lifeTime += p.animDuration * rand + p.delayBeforeFinalValue;
         }
         
-        if(key != String.Empty) Pooling.instance.DelayedDePop(key, gameObject, lifeTime);
+        if(key != String.Empty) Pooling.Instance.DelayedDePop(key, gameObject, lifeTime);
         else Destroy(gameObject, lifeTime);
     }
 

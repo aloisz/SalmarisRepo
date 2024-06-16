@@ -12,7 +12,7 @@ using UnityEditor;
 
 namespace CameraBehavior
 {
-    public class CameraManager : MonoBehaviour
+    public class CameraManager : GenericSingletonClass<CameraManager>
     {
         [Header("---Scriptable---")] 
         [Expandable]public SO_Camera so_Camera;
@@ -47,12 +47,12 @@ namespace CameraBehavior
 
         private bool isCommingBackFromEffect;
         internal float timer = 0;
-
-        public static CameraManager Instance;
         
         
-        private void Awake()
+        public override void Awake()
         {
+            base.Awake();
+            
             cameraSliding = GetComponent<CameraSliding>();
             cameraJumping = GetComponent<CameraJumping>();
             cameraDash = GetComponent<CameraDash>();
@@ -62,8 +62,6 @@ namespace CameraBehavior
             cameraTransform = camera.GetComponent<Transform>();
             handSwing = GetComponentInChildren<HandSwing>();
             cameraFrustumCulling = GetComponent<CameraFrustumCulling>();
-
-            Instance = this;
             
             currentFov = so_Camera.fovIdle;
             camera.fieldOfView = currentFov;

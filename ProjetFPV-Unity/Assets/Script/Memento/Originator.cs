@@ -124,7 +124,7 @@ public class Originator : MonoBehaviour
         {
             //TODO
             p.navMeshAgent.enabled = false;
-            Pooling.instance.DePop(p.so_IA.poolingName, p.gameObject);
+            Pooling.Instance.DePop(p.so_IA.poolingName, p.gameObject);
         }
     }
 

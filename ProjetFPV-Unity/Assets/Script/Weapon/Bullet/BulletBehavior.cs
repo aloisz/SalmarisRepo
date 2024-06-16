@@ -77,7 +77,7 @@ public class BulletBehavior : MonoBehaviour, IBulletBehavior
         {
             timerBulletLifeTime = 0;
             EventWhenBulletLifeTimeEnd();
-            Pooling.instance.DePop(bullet.PoolingKeyName, gameObject);
+            Pooling.Instance.DePop(bullet.PoolingKeyName, gameObject);
         }
     }
     
@@ -106,14 +106,14 @@ public class BulletBehavior : MonoBehaviour, IBulletBehavior
     // Here put following logic when bullet collide with walkableMask
     protected virtual void CollideWithWalkableMask(Collision collision)
     {
-        Pooling.instance.DePop(bullet.PoolingKeyName, gameObject);
+        Pooling.Instance.DePop(bullet.PoolingKeyName, gameObject);
     }
     
     // Here put following logic when bullet collide with enemyMask
     protected virtual void CollideWithPlayerMask(Collision collision)
     {
         collision.transform.GetComponent<IDamage>().Hit(bullet.damage);
-        Pooling.instance.DePop(bullet.PoolingKeyName, gameObject);
+        Pooling.Instance.DePop(bullet.PoolingKeyName, gameObject);
         CameraShake.Instance.ShakeCamera(false, shakeDuration, shakeMagnitude, shakeFrequency, true, power);
     }
     

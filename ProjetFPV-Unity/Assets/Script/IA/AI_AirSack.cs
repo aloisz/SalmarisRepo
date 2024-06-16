@@ -124,7 +124,7 @@ public class AI_AirSack : AI_Pawn
     public override void DestroyLogic()
     {
         AudioManager.Instance.SpawnAudio3D(transform.position, SfxType.SFX, 17, 1, 0, 1);
-        Pooling.instance.DelayedDePop(so_IA.poolingName, gameObject, 2f);
+        Pooling.Instance.DelayedDePop(so_IA.poolingName, gameObject, 2f);
         animatorAirSack.ChangeState(animatorAirSack.DEATH,.2f);
     }
     
