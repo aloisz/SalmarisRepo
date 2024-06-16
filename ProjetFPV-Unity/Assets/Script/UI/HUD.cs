@@ -129,8 +129,8 @@ public class HUD : GenericSingletonClass<HUD>
         rageBar.color = PlayerKillStreak.Instance.isInRageMode ? Color.red : Color.white;
         
         _timerDamageDisplay.DecreaseTimerIfPositive();
-        
-        //speedText.text = PlayerController.Instance.
+
+        speedText.text = (PlayerController.Instance._rb.velocity.magnitude * 2.23694f).ToString("F1") + " mph";
         
         deform.material.SetFloat("_DamageRight", _crossProductDamageRight * Mathf.Lerp(0,1,_timerDamageDisplay / damageDisplayDuration));
         deform.material.SetFloat("_DamageLeft", _crossProductDamageLeft * Mathf.Lerp(0,1,_timerDamageDisplay / damageDisplayDuration));
