@@ -51,7 +51,7 @@ namespace AI
             if(gameObject.activeSelf) agentLinkMover.StartCoroutine(agentLinkMover.StartLinkerVerif());
             
             if(doAudio)AudioManager.Instance.SpawnAudio3D(transform.position, SfxType.SFX, 8, 1, 0, 1,1, 0,
-                AudioRolloffMode.Logarithmic, 5,100);
+                AudioRolloffMode.Linear, 5,100);
         }
         
         protected override void Update()

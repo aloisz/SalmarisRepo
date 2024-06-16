@@ -11,5 +11,10 @@ public class Hole : MonoBehaviour
         {
             other.GetComponent<IDamage>().Hit(999);
         }
+
+        if (other.CompareTag("Player"))
+        {
+            StartCoroutine(VoicelineManager.Instance.CallHoleDeathVoiceLine());
+        }
     }
 }

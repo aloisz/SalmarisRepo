@@ -77,12 +77,12 @@ public class Explosion : MonoBehaviour
         if (!doDamagePlayer)
         {
             AudioManager.Instance.SpawnAudio3D(transform.position, SfxType.SFX, 42, 4, 0, 1,1, 0,
-                AudioRolloffMode.Logarithmic, 5,40);
+                AudioRolloffMode.Linear, 5,100);
         }
         else
         {
             AudioManager.Instance.SpawnAudio3D(transform.position, SfxType.SFX, 21, 4, 0, 1,1, 0,
-                AudioRolloffMode.Logarithmic, 5,40);
+                AudioRolloffMode.Linear, 5,100);
         }
         
         

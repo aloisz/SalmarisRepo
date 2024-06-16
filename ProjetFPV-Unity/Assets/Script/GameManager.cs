@@ -23,6 +23,7 @@ public class GameManager : GenericSingletonClass<GameManager>
         currentLevelIndex++;
         
         MusicManager.Instance.ChangeMusicPlayed(Music.FinNiveau, 1f, 0.25f);
+        StartCoroutine(VoicelineManager.Instance.CallLevelOneFinishedVoiceLine());
     }
     
     

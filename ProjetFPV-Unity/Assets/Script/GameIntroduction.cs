@@ -24,7 +24,7 @@ public class GameIntroduction : MonoBehaviour
         
         for (int i = 0; i < 7; i++)
         {
-            VoicelineManager.Instance.CallVoiceLineINtroduction(i);
+            VoicelineManager.Instance.CallVoiceLineIntroduction(i);
             yield return new WaitForSecondsRealtime(VoicelineManager.Instance.scriptable.soundList[i].IASoundID.audioDuration);
             State(i);
         }

@@ -93,6 +93,9 @@ public class PlayerHealth : GenericSingletonClass<PlayerHealth>, IDamage
     {
         ApplyDamage(damageInflicted);
     }
+
+    private bool _alreadyPlayedNoLifeVoiceLine;
+    
     private void ApplyDamage(float amount)
     {
         if (Shield > 0)
@@ -105,6 +108,8 @@ public class PlayerHealth : GenericSingletonClass<PlayerHealth>, IDamage
                 amount -= Shield;
                 Shield = 0;
                 ShockwaveBreakShield();
+
+                StartCoroutine(VoicelineManager.Instance.CallFirstBrokenShieldVoiceLine());
             }
             else
             {
@@ -124,10 +129,25 @@ public class PlayerHealth : GenericSingletonClass<PlayerHealth>, IDamage
         // Apply remaining damage to health
         Health -= amount;
 
+        if (Health < 30f)
+        {
+            if (!_alreadyPlayedNoLifeVoiceLine)
+            {
+                StartCoroutine(VoicelineManager.Instance.CallLowLifeVoiceLine());
+                _alreadyPlayedNoLifeVoiceLine = true;
+            }
+        }
+        else
+        {
+            _alreadyPlayedNoLifeVoiceLine = false;
+        }
+
         // Check if health drops below 0
         if (Health <= 0)
         {
             Death();
+            StartCoroutine(VoicelineManager.Instance.CallFirstDeathVoiceLine());
+            MusicManager.Instance.ChangeMusicPlayed(Music.Ambiance, 0.2f, 0.25f);
             return;
         }
         
