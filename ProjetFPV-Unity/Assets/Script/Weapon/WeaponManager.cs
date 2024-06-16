@@ -256,6 +256,7 @@ namespace Weapon
         public virtual void Reload()
         {
             if(actualNumberOfBullet == so_Weapon.weaponMode[0].numberOfBullet) return;
+            if(PlayerKillStreak.Instance.isInRageMode) return;
             
             OnReload.Invoke();
             isReloading = true;

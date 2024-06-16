@@ -162,6 +162,7 @@ public class PlayerKillStreak : GenericSingletonClass<PlayerKillStreak>
                 _rageTransitionPenaltyTimer = refilePenaltyDuration;
                 _rageTimer = 0f;
                 KillStreak = 0f;
+                WeaponState.Instance.barbatos.ResetMunitionWithoutAnim();
             }
             else _rageTransitionPenaltyTimer = 0f;
         }

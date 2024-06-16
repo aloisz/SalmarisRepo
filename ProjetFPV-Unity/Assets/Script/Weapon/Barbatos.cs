@@ -149,6 +149,8 @@ public class Barbatos : Shotgun
         //Audio
         if(isReloading) return;
         if(actualNumberOfBullet == so_Weapon.weaponMode[0].numberOfBullet) return;
+        if(PlayerKillStreak.Instance.isInRageMode) return;
+        
         AudioManager.Instance.SpawnAudio2D(transform.position, SfxType.SFX, 37, 1,0,1,false);
         
         base.Reload();
@@ -173,8 +175,7 @@ public class Barbatos : Shotgun
         float randomPitch = Random.Range(0.95f, 1.95f);
         AudioManager.Instance.SpawnAudio2D(transform.position, SfxType.SFX, isPrimary ? 39 : 40, 1, 0, randomPitch,
             false);
-
-
+        
         // particle
         if(so_Weapon.weaponMode[(int)actualWeaponModeIndex].weaponParticle == null) return;
 

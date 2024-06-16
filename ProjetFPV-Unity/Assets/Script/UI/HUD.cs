@@ -99,6 +99,7 @@ public class HUD : GenericSingletonClass<HUD>
         CreateMaterialInstance(vitals);
         CreateMaterialInstance(speedEffect);
         CreateMaterialInstance(slideEffect);
+        CreateMaterialInstance(rageBar);
 
         HitMarkerSetupPosition(hitMarkerOffset);
         
@@ -110,6 +111,7 @@ public class HUD : GenericSingletonClass<HUD>
         WeaponState.Instance.barbatos.OnHudShoot += CrosshairShoot;
         WeaponState.Instance.barbatos.OnHudShoot += AmmoCountAnim;
         WeaponState.Instance.barbatos.OnReload += AmmoInitReloadAnim;
+        WeaponState.Instance.barbatos.OnReload += UpdateReloadCircle;
         WeaponState.Instance.barbatos.OnReloadEnd += AmmoEndReloadAnim;
         
         WeaponState.Instance.barbatos.onHitEnemy += HitMarkerPlay;
@@ -133,29 +135,32 @@ public class HUD : GenericSingletonClass<HUD>
         UIGiggle(dashBar.material, giggleMultiplier);
         UIGiggle(deform.material, giggleMultiplierBackground);
         UIGiggle(vitals.material, giggleMultiplierBackground);
+        UIGiggle(rageBar.material, giggleMultiplier);
         
         UIStamina();
         UIHealthShield();
         UpdateShatteredMask();
         SlideEffect();
         UpdateDashDots();
-        UpdateReloadCircle();
 
-        rageBar.fillAmount = PlayerKillStreak.Instance.KillStreak / PlayerKillStreak.Instance.maxKillStreak;
-        rageBar.color = PlayerKillStreak.Instance.isInRageMode ? Color.red : Color.white;
+        rageBar.material.SetFloat("_BarAmount", PlayerKillStreak.Instance.KillStreak / PlayerKillStreak.Instance.maxKillStreak);
+        rageBar.material.SetFloat("_AlertMode", PlayerKillStreak.Instance.isInRageMode ? 1f : 0f);
         
         _timerDamageDisplay.DecreaseTimerIfPositive();
 
         speedText.text = (PlayerController.Instance._rb.velocity.magnitude * 2.23694f).ToString("F1") + " mph";
         timer.text = ConvertToMinutesSecondsMilliseconds(Director.Instance.levelTimer);
         
-        ammoActual.text = WeaponState.Instance.barbatos.actualNumberOfBullet.ToString("00");
+        ammoActual.text = !PlayerKillStreak.Instance.isInRageMode ?
+            " <br>" + WeaponState.Instance.barbatos.actualNumberOfBullet.ToString("00") : "Inf.";
         ammoActual.color = WeaponState.Instance.barbatos.actualNumberOfBullet <
                            ((20f / 100f) * (WeaponState.Instance.barbatos.so_Weapon.weaponMode[0].numberOfBullet + 1))
             ? Color.red
             : Color.white;
+        ammoActual.fontSize = !PlayerKillStreak.Instance.isInRageMode ? 70 : 65;
         
-        ammoMax.text = WeaponState.Instance.barbatos.so_Weapon.weaponMode[0].numberOfBullet.ToString("00");
+        ammoMax.text = !PlayerKillStreak.Instance.isInRageMode ?
+            " <br>" + WeaponState.Instance.barbatos.so_Weapon.weaponMode[0].numberOfBullet.ToString("00") : "";
         
         deform.material.SetFloat("_DamageRight", _crossProductDamageRight * Mathf.Lerp(0,1,_timerDamageDisplay / damageDisplayDuration));
         deform.material.SetFloat("_DamageLeft", _crossProductDamageLeft * Mathf.Lerp(0,1,_timerDamageDisplay / damageDisplayDuration));
@@ -461,16 +466,17 @@ public class HUD : GenericSingletonClass<HUD>
     private void UpdateReloadCircle()
     {
         var wep = WeaponState.Instance.defaultWeapon;
-        var wepManager = WeaponState.Instance.barbatos;
         var wepPrimary = wep.weaponMode[0];
 
-        if (wepManager.isReloading)
-        {
-            reload.fillAmount = Mathf.Lerp(0, 1, wepManager.timeElapsedReload / (wepPrimary.timeToReload / PlayerKillStreak.Instance.reloadBoost));
-        }
+        reload.enabled = true;
+        crosshairParent.SetActive(false);
         
-        crosshairParent.SetActive(reload.fillAmount > 0.99f);
-        reload.enabled = reload.fillAmount < 0.99f;
+        reload.fillAmount = 0f;
+        reload.DOFillAmount(1f, wepPrimary.timeToReload / PlayerKillStreak.Instance.reloadBoost).OnComplete(() =>
+        {
+            reload.enabled = false;
+            crosshairParent.SetActive(true);
+        });
     }
 
     private void AmmoCountAnim()
@@ -481,7 +487,8 @@ public class HUD : GenericSingletonClass<HUD>
     }
     private IEnumerator AmmoCountAnimRoutine()
     {
-        ammoActual.transform.DOScale(1f * 1.1f, 1f/WeaponState.Instance.barbatos.so_Weapon.weaponMode[0].fireRate)
+        ammoActual.transform.DOScale(1f * 1.1f, 1f/(WeaponState.Instance.barbatos.so_Weapon.weaponMode[0].fireRate * 
+                                                    PlayerKillStreak.Instance.fireRateBoost))
             .SetEase(ammoAnimCurve).SetId(0);
         yield break;
     }
@@ -494,8 +501,8 @@ public class HUD : GenericSingletonClass<HUD>
     }
     private IEnumerator AmmoInitReloadAnimRoutine()
     {
-        ammoActual.transform.DOScale(1f * 1.1f, WeaponState.Instance.barbatos.so_Weapon.weaponMode[0].timeToReload)
-            .SetEase(ammoReloadAnimCurve).SetId(1);
+        ammoActual.transform.DOScale(1f * 1.1f, WeaponState.Instance.barbatos.so_Weapon.weaponMode[0].timeToReload
+                                                * PlayerKillStreak.Instance.reloadBoost).SetEase(ammoReloadAnimCurve).SetId(1);
         yield break;
     }
     
