@@ -201,11 +201,9 @@ public class HUD : GenericSingletonClass<HUD>
         shieldBar.material.DOFloat(PlayerHealth.Instance.Shield / PlayerHealth.Instance.maxShield, "_BarAmount", 0.1f);
         healthBar.material.DOFloat(PlayerHealth.Instance.Health / PlayerHealth.Instance.maxHealth, "_BarAmount", 0.1f);
 
-        shieldBar.material.DOFloat(1-(PlayerHealth.Instance.Shield / PlayerHealth.Instance.maxShield), 
-            "_AlertMode", 0.1f);
-        
-        healthBar.material.DOFloat(1-(PlayerHealth.Instance.Health / PlayerHealth.Instance.maxHealth), 
-            "_AlertMode", 0.1f);
+        shieldBar.material.SetFloat("_AlertMode", Mathf.Clamp01(1-(PlayerHealth.Instance.Shield / PlayerHealth.Instance.maxShield)));
+
+        healthBar.material.SetFloat("_AlertMode", Mathf.Clamp01(1-(PlayerHealth.Instance.Health / PlayerHealth.Instance.maxHealth)));
     }
 
     public void PlayDashVFX()
