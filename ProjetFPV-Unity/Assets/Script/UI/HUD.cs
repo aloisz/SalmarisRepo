@@ -116,6 +116,7 @@ public class HUD : GenericSingletonClass<HUD>
         WeaponState.Instance.barbatos.onHitEnemyLethal += HitMarkerPlayLethal;
 
         UpgradeModule.Instance.onUpgrade += UpdateModeIcons;
+        UpgradeModule.Instance.onUpgrade += AmmoCountAnim;
         UpdateModeIcons();
 
         _basePositionHealthBar = healthBar.transform.localPosition;
@@ -149,6 +150,11 @@ public class HUD : GenericSingletonClass<HUD>
         timer.text = ConvertToMinutesSecondsMilliseconds(Director.Instance.levelTimer);
         
         ammoActual.text = WeaponState.Instance.barbatos.actualNumberOfBullet.ToString("00");
+        ammoActual.color = WeaponState.Instance.barbatos.actualNumberOfBullet <
+                           ((20f / 100f) * (WeaponState.Instance.barbatos.so_Weapon.weaponMode[0].numberOfBullet + 1))
+            ? Color.red
+            : Color.white;
+        
         ammoMax.text = WeaponState.Instance.barbatos.so_Weapon.weaponMode[0].numberOfBullet.ToString("00");
         
         deform.material.SetFloat("_DamageRight", _crossProductDamageRight * Mathf.Lerp(0,1,_timerDamageDisplay / damageDisplayDuration));
