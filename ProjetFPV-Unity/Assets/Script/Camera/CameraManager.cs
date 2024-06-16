@@ -69,6 +69,7 @@ namespace CameraBehavior
             camera.fieldOfView = currentFov;
 
             actualpositionOffSetSmooth = so_Camera.positionOffSetSmooth;
+            DontDestroyOnLoad(this);
         }
         
         private void LateUpdate()
