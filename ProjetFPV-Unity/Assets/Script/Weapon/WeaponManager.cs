@@ -31,7 +31,6 @@ namespace Weapon
         
         public Action OnShoot;
         public Action OnHudShoot;
-        public Action OnReload;
         public Action OnReloadEnd;
         public Action OnLooseAmmo;
         
@@ -257,7 +256,6 @@ namespace Weapon
         {
             if(actualNumberOfBullet == so_Weapon.weaponMode[0].numberOfBullet) return;
             
-            OnReload.Invoke();
             isReloading = true;
             canFire = false;
         }

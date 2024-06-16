@@ -28,6 +28,7 @@ public class Barbatos : Shotgun
 
     public Action onHitEnemy;
     public Action onHitEnemyLethal;
+    public Action OnReload;
 
     protected override void Start()
     {
@@ -152,6 +153,8 @@ public class Barbatos : Shotgun
         if(PlayerKillStreak.Instance.isInRageMode) return;
         
         base.Reload();
+        
+        OnReload.Invoke();
         
         AudioManager.Instance.SpawnAudio2D(transform.position, SfxType.SFX, 37, 1,0,1,false);
         
