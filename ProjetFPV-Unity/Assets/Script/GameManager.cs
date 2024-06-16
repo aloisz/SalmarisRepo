@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AI;
+using CameraBehavior;
 using NaughtyAttributes;
 using Player;
 using Script;
@@ -16,8 +17,6 @@ public class GameManager : GenericSingletonClass<GameManager>, IDestroyInstance
 {
     public int currentLevelIndex;
     public int currentCheckpointIndex;
-    
-    public Action OnLevelCompleted;
 
     [Header("LevelPlayersPosition")] [SerializeField]
     private LevelPlayersPosition levelPlayersPositions;
@@ -32,8 +31,7 @@ public class GameManager : GenericSingletonClass<GameManager>, IDestroyInstance
     
     public void LevelFinished()
     {
-        OnLevelCompleted?.Invoke();
-        Debug.Log("Level Finished");
+        ScoringSystem.Instance.ScoreEndLevel();
 
         currentLevelIndex++;
         
@@ -100,6 +98,9 @@ public class GameManager : GenericSingletonClass<GameManager>, IDestroyInstance
 
         PlayerController.Instance.transform.position = levelPlayersPositions.levels[value].positionToSpawn;
         PlayerController.Instance.transform.eulerAngles = levelPlayersPositions.levels[value].directionToLook;
+
+        CameraManager.Instance.transform.position = levelPlayersPositions.levels[value].cameraPos;
+        CameraManager.Instance.transform.eulerAngles = levelPlayersPositions.levels[value].cameraRot;
     }
 
     private void OnGUI()
@@ -133,6 +134,9 @@ public class Level
 {
     public Vector3 positionToSpawn;
     public Vector3 directionToLook;
+
+    public Vector3 cameraPos;
+    public Vector3 cameraRot;
 }
 
 
