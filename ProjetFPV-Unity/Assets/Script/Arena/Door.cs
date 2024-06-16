@@ -15,6 +15,8 @@ public class Door : MonoBehaviour
 
     [SerializeField] private Animator animator;
 
+    private bool _alreadyEncounterLockedDoor;
+
     private void Start()
     {
         if (GetComponent<SphereCollider>()) GetComponent<SphereCollider>().isTrigger = true;
@@ -30,7 +32,7 @@ public class Door : MonoBehaviour
         {
             //Audio
             AudioManager.Instance.SpawnAudio3D(gameObject.transform.position, SfxType.SFX, 30, 1,0,1, 1,0,
-                AudioRolloffMode.Logarithmic, 30, 150);
+                AudioRolloffMode.Linear, 30, 100);
         }
 
         isDeactivated = true;
@@ -43,7 +45,7 @@ public class Door : MonoBehaviour
         
         //Audio
         AudioManager.Instance.SpawnAudio3D(gameObject.transform.position, SfxType.SFX, 29, 1,0,1, 1,0,
-            AudioRolloffMode.Logarithmic, 29, 150);
+            AudioRolloffMode.Linear, 29, 100);
 
         isDeactivated = false;
     }
@@ -52,18 +54,20 @@ public class Door : MonoBehaviour
     {
         if (neededKey != null && neededKey.isPickedUp && !isDeactivated && (!neededKey.DEBUG_DONT_NEED_ARNEA_CLEARED ? neededKey.arenaTrigger.isCompleted : true))
         {
+            StartCoroutine(VoicelineManager.Instance.CallOpenDoorKeyVoiceLine());
             DeactivateDoor(true);
         }
     }
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Player"))
+        if (other.CompareTag("Player") && neededKey != null)
         {
-            /*if (neededKey != null && neededKey.isPickedUp && !isDeactivated && (!neededKey.DEBUG_DONT_NEED_ARNEA_CLEARED ? neededKey.arenaTrigger.isCompleted : true))
+            if (!_alreadyEncounterLockedDoor)
             {
-                DeactivateDoor();
-            }*/
+                StartCoroutine(VoicelineManager.Instance.CallLockedDoorVoiceLine());
+                _alreadyEncounterLockedDoor = true;
+            }
         }
     }
 

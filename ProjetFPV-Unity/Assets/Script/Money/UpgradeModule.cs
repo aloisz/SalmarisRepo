@@ -69,7 +69,7 @@ public class UpgradeModule : GenericSingletonClass<UpgradeModule>
 
         // Audio
         AudioManager.Instance.SpawnAudio3D(transform, SfxType.SFX, 23, 1,0,1,1, 0,
-            AudioRolloffMode.Logarithmic, 30,150);
+            AudioRolloffMode.Linear, 30,100);
         
         MusicManager.Instance.ManageActualSoundVolume(0.025f);
         
@@ -79,7 +79,7 @@ public class UpgradeModule : GenericSingletonClass<UpgradeModule>
             keyboard.DOLocalMove(baseKeyboardPosition + new Vector3(keyboardOffset.x, keyboardOffset.y, keyboardOffset.z),
                 1f).SetUpdate(true).OnComplete((() => 
                 AudioManager.Instance.SpawnAudio3D(transform.position, SfxType.SFX, 25, 1,0,1, 1, 0,
-                    AudioRolloffMode.Logarithmic, 5,40)));
+                    AudioRolloffMode.Linear, 5,100)));
         });
         
         t.DOScale(_baseScale, landingDuration).SetEase(landingCurve).SetUpdate(true);
@@ -88,7 +88,7 @@ public class UpgradeModule : GenericSingletonClass<UpgradeModule>
 
         _currentAvailableUpgrades = list;
         
-        //Announcements.Instance.GenerateAnnouncement("Shop incoming !");
+        StartCoroutine(VoicelineManager.Instance.CallShopVoiceLine());
     }
 
     private void Update()
@@ -100,7 +100,7 @@ public class UpgradeModule : GenericSingletonClass<UpgradeModule>
             UpgradeModuleVFX.Instance.LandVFX();
             _alreadyland = true;
             AudioManager.Instance.SpawnAudio3D(transform, SfxType.SFX, 24, 1, 0, 1,1, 0,
-                AudioRolloffMode.Logarithmic, 5,40);
+                AudioRolloffMode.Linear, 5,100);
         }
     }
 
@@ -118,8 +118,14 @@ public class UpgradeModule : GenericSingletonClass<UpgradeModule>
         UpgradeModuleVFX.Instance.GoAwayVFX();
 
         AudioManager.Instance.SpawnAudio3D(transform.position, SfxType.SFX, 28, 1, 0, 1, 1, 0,
-            AudioRolloffMode.Logarithmic, 5, 40);
+            AudioRolloffMode.Linear, 5, 100);
         MusicManager.Instance.ManageActualSoundVolume(0.25f);
+        
+        if (!_alreadyPlayedShopQuitVoiceLine)
+        {
+            StartCoroutine(VoicelineManager.Instance.CallShopLeaveVoiceLine());
+            _alreadyPlayedShopQuitVoiceLine = true;
+        }
     }
 
     private void CheckGroundLandingPosition()
@@ -151,6 +157,9 @@ public class UpgradeModule : GenericSingletonClass<UpgradeModule>
         
         // audio
         AudioManager.Instance.SpawnAudio2D(transform.position, SfxType.SFX, 26, 1,0,1);
+
+        _alreadyPlayedShopQuitVoiceLine = false;
+        StartCoroutine(VoicelineManager.Instance.CallShopInVoiceLine());
     }
     
     private void GenerateUpgradeOffers()
@@ -188,6 +197,8 @@ public class UpgradeModule : GenericSingletonClass<UpgradeModule>
         yield break;
     }
 
+    private bool _alreadyPlayedShopQuitVoiceLine;
+    
     public void QuitMenu()
     {
         StartCoroutine(nameof(QuitMenuRoutine));

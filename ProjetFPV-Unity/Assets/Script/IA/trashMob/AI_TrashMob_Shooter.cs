@@ -167,7 +167,7 @@ namespace AI
                     IsPhysicNavMesh(false);
                     countAction++;
                     AudioManager.Instance.SpawnAudio3D(transform.position, SfxType.SFX, 12, .6f, 0, 1, 1,0,
-                        AudioRolloffMode.Logarithmic, 1,20);
+                        AudioRolloffMode.Linear, 1,100);
                     if(countAction <= 2) break;
                     ChangeState(TrashMobState.Moving);
                     break;

@@ -87,6 +87,11 @@ public class Director : GenericSingletonClass<Director>
         //start a new wave.
         if(CanGoToNextWave()) StartCoroutine(nameof(StartNewWave));
 
+        if (GameManager.Instance.currentLevelIndex == 0 && currentArenaIndex == 0)
+        {
+            StartCoroutine(VoicelineManager.Instance.CallFirstArenaDialogues());
+        }
+        
         if (currentArenaIndex == 0)
         {
             MusicManager.Instance.ChangeMusicPlayed(Music.Start, 0f, 0.25f, 0f, true);
@@ -295,6 +300,8 @@ public class Director : GenericSingletonClass<Director>
         
         if(currentArenaIndex == arenaAmount - 1) GameManager.Instance.LevelFinished();
         else MusicManager.Instance.ChangeMusicPlayed(Music.Ambiance, 1f, 0.25f, 0.1f);
+
+        StartCoroutine(VoicelineManager.Instance.CallArenaEndDialogues());
     }
 
     private int ReturnTotalIntensityArenaValue()
@@ -363,7 +370,7 @@ public class Director : GenericSingletonClass<Director>
 
         StartCoroutine(SpawnSecurityCheck());
     }
-    
+
     private void OnGUI()
     {
         if (!DEBUG_DRAW_GUI) return;

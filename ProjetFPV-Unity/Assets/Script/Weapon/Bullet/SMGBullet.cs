@@ -20,7 +20,7 @@ public class SMGBullet : BulletBehavior
     {
         base.CollideWithWalkableMask(collision);
         AudioManager.Instance.SpawnAudio3D(collision.transform.position, SfxType.SFX, 21, .5f, 0, 1, 1,0,
-            AudioRolloffMode.Logarithmic, 5,40);
+            AudioRolloffMode.Linear, 5,100);
     }
     
     protected override void Start()
