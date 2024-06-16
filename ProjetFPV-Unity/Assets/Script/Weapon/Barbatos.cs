@@ -151,9 +151,10 @@ public class Barbatos : Shotgun
         if(actualNumberOfBullet == so_Weapon.weaponMode[0].numberOfBullet) return;
         if(PlayerKillStreak.Instance.isInRageMode) return;
         
+        base.Reload();
+        
         AudioManager.Instance.SpawnAudio2D(transform.position, SfxType.SFX, 37, 1,0,1,false);
         
-        base.Reload();
         if(actualNumberOfBullet == so_Weapon.weaponMode[0].numberOfBullet) return;
         ParticleSystem particle = Instantiate(so_Weapon.weaponMode[(int)actualWeaponModeIndex].reloadParticle,
             vfxPos[2].position, gunBarrelPos.transform.rotation, transform);

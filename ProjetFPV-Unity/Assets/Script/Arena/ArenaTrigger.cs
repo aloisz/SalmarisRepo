@@ -46,7 +46,8 @@ public class ArenaTrigger : MonoBehaviour
 
     private void Start()
     {
-        if(DEBUG_CALL_SHOP_AT_START && UpgradeModule.Instance) UpgradeModule.Instance.InitModule(arenaData.shopOrbitalPosition, arenaData.possibleUpgrades);
+        if(DEBUG_CALL_SHOP_AT_START && UpgradeModule.Instance) StartCoroutine(
+            UpgradeModule.Instance.InitModule(arenaData.shopOrbitalPosition, arenaData.possibleUpgrades));
         if (DEBUG_CALL_TP_PLAYER_AT_START)
             PlayerController.Instance.transform.position = transform.position + new Vector3(0, 50, 0);
     }

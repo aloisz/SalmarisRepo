@@ -88,7 +88,7 @@ public class Director : GenericSingletonClass<Director>
 
         if (GameManager.Instance.currentLevelIndex == 0 && currentArenaIndex == 0)
         {
-            StartCoroutine(VoicelineManager.Instance.CallFirstArenaDialogues());
+            VoicelineManager.Instance.CallFirstArenaDialogues();
         }
         
         if (currentArenaIndex == 0)
@@ -284,6 +284,36 @@ public class Director : GenericSingletonClass<Director>
         totalIntensityValueLevel += totalIntensityValue;
 
         ScoringSystem.Instance.ScoreEndArena();
+
+        VoicelineManager.Instance.CallArenaEndDialogues();
+        
+        StartCoroutine(DelayDoorOpen(
+            currentArenaIndex == 0 && GameManager.Instance.currentLevelIndex == 0 ? 16f : 0f));
+
+        if (GetActualArenaData().shouldSpawnShopAtTheEnd)
+        {
+            if (currentArenaIndex == 0 && GameManager.Instance.currentLevelIndex == 0)
+            {
+                StartCoroutine(UpgradeModule.Instance.InitModule(GetActualArenaData().shopOrbitalPosition, 
+                    GetActualArenaData().possibleUpgrades,12f));
+                VoicelineManager.Instance.CallFirstShopVoiceLine();
+            }
+            else
+            {
+                StartCoroutine(UpgradeModule.Instance.InitModule(GetActualArenaData().shopOrbitalPosition, 
+                    GetActualArenaData().possibleUpgrades));
+                VoicelineManager.Instance.CallShopVoiceLine();
+            }
+            MusicManager.Instance.ManageActualSoundVolume(0.025f);
+        }
+        
+        if(currentArenaIndex == arenaAmount - 1) GameManager.Instance.LevelFinished();
+        else MusicManager.Instance.ChangeMusicPlayed(Music.Ambiance, 1f, 0.25f, 0.1f);
+    }
+
+    IEnumerator DelayDoorOpen(float delay)
+    {
+        yield return new WaitForSeconds(delay);
         
         if (GetActualArenaTrigger().arenaUnlockedDoors.Length > 0)
         {
@@ -293,14 +323,6 @@ public class Director : GenericSingletonClass<Director>
                 d.ActivateLockedDoor();
             }
         }
-
-        if(GetActualArenaData().shouldSpawnShopAtTheEnd) 
-            UpgradeModule.Instance.InitModule(GetActualArenaData().shopOrbitalPosition, GetActualArenaData().possibleUpgrades);
-        
-        if(currentArenaIndex == arenaAmount - 1) GameManager.Instance.LevelFinished();
-        else MusicManager.Instance.ChangeMusicPlayed(Music.Ambiance, 1f, 0.25f, 0.1f);
-
-        StartCoroutine(VoicelineManager.Instance.CallArenaEndDialogues());
     }
 
     private int ReturnTotalIntensityArenaValue()
