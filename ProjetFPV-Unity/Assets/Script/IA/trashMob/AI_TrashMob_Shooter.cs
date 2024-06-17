@@ -85,6 +85,7 @@ namespace AI
                 rb.isKinematic = true;
                 rb.velocity = Vector3.zero;
                 rb.rotation = Quaternion.identity;
+                rb.freezeRotation = true;
             }
             foreach (var capsule in capsuleColliders)
             {
@@ -136,6 +137,7 @@ namespace AI
                     if (addRotation)
                     {
                         addRotation = false;
+                        rb.freezeRotation = false;
                         GetRandomRotation();
                         rb.MoveRotation(rb.rotation * Quaternion.Euler(rotValue));
                     }
