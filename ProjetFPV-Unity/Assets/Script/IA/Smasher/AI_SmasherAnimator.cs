@@ -30,6 +30,7 @@ namespace AI
         {
             //MeshRotator();
             
+            if(aiPawn.isPawnDead) return;
             if (isAnimationPlaying(animator, ESTOC)) return;
             if (isAnimationPlaying(animator, ATTACK)) return;
             

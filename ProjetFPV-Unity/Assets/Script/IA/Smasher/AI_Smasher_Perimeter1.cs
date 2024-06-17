@@ -61,6 +61,7 @@ namespace AI
             
             if (!isAttacking || isPreparingDash)
             {
+                if(aiSmasher.isPawnDead) return;
                 transform.DOLookAt(PlayerController.Instance.transform.position + Vector3.up, 0.2f, AxisConstraint.Y);
             }
             HandleHasLanded();
