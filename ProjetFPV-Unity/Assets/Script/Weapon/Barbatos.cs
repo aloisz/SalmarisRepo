@@ -321,7 +321,7 @@ public class Barbatos : Shotgun
         Shader shader = meshRenderer ? meshRenderer.material.shader : skinnedMeshRenderer.material.shader;
         int propertyCount = shader.GetPropertyCount();
         List<Texture> textures = new List<Texture>();
-
+        
         for (int index = 0; index < propertyCount; index++)
         {
             if (shader.GetPropertyType(index) == ShaderPropertyType.Texture)
