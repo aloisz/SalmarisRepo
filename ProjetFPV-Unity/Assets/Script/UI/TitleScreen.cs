@@ -12,8 +12,9 @@ public class TitleScreen : MonoBehaviour
     [SerializeField] private Animator credits;
     [SerializeField] private Animator levelSelect;
 
-    private void Start()
+    private IEnumerator Start()
     {
+        yield return new WaitForSeconds(0.75f);
         MusicManager.Instance.ChangeMusicPlayed(Music.Shop, 2f, 1f);
     }
 
