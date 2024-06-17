@@ -47,8 +47,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7a7b16215d8ff8940aa0d3476af5fbec, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  DebugFPS: 0
   currentLevelIndex: 0
   currentCheckpointIndex: -1
+  levelPlayersPositions:
+    levels: []
   globalScore: 0
 --- !u!114 &7485811901243830937
 MonoBehaviour:
@@ -123,7 +126,7 @@ MonoBehaviour:
     pool:
       prefab: {fileID: 5646069135490200264, guid: 4f4b193a001b4bc4a8faf53369ac36ec,
         type: 3}
-      baseCount: 20
+      baseCount: 150
       baseRefreshSpeed: 5
       refreshSpeed: 0
   - key: SmgBullet

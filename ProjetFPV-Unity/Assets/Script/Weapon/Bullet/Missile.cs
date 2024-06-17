@@ -20,6 +20,7 @@ public class Missile : BulletBehavior,IExplosion
     private float timer;
     private bool alreadySpawnedDecal;
     [SerializeField] private AudioSource source;
+    private CapsuleCollider capsuleCollider;
 
     protected override void Start()
     {
@@ -27,6 +28,7 @@ public class Missile : BulletBehavior,IExplosion
         source.clip = AudioManager.Instance.audioSO[0].soundList[15].audioClip;
         source.loop = true;
         source.Play();
+        capsuleCollider = GetComponent<CapsuleCollider>();
     }
 
     protected override void OnEnable()
@@ -86,10 +88,6 @@ public class Missile : BulletBehavior,IExplosion
 
     protected override void EventWhenBulletLifeTimeEnd()
     {
-        GetComponent<CapsuleCollider>().radius = 50;
-        GetComponent<CapsuleCollider>().height = 50;
-        GetComponent<CapsuleCollider>().enabled = false;
-        
         Explosion();
     }
     
