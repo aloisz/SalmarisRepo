@@ -234,12 +234,7 @@ public class VoicelineManager : GenericSingletonClass<VoicelineManager>, IDestro
         var rand = new int[] { 27, 28, 29 };
         CallVoiceLine(rand[Random.Range(0,4)]);
     }
-    
-    public void CallDeathVoiceLine2()
-    {
-        CallVoiceLine(53);
-    }
-    
+
     public void CallFirstBrokenShieldVoiceLine()
     {
         if (!_alreadyBrokeShield)

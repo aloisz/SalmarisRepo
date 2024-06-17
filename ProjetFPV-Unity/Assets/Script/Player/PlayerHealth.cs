@@ -146,6 +146,7 @@ public class PlayerHealth : GenericSingletonClass<PlayerHealth>, IDamage
         if (Health <= 0)
         {
             Death();
+            
             VoicelineManager.Instance.CallFirstDeathVoiceLine(false);
             MusicManager.Instance.ChangeMusicPlayed(Music.Ambiance, 0.2f, 0.25f);
             return;
@@ -179,7 +180,7 @@ public class PlayerHealth : GenericSingletonClass<PlayerHealth>, IDamage
         MusicManager.Instance.ChangeMusicPlayed(Music.Ambiance, 0.2f, 0f);
         PlayerInputs.Instance.EnablePlayerInputs(false);
         
-        VoicelineManager.Instance.CallDeathVoiceLine2();
+        VoicelineManager.Instance.PlayPriorityVoiceLine(53);
         
         var randomNumber = Random.Range(randomSound[0], randomSound[3]);
         AudioManager.Instance.SpawnAudio2D(transform.position, SfxType.SFX, randomNumber, 1,0,1);
