@@ -10,7 +10,7 @@ using UnityEngine.Rendering;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
-public class PauseMenu : MonoBehaviour, IDestroyInstance
+public class PauseMenu : GenericSingletonClass<PauseMenu>, IDestroyInstance
 {
     [SerializeField] private GameObject[] containers;
     [SerializeField] private TextMeshProUGUI[] volumesTexts;
@@ -18,20 +18,14 @@ public class PauseMenu : MonoBehaviour, IDestroyInstance
     private Canvas _canvas;
     private Animator _animator;
 
+    private bool canClose = true;
+    private bool canOpen = true;
+
     public bool isMenuOpened;
 
-    public static PauseMenu instance;
-
-    private void Awake()
+    public override void Awake()
     {
-        if (instance != null && instance != this) 
-        { 
-            Destroy(this); 
-        } 
-        else 
-        { 
-            instance = this; 
-        } 
+        base.Awake();
         DontDestroyOnLoad(gameObject);
     }
 
@@ -45,7 +39,7 @@ public class PauseMenu : MonoBehaviour, IDestroyInstance
         SetTextsDefaults();
     }
 
-    public void InitPause()
+    private IEnumerator InitPause()
     {
         isMenuOpened = true;
         
@@ -53,6 +47,9 @@ public class PauseMenu : MonoBehaviour, IDestroyInstance
         _animator.SetTrigger("Open");
         
         Time.timeScale = 0f;
+
+        canClose = false;
+        canOpen = false;
         
         PostProcessCrossFade.Instance.CrossFadeTo(1);
         
@@ -62,6 +59,10 @@ public class PauseMenu : MonoBehaviour, IDestroyInstance
         PlayerInputs.Instance.EnablePlayerInputs(false);
         
         AudioManager.Instance.SpawnAudio2D(transform.position, SfxType.SFX, 53, 1,0,1);
+
+        yield return new WaitForSecondsRealtime(2f);
+
+        canClose = true;
     }
 
     public void QuitPause()
@@ -72,6 +73,9 @@ public class PauseMenu : MonoBehaviour, IDestroyInstance
     
     IEnumerator QuitPauseRoutine()
     {
+        canOpen = false;
+        canClose = false;
+        
         _animator.SetTrigger("Close");
         SetCursorState(false);
         
@@ -90,6 +94,10 @@ public class PauseMenu : MonoBehaviour, IDestroyInstance
         EnableContainer(0);
         
         PlayerInputs.Instance.EnablePlayerInputs(true);
+
+        yield return new WaitForSecondsRealtime(2f);
+        
+        canOpen = true;
     }
 
     public void QuitOptions()
@@ -180,10 +188,20 @@ public class PauseMenu : MonoBehaviour, IDestroyInstance
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Escape) && !UpgradeModule.Instance.interaction.alreadyInteracted)
+        if (Input.GetKeyDown(KeyCode.Escape))
         {
-            if(!isMenuOpened) InitPause();
-            else QuitPause();
+            if (!UpgradeModule.Instance) return;
+            if (!UpgradeModule.Instance.interaction.alreadyInteracted)
+            {
+                if (!isMenuOpened && canOpen)
+                {
+                    StartCoroutine(InitPause());
+                }
+                else if(canClose)
+                {
+                    QuitPause();
+                }
+            }
         }
     }
     

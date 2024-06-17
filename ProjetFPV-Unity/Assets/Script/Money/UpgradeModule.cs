@@ -73,8 +73,6 @@ public class UpgradeModule : GenericSingletonClass<UpgradeModule>
         CheckGroundLandingPosition();
         StartCoroutine(nameof(LeaveAfterIdle));
         
-        GetComponent<UpgradeModuleInteraction>().alreadyInteracted = false;
-        
         if (_hitGroundLanding.collider is null) 
             throw new Exception("Cannot land the module because it can't found the ground.");
 
@@ -222,6 +220,7 @@ public class UpgradeModule : GenericSingletonClass<UpgradeModule>
     public void QuitMenu()
     {
         StartCoroutine(nameof(QuitMenuRoutine));
+        interaction.alreadyInteracted = false;
     }
 
     private IEnumerator QuitMenuRoutine()

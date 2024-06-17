@@ -56,51 +56,35 @@ public class GameManager : GenericSingletonClass<GameManager>, IDestroyInstance
 
         if (Input.GetKeyDown(KeyCode.I))
         {
-            ChangeLevel();
+            ChangeLevel(0);
         }
         if (Input.GetKeyDown(KeyCode.O))
         {
-            ChangeLevel1();
+            ChangeLevel(1);
         }
         if (Input.GetKeyDown(KeyCode.P))
         {
-            ChangeLevel2();
+            ChangeLevel(2);
         }
     }
 
     [Button("ChangeScene 0")]
-    public void ChangeLevel()
+    public void ChangeLevel(int buildIndex)
     {
         //IDestroyInstance[] Interface = (IDestroyInstance[])FindObjectsOfType (typeof(IDestroyInstance));
-        IDestroyInstance[] Interface = FindObjectsOfType<MonoBehaviour>().OfType<IDestroyInstance>().ToArray();
-        foreach (IDestroyInstance toDestroyInstance in Interface) 
+        if (buildIndex == 0)
         {
-            toDestroyInstance.DestroyInstance();
+            IDestroyInstance[] Interface = FindObjectsOfType<MonoBehaviour>().OfType<IDestroyInstance>().ToArray();
+            foreach (IDestroyInstance toDestroyInstance in Interface) 
+            {
+                toDestroyInstance.DestroyInstance();
+            }
         }
         
         Time.timeScale = 1;
-        PauseMenu.instance.QuitPause();
-        AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(0);
-        AsyncWaitForLoadingScene(asyncLoad, 0);
-    }
-    
-    [Button("ChangeScene 1")]
-    public void ChangeLevel1()
-    {
-        
-        Time.timeScale = 1;
-        PauseMenu.instance.QuitPause();
-        AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(1);
-        AsyncWaitForLoadingScene(asyncLoad, 1);
-    }
-    
-    [Button("ChangeScene 2")]
-    public void ChangeLevel2()
-    {
-        Time.timeScale = 1;
-        PauseMenu.instance.QuitPause();
-        AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(2);
-        AsyncWaitForLoadingScene(asyncLoad, 2);
+        PauseMenu.Instance.QuitPause();
+        AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(buildIndex);
+        AsyncWaitForLoadingScene(asyncLoad, buildIndex);
     }
 
 
