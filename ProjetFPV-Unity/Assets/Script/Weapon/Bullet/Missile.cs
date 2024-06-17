@@ -12,6 +12,8 @@ public class Missile : BulletBehavior,IExplosion
 {
     protected LayerMask whoIsTarget;
     [SerializeField] protected float drag;
+
+    public bool isCurve;
     
     [SerializeField] protected MeshRenderer meshRenderer;
     [SerializeField] protected Material baseMat;
@@ -62,7 +64,7 @@ public class Missile : BulletBehavior,IExplosion
         int bulletLayer = LayerMask.NameToLayer("Bullet");
         base.OnCollisionEnter(collision);
 
-        if (collision.gameObject.layer != bulletLayer || !alreadySpawnedDecal)
+        if (collision.gameObject.layer != bulletLayer || !alreadySpawnedDecal || !isCurve)
         {
             DecalSpawnerManager.Instance.SpawnDecal(transform.position, collision.contacts[0].normal, "Explosion_Enemy_Decal");
             alreadySpawnedDecal = true;

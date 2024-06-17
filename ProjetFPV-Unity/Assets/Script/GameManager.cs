@@ -117,6 +117,11 @@ public class GameManager : GenericSingletonClass<GameManager>, IDestroyInstance
         CameraManager.Instance.transform.eulerAngles = levelPlayersPositions.levels[value].cameraRot;
         
         LoadingScreen.Instance.CloseLoading();
+
+        if (value == 0)
+        {
+            MusicManager.Instance.ChangeMusicPlayed(Music.Shop, 2f, 1f);
+        }
     }
     
     private void OnGUI()

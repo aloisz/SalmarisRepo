@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEditor;
@@ -10,6 +11,11 @@ public class TitleScreen : MonoBehaviour
     
     [SerializeField] private Animator credits;
     [SerializeField] private Animator levelSelect;
+
+    private void Start()
+    {
+        MusicManager.Instance.ChangeMusicPlayed(Music.Shop, 2f, 1f);
+    }
 
     public void OpenOptions() => optionMenu.SetActive(true);
     public void CloseOptions() => optionMenu.SetActive(false);
