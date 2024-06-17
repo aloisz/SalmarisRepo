@@ -22,7 +22,11 @@ public class LoadingScreen : GenericSingletonClass<LoadingScreen>
     private void Start()
     {
         loadingScreenContainer.enabled = false;
-        loadingCircle.transform.DORotate(new Vector3(0, 0, 360), 2f).SetLoops(-1);
+    }
+
+    private void Update()
+    {
+        loadingCircle.transform.Rotate(new Vector3(0,0,1) * Time.deltaTime);
     }
 
     public void InitLoading()
@@ -38,6 +42,6 @@ public class LoadingScreen : GenericSingletonClass<LoadingScreen>
     public void UpdateFiller(float value)
     {
         loadingBar.fillAmount = value;
-        loadingScreenText.text = value * 100 + "%";
+        loadingScreenText.text = (value * 100).ToString("F1") + "%";
     }
 }
