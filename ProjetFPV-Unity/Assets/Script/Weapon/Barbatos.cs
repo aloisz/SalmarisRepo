@@ -48,7 +48,7 @@ public class Barbatos : Shotgun
 
     protected override void GetAllInput()
     {
-        if (barbatosInput.isReceivingPrimary)
+        if (barbatosInput.isReceivingPrimary && !barbatosInput.isReceivingSecondary)
         {
             if (actualWeaponModeIndex != WeaponMode.Primary)
             {
@@ -65,7 +65,7 @@ public class Barbatos : Shotgun
             //canFire = true;
         }
 
-        if (barbatosInput.isReceivingSecondary) Secondary();
+        if (barbatosInput.isReceivingSecondary && !barbatosInput.isReceivingPrimary) Secondary();
         
         if (barbatosInput.isReceivingReload) Reload();
     }
