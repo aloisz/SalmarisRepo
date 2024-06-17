@@ -82,7 +82,7 @@ public class GameManager : GenericSingletonClass<GameManager>, IDestroyInstance
         }
         
         Time.timeScale = 1;
-        PauseMenu.instance.QuitPause();
+        PauseMenu.Instance.QuitPause();
         AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(buildIndex);
         AsyncWaitForLoadingScene(asyncLoad, buildIndex);
     }
