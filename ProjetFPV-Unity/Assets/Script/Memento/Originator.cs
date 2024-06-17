@@ -113,8 +113,8 @@ public class Originator : MonoBehaviour
         foreach (Door d in doors)
         {
             if (d.isDeactivated) return;
+            d.DeactivateDoor(false);
             if(d.neededKey.isPickedUp) d.ActivateDoor();
-            else d.DeactivateDoor(false);
         }
     }
 
