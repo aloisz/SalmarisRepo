@@ -80,7 +80,7 @@ public class Director : GenericSingletonClass<Director>
         
         if (GetActualArenaTrigger().arenaUnlockedDoors.Length > 0)
         {
-            foreach(Door d in GetActualArenaTrigger().arenaUnlockedDoors) d.ActivateDoor();
+            foreach(Door d in GetActualArenaTrigger().arenaUnlockedDoors) d.CloseDoor();
         }
         
         //start a new wave.
@@ -319,7 +319,7 @@ public class Director : GenericSingletonClass<Director>
         {
             foreach (Door d in GetActualArenaTrigger().arenaUnlockedDoors)
             {
-                d.DeactivateDoor(true);
+                d.OpenDoor(true);
                 d.ActivateLockedDoor();
             }
         }
