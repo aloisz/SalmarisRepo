@@ -46,4 +46,26 @@ public class FadeToBlack : GenericSingletonClass<FadeToBlack>
             GameManager.Instance.ChangeLevel(index);
         }
     }
+    
+    public void FadeOneWay(bool loadScene = false, int index = 0, float delay = 0f)
+    {
+        StopAllCoroutines();
+        StartCoroutine(FadeOneWayRoutine(loadScene, index, delay));
+    }
+    
+    IEnumerator FadeOneWayRoutine(bool loadScene, int index, float delay)
+    {
+        yield return new WaitForSecondsRealtime(delay);
+        
+        canvas.enabled = true;
+        image.color = Color.black;
+        image.DOFade(0f, duration).SetEase(Ease.InOutSine).OnComplete(()=> canvas.enabled = false);
+        
+        yield return new WaitForSecondsRealtime(3f);
+
+        if (loadScene)
+        {
+            GameManager.Instance.ChangeLevel(index);
+        }
+    }
 }
