@@ -113,7 +113,6 @@ public class HUD : GenericSingletonClass<HUD>
 
         PlayerHealth.Instance.onHit += DamageBarEffect;
         PlayerHealth.Instance.onHit += UpdateDamageUI;
-        PlayerHealth.Instance.onDeath += Death;
         
         WeaponState.Instance.barbatos.OnHudShoot += CrosshairShoot;
         WeaponState.Instance.barbatos.OnHudShoot += AmmoCountAnim;
