@@ -7,7 +7,6 @@ using UnityEngine.Serialization;
 
 public class UpgradeModuleInteraction : MonoBehaviour, IInteract
 {
-    private bool _isInInteraction;
     private UpgradeModule _upgradeModule;
     
     public bool alreadyInteracted;
@@ -20,7 +19,7 @@ public class UpgradeModuleInteraction : MonoBehaviour, IInteract
     
     public void Interact()
     {
-        if (_isInInteraction || alreadyInteracted) return;
+        if (alreadyInteracted) return;
 
         alreadyInteracted = true;
         StartCoroutine(WaitForPlayerState());
@@ -29,7 +28,7 @@ public class UpgradeModuleInteraction : MonoBehaviour, IInteract
     private IEnumerator WaitForPlayerState()
     {
         PlayerController.Instance.isMoving = false;
-        yield return new WaitForSeconds(.5f);
+        yield return new WaitForSeconds(0.01f);
         _upgradeModule.InitMenu();
     }
 }

@@ -232,7 +232,7 @@ public class VoicelineManager : GenericSingletonClass<VoicelineManager>, IDestro
     public void CallDeathVoiceLine()
     {
         var rand = new int[] { 27, 28, 29 };
-        CallVoiceLine(rand[Random.Range(0,4)]);
+        CallVoiceLine(rand[Random.Range(0,3)]);
     }
 
     public void CallFirstBrokenShieldVoiceLine()
