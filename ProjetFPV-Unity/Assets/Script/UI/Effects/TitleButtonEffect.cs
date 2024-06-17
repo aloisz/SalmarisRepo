@@ -45,9 +45,9 @@ public class TitleButtonEffect : MonoBehaviour, IPointerEnterHandler, IPointerEx
         
         text.rectTransform.DOAnchorPosX(_basePosition.x + moveX[0], duration).SetEase(curve);
         markerImg.rectTransform.DOAnchorPosX(_basePositionImg.x + moveX[1], duration).SetEase(curve);
-        
-        markerImg.rectTransform.rotation = Quaternion.Euler(Vector3.zero);
-        markerImg.rectTransform.DORotate(new Vector3(0,0,-90), duration).SetEase(curve);
+
+        markerImg.rectTransform.DOLocalRotate(new Vector3(0, 0, 0f), 0);
+        markerImg.rectTransform.DOLocalRotate(new Vector3(0,0,-90), duration).SetEase(curve);
         
         particles.Stop();
         particles.Play();
