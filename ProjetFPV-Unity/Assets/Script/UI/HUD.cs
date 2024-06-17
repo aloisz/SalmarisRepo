@@ -60,6 +60,8 @@ public class HUD : GenericSingletonClass<HUD>
     
     [SerializeField] private UIParticle dashSpeedLines;
     
+    [SerializeField] private Animator deathScreen;
+    
     [Header("Components Lists")]
     [SerializeField] private List<Image> crosshairBorders = new List<Image>();
     [SerializeField] private ParticleSystem[] dashParticleSystems;
@@ -111,6 +113,7 @@ public class HUD : GenericSingletonClass<HUD>
 
         PlayerHealth.Instance.onHit += DamageBarEffect;
         PlayerHealth.Instance.onHit += UpdateDamageUI;
+        PlayerHealth.Instance.onDeath += Death;
         
         WeaponState.Instance.barbatos.OnHudShoot += CrosshairShoot;
         WeaponState.Instance.barbatos.OnHudShoot += AmmoCountAnim;
@@ -530,6 +533,11 @@ public class HUD : GenericSingletonClass<HUD>
     {
         mods[0].sprite = WeaponState.Instance.barbatos.so_Weapon.weaponMode[0].modeIcon;
         mods[1].sprite = WeaponState.Instance.barbatos.so_Weapon.weaponMode[1].modeIcon;
+    }
+
+    public void Death()
+    {
+        deathScreen.SetTrigger("Death");
     }
     
     string ConvertToHoursMinutesSeconds(float totalSeconds)

@@ -120,7 +120,7 @@ public class Director : GenericSingletonClass<Director>
         //reset all variables.
         ResetWaveVariables();
         
-        yield return new WaitUntil(() => !GetActualArenaTrigger().key || GetActualArenaTrigger().key.isPickedUp);
+        yield return new WaitUntil(() => GetActualArenaTrigger().key == null || GetActualArenaTrigger().key.isPickedUp);
         
         currentWaveIndex++;
 
