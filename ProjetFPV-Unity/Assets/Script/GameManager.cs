@@ -38,7 +38,7 @@ public class GameManager : GenericSingletonClass<GameManager>, IDestroyInstance
         currentLevelIndex++;
         
         MusicManager.Instance.ChangeMusicPlayed(Music.FinNiveau, 1f, 0.25f);
-        StartCoroutine(VoicelineManager.Instance.CallLevelOneFinishedVoiceLine());
+        VoicelineManager.Instance.CallLevelOneFinishedVoiceLine();
     }
 
     private  int avgFrameRate;

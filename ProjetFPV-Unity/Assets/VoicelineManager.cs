@@ -19,13 +19,15 @@ public class VoicelineManager : GenericSingletonClass<VoicelineManager>, IDestro
 
     private AudioSource _lastSource;
 
-    private Queue<int> _audioQueue = new Queue<int>();
+    public Queue<int> _audioQueue = new Queue<int>();
+    public List<int> _audioQueueListMesCouilles = new List<int>();
+    
     private bool _isPlaying = false;
     
-    private bool _alreadyEncounterShop;
-    private bool _alreadyEncounterArena;
-    private bool _alreadyBrokeShield;
-    private bool _alreadyFirstDied;
+    public bool _alreadyEncounterShop;
+    public bool _alreadyEncounterArena;
+    public bool _alreadyBrokeShield;
+    public bool _alreadyFirstDied;
 
     public override void Awake()
     {
@@ -36,23 +38,52 @@ public class VoicelineManager : GenericSingletonClass<VoicelineManager>, IDestro
     public void CallVoiceLine(int id)
     {
         if (_audioQueue.Contains(id)) return;
+
         _audioQueue.Enqueue(id);
+        _audioQueueListMesCouilles.Add(id);
+
         if (!_isPlaying)
         {
-            StartCoroutine(PlayNextInQueue());
+            StartCoroutine(ProcessQueue());
         }
     }
 
-    private IEnumerator PlayNextInQueue()
+    public void PlayPriorityVoiceLine(int id)
     {
+        StopCoroutine(ProcessQueue());
+        _audioQueue.Clear(); // Clear the queue to interrupt current playback
+        _isPlaying = false; // Reset the playing flag
+
+        StartCoroutine(PlayPriority(id));
+    }
+
+    private IEnumerator PlayPriority(int id)
+    {
+        _isPlaying = true;
+        if(_lastSource) _lastSource.Stop();
+
+        yield return StartCoroutine(CallVoiceLineRoutine(id));
+
+        _isPlaying = false;
+
+        // Resume the queue after the priority voice line is played
+        if (_audioQueue.Count > 0)
+        {
+            StartCoroutine(ProcessQueue());
+        }
+    }
+
+    private IEnumerator ProcessQueue()
+    {
+        _isPlaying = true;
+
         while (_audioQueue.Count > 0)
         {
             int id = _audioQueue.Dequeue();
-            _isPlaying = true;
-            
             yield return StartCoroutine(CallVoiceLineRoutine(id));
             yield return new WaitForSeconds(1f);
         }
+
         _isPlaying = false;
     }
 
@@ -63,26 +94,30 @@ public class VoicelineManager : GenericSingletonClass<VoicelineManager>, IDestro
             if (iaSound.ID == id)
             {
                 MyAudioSource audioSource = Instantiate(PrefabAudioSource, transform.position, Quaternion.identity, transform);
-                
+
                 audioSource.aSource.volume = 1;
                 audioSource.aSource.pitch = 1f;
                 audioSource.aSource.loop = false;
                 audioSource.aSource.spatialBlend = 0;
                 audioSource.aSource.outputAudioMixerGroup = AudioManager.Instance.audioMixer.FindMatchingGroups("IA")[0];
-             
+
                 audioSource.aSource.clip = iaSound.IASoundID.clip;
                 audioSource.timeBeforeDestroy = iaSound.IASoundID.audioDuration;
                 audioSource.gameObject.name = iaSound.IASoundID.clip.name;
-            
+
                 audioSource.aSource.Play();
 
                 _lastSource = audioSource.aSource;
-                
+
+                Debug.Log(iaSound.IASoundID.clip.name);
+
+                if(canvas.transform.childCount > 0) Destroy(canvas.transform.GetChild(0).gameObject);
                 Subtitle spawnedSubtitle = Instantiate(subtitle, canvas.transform);
                 spawnedSubtitle.SetText(iaSound.IASoundID.text);
                 if (spawnedSubtitle != null) spawnedSubtitle.DestroySubtitle(iaSound.IASoundID.audioDuration);
 
-                yield return new WaitUntil(() => !_lastSource.isPlaying);
+                if(_lastSource == null) yield break;
+                yield return new WaitUntil(() => _lastSource && !_lastSource.isPlaying);
                 _lastSource = null;
             }
         }
@@ -137,42 +172,30 @@ public class VoicelineManager : GenericSingletonClass<VoicelineManager>, IDestro
             }
         }
     }
-    
-    public IEnumerator CallFirstArenaDialogues()
+
+    public void CallFirstArenaDialogues()
     {
-        for (int i = 11; i < 12; i++)
-        {
-            CallVoiceLine(i);
-            yield return new WaitForSecondsRealtime(scriptable.soundList[i].IASoundID.audioDuration);
-        }
+        CallVoiceLine(11);
     }
 
-    public IEnumerator CallShopVoiceLine()
+    public void CallShopVoiceLine()
+    {
+        CallVoiceLine(Random.Range(15,19));
+    }
+
+    public void CallFirstShopVoiceLine()
     {
         if (!_alreadyEncounterShop)
         {
-            for (int i = 12; i < 13; i++)
-            {
-                yield return new WaitForSeconds(1f);
-                CallVoiceLine(i);
-                yield return new WaitForSecondsRealtime(scriptable.soundList[i].IASoundID.audioDuration);
-            }
-        }
-        else
-        {
-            CallVoiceLine(Random.Range(15,19));
+            CallVoiceLine(12);
         }
     }
     
-    public IEnumerator CallArenaEndDialogues()
+    public void CallArenaEndDialogues()
     {
         if(!_alreadyEncounterArena)
         {
-            for (int i = 14; i < 15; i++)
-            {
-                CallVoiceLine(i);
-                yield return new WaitForSecondsRealtime(scriptable.soundList[i].IASoundID.audioDuration);
-            }
+            CallVoiceLine(14);
             _alreadyEncounterArena = true;
         }
         else
@@ -182,94 +205,83 @@ public class VoicelineManager : GenericSingletonClass<VoicelineManager>, IDestro
         }
     }
     
-    public IEnumerator CallShopInVoiceLine()
+    public void CallShopInVoiceLine()
     {
         if (!_alreadyEncounterShop)
         {
-            CallVoiceLine(13);
+            PlayPriorityVoiceLine(13);
             _alreadyEncounterShop = true;
         }
         else
         {
-            CallVoiceLine(Random.Range(19,20));
-            yield break;
+            PlayPriorityVoiceLine(Random.Range(19,20));
         }
     }
     
-    public IEnumerator CallShopLeaveVoiceLine()
+    public void CallShopLeaveVoiceLine()
     {
-        CallVoiceLine(Random.Range(22,24));
-        yield break;
+        CallVoiceLine(22);
     }
     
-    public IEnumerator CallHoleDeathVoiceLine()
+    public void CallHoleDeathVoiceLine()
     {
         var rand = new int[] { 26, 51 };
         CallVoiceLine(rand[Random.Range(0,2)]);
-        yield break;
     }
     
-    public IEnumerator CallDeathVoiceLine()
+    public void CallDeathVoiceLine()
     {
         var rand = new int[] { 27, 28, 29 };
         CallVoiceLine(rand[Random.Range(0,4)]);
-        yield break;
     }
-    
-    public IEnumerator CallFirstBrokenShieldVoiceLine()
+
+    public void CallFirstBrokenShieldVoiceLine()
     {
         if (!_alreadyBrokeShield)
         {
             _alreadyBrokeShield = true;
             CallVoiceLine(31);
-            yield break;
         }
     }
     
-    public IEnumerator CallFirstDeathVoiceLine(bool isInHole)
+    public void CallFirstDeathVoiceLine(bool isInHole)
     {
         if (!_alreadyFirstDied)
         {
             _alreadyFirstDied = true;
             CallVoiceLine(32);
-            yield break;
         }
         else if(!isInHole)
         {
-            StartCoroutine(CallDeathVoiceLine());
+            CallDeathVoiceLine();
         }
     }
     
-    public IEnumerator CallLowLifeVoiceLine()
+    public void CallLowLifeVoiceLine()
     {
         var rand = new int[] { 33, 34, 37 };
         CallVoiceLine(rand[Random.Range(0,3)]);
-        yield break;
     }
     
-    public IEnumerator CallKeyVoiceLine()
+    public void CallKeyVoiceLine()
     {
         CallVoiceLine(42);
-        yield break;
     }
-    
-    public IEnumerator CallOpenDoorKeyVoiceLine()
+
+    public void CallOpenDoorKeyVoiceLine()
     {
         var rand = new int[] { 45, 46 };
         CallVoiceLine(rand[Random.Range(0,2)]);
-        yield break;
     }
     
-    public IEnumerator CallLockedDoorVoiceLine()
+    public void CallLockedDoorVoiceLine()
     {
         CallVoiceLine(47);
-        yield break;
     }
     
-    public IEnumerator CallLevelOneFinishedVoiceLine()
+    public void CallLevelOneFinishedVoiceLine()
     {
         CallVoiceLine(48);
-        yield break;
     }
     
     public void DestroyInstance()

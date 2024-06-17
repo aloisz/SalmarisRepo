@@ -13,7 +13,7 @@ public class Key : MonoBehaviour
     public ArenaTrigger arenaTrigger;
     public bool isPickedUp;
 
-    [SerializeField] private MeshRenderer mesh;
+    [SerializeField] private MeshRenderer[] mesh;
     [SerializeField] private SphereCollider _collider;
     
     private void Start()
@@ -23,13 +23,19 @@ public class Key : MonoBehaviour
 
     public void DeactivateKey()
     {
-        mesh.enabled = false;
+        foreach (var mr in mesh)
+        {
+            mr.enabled = false;
+        }
         _collider.enabled = false;
     }
     
     public void ActivateKey()
     {
-        mesh.enabled = true;
+        foreach (var mr in mesh)
+        {
+            mr.enabled = true;
+        }
         _collider.enabled = true;
     }
 
@@ -43,7 +49,7 @@ public class Key : MonoBehaviour
                 AudioRolloffMode.Linear,
             10,100);
 
-            StartCoroutine(VoicelineManager.Instance.CallKeyVoiceLine());
+            VoicelineManager.Instance.CallKeyVoiceLine();
         }
     }
 

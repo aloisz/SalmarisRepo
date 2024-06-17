@@ -52,9 +52,9 @@ public class Door : MonoBehaviour
 
     public void ActivateLockedDoor()
     {
-        if (neededKey != null && neededKey.isPickedUp && !isDeactivated && (!neededKey.DEBUG_DONT_NEED_ARNEA_CLEARED ? neededKey.arenaTrigger.isCompleted : true))
+        if (neededKey != null && neededKey.isPickedUp && !isDeactivated && neededKey.arenaTrigger.isCompleted)
         {
-            StartCoroutine(VoicelineManager.Instance.CallOpenDoorKeyVoiceLine());
+            VoicelineManager.Instance.CallOpenDoorKeyVoiceLine();
             DeactivateDoor(true);
         }
     }
@@ -65,7 +65,7 @@ public class Door : MonoBehaviour
         {
             if (!_alreadyEncounterLockedDoor)
             {
-                StartCoroutine(VoicelineManager.Instance.CallLockedDoorVoiceLine());
+                VoicelineManager.Instance.CallLockedDoorVoiceLine();
                 _alreadyEncounterLockedDoor = true;
             }
         }

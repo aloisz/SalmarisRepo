@@ -2,6 +2,7 @@ using System;
 using UnityEngine;
 using UnityEngine.AI;
 using System.Collections;
+using AI;
 
 public class AgentLinkMover : MonoBehaviour
 {
@@ -26,8 +27,11 @@ public class AgentLinkMover : MonoBehaviour
         {
             if (agent.isOnOffMeshLink)
             {
-                yield return StartCoroutine(Curve(agent, duration));
-                agent.CompleteOffMeshLink();
+                if (agent.GetComponent<AI_Pawn>().canTakeLinker)
+                {
+                    yield return StartCoroutine(Curve(agent, duration));
+                    agent.CompleteOffMeshLink();
+                }
             }
             yield return new WaitForSeconds(tickVerification);
         }

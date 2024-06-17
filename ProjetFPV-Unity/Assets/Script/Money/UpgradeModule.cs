@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using DG.Tweening;
 using MyAudio;
 using NaughtyAttributes;
+using Player;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.Rendering;
@@ -55,8 +56,10 @@ public class UpgradeModule : GenericSingletonClass<UpgradeModule>
         baseKeyboardPosition = keyboard.transform.localPosition;
     }
 
-    public void InitModule(Vector3 position, List<SO_WeaponMode> list)
+    public IEnumerator InitModule(Vector3 position, List<SO_WeaponMode> list, float delay = 0f)
     {
+        yield return new WaitForSeconds(delay);
+        
         UpgradeModuleVFX.Instance.StartLanding();
         
         _alreadyland = false;
@@ -78,8 +81,6 @@ public class UpgradeModule : GenericSingletonClass<UpgradeModule>
         AudioManager.Instance.SpawnAudio3D(transform, SfxType.SFX, 23, 1,0,1,1, 0,
             AudioRolloffMode.Linear, 30,100);
         
-        MusicManager.Instance.ManageActualSoundVolume(0.025f);
-        
         t.DOMove(_hitGroundLanding.point + new Vector3(0, offsetLandingY, 0),
             landingDuration).SetEase(landingCurve).SetUpdate(true).OnComplete(() =>
         {
@@ -94,8 +95,6 @@ public class UpgradeModule : GenericSingletonClass<UpgradeModule>
             RotateMode.FastBeyond360).SetEase(landingCurve).SetUpdate(true);
 
         _currentAvailableUpgrades = list;
-        
-        StartCoroutine(VoicelineManager.Instance.CallShopVoiceLine());
     }
 
     private void Update()
@@ -128,11 +127,7 @@ public class UpgradeModule : GenericSingletonClass<UpgradeModule>
             AudioRolloffMode.Linear, 5, 100);
         MusicManager.Instance.ManageActualSoundVolume(0.25f);
         
-        if (!_alreadyPlayedShopQuitVoiceLine)
-        {
-            StartCoroutine(VoicelineManager.Instance.CallShopLeaveVoiceLine());
-            _alreadyPlayedShopQuitVoiceLine = true;
-        }
+        VoicelineManager.Instance.CallShopLeaveVoiceLine();
     }
 
     private void CheckGroundLandingPosition()
@@ -155,6 +150,8 @@ public class UpgradeModule : GenericSingletonClass<UpgradeModule>
         WeaponState.Instance.barbatos.ResetMunitionWithoutAnim();
         
         PlayerInputs.Instance.EnablePlayerInputs(false);
+
+        PlayerController.Instance.currentActionState = PlayerController.PlayerActionStates.Idle;
         
         GenerateUpgradeOffers();
         
@@ -164,9 +161,8 @@ public class UpgradeModule : GenericSingletonClass<UpgradeModule>
         
         // audio
         AudioManager.Instance.SpawnAudio2D(transform.position, SfxType.SFX, 26, 1,0,1);
-
-        _alreadyPlayedShopQuitVoiceLine = false;
-        StartCoroutine(VoicelineManager.Instance.CallShopInVoiceLine());
+        
+        VoicelineManager.Instance.CallShopInVoiceLine();
     }
     
     private void GenerateUpgradeOffers()
@@ -206,8 +202,6 @@ public class UpgradeModule : GenericSingletonClass<UpgradeModule>
 
         yield break;
     }
-
-    private bool _alreadyPlayedShopQuitVoiceLine;
     
     public void QuitMenu()
     {

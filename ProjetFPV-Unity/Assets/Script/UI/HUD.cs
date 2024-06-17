@@ -58,6 +58,10 @@ public class HUD : GenericSingletonClass<HUD>
     [SerializeField] private AnimationCurve ammoReloadAnimCurve;
     [SerializeField] private AnimationCurve ammoReloadEndAnimCurve;
     
+    [SerializeField] private UIParticle dashSpeedLines;
+    
+    [SerializeField] private Animator deathScreen;
+    
     [Header("Components Lists")]
     [SerializeField] private List<Image> crosshairBorders = new List<Image>();
     [SerializeField] private ParticleSystem[] dashParticleSystems;
@@ -100,6 +104,8 @@ public class HUD : GenericSingletonClass<HUD>
         CreateMaterialInstance(speedEffect);
         CreateMaterialInstance(slideEffect);
         CreateMaterialInstance(rageBar);
+        
+        crosshairBombDropdown.material.SetFloat("_Alpha", 0f);
 
         HitMarkerSetupPosition(hitMarkerOffset);
         
@@ -107,15 +113,21 @@ public class HUD : GenericSingletonClass<HUD>
 
         PlayerHealth.Instance.onHit += DamageBarEffect;
         PlayerHealth.Instance.onHit += UpdateDamageUI;
+        PlayerHealth.Instance.onDeath += Death;
         
         WeaponState.Instance.barbatos.OnHudShoot += CrosshairShoot;
         WeaponState.Instance.barbatos.OnHudShoot += AmmoCountAnim;
         WeaponState.Instance.barbatos.OnReload += AmmoInitReloadAnim;
         WeaponState.Instance.barbatos.OnReload += UpdateReloadCircle;
         WeaponState.Instance.barbatos.OnReloadEnd += AmmoEndReloadAnim;
-        
         WeaponState.Instance.barbatos.onHitEnemy += HitMarkerPlay;
         WeaponState.Instance.barbatos.onHitEnemyLethal += HitMarkerPlayLethal;
+
+        PlayerController.Instance.onDash += () =>
+        {
+            dashSpeedLines.Stop();
+            dashSpeedLines.Play();
+        };
 
         UpgradeModule.Instance.onUpgrade += UpdateModeIcons;
         UpgradeModule.Instance.onUpgrade += AmmoCountAnim;
@@ -154,7 +166,7 @@ public class HUD : GenericSingletonClass<HUD>
         ammoActual.text = !PlayerKillStreak.Instance.isInRageMode ?
             " <br>" + WeaponState.Instance.barbatos.actualNumberOfBullet.ToString("00") : "Inf.";
         ammoActual.color = WeaponState.Instance.barbatos.actualNumberOfBullet <
-                           ((20f / 100f) * (WeaponState.Instance.barbatos.so_Weapon.weaponMode[0].numberOfBullet + 1))
+                           ((20f / 100f) * (WeaponState.Instance.barbatos.so_Weapon.weaponMode[0].numberOfBullet + 1)) && !PlayerKillStreak.Instance.isInRageMode
             ? Color.red
             : Color.white;
         ammoActual.fontSize = !PlayerKillStreak.Instance.isInRageMode ? 70 : 65;
@@ -194,11 +206,9 @@ public class HUD : GenericSingletonClass<HUD>
         shieldBar.material.DOFloat(PlayerHealth.Instance.Shield / PlayerHealth.Instance.maxShield, "_BarAmount", 0.1f);
         healthBar.material.DOFloat(PlayerHealth.Instance.Health / PlayerHealth.Instance.maxHealth, "_BarAmount", 0.1f);
 
-        shieldBar.material.DOFloat(1-(PlayerHealth.Instance.Shield / PlayerHealth.Instance.maxShield), 
-            "_AlertMode", 0.1f);
-        
-        healthBar.material.DOFloat(1-(PlayerHealth.Instance.Health / PlayerHealth.Instance.maxHealth), 
-            "_AlertMode", 0.1f);
+        shieldBar.material.SetFloat("_AlertMode", Mathf.Clamp01(1-(PlayerHealth.Instance.Shield / PlayerHealth.Instance.maxShield)));
+
+        healthBar.material.SetFloat("_AlertMode", Mathf.Clamp01(1-(PlayerHealth.Instance.Health / PlayerHealth.Instance.maxHealth)));
     }
 
     public void PlayDashVFX()
@@ -523,6 +533,11 @@ public class HUD : GenericSingletonClass<HUD>
     {
         mods[0].sprite = WeaponState.Instance.barbatos.so_Weapon.weaponMode[0].modeIcon;
         mods[1].sprite = WeaponState.Instance.barbatos.so_Weapon.weaponMode[1].modeIcon;
+    }
+
+    public void Death()
+    {
+        deathScreen.SetTrigger("Death");
     }
     
     string ConvertToHoursMinutesSeconds(float totalSeconds)

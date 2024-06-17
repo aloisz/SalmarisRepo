@@ -28,6 +28,9 @@ public class Barbatos : Shotgun
 
     public Action onHitEnemy;
     public Action onHitEnemyLethal;
+    
+    public Action OnReload;
+    public Action OnReloadEnd;
 
     protected override void Start()
     {
@@ -151,9 +154,12 @@ public class Barbatos : Shotgun
         if(actualNumberOfBullet == so_Weapon.weaponMode[0].numberOfBullet) return;
         if(PlayerKillStreak.Instance.isInRageMode) return;
         
+        base.Reload();
+        
+        OnReload.Invoke();
+        
         AudioManager.Instance.SpawnAudio2D(transform.position, SfxType.SFX, 37, 1,0,1,false);
         
-        base.Reload();
         if(actualNumberOfBullet == so_Weapon.weaponMode[0].numberOfBullet) return;
         ParticleSystem particle = Instantiate(so_Weapon.weaponMode[(int)actualWeaponModeIndex].reloadParticle,
             vfxPos[2].position, gunBarrelPos.transform.rotation, transform);
@@ -202,6 +208,8 @@ public class Barbatos : Shotgun
         //Audio
         AudioManager.Instance.SpawnAudio2D(transform.position, SfxType.SFX, 38, 1,0,1,false);
         
+        OnReloadEnd.Invoke();
+
         //Turbine
         turbine[0].transform.DOLocalMove(turbineLocalPosition[0], .1f);
         turbine[1].transform.DOLocalMove(turbineLocalPosition[1], .1f);

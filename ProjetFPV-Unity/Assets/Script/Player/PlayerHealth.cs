@@ -109,7 +109,7 @@ public class PlayerHealth : GenericSingletonClass<PlayerHealth>, IDamage
                 Shield = 0;
                 ShockwaveBreakShield();
 
-                StartCoroutine(VoicelineManager.Instance.CallFirstBrokenShieldVoiceLine());
+                VoicelineManager.Instance.CallFirstBrokenShieldVoiceLine();
             }
             else
             {
@@ -133,7 +133,7 @@ public class PlayerHealth : GenericSingletonClass<PlayerHealth>, IDamage
         {
             if (!_alreadyPlayedNoLifeVoiceLine)
             {
-                StartCoroutine(VoicelineManager.Instance.CallLowLifeVoiceLine());
+                VoicelineManager.Instance.CallLowLifeVoiceLine();
                 _alreadyPlayedNoLifeVoiceLine = true;
             }
         }
@@ -146,7 +146,8 @@ public class PlayerHealth : GenericSingletonClass<PlayerHealth>, IDamage
         if (Health <= 0)
         {
             Death();
-            StartCoroutine(VoicelineManager.Instance.CallFirstDeathVoiceLine(false));
+            
+            VoicelineManager.Instance.CallFirstDeathVoiceLine(false);
             MusicManager.Instance.ChangeMusicPlayed(Music.Ambiance, 0.2f, 0.25f);
             return;
         }
@@ -156,10 +157,10 @@ public class PlayerHealth : GenericSingletonClass<PlayerHealth>, IDamage
 
     public void DeathFromHole()
     {
-        StartCoroutine(VoicelineManager.Instance.CallHoleDeathVoiceLine());
-        StartCoroutine(VoicelineManager.Instance.CallFirstDeathVoiceLine(true));
         Death();
-        MusicManager.Instance.ChangeMusicPlayed(Music.Ambiance, 0.2f, 0.25f);
+        
+        if(!VoicelineManager.Instance._alreadyFirstDied) VoicelineManager.Instance.CallFirstDeathVoiceLine(true);
+        else VoicelineManager.Instance.CallHoleDeathVoiceLine();
     }
     
     private int[] randomSound = {33,34,35,36};
@@ -167,11 +168,33 @@ public class PlayerHealth : GenericSingletonClass<PlayerHealth>, IDamage
     public void Death()
     {
         onDeath.Invoke();
-        Debug.Log("Death");
 
+        Time.timeScale = 0f;
+        
+        Director.Instance.StopAllCoroutines();
+        StartCoroutine(nameof(DeathRoutine));
+    }
+
+    private IEnumerator DeathRoutine()
+    {
+        MusicManager.Instance.ChangeMusicPlayed(Music.Ambiance, 0.2f, 0f);
+        PlayerInputs.Instance.EnablePlayerInputs(false);
+        
+        VoicelineManager.Instance.PlayPriorityVoiceLine(53);
+        
+        var randomNumber = Random.Range(randomSound[0], randomSound[3]);
+        AudioManager.Instance.SpawnAudio2D(transform.position, SfxType.SFX, randomNumber, 1,0,1);
+
+        yield return new WaitForSecondsRealtime(0.75f);
+        
         CareTaker.Instance.LoadGameState();
 
-        var randomNumber = Random.Range(randomSound[0], randomSound[3]);
-        AudioManager.Instance.SpawnAudio2D(transform.position, SfxType.SFX, randomNumber, 1,0,1,false);
-    } 
+        yield return new WaitForSecondsRealtime(1f);
+        
+        Time.timeScale = 1f;
+        
+        PlayerInputs.Instance.EnablePlayerInputs(true);
+        
+        MusicManager.Instance.ChangeMusicPlayed(Music.Ambiance, 0.2f, 0.25f);
+    }
 }

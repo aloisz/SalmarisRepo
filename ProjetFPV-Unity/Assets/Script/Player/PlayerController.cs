@@ -15,6 +15,7 @@ namespace Player
         public bool canMove = true;
         public bool canDoubleJump = true;
         public Vector3 overallMomentum;
+        public Action onDash;
         public bool DEBUG;
         
         //---------------------------------------
@@ -719,6 +720,8 @@ namespace Player
             _dashTimerSpeedAdd = playerScriptable.dashSpeedMultiplierDuration;
 
             isDashing = true;
+            
+            onDash.Invoke();
 
             _rb.velocity = Vector3.zero;
         }

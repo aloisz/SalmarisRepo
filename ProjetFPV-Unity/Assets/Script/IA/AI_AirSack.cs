@@ -22,6 +22,9 @@ public class AI_AirSack : AI_Pawn
     [SerializeField] protected float agentGetAwayRadius = 2;
     [SerializeField] protected float agentSpeedGettingAway = 50;
     [SerializeField] protected float agentShootingRadius = 5;
+        
+    [SerializeField] protected ParticleSystem deathVFX;
+    [SerializeField] protected Transform deathPosition;
     
     
     // Component
@@ -123,9 +126,13 @@ public class AI_AirSack : AI_Pawn
     
     public override void DestroyLogic()
     {
+        var baseRot = deathVFX.transform.rotation;
+        var vfx = Instantiate(deathVFX, deathPosition.transform.position, baseRot);
+        vfx.Play();
+        
         AudioManager.Instance.SpawnAudio3D(transform.position, SfxType.SFX, 17, 1, 0, 1);
-        Pooling.Instance.DelayedDePop(so_IA.poolingName, gameObject, 2f);
-        animatorAirSack.ChangeState(animatorAirSack.DEATH,.2f);
+        Pooling.Instance.DePop(so_IA.poolingName, gameObject);
+        //animatorAirSack.ChangeState(animatorAirSack.DEATH,.2f);
     }
     
     public override void Hit(float damageInflicted)
