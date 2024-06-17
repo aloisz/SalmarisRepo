@@ -18,6 +18,9 @@ public class PauseMenu : GenericSingletonClass<PauseMenu>, IDestroyInstance
     private Canvas _canvas;
     private Animator _animator;
 
+    private bool canClose = true;
+    private bool canOpen = true;
+
     public bool isMenuOpened;
 
     public override void Awake()
@@ -36,7 +39,7 @@ public class PauseMenu : GenericSingletonClass<PauseMenu>, IDestroyInstance
         SetTextsDefaults();
     }
 
-    public void InitPause()
+    private IEnumerator InitPause()
     {
         isMenuOpened = true;
         
@@ -44,6 +47,9 @@ public class PauseMenu : GenericSingletonClass<PauseMenu>, IDestroyInstance
         _animator.SetTrigger("Open");
         
         Time.timeScale = 0f;
+
+        canClose = false;
+        canOpen = false;
         
         PostProcessCrossFade.Instance.CrossFadeTo(1);
         
@@ -53,6 +59,10 @@ public class PauseMenu : GenericSingletonClass<PauseMenu>, IDestroyInstance
         PlayerInputs.Instance.EnablePlayerInputs(false);
         
         AudioManager.Instance.SpawnAudio2D(transform.position, SfxType.SFX, 53, 1,0,1);
+
+        yield return new WaitForSecondsRealtime(2f);
+
+        canClose = true;
     }
 
     public void QuitPause()
@@ -63,6 +73,9 @@ public class PauseMenu : GenericSingletonClass<PauseMenu>, IDestroyInstance
     
     IEnumerator QuitPauseRoutine()
     {
+        canOpen = false;
+        canClose = false;
+        
         _animator.SetTrigger("Close");
         SetCursorState(false);
         
@@ -81,6 +94,10 @@ public class PauseMenu : GenericSingletonClass<PauseMenu>, IDestroyInstance
         EnableContainer(0);
         
         PlayerInputs.Instance.EnablePlayerInputs(true);
+
+        yield return new WaitForSecondsRealtime(2f);
+        
+        canOpen = true;
     }
 
     public void QuitOptions()
@@ -176,8 +193,14 @@ public class PauseMenu : GenericSingletonClass<PauseMenu>, IDestroyInstance
             if (!UpgradeModule.Instance) return;
             if (!UpgradeModule.Instance.interaction.alreadyInteracted)
             {
-                if (!isMenuOpened) InitPause();
-                else QuitPause();
+                if (!isMenuOpened && canOpen)
+                {
+                    StartCoroutine(InitPause());
+                }
+                else if(canClose)
+                {
+                    QuitPause();
+                }
             }
         }
     }
