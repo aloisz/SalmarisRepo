@@ -28,7 +28,7 @@ public class GameIntroduction : MonoBehaviour
         
         Init(false);
         
-        FadeToBlack.Instance.FadeOneWay(false, 0, 4f);
+        FadeToBlack.Instance.FadeOneWay();
         
         for (int i = 0; i < 7; i++)
         {
