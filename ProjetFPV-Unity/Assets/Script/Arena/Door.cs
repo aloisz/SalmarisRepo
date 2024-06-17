@@ -11,7 +11,7 @@ public class Door : MonoBehaviour
     public int doorID;
     public Key neededKey;
 
-    private bool isDeactivated;
+    public bool isDeactivated;
 
     [SerializeField] private Animator animator;
 

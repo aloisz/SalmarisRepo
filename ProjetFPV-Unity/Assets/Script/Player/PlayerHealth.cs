@@ -171,6 +171,8 @@ public class PlayerHealth : GenericSingletonClass<PlayerHealth>, IDamage
 
         Time.timeScale = 0f;
         
+        HUD.Instance.Death();
+        
         Director.Instance.StopAllCoroutines();
         StartCoroutine(nameof(DeathRoutine));
     }

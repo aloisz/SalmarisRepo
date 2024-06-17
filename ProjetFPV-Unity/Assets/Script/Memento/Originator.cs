@@ -112,8 +112,9 @@ public class Originator : MonoBehaviour
         Door[] doors = FindObjectsOfType<Door>();
         foreach (Door d in doors)
         {
-            if(d.neededKey != null && d.neededKey.isPickedUp) d.ActivateDoor();
-            else d.DeactivateDoor(false);
+            if (d.isDeactivated) return;
+            if(d.neededKey.isPickedUp) d.ActivateDoor();
+            else if(d.neededKey == null) d.DeactivateDoor(false);
         }
     }
 

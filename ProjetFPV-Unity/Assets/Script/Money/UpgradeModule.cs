@@ -132,8 +132,23 @@ public class UpgradeModule : GenericSingletonClass<UpgradeModule>
 
     private void CheckGroundLandingPosition()
     {
-        Physics.Raycast(transform.position, Vector3.down, 
-            out _hitGroundLanding, anticipationRaycastLenght, groundMask);
+        RaycastHit[] hits = Physics.RaycastAll(transform.position, Vector3.down, anticipationRaycastLenght, groundMask);
+
+        // Sort the hits by distance
+        Array.Sort(hits, (a, b) => a.distance.CompareTo(b.distance));
+
+        foreach (RaycastHit hit in hits)
+        {
+            if (hit.collider.CompareTag("Boundaries"))
+            {
+                // Skip this hit
+                continue;
+            }
+
+            // If we find a valid hit, set it to _hitGroundLanding and break the loop
+            _hitGroundLanding = hit;
+            break;
+        }
     }
 
     public void InitMenu()
