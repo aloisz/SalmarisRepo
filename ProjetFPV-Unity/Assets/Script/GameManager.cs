@@ -11,6 +11,7 @@ using Script;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.Serialization;
+using UnityEngine.UI;
 using Random = UnityEngine.Random;
 
 public class GameManager : GenericSingletonClass<GameManager>, IDestroyInstance
@@ -82,7 +83,7 @@ public class GameManager : GenericSingletonClass<GameManager>, IDestroyInstance
         }
         
         Time.timeScale = 1;
-        PauseMenu.Instance.QuitPause();
+        if(PauseMenu.Instance) PauseMenu.Instance.QuitPause();
         AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(buildIndex);
         AsyncWaitForLoadingScene(asyncLoad, buildIndex);
     }
@@ -94,6 +95,7 @@ public class GameManager : GenericSingletonClass<GameManager>, IDestroyInstance
         while (!asyncLoad.isDone)
         {
             await Task.Yield();
+            LoadingScreen.Instance.UpdateFiller(asyncLoad.progress);
             Debug.Log("Waiting async");
         }
 
@@ -102,6 +104,8 @@ public class GameManager : GenericSingletonClass<GameManager>, IDestroyInstance
 
         CameraManager.Instance.transform.position = levelPlayersPositions.levels[value].cameraPos;
         CameraManager.Instance.transform.eulerAngles = levelPlayersPositions.levels[value].cameraRot;
+        
+        LoadingScreen.Instance.CloseLoading();
     }
     
     private void OnGUI()
