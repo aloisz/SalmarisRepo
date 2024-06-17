@@ -2,13 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class TitleScreen : MonoBehaviour
 {
     [SerializeField] private GameObject optionMenu;
-    [SerializeField] private GameObject levelSelectionMenu;
     
     [SerializeField] private Animator credits;
+    [SerializeField] private Animator levelSelect;
 
     public void OpenOptions() => optionMenu.SetActive(true);
     public void CloseOptions() => optionMenu.SetActive(false);
@@ -16,9 +17,13 @@ public class TitleScreen : MonoBehaviour
 
     public void OpenCredits() => credits.SetTrigger("Open");
     public void CloseCredits() => credits.SetTrigger("Close");
-    
-    public void OpenLevelSelection() => levelSelectionMenu.SetActive(true);
-    public void CloseLevelSelection() => levelSelectionMenu.SetActive(false);
 
-    public void PlayLevel(int index) => GameManager.Instance.ChangeLevel(index);
+    public void OpenLevelSelection() => levelSelect.SetTrigger("Open");
+    public void CloseLevelSelection() => levelSelect.SetTrigger("Close");
+
+    public void PlayLevel(int index)
+    {
+        LoadingScreen.Instance.InitLoading();
+        GameManager.Instance.ChangeLevel(index); 
+    }
 }
