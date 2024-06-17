@@ -22,7 +22,7 @@ public class FadeToBlack : GenericSingletonClass<FadeToBlack>
     private void Start()
     {
         image = GetComponentInChildren<Image>();
-        canvas = GetComponent<Canvas>();
+        canvas = GetComponentInChildren<Canvas>();
         canvas.enabled = false;
     }
 
