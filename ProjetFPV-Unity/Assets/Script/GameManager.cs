@@ -66,7 +66,7 @@ public class GameManager : GenericSingletonClass<GameManager>, IDestroyInstance
         
         ms = Time.deltaTime * 1000;
 
-        if (Input.GetKeyDown(KeyCode.I))
+        /*if (Input.GetKeyDown(KeyCode.I))
         {
             ChangeLevel(0);
         }
@@ -77,7 +77,7 @@ public class GameManager : GenericSingletonClass<GameManager>, IDestroyInstance
         if (Input.GetKeyDown(KeyCode.P))
         {
             ChangeLevel(2);
-        }
+        }*/
     }
 
     [Button("ChangeScene 0")]
