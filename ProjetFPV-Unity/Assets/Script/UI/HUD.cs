@@ -482,7 +482,8 @@ public class HUD : GenericSingletonClass<HUD>
         crosshairParent.SetActive(false);
         
         reload.fillAmount = 0f;
-        reload.DOFillAmount(1f, wepPrimary.timeToReload / PlayerKillStreak.Instance.reloadBoost).OnComplete(() =>
+        reload.DOFillAmount(1f, wepPrimary.timeToReload / PlayerKillStreak.Instance.reloadBoost).SetEase(Ease.Linear)
+            .OnComplete(() =>
         {
             reload.enabled = false;
             crosshairParent.SetActive(true);

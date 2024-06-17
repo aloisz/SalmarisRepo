@@ -167,9 +167,9 @@ public class PauseMenu : MonoBehaviour, IDestroyInstance
 
     private void SetTextsDefaults()
     {
-        volumesTexts[0].text = Mathf.RoundToInt(100).ToString();
-        volumesTexts[1].text = Mathf.RoundToInt(100).ToString();
-        volumesTexts[2].text = Mathf.RoundToInt(100).ToString();
+        volumesTexts[0].text = Mathf.RoundToInt(100) + "%";
+        volumesTexts[1].text = Mathf.RoundToInt(100) + "%";
+        volumesTexts[2].text = Mathf.RoundToInt(100) + "%";
         volumesTexts[3].text = $"x{OptionsDDOL.Instance.sensibility:F1}";
     }
 
