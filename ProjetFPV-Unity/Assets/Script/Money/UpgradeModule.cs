@@ -42,6 +42,7 @@ public class UpgradeModule : GenericSingletonClass<UpgradeModule>
     private Vector3 baseKeyboardPosition;
 
     public Action onUpgrade;
+    public UpgradeModuleInteraction interaction;
     
     public override void Awake()
     {
