@@ -7,7 +7,7 @@ using UnityEngine.Audio;
 using UnityEngine.UI;
 
 
-public class OptionsDDOL : GenericSingletonClass<OptionsDDOL>, IDestroyInstance
+public class OptionsDDOL : GenericSingletonClass<OptionsDDOL>
 {
     [SerializeField] private AudioMixer audioMixer;
     public float[] volumes;
@@ -18,6 +18,8 @@ public class OptionsDDOL : GenericSingletonClass<OptionsDDOL>, IDestroyInstance
     [SerializeField] private Vector2 minMaxAudioValues;
     [SerializeField] private Vector2 minMaxSensibilityValues;
 
+    private List<float> _baseVolumes = new List<float>();
+
     public override void Awake()
     {
         base.Awake();
@@ -25,23 +27,35 @@ public class OptionsDDOL : GenericSingletonClass<OptionsDDOL>, IDestroyInstance
         sensibility = 1f;
     }
 
+    private void Start()
+    {
+        audioMixer.GetFloat("_VolumeMusic", out var v1);
+        _baseVolumes.Add(v1);
+        
+        audioMixer.GetFloat("_VolumeSFX", out var v2);
+        _baseVolumes.Add(v2);
+        
+        audioMixer.GetFloat("_VolumeAmbiance", out var v3);
+        _baseVolumes.Add(v3);
+    }
+
     public void SetMixerGroupVolumeMusic(Slider slider)
     {
-        var lerp = Mathf.Lerp(minMaxAudioValues.x, minMaxAudioValues.y, slider.value);
+        var lerp = Mathf.Lerp(minMaxAudioValues.x, _baseVolumes[0], slider.value);
         audioMixer.SetFloat("_VolumeMusic", lerp);
         volumes[0] = lerp;
     }
     
     public void SetMixerGroupVolumeSFX(Slider slider)
     {
-        var lerp = Mathf.Lerp(minMaxAudioValues.x, minMaxAudioValues.y, slider.value);
+        var lerp = Mathf.Lerp(minMaxAudioValues.x, _baseVolumes[1], slider.value);
         audioMixer.SetFloat("_VolumeSFX", lerp);
         volumes[1] = lerp;
     }
     
     public void SetMixerGroupVolumeAmbiance(Slider slider)
     {
-        var lerp = Mathf.Lerp(minMaxAudioValues.x, minMaxAudioValues.y, slider.value);
+        var lerp = Mathf.Lerp(minMaxAudioValues.x, _baseVolumes[2], slider.value);
         audioMixer.SetFloat("_VolumeAmbiance", lerp);
         volumes[2] = lerp;
     }
@@ -56,10 +70,5 @@ public class OptionsDDOL : GenericSingletonClass<OptionsDDOL>, IDestroyInstance
         isInFullScreen = toggle.isOn;
         Screen.fullScreen = toggle.isOn;
         Screen.fullScreenMode = isInFullScreen ? FullScreenMode.ExclusiveFullScreen : FullScreenMode.Windowed;
-    }
-    
-    public void DestroyInstance()
-    {
-        Destroy(gameObject);
     }
 }
