@@ -16,9 +16,18 @@ public class Key : MonoBehaviour
     [SerializeField] private MeshRenderer[] mesh;
     [SerializeField] private SphereCollider _collider;
     
+    [Space]
+    [SerializeField] private Vector3 rotationSpeed = new Vector3(0, 100, 0);
+    
     private void Start()
     {
         _collider.isTrigger = true;
+    }
+
+    private void Update()
+    {
+        // Rotate the key 
+        transform.Rotate(rotationSpeed * Time.deltaTime);
     }
 
     public void DeactivateKey()
