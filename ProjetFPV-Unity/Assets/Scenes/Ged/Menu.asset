@@ -164,6 +164,7 @@ MonoBehaviour:
   - {fileID: 8706899575533288206}
   - {fileID: 3679404529385353546}
   - {fileID: 8688834752618143688}
+  - {fileID: 5737816054503082404}
 --- !u!114 &704501622253866241
 MonoBehaviour:
   m_ObjectHideFlags: 3
@@ -311,6 +312,52 @@ MonoBehaviour:
   highlightsEnd:
     m_OverrideState: 1
     m_Value: 2.27
+--- !u!114 &5737816054503082404
+MonoBehaviour:
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: af0c9bc5a1911b14db85e866ea3016e3, type: 3}
+  m_Name: LightScatteringPostProcess
+  m_EditorClassIdentifier: 
+  active: 1
+  numberOfSamples:
+    m_OverrideState: 1
+    m_Value: 42
+  fogDensity:
+    m_OverrideState: 1
+    m_Value: 64
+  maxRayDistance:
+    m_OverrideState: 1
+    m_Value: 1
+  tint:
+    m_OverrideState: 1
+    m_Value: {r: 0, g: 0.19328117, b: 0.754717, a: 1}
+  softenScreenEdges:
+    m_OverrideState: 0
+    m_Value: 0
+  animateSamplingOffset:
+    m_OverrideState: 0
+    m_Value: 0
+  lightMustBeOnScreen:
+    m_OverrideState: 0
+    m_Value: 0
+  falloffBasis:
+    m_OverrideState: 0
+    m_Value: 0
+  occlusionAssumption:
+    m_OverrideState: 0
+    m_Value: 0
+  occlusionOverDistanceAmount:
+    m_OverrideState: 0
+    m_Value: 1
+  falloffIntensity:
+    m_OverrideState: 0
+    m_Value: 3.8
 --- !u!114 &6437469811076328839
 MonoBehaviour:
   m_ObjectHideFlags: 3
@@ -378,7 +425,7 @@ MonoBehaviour:
     m_Value: 0.05
   fogDensity:
     m_OverrideState: 1
-    m_Value: 5.41
+    m_Value: 1.68
   anisotropy:
     m_OverrideState: 0
     m_Value: 0.2
@@ -386,11 +433,11 @@ MonoBehaviour:
     m_OverrideState: 0
     m_Value: 1
   densityInLight:
-    m_OverrideState: 0
-    m_Value: 1
+    m_OverrideState: 1
+    m_Value: 0.75
   densityInShadow:
-    m_OverrideState: 0
-    m_Value: 1
+    m_OverrideState: 1
+    m_Value: 0.06
   overrideDefaultMaxLightDistance:
     m_OverrideState: 0
     m_Value: 0
