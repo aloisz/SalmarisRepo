@@ -180,7 +180,7 @@ public class PauseMenu : MonoBehaviour, IDestroyInstance
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Escape))
+        if (Input.GetKeyDown(KeyCode.Escape) && !UpgradeModule.Instance.interaction.alreadyInteracted)
         {
             if(!isMenuOpened) InitPause();
             else QuitPause();

@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using MyAudio;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 [RequireComponent(typeof(SphereCollider))]
 public class Door : MonoBehaviour
@@ -11,7 +12,7 @@ public class Door : MonoBehaviour
     public int doorID;
     public Key neededKey;
 
-    public bool isDeactivated;
+    public bool isClosed;
 
     [SerializeField] private Animator animator;
 
@@ -20,10 +21,10 @@ public class Door : MonoBehaviour
     private void Start()
     {
         if (GetComponent<SphereCollider>()) GetComponent<SphereCollider>().isTrigger = true;
-        if(neededKey == null) DeactivateDoor(false);
+        if(neededKey == null) OpenDoor(false);
     }
 
-    public void DeactivateDoor(bool DoAudio)
+    public void OpenDoor(bool DoAudio)
     {
         if(animator) animator.SetTrigger("Open");
         else gameObject.SetActive(false);
@@ -35,10 +36,10 @@ public class Door : MonoBehaviour
                 AudioRolloffMode.Linear, 30, 100);
         }
 
-        isDeactivated = true;
+        isClosed = true;
     }
 
-    public void ActivateDoor()
+    public void CloseDoor()
     {
         if(animator) animator.SetTrigger("Close");
         else gameObject.SetActive(true);
@@ -47,15 +48,15 @@ public class Door : MonoBehaviour
         AudioManager.Instance.SpawnAudio3D(gameObject.transform.position, SfxType.SFX, 29, 1,0,1, 1,0,
             AudioRolloffMode.Linear, 29, 100);
 
-        isDeactivated = false;
+        isClosed = false;
     }
 
     public void ActivateLockedDoor()
     {
-        if (neededKey != null && neededKey.isPickedUp && !isDeactivated && neededKey.arenaTrigger.isCompleted)
+        if (neededKey != null && neededKey.isPickedUp && !isClosed && neededKey.arenaTrigger.isCompleted)
         {
             VoicelineManager.Instance.CallOpenDoorKeyVoiceLine();
-            DeactivateDoor(true);
+            OpenDoor(true);
         }
     }
 
