@@ -34,10 +34,12 @@ public class FadeToBlack : GenericSingletonClass<FadeToBlack>
 
     IEnumerator FadeRoutine(bool loadScene, int index, float delay)
     {
+        yield return new WaitForSecondsRealtime(delay);
+        
         canvas.enabled = true;
         image.DOFade(1f, duration).SetEase(curve).OnComplete(()=> canvas.enabled = false);
-
-        yield return new WaitForSecondsRealtime(delay);
+        
+        yield return new WaitForSecondsRealtime(3f);
 
         if (loadScene)
         {
