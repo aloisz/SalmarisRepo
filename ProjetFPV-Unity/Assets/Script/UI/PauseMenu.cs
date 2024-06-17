@@ -10,7 +10,7 @@ using UnityEngine.Rendering;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
-public class PauseMenu : MonoBehaviour, IDestroyInstance
+public class PauseMenu : GenericSingletonClass<PauseMenu>, IDestroyInstance
 {
     [SerializeField] private GameObject[] containers;
     [SerializeField] private TextMeshProUGUI[] volumesTexts;
@@ -20,18 +20,9 @@ public class PauseMenu : MonoBehaviour, IDestroyInstance
 
     public bool isMenuOpened;
 
-    public static PauseMenu instance;
-
-    private void Awake()
+    public override void Awake()
     {
-        if (instance != null && instance != this) 
-        { 
-            Destroy(this); 
-        } 
-        else 
-        { 
-            instance = this; 
-        } 
+        base.Awake();
         DontDestroyOnLoad(gameObject);
     }
 
