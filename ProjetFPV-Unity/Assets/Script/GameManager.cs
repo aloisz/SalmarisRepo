@@ -40,13 +40,13 @@ public class GameManager : GenericSingletonClass<GameManager>, IDestroyInstance
         
         MusicManager.Instance.ChangeMusicPlayed(Music.FinNiveau, 1f, 0.25f);
 
-        if (currentLevelIndex == 0)
+        if (currentLevelIndex == 1)
         {
             VoicelineManager.Instance.CallLevelOneFinishedVoiceLine();
             FadeToBlack.Instance.Fade(true, 2, 7);
         }
 
-        if (currentLevelIndex == 1)
+        if (currentLevelIndex == 2)
         {
             VoicelineManager.Instance.CallLevelOneFinishedVoiceLine();
             FadeToBlack.Instance.Fade(true, 0, 7);
