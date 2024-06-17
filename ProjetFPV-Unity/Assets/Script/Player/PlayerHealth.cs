@@ -156,10 +156,10 @@ public class PlayerHealth : GenericSingletonClass<PlayerHealth>, IDamage
 
     public void DeathFromHole()
     {
-        VoicelineManager.Instance.CallHoleDeathVoiceLine();
-        VoicelineManager.Instance.CallFirstDeathVoiceLine(true);
+        if(!VoicelineManager.Instance._alreadyFirstDied) VoicelineManager.Instance.CallFirstDeathVoiceLine(true);
+        else VoicelineManager.Instance.CallHoleDeathVoiceLine();
+        
         Death();
-        MusicManager.Instance.ChangeMusicPlayed(Music.Ambiance, 0.2f, 0.25f);
     }
     
     private int[] randomSound = {33,34,35,36};
@@ -170,8 +170,11 @@ public class PlayerHealth : GenericSingletonClass<PlayerHealth>, IDamage
         Debug.Log("Death");
 
         CareTaker.Instance.LoadGameState();
+        
+        MusicManager.Instance.ChangeMusicPlayed(Music.Ambiance, 0.2f, 0.25f);
 
         var randomNumber = Random.Range(randomSound[0], randomSound[3]);
-        AudioManager.Instance.SpawnAudio2D(transform.position, SfxType.SFX, randomNumber, 1,0,1,false);
+        AudioManager.Instance.SpawnAudio2D(transform.position, SfxType.SFX, randomNumber, 1,0,1);
+        //AudioManager.Instance.SpawnAudio2D(transform.position, SfxType.SFX, 58, 1,0,1);
     } 
 }

@@ -102,6 +102,8 @@ public class HUD : GenericSingletonClass<HUD>
         CreateMaterialInstance(speedEffect);
         CreateMaterialInstance(slideEffect);
         CreateMaterialInstance(rageBar);
+        
+        crosshairBombDropdown.material.SetFloat("_Alpha", 0f);
 
         HitMarkerSetupPosition(hitMarkerOffset);
         
@@ -161,7 +163,7 @@ public class HUD : GenericSingletonClass<HUD>
         ammoActual.text = !PlayerKillStreak.Instance.isInRageMode ?
             " <br>" + WeaponState.Instance.barbatos.actualNumberOfBullet.ToString("00") : "Inf.";
         ammoActual.color = WeaponState.Instance.barbatos.actualNumberOfBullet <
-                           ((20f / 100f) * (WeaponState.Instance.barbatos.so_Weapon.weaponMode[0].numberOfBullet + 1))
+                           ((20f / 100f) * (WeaponState.Instance.barbatos.so_Weapon.weaponMode[0].numberOfBullet + 1)) && !PlayerKillStreak.Instance.isInRageMode
             ? Color.red
             : Color.white;
         ammoActual.fontSize = !PlayerKillStreak.Instance.isInRageMode ? 70 : 65;
