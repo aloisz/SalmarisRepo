@@ -10,10 +10,6 @@ public class TitleScreen : MonoBehaviour
     
     [SerializeField] private Animator credits;
 
-    [SerializeField] private List<string> scenesLevels = new List<string>();
-    
-    [SerializeField] private AsyncManager asyncManager;
-
     public void OpenOptions() => optionMenu.SetActive(true);
     public void CloseOptions() => optionMenu.SetActive(false);
     public void Quit() => Application.Quit();
@@ -24,7 +20,5 @@ public class TitleScreen : MonoBehaviour
     public void OpenLevelSelection() => levelSelectionMenu.SetActive(true);
     public void CloseLevelSelection() => levelSelectionMenu.SetActive(false);
 
-    public void PlayLevelOne() => asyncManager.LoadLevelButton(scenesLevels[0]);
-    public void PlayLevelTwo() => asyncManager.LoadLevelButton(scenesLevels[1]);
-    public void PlayLevelThree() => asyncManager.LoadLevelButton(scenesLevels[2]);
+    public void PlayLevel(int index) => GameManager.Instance.ChangeLevel(index);
 }
