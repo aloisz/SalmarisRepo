@@ -141,7 +141,8 @@ public class AI_Smasher : AI_Pawn
     {
         AudioManager.Instance.SpawnAudio3D(transform.position, SfxType.SFX, 7, 1, 0, 1);
         if(gameObject.activeSelf) agentLinkMover.StopCoroutine(agentLinkMover.StartLinkerVerif());
-        Pooling.Instance.DePop(so_IA.poolingName, gameObject);
+        Pooling.Instance.DelayedDePop(so_IA.poolingName, gameObject, 1);
+        aiSmasherAnimator.ChangeState(aiSmasherAnimator.DEATH);
     }
     
     
