@@ -48,6 +48,10 @@ public class GameIntroduction : MonoBehaviour
             baseWeaponPos = WeaponPos.transform.position;
             WeaponPos.transform.DOMove( WeaponPos.transform.position + Vector3.down * 2, 0);
         }
+        else
+        {
+            gameObject.SetActive(false);
+        }
 
         Player.GetComponent<PlayerController>().enabled = state;
         Player.GetComponent<Rigidbody>().isKinematic = !state;
