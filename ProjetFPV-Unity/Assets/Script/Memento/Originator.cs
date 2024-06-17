@@ -114,7 +114,7 @@ public class Originator : MonoBehaviour
         {
             if (d.isDeactivated) return;
             if(d.neededKey.isPickedUp) d.ActivateDoor();
-            else if(d.neededKey == null) d.DeactivateDoor(false);
+            else d.DeactivateDoor(false);
         }
     }
 
