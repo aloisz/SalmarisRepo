@@ -48,7 +48,7 @@ public class GameManager : GenericSingletonClass<GameManager>, IDestroyInstance
 
         if (currentLevelIndex == 2)
         {
-            VoicelineManager.Instance.CallLevelOneFinishedVoiceLine();
+            VoicelineManager.Instance.CallLevelTwoFinishedVoiceLine();
             FadeToBlack.Instance.Fade(true, 0, 7);
         }
     }
@@ -120,6 +120,9 @@ public class GameManager : GenericSingletonClass<GameManager>, IDestroyInstance
 
         if (value == 0)
         {
+            Cursor.visible = true;
+            Cursor.lockState = CursorLockMode.Locked;
+            
             MusicManager.Instance.ChangeMusicPlayed(Music.Shop, 2f, 1f);
         }
     }

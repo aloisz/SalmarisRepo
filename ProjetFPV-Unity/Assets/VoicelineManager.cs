@@ -284,6 +284,11 @@ public class VoicelineManager : GenericSingletonClass<VoicelineManager>, IDestro
         CallVoiceLine(48);
     }
     
+    public void CallLevelTwoFinishedVoiceLine()
+    {
+        CallVoiceLine(49);
+    }
+    
     public void DestroyInstance()
     {
         Destroy(gameObject);
