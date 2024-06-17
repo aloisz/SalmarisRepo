@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using DG.Tweening;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -8,6 +9,7 @@ using UnityEngine.UI;
 public class LoadingScreen : GenericSingletonClass<LoadingScreen>
 {
     [SerializeField] private Image loadingBar;
+    [SerializeField] private Image loadingCircle;
     [SerializeField] private Canvas loadingScreenContainer;
     [SerializeField] private TextMeshProUGUI loadingScreenText;
     
@@ -20,6 +22,7 @@ public class LoadingScreen : GenericSingletonClass<LoadingScreen>
     private void Start()
     {
         loadingScreenContainer.enabled = false;
+        loadingCircle.transform.DORotate(new Vector3(0, 0, 360), 2f).SetLoops(-1);
     }
 
     public void InitLoading()

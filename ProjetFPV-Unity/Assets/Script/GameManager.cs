@@ -39,7 +39,18 @@ public class GameManager : GenericSingletonClass<GameManager>, IDestroyInstance
         currentLevelIndex++;
         
         MusicManager.Instance.ChangeMusicPlayed(Music.FinNiveau, 1f, 0.25f);
-        VoicelineManager.Instance.CallLevelOneFinishedVoiceLine();
+
+        if (currentLevelIndex == 0)
+        {
+            VoicelineManager.Instance.CallLevelOneFinishedVoiceLine();
+            FadeToBlack.Instance.Fade(true, 2, 7);
+        }
+
+        if (currentLevelIndex == 1)
+        {
+            VoicelineManager.Instance.CallLevelOneFinishedVoiceLine();
+            FadeToBlack.Instance.Fade(true, 0, 7);
+        }
     }
 
     private  int avgFrameRate;
