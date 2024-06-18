@@ -49,6 +49,8 @@ public class HUD : GenericSingletonClass<HUD>
     
     [SerializeField] private Image reload;
     
+    [SerializeField] private CanvasGroup interact;
+    
     [SerializeField] private TextMeshProUGUI speedText;
     [SerializeField] private TextMeshProUGUI timer;
     [SerializeField] private TextMeshProUGUI ammoActual;
@@ -57,6 +59,7 @@ public class HUD : GenericSingletonClass<HUD>
     [SerializeField] private AnimationCurve ammoAnimCurve;
     [SerializeField] private AnimationCurve ammoReloadAnimCurve;
     [SerializeField] private AnimationCurve ammoReloadEndAnimCurve;
+    [SerializeField] private AnimationCurve interactCurve;
     
     [SerializeField] private UIParticle dashSpeedLines;
     
@@ -561,5 +564,10 @@ public class HUD : GenericSingletonClass<HUD>
 
         // Format the string to display minutes, seconds, and milliseconds
         return string.Format("{0:00}:{1:00}.{2:000}", minutes, seconds, milliseconds);
+    }
+
+    public void Interact(bool enabled)
+    {
+        interact.DOFade(enabled ? 1f : 0f, 0.25f).SetEase(interactCurve).SetUpdate(true);
     }
 }

@@ -15,7 +15,7 @@ public class TitleScreen : MonoBehaviour
     private IEnumerator Start()
     {
         yield return new WaitForSeconds(0.75f);
-        MusicManager.Instance.ChangeMusicPlayed(Music.Shop, 2f, 1f);
+        MusicManager.Instance.ChangeMusicPlayed(Music.Shop, 2f, 0.35f);
     }
 
     public void OpenOptions() => optionMenu.SetActive(true);

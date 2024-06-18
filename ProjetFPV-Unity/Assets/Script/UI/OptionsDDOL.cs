@@ -13,6 +13,7 @@ public class OptionsDDOL : GenericSingletonClass<OptionsDDOL>
     public float[] volumes;
     public bool isInFullScreen;
     public float sensibility;
+    public bool isInGodMod;
     
     [Header("DO NOT TOUCH")]
     [SerializeField] private Vector2 minMaxAudioValues;
@@ -37,6 +38,8 @@ public class OptionsDDOL : GenericSingletonClass<OptionsDDOL>
         
         audioMixer.GetFloat("_VolumeAmbiance", out var v3);
         _baseVolumes.Add(v3);
+
+        isInGodMod = false;
     }
 
     public void SetMixerGroupVolumeMusic(Slider slider)
@@ -70,5 +73,10 @@ public class OptionsDDOL : GenericSingletonClass<OptionsDDOL>
         isInFullScreen = toggle.isOn;
         Screen.fullScreen = toggle.isOn;
         Screen.fullScreenMode = isInFullScreen ? FullScreenMode.ExclusiveFullScreen : FullScreenMode.Windowed;
+    }
+    
+    public void SetFullscreen()
+    {
+        isInGodMod = !isInGodMod;
     }
 }

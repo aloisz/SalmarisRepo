@@ -57,6 +57,22 @@ public class UpgradeModule : GenericSingletonClass<UpgradeModule>
         baseKeyboardPosition = keyboard.transform.localPosition;
     }
 
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("Player"))
+        {
+            HUD.Instance.Interact(true);
+        }
+    }
+    
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.CompareTag("Player"))
+        {
+            HUD.Instance.Interact(false);
+        }
+    }
+
     public IEnumerator InitModule(Vector3 position, List<SO_WeaponMode> list, float delay = 0f)
     {
         yield return new WaitForSeconds(delay);
