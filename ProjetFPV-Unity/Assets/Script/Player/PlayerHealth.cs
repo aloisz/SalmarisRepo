@@ -91,6 +91,8 @@ public class PlayerHealth : GenericSingletonClass<PlayerHealth>, IDamage
 
     public void Hit(float damageInflicted)
     {
+        if (!OptionsDDOL.Instance) return;
+        if (OptionsDDOL.Instance.isInGodMod) return;
         ApplyDamage(damageInflicted);
     }
 

@@ -284,6 +284,7 @@ GameObject:
   - component: {fileID: 484746384658013415}
   - component: {fileID: 2360637770702921572}
   - component: {fileID: 151309625606180476}
+  - component: {fileID: 7064084440238109480}
   m_Layer: 0
   m_Name: UpgradeModule
   m_TagString: Untagged
@@ -396,7 +397,7 @@ MonoBehaviour:
   groundMask:
     serializedVersion: 2
     m_Bits: 64
-  anticipationRaycastLenght: 500
+  anticipationRaycastLenght: 2000
   upgradeMenu: {fileID: 2208429787829361258}
   animator: {fileID: 8282023754683153515}
   upgradeOffersTransform: {fileID: 2775445431243520100}
@@ -660,6 +661,27 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!135 &7064084440238109480
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 388974921009344816}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 128
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 16247
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Radius: 7
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &503995271763539557
 GameObject:
   m_ObjectHideFlags: 0
@@ -3032,7 +3054,7 @@ Light:
   m_Type: 2
   m_Shape: 0
   m_Color: {r: 0.12941177, g: 0.9960785, b: 0.35686275, a: 1}
-  m_Intensity: 2
+  m_Intensity: 1
   m_Range: 10
   m_SpotAngle: 30
   m_InnerSpotAngle: 21.80208
@@ -4446,7 +4468,7 @@ Light:
   m_Type: 2
   m_Shape: 0
   m_Color: {r: 0, g: 0.638464, b: 1, a: 1}
-  m_Intensity: 10
+  m_Intensity: 5
   m_Range: 10
   m_SpotAngle: 30
   m_InnerSpotAngle: 21.80208

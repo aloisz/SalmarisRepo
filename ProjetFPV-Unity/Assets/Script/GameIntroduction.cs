@@ -20,6 +20,9 @@ public class GameIntroduction : MonoBehaviour
 
     [Header("WayPoint")] 
     [SerializeField] private AnimationCurve jumpingCurve;
+
+    public bool isInIntro;
+    
     IEnumerator Start()
     {
         Player = PlayerController.Instance.gameObject;
@@ -29,6 +32,8 @@ public class GameIntroduction : MonoBehaviour
         Init(false);
         
         FadeToBlack.Instance.FadeOneWay();
+
+        isInIntro = true;
         
         for (int i = 0; i < 7; i++)
         {
@@ -44,7 +49,10 @@ public class GameIntroduction : MonoBehaviour
         CameraParent.GetComponent<CameraManager>().enabled = state;
         CameraParent.GetComponentInChildren<HandSwing>().enabled = state;
 
-        WeaponPos.GetComponentInChildren<Barbatos>().enabled = state;   
+        WeaponPos.GetComponentInChildren<Barbatos>().enabled = state;
+
+        isInIntro = false;
+            
         if (!state)
         {
             baseWeaponPos = WeaponPos.transform.position;

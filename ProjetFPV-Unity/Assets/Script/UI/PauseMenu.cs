@@ -22,6 +22,7 @@ public class PauseMenu : GenericSingletonClass<PauseMenu>, IDestroyInstance
     private bool canOpen = true;
 
     public bool isMenuOpened;
+    public Button cheatButton;
 
     public override void Awake()
     {
@@ -41,6 +42,14 @@ public class PauseMenu : GenericSingletonClass<PauseMenu>, IDestroyInstance
 
     private IEnumerator InitPause()
     {
+        if (FindObjectOfType<GameIntroduction>())
+        {
+            if (FindObjectOfType<GameIntroduction>().isInIntro)
+            {
+                yield break;
+            }
+        }
+        
         isMenuOpened = true;
         
         _canvas.enabled = true;
@@ -172,6 +181,20 @@ public class PauseMenu : GenericSingletonClass<PauseMenu>, IDestroyInstance
     {
         OptionsDDOL.Instance.SetFullscreen(toggle);
     }
+    
+    public void SetGodMod()
+    {
+        OptionsDDOL.Instance.SetFullscreen();
+        
+        if (OptionsDDOL.Instance.isInGodMod)
+        {
+            cheatButton.GetComponent<Image>().DOColor(new Color(0.1296512f, 0.1803922f, 0.1254902f, 1f), 0.1f).SetUpdate(true);
+        }
+        else
+        {
+            cheatButton.GetComponent<Image>().DOColor(new Color(0.1803922f, 0.1404086f, 0.1254902f, 1f), 0.1f).SetUpdate(true);
+        }
+    }
 
     private void SetTextsDefaults()
     {
@@ -183,7 +206,7 @@ public class PauseMenu : GenericSingletonClass<PauseMenu>, IDestroyInstance
 
     public void BackToMenu()
     {
-        SceneManager.LoadScene("TitleScreen");
+        Application.Quit();
     }
 
     private void Update()
@@ -203,6 +226,11 @@ public class PauseMenu : GenericSingletonClass<PauseMenu>, IDestroyInstance
                 }
             }
         }
+    }
+
+    public void Kill()
+    {
+        PlayerHealth.Instance.Hit(999);
     }
     
     public void DestroyInstance()
